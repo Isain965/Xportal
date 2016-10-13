@@ -26,7 +26,7 @@ public class Plataforma extends Game
 		assetManager.setLoader(TiledMap.class,
 				new TmxMapLoader(new InternalFileHandleResolver()));
 		// Pantalla inicial
-		setScreen(new Menu(this));
+		setScreen(new PrincipalPantalla(this));
 	}
 
 	// Método accesor de assetManager
