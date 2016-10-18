@@ -57,7 +57,6 @@ public class Personaje
 
     // Dibuja el personaje
     public void render(SpriteBatch batch) {
-        // Dibuja el personaje dependiendo del estadoMovimiento
         switch (estadoMovimiento) {
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
