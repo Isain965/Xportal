@@ -214,7 +214,7 @@ public class PantallaJuego implements Screen
             btnDerecha.render(batch);
             btnSalto.render(batch);
             // Estrellas recolectadas
-            texto.mostrarMensaje(batch,"Estrellas: "+estrellas,Plataforma.ANCHO_CAMARA/2,Plataforma.ALTO_CAMARA*0.95f);
+            texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1200,Plataforma.ALTO_CAMARA*0.98f);
         }
         batch.end();
     }
