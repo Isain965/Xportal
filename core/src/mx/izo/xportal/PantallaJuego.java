@@ -27,7 +27,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
- * Created by isain on 10/11/2016.
+ * Created by Equipo alfa buena maravilla onda dinamita escuadrón lobo on 10/11/2016.
  */
 
 public class PantallaJuego implements Screen
@@ -152,15 +152,15 @@ public class PantallaJuego implements Screen
         // Crear los botones
         texturaBtnIzquierda = assetManager.get("BtmIzquierdo.png");
         btnIzquierda = new Boton(texturaBtnIzquierda);
-        btnIzquierda.setPosicion(TAM_CELDA, 2 * TAM_CELDA );
+        btnIzquierda.setPosicion(TAM_CELDA,TAM_CELDA );
         btnIzquierda.setAlfa(0.7f); // Un poco de transparencia
         texturaBtnDerecha = assetManager.get("BtmDerecho.png");
         btnDerecha = new Boton(texturaBtnDerecha);
-        btnDerecha.setPosicion(10 * TAM_CELDA, 2 * TAM_CELDA);
+        btnDerecha.setPosicion(6 * TAM_CELDA,  TAM_CELDA);
         btnDerecha.setAlfa(0.7f); // Un poco de transparencia
         texturaSalto = assetManager.get("BtmSaltar.png");
         btnSalto = new Boton(texturaSalto);
-        btnSalto.setPosicion(Plataforma.ANCHO_CAMARA - 8 * TAM_CELDA, 2 * TAM_CELDA);
+        btnSalto.setPosicion(Plataforma.ANCHO_CAMARA - 5 * TAM_CELDA,  TAM_CELDA);
         btnSalto.setAlfa(0.7f);
         // Gana
         texturaGana = assetManager.get("ganaste.png");
