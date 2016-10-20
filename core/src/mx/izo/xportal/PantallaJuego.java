@@ -32,7 +32,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class PantallaJuego implements Screen
 {
-    public static final float ANCHO_MAPA = 1280;   // Ancho del mapa en pixeles
+    public static final float ANCHO_MAPA = 4000;   // Ancho del mapa en pixeles
 
     // Referencia al objeto de tipo Game (tiene setScreen para cambiar de pantalla)
     private Plataforma plataforma;
@@ -51,7 +51,7 @@ public class PantallaJuego implements Screen
     // Personaje
     private Texture texturaPersonaje;       // Aquí cargamos la imagen marioSprite.png con varios frames
     private Personaje mario;
-    public static final int TAM_CELDA = 16;
+    public static final int TAM_CELDA = 32;
 
     // HUD. Los componentes en la pantalla que no se mueven
     private OrthographicCamera camaraHUD;   // Cámara fija
