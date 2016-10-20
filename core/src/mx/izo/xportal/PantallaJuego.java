@@ -77,8 +77,6 @@ public class PantallaJuego implements Screen
     // Estados del juego
     private EstadosJuego estadoJuego;
 
-    //Pad
-    private Touchpad pad;
 
     public PantallaJuego(Plataforma plataforma) {
         this.plataforma = plataforma;
