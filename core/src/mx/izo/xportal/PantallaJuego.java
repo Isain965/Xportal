@@ -9,22 +9,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import java.util.TimerTask;
+
 
 /**
  * Created by Equipo alfa buena maravilla onda dinamita escuadrón lobo on 10/11/2016.
@@ -76,6 +70,8 @@ public class PantallaJuego implements Screen
 
     // Estados del juego
     private EstadosJuego estadoJuego;
+
+
 
 
     public PantallaJuego(Plataforma plataforma) {
@@ -355,12 +351,17 @@ public class PantallaJuego implements Screen
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
                 estrellas++;
                 sonidoEstrella.play();
+                abrirPuerta();
             }else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
         } else {
             mario.actualizar();
         }
+    }
+
+    private void abrirPuerta() {
+
     }
 
     // Verifica si esta casilla tiene una moneda
@@ -513,10 +514,12 @@ public class PantallaJuego implements Screen
         }
     }
 
+
     public enum EstadosJuego {
         GANO,
         JUGANDO,
         PAUSADO,
         PERDIO
     }
+
 }
