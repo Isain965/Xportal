@@ -140,6 +140,7 @@ public class PantallaJuego implements Screen
         mapa = assetManager.get("Mapa.tmx");
         //mapa.getLayers().get(0).setVisible(false);    // Pueden ocultar una capa así
         // Crear el objeto que dibujará el mapa
+
         rendererMapa = new OrthogonalTiledMapRenderer(mapa,batch);
         rendererMapa.setView(camara);
         // Cargar frames
