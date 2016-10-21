@@ -160,7 +160,7 @@ public class PantallaJuego implements Screen
         btnDerecha.setAlfa(0.7f); // Un poco de transparencia
         texturaSalto = assetManager.get("BtmSaltar.png");
         btnSalto = new Boton(texturaSalto);
-        btnSalto.setPosicion(Plataforma.ANCHO_CAMARA - 5 * TAM_CELDA,  TAM_CELDA);
+        btnSalto.setPosicion(Plataforma.ANCHO_CAMARA - 8 * TAM_CELDA,  TAM_CELDA);
         btnSalto.setAlfa(0.7f);
         // Gana
         texturaGana = assetManager.get("ganaste.png");
@@ -343,7 +343,18 @@ public class PantallaJuego implements Screen
                         plataforma.setScreen(new Menu(plataforma));
                     }
                 }, 3);  // 3 segundos
-            } else {
+            }else if (esLlave(capaPlataforma.getCell(celdaX,celdaY))){
+                // Borrar esta estrella y contabilizar
+                capaPlataforma.setCell(celdaX,celdaY,null);
+                estrellas++;
+                sonidoEstrella.play();
+            }
+            else if(esLlave(capaPlataforma.getCell(celdaX,celdaY))){
+                // Borrar esta estrella y contabilizar
+                capaPlataforma.setCell(celdaX,celdaY+1,null);
+                estrellas++;
+                sonidoEstrella.play();
+            }else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
         } else {
@@ -368,6 +379,14 @@ public class PantallaJuego implements Screen
         }
         Object propiedad = celda.getTile().getProperties().get("tipo");
         return "estrella".equals(propiedad);
+    }
+    // Verifica si esta casilla tiene una llave (simplificar con la anterior)
+    private boolean esLlave(TiledMapTileLayer.Cell celda) {
+        if (celda==null) {
+            return false;
+        }
+        Object propiedad = celda.getTile().getProperties().get("tipo");
+        return "llave1".equals(propiedad);
     }
 
     // Verifica si esta casilla tiene un hongo (simplificar con las anteriores)
