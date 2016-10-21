@@ -344,14 +344,17 @@ public class PantallaJuego implements Screen
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY,null);
                 estrellas++;
+                //sonidoEstrella.play();
+                abrirPuerta();
                 sonidoEstrella.play();
             }
             else if(esLlave(capaPlataforma.getCell(celdaX,celdaY))){
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
                 estrellas++;
-                sonidoEstrella.play();
-                abrirPuerta();
+                //sonidoEstrella.play();
+                //abrir puerta
+
             }else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
@@ -360,9 +363,15 @@ public class PantallaJuego implements Screen
         }
     }
 
+    //********* capa.setVisible
     private void abrirPuerta() {
+        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(0);
+        capaPlataforma.setCell(25,1,null);
+        capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(3);
+        capaPlataforma.setCell(25,1,null);
 
     }
+
 
     // Verifica si esta casilla tiene una moneda
     private boolean esMoneda(TiledMapTileLayer.Cell celda) {
