@@ -68,6 +68,7 @@ public class PantallaCargando implements Screen
         assetManager.load("BtmDerecho.png", Texture.class);
         assetManager.load("BtmIzquierdo.png", Texture.class);
         assetManager.load("BtmSaltar.png", Texture.class);
+        assetManager.load("shoot.jpg",Texture.class);
         // Fin del juego
         assetManager.load("ganaste.png", Texture.class);
         // Efecto al tomar la moneda

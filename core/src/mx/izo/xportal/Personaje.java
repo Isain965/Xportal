@@ -27,7 +27,7 @@ public class Personaje
     private EstadoSalto estadoSalto;
 
     // SALTO del personaje
-    private static final float V0 = 40;     // Velocidad inicial del salto
+    private static final float V0 = 60;     // Velocidad inicial del salto
     private static final float G = 9.81f;
     private static final float G_2 = G/2;   // Gravedad
     private float yInicial;         // 'y' donde inicia el salto
@@ -41,9 +41,10 @@ public class Personaje
         // Lee la textura como región
         TextureRegion texturaCompleta = new TextureRegion(textura);
         // La divide en frames de 16x32 (ver marioSprite.png)
-        TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
+        //TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(126,292);
         // Crea la animación con tiempo de 0.25 segundos entre frames.
-        animacion = new Animation(0.25f,texturaPersonaje[0][3],
+        animacion = new Animation(0.25f,texturaPersonaje[0][7],
                 texturaPersonaje[0][2], texturaPersonaje[0][1] );
         // Animación infinita
         animacion.setPlayMode(Animation.PlayMode.LOOP);
