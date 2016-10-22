@@ -212,7 +212,7 @@ public class PantallaJuego implements Screen
             btnDerecha.render(batch);
             btnSalto.render(batch);
             // Estrellas recolectadas
-            texto.mostrarMensaje(batch,"Estrellas: "+estrellas,Plataforma.ANCHO_CAMARA/2,Plataforma.ALTO_CAMARA*0.95f);
+            texto.mostrarMensaje(batch,"Coins: "+estrellas,Plataforma.ANCHO_CAMARA/2,Plataforma.ALTO_CAMARA*0.95f);
         }
         batch.end();
     }
@@ -259,7 +259,7 @@ public class PantallaJuego implements Screen
                 if (celda==null) {
                     // Celda vacía, entonces el personaje puede avanzar
                     mario.caer();
-                }  else if ( !esEstrella(celda) ) {  // Las estrellas no lo detienen :)
+                }  else if ( !esCoin(celda) ) {  // Las estrellas no lo detienen :)
                     // Dejarlo sobre la celda que lo detiene
                     mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
@@ -283,7 +283,7 @@ public class PantallaJuego implements Screen
             TiledMapTileLayer.Cell celdaAbajo = capa.getCell(celdaX, celdaY);
             TiledMapTileLayer.Cell celdaDerecha = capa.getCell(celdaX+1, celdaY);
             // probar si la celda está ocupada
-            if ( (celdaAbajo==null && celdaDerecha==null) || esEstrella(celdaAbajo) || esEstrella(celdaDerecha) ) {
+            if ( (celdaAbajo==null && celdaDerecha==null) || esCoin(celdaAbajo) || esCoin(celdaDerecha) ) {
                 // Celda vacía, entonces el personaje puede avanzar
                 mario.caer();
                 mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
@@ -292,13 +292,13 @@ public class PantallaJuego implements Screen
                 mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
                 mario.setEstadoSalto(Personaje.EstadoSalto.EN_PISO);
 
-                if ( esMoneda(celdaAbajo) || esMoneda(celdaDerecha)) {
+                /*if ( esMoneda(celdaAbajo) || esMoneda(celdaDerecha)) {
                     // La encontró!!!!
                     estadoJuego = EstadosJuego.GANO;
                     btnIzquierda.setAlfa(0.2f);
                     btnDerecha.setAlfa(0.2f);
                     btnSalto.setAlfa(0.2f);
-                }
+                }*/
             }
         }
 
@@ -330,12 +330,12 @@ public class PantallaJuego implements Screen
         TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
         if ( capaPlataforma.getCell(celdaX,celdaY) != null || capaPlataforma.getCell(celdaX,celdaY+1) != null ) {
             // Colisionará, dejamos de moverlo
-            if ( esEstrella(capaPlataforma.getCell(celdaX,celdaY)) ) {
+            if ( esCoin(capaPlataforma.getCell(celdaX,celdaY)) ) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY,null);
                 estrellas++;
                 sonidoEstrella.play();
-            } else if ( esEstrella(capaPlataforma.getCell(celdaX,celdaY+1)) ) {
+            } else if (esCoin(capaPlataforma.getCell(celdaX,celdaY+1)) ) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
                 estrellas++;
@@ -424,23 +424,13 @@ public class PantallaJuego implements Screen
 
 
 
-    // Verifica si esta casilla tiene una moneda
-    private boolean esMoneda(TiledMapTileLayer.Cell celda) {
-        if (celda==null) {
-            return false;
-        }
-        Object propiedad = celda.getTile().getProperties().get("tipo");
-
-        return "moneda".equals(propiedad);
-    }
-
     // Verifica si esta casilla tiene una estrella (simplificar con la anterior)
-    private boolean esEstrella(TiledMapTileLayer.Cell celda) {
+    private boolean esCoin(TiledMapTileLayer.Cell celda) {
         if (celda==null) {
             return false;
         }
         Object propiedad = celda.getTile().getProperties().get("tipo");
-        return "estrella".equals(propiedad);
+        return "coin".equals(propiedad);
     }
     // Verifica si esta casilla tiene una llave (simplificar con la anterior)
     private boolean esLlave1(TiledMapTileLayer.Cell celda) {
