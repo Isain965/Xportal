@@ -328,6 +328,7 @@ public class PantallaJuego implements Screen
         }
         int celdaY = (int)(mario.getY()/TAM_CELDA); // Casilla del personaje en Y
         TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
+        TiledMapTileLayer capaPlataforma1 = (TiledMapTileLayer) mapa.getLayers().get(4);
         if ( capaPlataforma.getCell(celdaX,celdaY) != null || capaPlataforma.getCell(celdaX,celdaY+1) != null ) {
             // Colisionará, dejamos de moverlo
             if ( esCoin(capaPlataforma.getCell(celdaX,celdaY)) ) {
@@ -340,7 +341,7 @@ public class PantallaJuego implements Screen
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
                 estrellas++;
                 sonidoEstrella.play();
-            } else if ( esHongo( capaPlataforma.getCell(celdaX,celdaY) ) ) {
+            } else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 Timer.schedule(new Timer.Task() {
@@ -349,10 +350,19 @@ public class PantallaJuego implements Screen
                         plataforma.setScreen(new Menu(plataforma));
                     }
                 }, 3);  // 3 segundos
-            }else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
+
+            }else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
+                sonidoPierde.play();
+                estadoJuego = EstadosJuego.PERDIO;
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        plataforma.setScreen(new Menu(plataforma));
+                    }
+                }, 3);  // 3 segundos
+            } else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
                 // Borrar esta estrella y contabilizar
                 //capaPlataforma.setCell(celdaX,celdaY,null);
-                estrellas++;
                 //sonidoEstrella.play();
                 //abrirPuerta();
                 eliminarLlave1();
@@ -363,8 +373,6 @@ public class PantallaJuego implements Screen
                 // Borrar esta estrella y contabilizar
                 //capaPlataforma.setCell(celdaX,celdaY,null);
                 estrellas++;
-                //sonidoEstrella.play();
-                //abrirPuerta();
                 eliminarLlave2();
                 sonidoEstrella.play();
 
@@ -450,12 +458,12 @@ public class PantallaJuego implements Screen
     }
 
     // Verifica si esta casilla tiene un hongo (simplificar con las anteriores)
-    private boolean esHongo(TiledMapTileLayer.Cell celda) {
+    private boolean esPuertaA(TiledMapTileLayer.Cell celda) {
         if (celda==null) {
             return false;
         }
         Object propiedad = celda.getTile().getProperties().get("tipo");
-        return "hongo".equals(propiedad);
+        return "puertaA".equals(propiedad);
     }
 
     private void borrarPantalla() {
