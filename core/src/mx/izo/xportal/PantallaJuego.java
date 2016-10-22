@@ -85,7 +85,7 @@ public class PantallaJuego implements Screen
     @Override
     public void show() {
         // Crea la cámara/vista
-        camara = new OrthographicCamera(Plataforma.ANCHO_CAMARA, Plataforma.ALTO_CAMARA);
+        camara = new OrthographicCamera(Plataforma.ANCHO_CAMARA,Plataforma.ALTO_CAMARA);
         camara.position.set(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 2, 0);
         camara.update();
         vista = new StretchViewport(Plataforma.ANCHO_CAMARA, Plataforma.ALTO_CAMARA, camara);
@@ -93,7 +93,7 @@ public class PantallaJuego implements Screen
         batch = new SpriteBatch();
 
         // Cámara para HUD
-        camaraHUD = new OrthographicCamera(Plataforma.ANCHO_CAMARA, Plataforma.ALTO_CAMARA);
+        camaraHUD = new OrthographicCamera(Plataforma.ANCHO_CAMARA,Plataforma.ALTO_CAMARA);
         camaraHUD.position.set(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 2, 0);
         camaraHUD.update();
 
@@ -221,6 +221,7 @@ public class PantallaJuego implements Screen
     // excepto cuando está en la primera y última parte del mundo
     private void actualizarCamara() {
         float posX = mario.getX();
+        float posY = mario.getY();
         // Si está en la parte 'media'
         if (posX>=Plataforma.ANCHO_CAMARA/2 && posX<=ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2) {
             // El personaje define el centro de la cámara
@@ -228,14 +229,14 @@ public class PantallaJuego implements Screen
         } else if (posX>ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2) {    // Si está en la última mitad
             // La cámara se queda a media pantalla antes del fin del mundo  :)
             camara.position.set(ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2, camara.position.y, 0);
-        }/*if (posX>=Plataforma.ALTO_CAMARA/2 && posX<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2) {
+        }//Si el personaje se coloca en el centro de la camara
+        /*else if((posY>=Plataforma.ALTO_CAMARA/2 && posY<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {
             // El personaje define el centro de la cámara
-            camara.position.set((int)posX, camara.position.y, 0);
-        } else if (posX>ALTO_MAPA-Plataforma.ALTO_CAMARA/2) {    // Si está en la última mitad
+            camara.position.set(camara.position.x,(int)posY, 0);
+        } else if ((posY>ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {    // Si está en la última mitad
             // La cámara se queda a media pantalla antes del fin del mundo  :)
-            camara.position.set(ALTO_MAPA-Plataforma.ALTO_CAMARA/2, camara.position.y, 0);
+            camara.position.set(ALTO_MAPA - Plataforma.ALTO_CAMARA / 2, camara.position.y, 0);
         }*/
-
         camara.update();
     }
 
@@ -348,20 +349,24 @@ public class PantallaJuego implements Screen
                         plataforma.setScreen(new Menu(plataforma));
                     }
                 }, 3);  // 3 segundos
-            }else if (esLlave(capaPlataforma.getCell(celdaX,celdaY))){
+            }else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
                 // Borrar esta estrella y contabilizar
-                capaPlataforma.setCell(celdaX,celdaY,null);
+                //capaPlataforma.setCell(celdaX,celdaY,null);
                 estrellas++;
                 //sonidoEstrella.play();
-                abrirPuerta();
+                //abrirPuerta();
+                eliminarLlave1();
+                abrirPuerta1();
                 sonidoEstrella.play();
-            }
-            else if(esLlave(capaPlataforma.getCell(celdaX,celdaY))){
+
+            }else if (esLlave2(capaPlataforma.getCell(celdaX,celdaY))){
                 // Borrar esta estrella y contabilizar
-                capaPlataforma.setCell(celdaX,celdaY+1,null);
+                //capaPlataforma.setCell(celdaX,celdaY,null);
                 estrellas++;
                 //sonidoEstrella.play();
-                //abrir puerta
+                //abrirPuerta();
+                eliminarLlave2();
+                sonidoEstrella.play();
 
             }else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
@@ -371,14 +376,52 @@ public class PantallaJuego implements Screen
         }
     }
 
-    //********* capa.setVisible
-    private void abrirPuerta() {
-        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(0);
-        capaPlataforma.setCell(25,1,null);
-        capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(3);
-        capaPlataforma.setCell(25,1,null);
+    private void abrirPuerta1() {
+        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(3);
+        capaPlataforma.setVisible(false);
+        capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(4);
+        capaPlataforma.setVisible(true);
+    }
+
+    private void eliminarLlave2() {
+        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
+        capaPlataforma.setCell(68,33,null);
+        capaPlataforma.setCell(68,34,null);
+        capaPlataforma.setCell(68,35,null);
+        capaPlataforma.setCell(68,36,null);
+        capaPlataforma.setCell(68,37,null);
+        capaPlataforma.setCell(69,33,null);
+        capaPlataforma.setCell(69,34,null);
+        capaPlataforma.setCell(69,35,null);
+        capaPlataforma.setCell(69,36,null);
+        capaPlataforma.setCell(70,37,null);
+        capaPlataforma.setCell(70,33,null);
+        capaPlataforma.setCell(70,34,null);
+        capaPlataforma.setCell(70,35,null);
+        capaPlataforma.setCell(70,36,null);
+        capaPlataforma.setCell(70,37,null);
 
     }
+
+    private void eliminarLlave1() {
+        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
+        capaPlataforma.setCell(38,22,null);
+        capaPlataforma.setCell(38,21,null);
+        capaPlataforma.setCell(38,20,null);
+        capaPlataforma.setCell(38,19,null);
+        capaPlataforma.setCell(38,18,null);
+        capaPlataforma.setCell(39,22,null);
+        capaPlataforma.setCell(39,21,null);
+        capaPlataforma.setCell(39,20,null);
+        capaPlataforma.setCell(39,19,null);
+        capaPlataforma.setCell(39,18,null);
+        capaPlataforma.setCell(40,22,null);
+        capaPlataforma.setCell(40,21,null);
+        capaPlataforma.setCell(40,20,null);
+        capaPlataforma.setCell(40,19,null);
+        capaPlataforma.setCell(40,18,null);
+    }
+
 
 
     // Verifica si esta casilla tiene una moneda
@@ -400,12 +443,20 @@ public class PantallaJuego implements Screen
         return "estrella".equals(propiedad);
     }
     // Verifica si esta casilla tiene una llave (simplificar con la anterior)
-    private boolean esLlave(TiledMapTileLayer.Cell celda) {
+    private boolean esLlave1(TiledMapTileLayer.Cell celda) {
         if (celda==null) {
             return false;
         }
         Object propiedad = celda.getTile().getProperties().get("tipo");
         return "llave1".equals(propiedad);
+    }
+
+    private boolean esLlave2(TiledMapTileLayer.Cell celda) {
+        if (celda==null) {
+            return false;
+        }
+        Object propiedad = celda.getTile().getProperties().get("tipo");
+        return "llave2".equals(propiedad);
     }
 
     // Verifica si esta casilla tiene un hongo (simplificar con las anteriores)
