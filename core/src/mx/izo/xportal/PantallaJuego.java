@@ -27,6 +27,7 @@ import java.util.TimerTask;
 public class PantallaJuego implements Screen
 {
     public static final float ANCHO_MAPA = 4000;   // Ancho del mapa en pixeles
+    public static final float ALTO_MAPA = 896;
 
     // Referencia al objeto de tipo Game (tiene setScreen para cambiar de pantalla)
     private Plataforma plataforma;
@@ -227,7 +228,14 @@ public class PantallaJuego implements Screen
         } else if (posX>ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2) {    // Si está en la última mitad
             // La cámara se queda a media pantalla antes del fin del mundo  :)
             camara.position.set(ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2, camara.position.y, 0);
-        }
+        }/*if (posX>=Plataforma.ALTO_CAMARA/2 && posX<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2) {
+            // El personaje define el centro de la cámara
+            camara.position.set((int)posX, camara.position.y, 0);
+        } else if (posX>ALTO_MAPA-Plataforma.ALTO_CAMARA/2) {    // Si está en la última mitad
+            // La cámara se queda a media pantalla antes del fin del mundo  :)
+            camara.position.set(ALTO_MAPA-Plataforma.ALTO_CAMARA/2, camara.position.y, 0);
+        }*/
+
         camara.update();
     }
 
