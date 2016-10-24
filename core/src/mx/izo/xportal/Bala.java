@@ -12,44 +12,71 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class Bala {
 
-    private Sprite sprite;  // Sprite cuando no se mueve
+    private Sprite sprite;
+    private float angulo,vel;
+    public float velocidadX= 2;
+    private SpriteBatch batch;
+    private float x,y;
 
-    // Animación
-    private Animation animacion;    // Caminando
-    private float timerAnimacion;   // tiempo para calcular el frame
+    public Bala (Texture textura){
+        TextureRegion texturaDardo = new TextureRegion(textura);
+        sprite = new Sprite(texturaDardo);
 
-    // Estados de la bala
-    private EstadoMovimiento estadoMatando;
 
-    public Bala(Texture textura) {
-        // Lee la textura como región
-        TextureRegion texturaCompleta = new TextureRegion(textura);
-        // La divide en frames de 16x32 (ver marioSprite.png)
-        //TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
-        TextureRegion[][] texturaPersonaje = texturaCompleta.split(115,115);
-        // Crea la animación con tiempo de 0.25 segundos entre frames.
-        animacion = new Animation(0.25f,texturaPersonaje[0][0],
-                texturaPersonaje[0][1], texturaPersonaje[0][1] );
-        // Animación infinita
-        animacion.setPlayMode(Animation.PlayMode.LOOP);
-        // Inicia el timer que contará tiempo para saber qué frame se dibuja
-        timerAnimacion = 0;
-        // Crea el sprite cuando para el personaje quieto (idle)
-        sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
-        //estadoMovimiento = EstadoMovimiento.INICIANDO;
-        //estadoSalto = EstadoSalto.EN_PISO;
     }
-    public void disparar(int x, int y){//recibir x y del personaje
-        //Obtener coordenadas actuales
-        float limite = x+300;
-        float Cx = x;
-        while (x<=limite){
-            sprite.setX(Cx++);
+
+    public void render(SpriteBatch batch){//,Personaje pinguino,float vidas){
+        //vel = 10f;
+        //sprite.translate(vel,vel*angulo);
+        //sprite.draw(batch);
+        //System.out.println(angulo);
+        //  velocidadX = 2;
+
+        //timerAnimacion += Gdx.graphics.getDeltaTime();
+        TextureRegion region = sprite;
+        //if(region.isFlipX()){
+        //    region.flip(true,false);
+        //}
+
+        x=sprite.getX()+velocidadX;
+        sprite.setX(x);
+        batch.draw(region,sprite.getX(),sprite.getY());
+        /*if(pinguino.getX() == sprite.getX()){
+            velocidadX = 0;
+            vidas--;
+        }*/
+
+    }
+
+    /*public void addBala(float y){
+        dardos.add(sprite);
+    }
+    public void draw(){
+        for(int i=0; i< dardos.size(); i++){
+            dardos.get(i).draw(batch);
         }
+    }
+    public void actualizar(){
+        for(int i=0; i<dardos.size(); i++){
+            dardos.get(i).translate(vel,angulo);
+        }
+    }
+    public void disparar(float vel,Personaje pinguino, Personaje enemigo){
+    }*/
 
+    public void setPosicion(float x, float y){
+        sprite.setPosition(x,y);
     }
 
-    public enum EstadoMovimiento {
-        INICIANDO
+    public float getX(){
+        return this.x;
+    }
+
+    public float getY(){
+        return sprite.getY();
+    }
+
+    public Sprite getSprite(){
+        return sprite;
     }
 }

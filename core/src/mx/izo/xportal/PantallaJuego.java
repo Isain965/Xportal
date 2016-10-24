@@ -174,9 +174,10 @@ public class PantallaJuego implements Screen
         // Gana
         texturaGana = assetManager.get("ganaste.png");
         btnGana = new Boton(texturaGana);
-        btnGana.setPosicion(Plataforma.ANCHO_CAMARA/2-btnGana.getRectColision().width/2,
-                Plataforma.ALTO_CAMARA/2-btnGana.getRectColision().height/2);
+        btnGana.setPosicion(Plataforma.ANCHO_CAMARA/2-btnGana.getRectColision().width/2,Plataforma.ALTO_CAMARA/2-btnGana.getRectColision().height/2);
         btnGana.setAlfa(0.7f);
+
+        //texturaBala= assetManager.get("bullet.png");
 
         // Efecto moneda
         sonidoEstrella = assetManager.get("coin.wav");
@@ -522,7 +523,8 @@ public class PantallaJuego implements Screen
         assetManager.unload("BtmSaltar.png");
         assetManager.unload("ganaste.png");
         assetManager.unload("Mapa.tmx");
-        assetManager.unload("shoot.png");
+        assetManager.unload("shoot.jpg");
+        assetManager.unload("bullet.png");
     }
 
     /*
@@ -554,9 +556,11 @@ public class PantallaJuego implements Screen
                     // Tocó el botón saltar
                     mario.saltar();
                 }else if (btnDisparo.contiene(x, y)) {
-                    // Tocó el botón saltar
-                    //Bala bala = new Bala();
+                    // Tocó el botón dispar
+                    //Bala bala = new Bala(texturaBala);
 
+                    //bala.setPosicion(mario.getX(),mario.getY());
+                    //bala.render(batch);
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
