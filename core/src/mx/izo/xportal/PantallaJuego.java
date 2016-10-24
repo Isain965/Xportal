@@ -59,6 +59,10 @@ public class PantallaJuego implements Screen
     private Texture texturaSalto;
     private Boton btnSalto;
 
+    //Boton disparar
+    private Texture texturaDisparo;
+    private Boton btnDisparo;
+
     // Estrellas recolectadas
     private int estrellas;
     private Texto texto;
@@ -160,6 +164,11 @@ public class PantallaJuego implements Screen
         btnSalto = new Boton(texturaSalto);
         btnSalto.setPosicion(Plataforma.ANCHO_CAMARA - 8 * TAM_CELDA,  TAM_CELDA);
         btnSalto.setAlfa(0.7f);
+
+        texturaDisparo = assetManager.get("shoot.jpg");
+        btnDisparo = new Boton(texturaDisparo);
+        btnDisparo.setPosicion(Plataforma.ANCHO_CAMARA - 8 * TAM_CELDA,  TAM_CELDA+110);
+        btnDisparo.setAlfa(0.7f);
         // Gana
         texturaGana = assetManager.get("ganaste.png");
         btnGana = new Boton(texturaGana);
@@ -211,6 +220,7 @@ public class PantallaJuego implements Screen
             btnIzquierda.render(batch);
             btnDerecha.render(batch);
             btnSalto.render(batch);
+            btnDisparo.render(batch);
             // Estrellas recolectadas
             texto.mostrarMensaje(batch,"Coins: "+estrellas,Plataforma.ANCHO_CAMARA/2,Plataforma.ALTO_CAMARA*0.95f);
         }
@@ -502,6 +512,7 @@ public class PantallaJuego implements Screen
         assetManager.unload("BtmSaltar.png");
         assetManager.unload("ganaste.png");
         assetManager.unload("Mapa.tmx");
+        assetManager.unload("shoot.png");
     }
 
     /*
