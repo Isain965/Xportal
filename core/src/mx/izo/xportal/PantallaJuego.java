@@ -374,6 +374,7 @@ public class PantallaJuego implements Screen
                 //capaPlataforma.setCell(celdaX,celdaY,null);
                 estrellas++;
                 eliminarLlave2();
+                abrirPuerta2();
                 sonidoEstrella.play();
 
             }else {
@@ -388,6 +389,13 @@ public class PantallaJuego implements Screen
         TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(3);
         capaPlataforma.setVisible(false);
         capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(4);
+        capaPlataforma.setVisible(true);
+    }
+
+    private void abrirPuerta2() {
+        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(5);
+        capaPlataforma.setVisible(false);
+        capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(6);
         capaPlataforma.setVisible(true);
     }
 
