@@ -177,7 +177,7 @@ public class PantallaJuego implements Screen
         btnGana.setPosicion(Plataforma.ANCHO_CAMARA/2-btnGana.getRectColision().width/2,Plataforma.ALTO_CAMARA/2-btnGana.getRectColision().height/2);
         btnGana.setAlfa(0.7f);
 
-        //texturaBala= assetManager.get("bullet.png");
+        //texturaBala= assetManager.get("bullet.png");fsd
 
         // Efecto moneda
         sonidoEstrella = assetManager.get("coin.wav");
