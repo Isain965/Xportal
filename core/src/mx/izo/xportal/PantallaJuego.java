@@ -164,12 +164,12 @@ public class PantallaJuego implements Screen
         btnDerecha.setAlfa(0.7f); // Un poco de transparencia
         texturaSalto = assetManager.get("BtmSaltar.png");
         btnSalto = new Boton(texturaSalto);
-        btnSalto.setPosicion(Plataforma.ANCHO_CAMARA - 8 * TAM_CELDA,  TAM_CELDA);
+        btnSalto.setPosicion(Plataforma.ANCHO_CAMARA - 4.5f * TAM_CELDA,  TAM_CELDA);
         btnSalto.setAlfa(0.7f);
 
         texturaDisparo = assetManager.get("shoot.jpg");
         btnDisparo = new Boton(texturaDisparo);
-        btnDisparo.setPosicion(Plataforma.ANCHO_CAMARA - 8 * TAM_CELDA,  TAM_CELDA+110);
+        btnDisparo.setPosicion(Plataforma.ANCHO_CAMARA - 4.5f * TAM_CELDA,  TAM_CELDA+110);
         btnDisparo.setAlfa(0.7f);
         // Gana
         texturaGana = assetManager.get("ganaste.png");
