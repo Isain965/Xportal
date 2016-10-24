@@ -39,7 +39,7 @@ public class Bala {
         //estadoMovimiento = EstadoMovimiento.INICIANDO;
         //estadoSalto = EstadoSalto.EN_PISO;
     }
-    public void disparar(float x, float y){//recibir x y del personaje
+    public void disparar(int x, int y){//recibir x y del personaje
         //Obtener coordenadas actuales
         float limite = x+300;
         float Cx = x;

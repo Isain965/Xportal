@@ -73,6 +73,8 @@ public class PantallaJuego implements Screen
     private Boton btnGana;
     private Sound sonidoPierde;
 
+    private  Texture texturaBala;
+
     // Estados del juego
     private EstadosJuego estadoJuego;
 
@@ -551,6 +553,10 @@ public class PantallaJuego implements Screen
                 } else if (btnSalto.contiene(x, y)) {
                     // Tocó el botón saltar
                     mario.saltar();
+                }else if (btnDisparo.contiene(x, y)) {
+                    // Tocó el botón saltar
+                    //Bala bala = new Bala();
+
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
