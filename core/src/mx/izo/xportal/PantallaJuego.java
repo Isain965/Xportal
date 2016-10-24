@@ -230,13 +230,13 @@ public class PantallaJuego implements Screen
             // La cámara se queda a media pantalla antes del fin del mundo  :)
             camara.position.set(ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2, camara.position.y, 0);
         }//Si el personaje se coloca en el centro de la camara
-        /*else if((posY>=Plataforma.ALTO_CAMARA/2 && posY<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {
+        else if((posY>=Plataforma.ALTO_CAMARA/2 && posY<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {
             // El personaje define el centro de la cámara
             camara.position.set(camara.position.x,(int)posY, 0);
         } else if ((posY>ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {    // Si está en la última mitad
             // La cámara se queda a media pantalla antes del fin del mundo  :)
-            camara.position.set(ALTO_MAPA - Plataforma.ALTO_CAMARA / 2, camara.position.y, 0);
-        }*/
+            camara.position.set(camara.position.x, ALTO_MAPA - Plataforma.ALTO_CAMARA / 2, 0);
+        }
         camara.update();
     }
 
