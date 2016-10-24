@@ -57,26 +57,28 @@ public class Personaje
         estadoMovimiento = EstadoMovimiento.INICIANDO;
         estadoSalto = EstadoSalto.EN_PISO;
     }
-    public personajeSaltando(Texture textura){
+
+    public Saltando(Texture textura){
         // Lee la textura como región
         TextureRegion texturaCompleta = new TextureRegion(textura);
         // La divide en frames de 16x32 (ver marioSprite.png)
         //TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
         TextureRegion[][] texturaSalto = texturaCompleta.split(57,96);
         // Crea la animación con tiempo de 0.25 segundos entre frames.
-        animacion = new Animation(0.25f,texturaSalto[0][7],
+        saltando = new Animation(0.25f,texturaSalto[0][7],
                 texturaSalto[0][2], texturaSalto[0][1] );
         // Animación infinita
-        animacion.setPlayMode(Animation.PlayMode.LOOP);
+        saltando.setPlayMode(Animation.PlayMode.LOOP);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
         // Crea el sprite cuando para el personaje quieto (idle)
         sprite = new Sprite(texturaSalto[0][0]);    // quieto
         estadoMovimiento = EstadoMovimiento.INICIANDO;
         estadoSalto = EstadoSalto.EN_PISO;
-
-
     }
+
+
+
     // Dibuja el personaje
     public void render(SpriteBatch batch) {
         switch (estadoMovimiento) {
