@@ -380,20 +380,13 @@ public class PantallaJuego implements Screen
                     }
                 }, 3);  // 3 segundos
             } else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
-                // Borrar esta estrella y contabilizar
-                //capaPlataforma.setCell(celdaX,celdaY,null);
-                //sonidoEstrella.play();
-                //abrirPuerta();
                 eliminarLlave1();
-                Gdx.app.log("esLlave1","probando");
                 abrirPuerta1();
                 sonidoEstrella.play();
 
             }else if (esLlave2(capaPlataforma.getCell(celdaX,celdaY))){
-                // Borrar esta estrella y contabilizar
-                //capaPlataforma.setCell(celdaX,celdaY,null);
-                estrellas++;
                 eliminarLlave2();
+                estrellas++;
                 abrirPuerta2();
                 sonidoEstrella.play();
 
@@ -444,21 +437,21 @@ public class PantallaJuego implements Screen
 
     private void eliminarLlave2() {
         TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
-        capaPlataforma.setCell(68,33,null);
-        capaPlataforma.setCell(68,34,null);
-        capaPlataforma.setCell(68,35,null);
-        capaPlataforma.setCell(68,36,null);
-        capaPlataforma.setCell(68,37,null);
-        capaPlataforma.setCell(69,33,null);
-        capaPlataforma.setCell(69,34,null);
-        capaPlataforma.setCell(69,35,null);
-        capaPlataforma.setCell(69,36,null);
-        capaPlataforma.setCell(70,37,null);
-        capaPlataforma.setCell(70,33,null);
-        capaPlataforma.setCell(70,34,null);
-        capaPlataforma.setCell(70,35,null);
-        capaPlataforma.setCell(70,36,null);
-        capaPlataforma.setCell(70,37,null);
+        capaPlataforma.setCell(68,23,null);
+        capaPlataforma.setCell(68,24,null);
+        capaPlataforma.setCell(68,25,null);
+        capaPlataforma.setCell(68,26,null);
+        capaPlataforma.setCell(68,27,null);
+        capaPlataforma.setCell(69,23,null);
+        capaPlataforma.setCell(69,24,null);
+        capaPlataforma.setCell(69,25,null);
+        capaPlataforma.setCell(69,26,null);
+        capaPlataforma.setCell(69,27,null);
+        capaPlataforma.setCell(70,23,null);
+        capaPlataforma.setCell(70,24,null);
+        capaPlataforma.setCell(70,25,null);
+        capaPlataforma.setCell(70,26,null);
+        capaPlataforma.setCell(70,27,null);
 
     }
 
