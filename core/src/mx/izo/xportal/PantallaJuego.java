@@ -37,6 +37,7 @@ public class PantallaJuego implements Screen
     private OrthographicCamera camara;
     private Viewport vista;
 
+
     // Objeto para dibujar en la pantalla
     private SpriteBatch batch;
 
@@ -81,6 +82,7 @@ public class PantallaJuego implements Screen
     private EstadosJuego estadoJuego;
 
     ArrayList<Bala> balas = new ArrayList<Bala>();
+    ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
 
 
 
@@ -185,6 +187,16 @@ public class PantallaJuego implements Screen
         texturaBala = assetManager.get("bullet.png");
         texturaEnemigo = assetManager.get("Planta.png");
 
+        Enemigo enemigo1 = new Enemigo(texturaEnemigo);
+        enemigo1.setPosicion(2000,74);
+        Enemigo enemigo2 = new Enemigo(texturaEnemigo);
+        enemigo2.setPosicion(500,20);
+        Enemigo enemigo3 = new Enemigo(texturaEnemigo);
+        enemigo3.setPosicion(1000,94);
+        enemigos.add(enemigo1);
+        enemigos.add(enemigo2);
+        enemigos.add(enemigo3);
+
         // Efecto moneda
         sonidoEstrella = assetManager.get("coin.wav");
         sonidoPierde = assetManager.get("mariodie.wav");
@@ -217,11 +229,32 @@ public class PantallaJuego implements Screen
         batch.begin();
 
         mario.render(batch);    // Dibuja el personaje
-        Enemigo enemigo = new Enemigo(texturaEnemigo);
-        enemigo.setPosicion(150,150);
+
+
+        for(Enemigo enemigo:enemigos){
+            if (enemigo.getVidas()>0){
+                enemigo.render(batch,texturaBala);
+                for(Bala bala : balas){
+                    bala.render(batch);
+                    if((bala.getX() >= enemigo.getX() && bala.getX()<= (enemigo.getX()+enemigo.getSprite().getWidth()))&&
+                        (bala.getY() >= enemigo.getY() && bala.getY()<= (enemigo.getY()+enemigo.getSprite().getHeight()))) {
+                        int vidas = enemigo.getVidas();
+                        enemigo.setVidas(vidas--);
+                        bala.velocidadX = 10;
+                        bala.setPosicion(0, 3000);
+                    }
+                }
+
+            }
+            else{
+                enemigos.remove(enemigo);
+            }
+        }
+
+
+        //Dibuja las balas del personaje
         for(Bala bala : balas){
             bala.render(batch);
-            enemigo.render(batch,texturaBala);
         }
 
         batch.end();
@@ -258,7 +291,7 @@ public class PantallaJuego implements Screen
             camara.position.set(ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2, camara.position.y, 0);
         }//Si el personaje se coloca en el centro de la camara
 
-        if((posY>=Plataforma.ALTO_CAMARA/2 && posY<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {
+         if((posY>=Plataforma.ALTO_CAMARA/2 && posY<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {
             // El personaje define el centro de la cámara
             camara.position.set(camara.position.x,(int)posY, 0);
         } else if ((posY>ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {    // Si está en la última mitad
@@ -605,7 +638,8 @@ public class PantallaJuego implements Screen
                 }else if (btnDisparo.contiene(x, y)) {
                     // Tocó el botón disparar
                     Bala bala = new Bala(texturaBala);
-                    bala.setPosicion(mario.getX(),mario.getY()-50);
+                    bala.setPosicion(mario.getX(),mario.getY()+30);
+                    //bala.setDireccion(-10);
                     balas.add(bala);
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
