@@ -21,10 +21,8 @@ public class Enemigo {
     public Enemigo(Texture textura) {
         TextureRegion texturaEnemigo = new TextureRegion(textura);
         sprite = new Sprite(texturaEnemigo);
-        // La divide en frames de 16x32 (ver marioSprite.png)
-        //TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
+
         TextureRegion[][] texturaPersonaje = texturaEnemigo.split(269,134);
-        // Crea la animación con tiempo de 0.25 segundos entre frames.
         animacion = new Animation(0.25f,texturaPersonaje[0][5],
                 texturaPersonaje[0][2], texturaPersonaje[0][1] );
         // Animación infinita
@@ -37,18 +35,19 @@ public class Enemigo {
 
     public void render(SpriteBatch batch,Texture texturaBala) {
         Bala bala = new Bala(texturaBala);
+        bala.setPosicion(this.getX(),this.getY());
         bala.render(batch);
 
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Obtiene el frame que se debe mostrar (de acuerdo al timer)
         TextureRegion region = animacion.getKeyFrame(timerAnimacion);
         // Dirección correcta
-        if (!region.isFlipX()) {
+        /*if (!region.isFlipX()) {
             region.flip(true,false);
             if (region.isFlipX()) {
                 region.flip(true,false);
             }
-        }
+        }*/
         // Dibuja el frame en las coordenadas del sprite
         batch.draw(region, sprite.getX(), sprite.getY());
     }

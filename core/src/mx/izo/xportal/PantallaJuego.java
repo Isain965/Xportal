@@ -217,7 +217,7 @@ public class PantallaJuego implements Screen
 
         mario.render(batch);    // Dibuja el personaje
         Enemigo enemigo = new Enemigo(texturaEnemigo);
-        enemigo.setPosicion(50,50);
+        enemigo.setPosicion(150,150);
         for(Bala bala : balas){
             bala.render(batch);
             enemigo.render(batch,texturaBala);
@@ -257,7 +257,7 @@ public class PantallaJuego implements Screen
             camara.position.set(ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2, camara.position.y, 0);
         }//Si el personaje se coloca en el centro de la camara
 
-        else if((posY>=Plataforma.ALTO_CAMARA/2 && posY<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {
+        if((posY>=Plataforma.ALTO_CAMARA/2 && posY<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {
             // El personaje define el centro de la cámara
             camara.position.set(camara.position.x,(int)posY, 0);
         } else if ((posY>ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {    // Si está en la última mitad
