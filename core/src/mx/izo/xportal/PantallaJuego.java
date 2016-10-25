@@ -351,6 +351,7 @@ public class PantallaJuego implements Screen
         int celdaY = (int)(mario.getY()/TAM_CELDA); // Casilla del personaje en Y
         TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
         TiledMapTileLayer capaPlataforma1 = (TiledMapTileLayer) mapa.getLayers().get(4);
+        TiledMapTileLayer capaPlataforma2 = (TiledMapTileLayer) mapa.getLayers().get(6);
         //******************************
         if ( capaPlataforma.getCell(celdaX,celdaY) != null || capaPlataforma.getCell(celdaX,celdaY+1) != null ) {
             // Colisionará, dejamos de moverlo
@@ -396,6 +397,17 @@ public class PantallaJuego implements Screen
             }
         }else if ( capaPlataforma1.getCell(celdaX,celdaY) != null || capaPlataforma1.getCell(celdaX,celdaY+1) != null ) {
             if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
+                sonidoPierde.play();
+                estadoJuego = EstadosJuego.PERDIO;
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        plataforma.setScreen(new Menu(plataforma));
+                    }
+                }, 3);  // 3 segundos
+            }
+        }else if ( capaPlataforma2.getCell(celdaX,celdaY) != null || capaPlataforma2.getCell(celdaX,celdaY+1) != null ) {
+            if ( esPuertaA( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 Timer.schedule(new Timer.Task() {
