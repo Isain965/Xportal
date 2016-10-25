@@ -151,8 +151,9 @@ public class PantallaJuego implements Screen
         rendererMapa.setView(camara);
         // Cargar frames
         texturaPersonaje = assetManager.get("marioSprite.png");
+        texturaSalto = assetManager.get("salto.png");
         // Crear el personaje
-        mario = new Personaje(texturaPersonaje);
+        mario = new Personaje(texturaPersonaje,texturaSalto);
         // Posición inicial del personaje
         mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10, Plataforma.ALTO_CAMARA * 0.90f);
 
@@ -333,7 +334,7 @@ public class PantallaJuego implements Screen
         switch (mario.getEstadoSalto()) {
             case SUBIENDO:
             case BAJANDO:
-                mario.actualizarSalto();    // Actualizar posición en 'y'
+                mario.actualizarSalto(mapa);    // Actualizar posición en 'y'
                 break;
         }
     }

@@ -63,7 +63,9 @@ public class PantallaCargando implements Screen
         Gdx.app.log("cargarRecursos","Iniciando...");
         // Carga los recursos de la siguiente pantalla (PantallaJuego)
         assetManager.load("Mapa.tmx", TiledMap.class);  // Cargar info del mapa
-        assetManager.load("marioSprite.png", Texture.class);    // Cargar imagen
+        assetManager.load("marioSprite.png", Texture.class);
+        assetManager.load("salto.png", Texture.class);
+        // Cargar imagen
         // Texturas de los botones
         assetManager.load("BtmDerecho.png", Texture.class);
         assetManager.load("BtmIzquierdo.png", Texture.class);
