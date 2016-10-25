@@ -412,8 +412,20 @@ public class PantallaJuego implements Screen
                         plataforma.setScreen(new Menu(plataforma));
                     }
                 }, 3);  // 3 segundos
-            } else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
+            }
+            else if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
+                sonidoPierde.play();
+                estadoJuego = EstadosJuego.PERDIO;
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        plataforma.setScreen(new Menu(plataforma));
+                    }
+                }, 3);
+            }
+            else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
                 eliminarLlave1();
+                estrellas++;
                 abrirPuerta1();
                 sonidoEstrella.play();
 
@@ -438,7 +450,7 @@ public class PantallaJuego implements Screen
                 }, 3);  // 3 segundos
             }
         }else if ( capaPlataforma2.getCell(celdaX,celdaY) != null || capaPlataforma2.getCell(celdaX,celdaY+1) != null ) {
-            if ( esPuertaA( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
+            if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 Timer.schedule(new Timer.Task() {
@@ -542,6 +554,16 @@ public class PantallaJuego implements Screen
         Object propiedad = celda.getTile().getProperties().get("tipo");
         Gdx.app.log("es PuertaA",propiedad.toString());
         return "puertaA".equals(propiedad);
+    }
+
+    private boolean esPuertaA2(TiledMapTileLayer.Cell celda){
+        if (celda==null) {
+            return false;
+        }
+        Object propiedad =celda.getTile().getProperties().get("tipo");
+        Gdx. app.log("es Puerta A2",propiedad.toString());
+        return "puertaA2".equals(propiedad);
+
     }
 
     private void borrarPantalla() {
