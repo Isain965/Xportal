@@ -7,19 +7,25 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.ArrayList;
+
 /**
  * Created by isain on 10/25/2016.
  */
 public class Enemigo {
     private Sprite sprite;
-    private Bala bala;
+    private int vidas = 1;
 
     //animacion
     private Animation animacion;    // Caminando
     private float timerAnimacion;   // tiempo para calcular el frame
 
+
+
     public Enemigo(Texture textura) {
         TextureRegion texturaEnemigo = new TextureRegion(textura);
+
+
         sprite = new Sprite(texturaEnemigo);
 
         TextureRegion[][] texturaPersonaje = texturaEnemigo.split(269,134);
@@ -34,26 +40,22 @@ public class Enemigo {
     }
 
     public void render(SpriteBatch batch,Texture texturaBala) {
-        Bala bala = new Bala(texturaBala);
-        bala.setPosicion(this.getX(),this.getY());
-        bala.render(batch);
 
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Obtiene el frame que se debe mostrar (de acuerdo al timer)
         TextureRegion region = animacion.getKeyFrame(timerAnimacion);
-        // Dirección correcta
-        /*if (!region.isFlipX()) {
-            region.flip(true,false);
-            if (region.isFlipX()) {
-                region.flip(true,false);
-            }
-        }*/
-        // Dibuja el frame en las coordenadas del sprite
         batch.draw(region, sprite.getX(), sprite.getY());
     }
 
     public void setPosicion(float x, float y) {
         sprite.setPosition(x, y);
+    }
+
+    public int getVidas(){
+        return vidas;
+    }
+    public void setVidas(int vidas){
+        this.vidas = vidas;
     }
 
     public float getX() {

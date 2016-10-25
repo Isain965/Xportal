@@ -14,10 +14,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Bala {
 
+
     private Sprite sprite;
     public float velocidadX = 10;
-    private SpriteBatch batch;
-    private float x, y;
+    private float x;
 
 
     public Bala(Texture textura) {
@@ -34,6 +34,9 @@ public class Bala {
 
     }
 
+    public void setDireccion(float direccion){
+        this.velocidadX = direccion;
+    }
 
     public void setPosicion(float x, float y) {
         sprite.setPosition(x, y);
