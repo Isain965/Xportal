@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
 import java.util.TimerTask;
 
 
@@ -77,6 +78,8 @@ public class PantallaJuego implements Screen
 
     // Estados del juego
     private EstadosJuego estadoJuego;
+
+    ArrayList<Bala> balas = new ArrayList<Bala>();
 
 
 
@@ -177,7 +180,8 @@ public class PantallaJuego implements Screen
         btnGana.setPosicion(Plataforma.ANCHO_CAMARA/2-btnGana.getRectColision().width/2,Plataforma.ALTO_CAMARA/2-btnGana.getRectColision().height/2);
         btnGana.setAlfa(0.7f);
 
-        //texturaBala= assetManager.get("bullet.png");fsd
+
+        texturaBala = assetManager.get("bullet.png");
 
         // Efecto moneda
         sonidoEstrella = assetManager.get("coin.wav");
@@ -209,6 +213,10 @@ public class PantallaJuego implements Screen
         batch.begin();
 
         mario.render(batch);    // Dibuja el personaje
+
+        for(Bala bala : balas){
+            bala.render(batch);
+        }
 
         batch.end();
 
@@ -243,6 +251,7 @@ public class PantallaJuego implements Screen
             // La cámara se queda a media pantalla antes del fin del mundo  :)
             camara.position.set(ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2, camara.position.y, 0);
         }//Si el personaje se coloca en el centro de la camara
+
         else if((posY>=Plataforma.ALTO_CAMARA/2 && posY<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {
             // El personaje define el centro de la cámara
             camara.position.set(camara.position.x,(int)posY, 0);
@@ -342,6 +351,7 @@ public class PantallaJuego implements Screen
         int celdaY = (int)(mario.getY()/TAM_CELDA); // Casilla del personaje en Y
         TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
         TiledMapTileLayer capaPlataforma1 = (TiledMapTileLayer) mapa.getLayers().get(4);
+        //******************************
         if ( capaPlataforma.getCell(celdaX,celdaY) != null || capaPlataforma.getCell(celdaX,celdaY+1) != null ) {
             // Colisionará, dejamos de moverlo
             if ( esCoin(capaPlataforma.getCell(celdaX,celdaY)) ) {
@@ -379,6 +389,7 @@ public class PantallaJuego implements Screen
                 //sonidoEstrella.play();
                 //abrirPuerta();
                 eliminarLlave1();
+                Gdx.app.log("esLlave1","probando");
                 abrirPuerta1();
                 sonidoEstrella.play();
 
@@ -484,6 +495,7 @@ public class PantallaJuego implements Screen
             return false;
         }
         Object propiedad = celda.getTile().getProperties().get("tipo");
+        Gdx.app.log("es PuertaA",propiedad.toString());
         return "puertaA".equals(propiedad);
     }
 
@@ -556,11 +568,10 @@ public class PantallaJuego implements Screen
                     // Tocó el botón saltar
                     mario.saltar();
                 }else if (btnDisparo.contiene(x, y)) {
-                    // Tocó el botón dispar
-                    //Bala bala = new Bala(texturaBala);
-
-                    //bala.setPosicion(mario.getX(),mario.getY());
-                    //bala.render(batch);
+                    // Tocó el botón disparar
+                    Bala bala = new Bala(texturaBala);
+                    bala.setPosicion(mario.getX(),mario.getY()-50);
+                    balas.add(bala);
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
