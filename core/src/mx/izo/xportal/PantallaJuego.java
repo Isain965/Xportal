@@ -75,12 +75,12 @@ public class PantallaJuego implements Screen
     private Sound sonidoPierde;
 
     private  Texture texturaBala;
+    private  Texture texturaEnemigo;
 
     // Estados del juego
     private EstadosJuego estadoJuego;
 
     ArrayList<Bala> balas = new ArrayList<Bala>();
-
 
 
 
@@ -182,6 +182,7 @@ public class PantallaJuego implements Screen
 
 
         texturaBala = assetManager.get("bullet.png");
+        texturaEnemigo = assetManager.get("Planta.png");
 
         // Efecto moneda
         sonidoEstrella = assetManager.get("coin.wav");
@@ -192,6 +193,8 @@ public class PantallaJuego implements Screen
     Dibuja TODOS los elementos del juego en la pantalla.
     Este método se está ejecutando muchas veces por segundo.
      */
+
+
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
 
@@ -213,9 +216,11 @@ public class PantallaJuego implements Screen
         batch.begin();
 
         mario.render(batch);    // Dibuja el personaje
-
+        Enemigo enemigo = new Enemigo(texturaEnemigo);
+        enemigo.setPosicion(50,50);
         for(Bala bala : balas){
             bala.render(batch);
+            enemigo.render(batch,texturaBala);
         }
 
         batch.end();
