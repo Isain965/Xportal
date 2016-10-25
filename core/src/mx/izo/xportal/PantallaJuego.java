@@ -373,16 +373,6 @@ public class PantallaJuego implements Screen
                         plataforma.setScreen(new Menu(plataforma));
                     }
                 }, 3);  // 3 segundos
-
-            }else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
-                sonidoPierde.play();
-                estadoJuego = EstadosJuego.PERDIO;
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        plataforma.setScreen(new Menu(plataforma));
-                    }
-                }, 3);  // 3 segundos
             } else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
                 // Borrar esta estrella y contabilizar
                 //capaPlataforma.setCell(celdaX,celdaY,null);
@@ -404,7 +394,19 @@ public class PantallaJuego implements Screen
             }else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
-        } else {
+        }else if ( capaPlataforma1.getCell(celdaX,celdaY) != null || capaPlataforma1.getCell(celdaX,celdaY+1) != null ) {
+            if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
+                sonidoPierde.play();
+                estadoJuego = EstadosJuego.PERDIO;
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        plataforma.setScreen(new Menu(plataforma));
+                    }
+                }, 3);  // 3 segundos
+            }
+        }
+        else {
             mario.actualizar();
         }
     }
