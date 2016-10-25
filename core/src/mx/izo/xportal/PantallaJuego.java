@@ -589,7 +589,7 @@ public class PantallaJuego implements Screen
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
-                    Gdx.app.exit();
+                    Gdx.app.exit();//Buuu
                 }
             }
             return true;    // Indica que ya procesó el evento
