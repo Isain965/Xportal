@@ -57,8 +57,8 @@ public class Personaje
         estadoMovimiento = EstadoMovimiento.INICIANDO;
         estadoSalto = EstadoSalto.EN_PISO;
     }
-
-    public Saltando(Texture textura){
+       /*
+    public (Texture textura){
         // Lee la textura como región
         TextureRegion texturaCompleta = new TextureRegion(textura);
         // La divide en frames de 16x32 (ver marioSprite.png)
@@ -76,7 +76,7 @@ public class Personaje
         estadoMovimiento = EstadoMovimiento.INICIANDO;
         estadoSalto = EstadoSalto.EN_PISO;
     }
-
+   */
 
 
     // Dibuja el personaje
