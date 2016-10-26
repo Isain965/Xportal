@@ -303,7 +303,7 @@ public class PantallaJuego implements Screen
             btnDisparo.render(batch);
             // Estrellas recolectadas
             texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
-            texto.mostrarMensaje(batch,"Vidas: "+vidaf,Plataforma.ANCHO_CAMARA-500,Plataforma.ALTO_CAMARA*0.95f);
+            texto.mostrarMensaje(batch,"Vidas: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
         }
         batch.end();
     }
@@ -356,6 +356,12 @@ public class PantallaJuego implements Screen
                     mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
+                else if( !esVida(celda) ) {  // Las estrellas no lo detienen :)
+                // Dejarlo sobre la celda que lo detiene
+                mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
+                mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+            }
+
                 break;
             case MOV_DERECHA:       // Se mueve horizontal
             case MOV_IZQUIERDA:
@@ -379,7 +385,13 @@ public class PantallaJuego implements Screen
                 // Celda vacía, entonces el personaje puede avanzar
                 mario.caer();
                 mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
-            } else {
+            }
+            else if( (celdaAbajo==null && celdaDerecha==null) || esVida(celdaAbajo) || esVida(celdaDerecha) ) {
+                // Celda vacía, entonces el personaje puede avanzar
+                mario.caer();
+                mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
+            }
+            else {
                 // Dejarlo sobre la celda que lo detiene
                 mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
                 mario.setEstadoSalto(Personaje.EstadoSalto.EN_PISO);
@@ -435,7 +447,18 @@ public class PantallaJuego implements Screen
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
                 estrellas++;
                 sonidoEstrella.play();
-            } else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
+            } else if ( esVida(capaPlataforma.getCell(celdaX,celdaY)) ) {
+                // Borrar esta estrella y contabilizar
+                capaPlataforma.setCell(celdaX,celdaY,null);
+                vidaf++;
+            }
+            else if (esVida(capaPlataforma.getCell(celdaX,celdaY+1)) ) {
+                // Borrar esta estrella y contabilizar
+                capaPlataforma.setCell(celdaX,celdaY+1,null);
+                vidaf++;
+            }
+
+            else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 Timer.schedule(new Timer.Task() {
