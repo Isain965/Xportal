@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Enemigo {
     private Sprite sprite;
-    private int vidas = 1;
+    private int vidas = 5;
 
     //animacion
     private Animation animacion;    // Caminando

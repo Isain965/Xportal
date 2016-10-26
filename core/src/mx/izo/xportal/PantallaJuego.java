@@ -191,11 +191,11 @@ public class PantallaJuego implements Screen
         texturaEnemigo = assetManager.get("Planta.png");
 
         Enemigo enemigo1 = new Enemigo(texturaEnemigo);
-        enemigo1.setPosicion(2000,74);
+        enemigo1.setPosicion(2000,20);
         Enemigo enemigo2 = new Enemigo(texturaEnemigo);
         enemigo2.setPosicion(500,20);
         Enemigo enemigo3 = new Enemigo(texturaEnemigo);
-        enemigo3.setPosicion(1000,94);
+        enemigo3.setPosicion(1000,20);
         enemigos.add(enemigo1);
         enemigos.add(enemigo2);
         enemigos.add(enemigo3);
@@ -244,13 +244,13 @@ public class PantallaJuego implements Screen
                         int vidas = enemigo.getVidas();
                         enemigo.setVidas(vidas-1);
                         bala.velocidadX = 10;
-                        bala.setPosicion(0, 3000);
+                        bala.setPosicion(0, 1000);
                     }
                 }
 
             }
             else{
-                enemigos.remove(enemigo);
+                enemigo.setPosicion(0,2000);
             }
         }
 
