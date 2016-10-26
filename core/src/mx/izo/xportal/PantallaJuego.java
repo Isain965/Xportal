@@ -38,6 +38,7 @@ public class PantallaJuego implements Screen
     private Viewport vista;
 
 
+
     // Objeto para dibujar en la pantalla
     private SpriteBatch batch;
 
@@ -81,11 +82,15 @@ public class PantallaJuego implements Screen
     private  Texture texturaBala;
     private  Texture texturaEnemigo;
 
+    private float tiempoJuego=0;
+
     // Estados del juego
     private EstadosJuego estadoJuego;
 
     ArrayList<Bala> balas = new ArrayList<Bala>();
     ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
+    //Balas enemigos
+    ArrayList<Bala> balasEnemigos = new ArrayList<Bala>();
 
 
 
@@ -200,6 +205,11 @@ public class PantallaJuego implements Screen
         enemigos.add(enemigo2);
         enemigos.add(enemigo3);
 
+        //Crear todas las balas de los enemigos
+        for (int i =0;i<60;i++){
+            balasEnemigos.add(new Bala(texturaBala));
+        }
+
         // Efecto moneda
         sonidoEstrella = assetManager.get("coin.wav");
         sonidoPierde = assetManager.get("mariodie.wav");
@@ -233,10 +243,26 @@ public class PantallaJuego implements Screen
 
         mario.render(batch);    // Dibuja el personaje
 
+        tiempoJuego+=Gdx.graphics.getDeltaTime();
+        Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
         for(Enemigo enemigo:enemigos){
             if (enemigo.getVidas()>0){
-                enemigo.render(batch,texturaBala);
+                for (Bala balaE : balasEnemigos) {
+                    if (tiempoJuego >= 0 && tiempoJuego <= 5) {
+                        balaE.setPosicion(enemigo.getX(),enemigo.getY()+50);
+                        balaE.render(batch);
+                    }
+                    else if(tiempoJuego>5 && tiempoJuego<=10){
+                        balaE.setPosicion(enemigo.getX(),enemigo.getY()+50);
+                        balaE.setDireccion(-10);
+                        balaE.render(batch);
+                    }
+                    else{
+                        tiempoJuego=0;
+                    }
+                }
+                enemigo.render(batch);
                 for(Bala bala : balas){
                     bala.render(batch);
                     if((bala.getX() >= enemigo.getX() && bala.getX()<= (enemigo.getX()+enemigo.getSprite().getWidth()))&&
@@ -253,6 +279,7 @@ public class PantallaJuego implements Screen
                 enemigo.setPosicion(0,2000);
             }
         }
+
 
 
         //Dibuja las balas del personaje

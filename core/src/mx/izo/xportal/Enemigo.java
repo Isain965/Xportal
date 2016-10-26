@@ -16,15 +16,17 @@ public class Enemigo {
     private Sprite sprite;
     private int vidas = 5;
 
+
     //animacion
     private Animation animacion;    // Caminando
     private float timerAnimacion;   // tiempo para calcular el frame
 
 
 
+
+
     public Enemigo(Texture textura) {
         TextureRegion texturaEnemigo = new TextureRegion(textura);
-
 
         sprite = new Sprite(texturaEnemigo);
 
@@ -37,9 +39,10 @@ public class Enemigo {
         timerAnimacion = 0;
         // Crea el sprite cuando para el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
+
     }
 
-    public void render(SpriteBatch batch,Texture texturaBala) {
+    public void render(SpriteBatch batch) {
 
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Obtiene el frame que se debe mostrar (de acuerdo al timer)
