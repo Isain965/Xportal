@@ -288,7 +288,7 @@ public class PantallaJuego implements Screen
                         bala.setPosicion(0, 1000);
                     }
                 }
-                if(tiempoJuego>7){
+                if(tiempoJuego>6){
                     tiempoJuego=0;
                 }
             }
