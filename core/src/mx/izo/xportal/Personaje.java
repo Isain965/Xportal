@@ -14,6 +14,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
  */
 
 public class Personaje {
+
+    public Personaje(Texture textura){
+        sprite = new Sprite(textura);
+    }
+
     public static final float VELOCIDAD_Y = -4f;   // Velocidad de caída
     public static final float VELOCIDAD_X = 2;     // Velocidad horizontal
 
