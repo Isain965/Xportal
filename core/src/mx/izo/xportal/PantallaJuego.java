@@ -79,8 +79,12 @@ public class PantallaJuego implements Screen
     private Boton btnGana;
     private Sound sonidoPierde;
 
-    private  Texture texturaBala;
-    private  Texture texturaEnemigo;
+    private Texture texturaBala;
+    private Texture texturaBalaPlanta;
+    private Texture texturaBalaEmbudo;
+
+    private Texture texturaEnemigo;
+    private Texture texturaEnemigo2;
 
     private float tiempoJuego=0;
 
@@ -89,16 +93,22 @@ public class PantallaJuego implements Screen
 
     ArrayList<Bala> balas = new ArrayList<Bala>();
     ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
+    ArrayList<EnemigoV> enemigosV = new ArrayList<EnemigoV>();
     //Balas enemigos
     ArrayList<Bala> balasEnemigos = new ArrayList<Bala>();
+    ArrayList<BalaV> balasEnemigosV = new ArrayList<BalaV>();
 
     private boolean llaveA = false;
     private boolean llaveB = false;
 
     private int rango = 300;
     private  Bala balaAnterior;
+    private  Bala balaAnteriorV;
 
     private boolean banderaDisparo=true;
+
+    private boolean banderaArma = false;
+
 
 
     public PantallaJuego(Plataforma plataforma) {
@@ -200,7 +210,11 @@ public class PantallaJuego implements Screen
 
 
         texturaBala = assetManager.get("bullet.png");
+        texturaBalaEmbudo = assetManager.get("balaEmbudo.png");
+        texturaBalaPlanta = assetManager.get("balaPlanta.png");
+
         texturaEnemigo = assetManager.get("Planta.png");
+        texturaEnemigo2 = assetManager.get("embudo.png");
 
         Enemigo enemigo1 = new Enemigo(texturaEnemigo);
         enemigo1.setPosicion(2000,20);
@@ -211,9 +225,21 @@ public class PantallaJuego implements Screen
         enemigos.add(enemigo1);
         enemigos.add(enemigo2);
         enemigos.add(enemigo3);
-        balaAnterior = new Bala(texturaBala);
+        balaAnterior = new Bala(texturaBalaPlanta);
         balaAnterior.setPosicion(enemigo1.getX(),641);
 
+
+        EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
+        enemigoV1.setPosicion(3000,770);
+        EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
+        enemigoV2.setPosicion(800,770);
+        EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
+        enemigoV3.setPosicion(150,170);
+        enemigosV.add(enemigoV1);
+        enemigosV.add(enemigoV2);
+        enemigosV.add(enemigoV3);
+        balaAnteriorV = new Bala(texturaBalaEmbudo);
+        balaAnteriorV.setPosicion(enemigo1.getX(),641);
 
         // Efecto moneda
         sonidoEstrella = assetManager.get("coin.wav");
@@ -259,20 +285,72 @@ public class PantallaJuego implements Screen
                 }
             }, 3);  // 3 segundos
         }
+        for (EnemigoV enemigoV:enemigosV){
+            if (enemigoV.getVidas()>0){
+                enemigoV.render(batch);
 
+                if((mario.getX()>=enemigoV.getX()-rango)&&(mario.getX()<=enemigoV.getX())&&(int)tiempoJuego==5&&banderaDisparo){
+                    BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
+                    balaEnJuego.setDireccion(-10);
+                    balaEnJuego.setPosicion(enemigoV.getX(),enemigoV.getY()+50);
+                    balasEnemigosV.add(balaEnJuego);
+                    banderaDisparo = false;
+                    tiempoJuego = 0;
+                }else if ((mario.getX()>enemigoV.getX())&&(mario.getX()<=enemigoV.getX()+rango)&&(int)tiempoJuego==5&&banderaDisparo){
+                    BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
+                    balaEnJuego.setDireccion(-10);
+                    balaEnJuego.setPosicion(enemigoV.getX()+38, enemigoV.getY() + 50);
+                    balasEnemigosV.add(balaEnJuego);
+                    banderaDisparo = false;
+                    tiempoJuego = 0;
+                }
+
+                for(BalaV bala: balasEnemigosV){
+                    bala.render(batch);
+                    banderaDisparo = true;
+                    if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
+                            (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigoV.getSprite().getHeight()))) {
+                        int vidas = enemigoV.getVidas();
+                        vidaf-=1;
+                        bala.velocidadX = 10;
+                        //Borrar de memoria
+                        bala.setPosicion(0, 1000);
+                    }
+                }
+
+                for(Bala bala : balas){
+                    bala.render(batch);
+                    if((bala.getX() >= enemigoV.getX() && bala.getX()<= (enemigoV.getX()+enemigoV.getSprite().getWidth()))&&
+                            (bala.getY() >= enemigoV.getY() && bala.getY()<= (enemigoV.getY()+enemigoV.getSprite().getHeight()))) {
+                        int vidas = enemigoV.getVidas();
+                        enemigoV.setVidas(vidas-1);
+                        bala.velocidadX = 10;
+                        //Borrar de memoria
+                        bala.setPosicion(0, 1000);
+                    }
+                }
+                if(tiempoJuego>6){
+                    tiempoJuego=0;
+                }
+            }
+            else{
+                //Borrar de memoria
+                enemigoV.setPosicion(0,2000);
+            }
+        }
         for(Enemigo enemigo:enemigos){
             if (enemigo.getVidas()>0){
                 enemigo.render(batch);
 
                 if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())&&(int)tiempoJuego==5&&banderaDisparo){
-                    Bala balaEnJuego = new Bala(texturaBala);
+                    Bala balaEnJuego = new Bala(texturaBalaPlanta);
                     balaEnJuego.setDireccion(-10);
                     balaEnJuego.setPosicion(enemigo.getX(),enemigo.getY()+50);
                     balasEnemigos.add(balaEnJuego);
                     banderaDisparo = false;
                     tiempoJuego = 0;
                 }else if ((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==5&&banderaDisparo){
-                    Bala balaEnJuego = new Bala(texturaBala);
+                    Bala balaEnJuego = new Bala(texturaBalaPlanta);
                     balaEnJuego.setDireccion(10);
                     balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
                     balasEnemigos.add(balaEnJuego);
@@ -528,7 +606,14 @@ public class PantallaJuego implements Screen
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
                 vidaf++;
                 sonidoEstrella.play();
-            }else {
+
+            }else if(esPistola(capaPlataforma.getCell(celdaX,celdaY))){
+                capaPlataforma.setCell(celdaX,celdaY+1,null);
+                capaPlataforma.setCell(celdaX,celdaY,null);
+                banderaArma = true;
+                sonidoEstrella.play();
+            }
+            else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
         }
@@ -657,7 +742,6 @@ public class PantallaJuego implements Screen
             return false;
         }
         Object propiedad = celda.getTile().getProperties().get("tipo");
-        Gdx.app.log("es PuertaA",propiedad.toString());
         return "puertaA".equals(propiedad);
     }
 
@@ -666,8 +750,16 @@ public class PantallaJuego implements Screen
             return false;
         }
         Object propiedad =celda.getTile().getProperties().get("tipo");
-        Gdx. app.log("es Puerta A2",propiedad.toString());
         return "puertaA2".equals(propiedad);
+
+    }
+
+    private boolean esPistola(TiledMapTileLayer.Cell celda){
+        if (celda==null) {
+            return false;
+        }
+        Object propiedad =celda.getTile().getProperties().get("tipo");
+        return "pistolita".equals(propiedad);
 
     }
 
@@ -740,7 +832,7 @@ public class PantallaJuego implements Screen
                 } else if (btnSalto.contiene(x, y)) {
                     // Tocó el botón saltar
                     mario.saltar();
-                }else if (btnDisparo.contiene(x, y)) {
+                }else if (btnDisparo.contiene(x, y)&&banderaArma) {
                     // Tocó el botón disparar
                     Bala bala = new Bala(texturaBala);
                     bala.setPosicion(mario.getX(),mario.getY()+30);
