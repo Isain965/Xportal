@@ -30,6 +30,8 @@ public class PantallaCargando implements Screen
     private Texture texturaCargando;
     private Sprite spriteCargando;
 
+    private  Texture texturaFondo;
+
     private AssetManager assetManager;  // Asset manager principal
 
     public PantallaCargando(Plataforma plataforma) {
@@ -43,28 +45,38 @@ public class PantallaCargando implements Screen
         camara = new OrthographicCamera(Plataforma.ANCHO_CAMARA, Plataforma.ALTO_CAMARA);
         camara.position.set(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 2, 0);
         camara.update();
-        vista = new FitViewport(Plataforma.ANCHO_CAMARA, Plataforma.ALTO_CAMARA, camara);
+        vista = new StretchViewport(Plataforma.ANCHO_CAMARA, Plataforma.ALTO_CAMARA, camara);
 
         batch = new SpriteBatch();
 
         // Cargar recursos
         assetManager.load("cargando.png", Texture.class);
+
+        assetManager.load("PantallaInicioCargando.png",Texture.class);
+
         assetManager.finishLoading();
         texturaCargando = assetManager.get("cargando.png");
         spriteCargando = new Sprite(texturaCargando);
         spriteCargando.setPosition(Plataforma.ANCHO_CAMARA / 2 - spriteCargando.getWidth() / 2,
                 Plataforma.ALTO_CAMARA / 2 - spriteCargando.getHeight() / 2);
 
+        texturaFondo = assetManager.get("PantallaInicioCargando.png");
+
+
+
         cargarRecursos();
     }
 
     // Carga los recursos a través del administrador de assets (siguiente pantalla)
     private void cargarRecursos() {
+
         Gdx.app.log("cargarRecursos","Iniciando...");
         // Carga los recursos de la siguiente pantalla (PantallaJuego)
         assetManager.load("Mapa.tmx", TiledMap.class);  // Cargar info del mapa
         assetManager.load("marioSprite.png", Texture.class);
         assetManager.load("salto.png", Texture.class);
+
+
         // Cargar imagen
         // Texturas de los botones
         assetManager.load("BtmDerecho.png", Texture.class);
@@ -95,6 +107,7 @@ public class PantallaCargando implements Screen
 
         // Entre begin-end dibujamos nuestros objetos en pantalla
         batch.begin();
+        batch.draw(texturaFondo,0,0);
         spriteCargando.draw(batch);
         batch.end();
     }
@@ -140,6 +153,7 @@ public class PantallaCargando implements Screen
     @Override
     public void dispose() {
         texturaCargando.dispose();
+        texturaFondo.dispose();
         // Los assets de PantallaJuego se liberan en el método dispose de PantallaJuego
     }
 }
