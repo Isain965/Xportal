@@ -251,6 +251,15 @@ public class PantallaJuego implements Screen
         tiempoJuego+=Gdx.graphics.getDeltaTime();
         Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
+        if(vidaf==0){
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    plataforma.setScreen(new Menu(plataforma));
+                }
+            }, 3);  // 3 segundos
+        }
+
         for(Enemigo enemigo:enemigos){
             if (enemigo.getVidas()>0){
                 enemigo.render(batch);
@@ -272,9 +281,17 @@ public class PantallaJuego implements Screen
                 }
 
 
-                for(Bala balitas: balasEnemigos){
-                    balitas.render(batch);
+                for(Bala bala: balasEnemigos){
+                    bala.render(batch);
                     banderaDisparo = true;
+                    if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
+                            (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigo.getSprite().getHeight()))) {
+                        int vidas = enemigo.getVidas();
+                        vidaf-=1;
+                        bala.velocidadX = 10;
+                        //Borrar de memoria
+                        bala.setPosicion(0, 1000);
+                    }
                 }
 
                 for(Bala bala : balas){
