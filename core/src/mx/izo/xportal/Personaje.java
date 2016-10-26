@@ -9,9 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
-/**
- * Created by isain on 10/11/2016.
- */
 
 public class Personaje {
 
@@ -59,9 +56,13 @@ public class Personaje {
         // Crea la animación con tiempo de 0.25 segundos entre frames.
         animacion = new Animation(0.25f, texturaPersonaje[0][7],
                 texturaPersonaje[0][2], texturaPersonaje[0][1]);
+        //animarSalto = new Animation(0.25f, texturaPersonaje[0][5],
+               // texturaPersonaje[0][2], texturaPersonaje[0][1]);
+
         // Animación infinita
         animacion.setPlayMode(Animation.PlayMode.LOOP);
-        texturaSaltoF = new TextureRegion(texturaSaltar[0][1]);
+        //animarSalto.setPlayMode(Animation.PlayMode.LOOP);
+        texturaSaltoF = new TextureRegion(texturaSaltar[0][5]);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
         // Crea el sprite cuando para el personaje quieto (idle)
@@ -122,10 +123,13 @@ public class Personaje {
             case SUBIENDO:
             case BAJANDO:
             case CAIDA_LIBRE:
+                //timerAnimacion += Gdx.graphics.getDeltaTime();
+                //TextureRegion region = animarSalto.getKeyFrame(timerAnimacion);
                 timerAnimacion = 0;
                 sprite.setRegion(texturaSaltoF);
                 sprite.draw(batch);
                 break;
+
         }
 
     }
