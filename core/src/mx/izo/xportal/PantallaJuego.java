@@ -71,6 +71,7 @@ public class PantallaJuego implements Screen
 
     // Estrellas recolectadas
     private int estrellas;
+    private int vidaf;
     private Texto texto;
     private Sound sonidoEstrella;
 
@@ -277,6 +278,7 @@ public class PantallaJuego implements Screen
             btnDisparo.render(batch);
             // Estrellas recolectadas
             texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
+            texto.mostrarMensaje(batch,"Vidas: "+vidaf,Plataforma.ANCHO_CAMARA-500,Plataforma.ALTO_CAMARA*0.95f);
         }
         batch.end();
     }
@@ -534,6 +536,13 @@ public class PantallaJuego implements Screen
         Object propiedad = celda.getTile().getProperties().get("tipo");
         return "coin".equals(propiedad);
     }
+
+    private boolean esVida(TiledMapTileLayer.Cell celda){
+        if(celda==null)
+            return false;
+        Object propiedad =celda.getTile().getProperties().get("tipo");
+        return "vida".equals(propiedad);
+    }
     // Verifica si esta casilla tiene una llave (simplificar con la anterior)
     private boolean esLlave1(TiledMapTileLayer.Cell celda) {
         if (celda==null) {
@@ -608,6 +617,7 @@ public class PantallaJuego implements Screen
         assetManager.unload("ganaste.png");
         assetManager.unload("Mapa.tmx");
         assetManager.unload("shoot.jpg");
+        assetManager.unload("pil.png");
         assetManager.unload("bullet.png");
     }
 
