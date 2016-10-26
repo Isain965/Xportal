@@ -96,11 +96,10 @@ public class PantallaJuego implements Screen
     private boolean llaveB = false;
 
     private int rango = 300;
+    private  Bala balaAnterior;
 
-    private Bala balaEnJuego;
-    private Bala balaAnterior;
+    private boolean banderaDisparo=true;
 
-    private int contadorPAnterior = 0;
 
     public PantallaJuego(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -212,6 +211,8 @@ public class PantallaJuego implements Screen
         enemigos.add(enemigo1);
         enemigos.add(enemigo2);
         enemigos.add(enemigo3);
+        balaAnterior = new Bala(texturaBala);
+        balaAnterior.setPosicion(enemigo1.getX(),641);
 
 
         // Efecto moneda
@@ -247,47 +248,25 @@ public class PantallaJuego implements Screen
 
         mario.render(batch);    // Dibuja el personaje
 
-        //tiempoJuego+=Gdx.graphics.getDeltaTime();
-        //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
-
-
-          /*Quitar for
-                for (Bala balaE : balasEnemigos) {
-                    if (tiempoJuego >= 0 && tiempoJuego <= 5) {
-                        balaE.setPosicion(enemigo.getX(),enemigo.getY()+50);
-                        balaE.render(batch);
-                    }
-                    else if(tiempoJuego>5 && tiempoJuego<=10){
-                        balaE.setPosicion(enemigo.getX(),enemigo.getY()+50);
-                        balaE.setDireccion(-10);
-                        balaE.render(batch);
-                    }
-                    else{
-                        tiempoJuego=0;
-                    }
-                }*/
+        tiempoJuego+=Gdx.graphics.getDeltaTime();
+        Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
         for(Enemigo enemigo:enemigos){
             if (enemigo.getVidas()>0){
                 enemigo.render(batch);
 
-                if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())){
+                if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())&&(int)tiempoJuego==5&&banderaDisparo){
                     Bala balaEnJuego = new Bala(texturaBala);
                     balaEnJuego.setDireccion(-10);
                     balaEnJuego.setPosicion(enemigo.getX(),enemigo.getY()+50);
-
-                    //bala en juego = bala anterior
-                    //if(balaAnterior != null) {
-                        //if (balaAnterior.getContadorP() > 640) {
-                        if (contadorPAnterior > 640) {
-                            balas.add(balaEnJuego);
-                            contadorPAnterior = balaEnJuego.getContadorP();
-                        }
-                    //}
+                    balasEnemigos.add(balaEnJuego);
+                    banderaDisparo = false;
+                    tiempoJuego = 0;
                 }
 
-                for(Bala balitas: balas){
+                for(Bala balitas: balasEnemigos){
                     balitas.render(batch);
+                    banderaDisparo = true;
                 }
 
                 for(Bala bala : balas){
@@ -307,8 +286,6 @@ public class PantallaJuego implements Screen
                 enemigo.setPosicion(0,2000);
             }
         }
-
-
 
         //Dibuja las balas del personaje
         for(Bala bala : balas){

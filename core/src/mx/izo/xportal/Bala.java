@@ -20,7 +20,7 @@ public class Bala {
     private Sprite sprite;
     public float velocidadX = 10;
     private float x;
-    private int contadorP=0;
+    //private int contadorP=401;
 
 
     public Bala(Texture textura) {
@@ -32,8 +32,8 @@ public class Bala {
 
         TextureRegion region = sprite;
         x = sprite.getX() + velocidadX;
-        contadorP+=1;
-        Gdx.app.log("Contador pixeles", Integer.toString(contadorP));
+        //contadorP+=1;
+        //Gdx.app.log("Contador pixeles", Integer.toString(contadorP));
         sprite.setX(x);
         batch.draw(region, sprite.getX(), sprite.getY());
 
@@ -55,9 +55,13 @@ public class Bala {
         return sprite.getY();
     }
 
-    public  int getContadorP(){
+    /*public  int getContadorP(){
         return contadorP;
     }
+
+    public void setContadorP(int x) {
+        this.contadorP= x;
+    }*/
 
     public Sprite getSprite() {
         return sprite;
