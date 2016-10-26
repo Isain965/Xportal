@@ -54,6 +54,7 @@ public class Enemigo {
     public int getVidas(){
         return vidas;
     }
+
     public void setVidas(int vidas){
         this.vidas = vidas;
     }

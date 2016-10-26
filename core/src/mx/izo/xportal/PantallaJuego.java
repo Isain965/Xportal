@@ -50,8 +50,6 @@ public class PantallaJuego implements Screen
     private Personaje mario;
     public static final int TAM_CELDA = 32;
 
-    //Vida
-    private  Texture texturaVida;
 
 
     // HUD. Los componentes en la pantalla que no se mueven
@@ -188,7 +186,7 @@ public class PantallaJuego implements Screen
         btnGana.setPosicion(Plataforma.ANCHO_CAMARA/2-btnGana.getRectColision().width/2,Plataforma.ALTO_CAMARA/2-btnGana.getRectColision().height/2);
         btnGana.setAlfa(0.7f);
 
-        texturaVida=assetManager.get("pil.png");
+
         texturaBala = assetManager.get("bullet.png");
         texturaEnemigo = assetManager.get("Planta.png");
 
@@ -244,7 +242,7 @@ public class PantallaJuego implements Screen
                     if((bala.getX() >= enemigo.getX() && bala.getX()<= (enemigo.getX()+enemigo.getSprite().getWidth()))&&
                         (bala.getY() >= enemigo.getY() && bala.getY()<= (enemigo.getY()+enemigo.getSprite().getHeight()))) {
                         int vidas = enemigo.getVidas();
-                        enemigo.setVidas(vidas--);
+                        enemigo.setVidas(vidas-1);
                         bala.velocidadX = 10;
                         bala.setPosicion(0, 3000);
                     }
@@ -419,8 +417,7 @@ public class PantallaJuego implements Screen
                         plataforma.setScreen(new Menu(plataforma));
                     }
                 }, 3);  // 3 segundos
-            }
-            else if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
+            } else if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 Timer.schedule(new Timer.Task() {
@@ -429,8 +426,7 @@ public class PantallaJuego implements Screen
                         plataforma.setScreen(new Menu(plataforma));
                     }
                 }, 3);
-            }
-            else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
+            } else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
                 eliminarLlave1();
                 estrellas++;
                 abrirPuerta1();
@@ -442,10 +438,16 @@ public class PantallaJuego implements Screen
                 abrirPuerta2();
                 sonidoEstrella.play();
 
+            }else if(esVida(capaPlataforma.getCell(celdaX,celdaY))){
+                capaPlataforma.setCell(celdaX,celdaY+1,null);
+                vidaf++;
+                sonidoEstrella.play();
             }else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
-        }else if ( capaPlataforma1.getCell(celdaX,celdaY) != null || capaPlataforma1.getCell(celdaX,celdaY+1) != null ) {
+        }
+
+        if ( capaPlataforma1.getCell(celdaX,celdaY) != null || capaPlataforma1.getCell(celdaX,celdaY+1) != null ) {
             if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
@@ -456,7 +458,8 @@ public class PantallaJuego implements Screen
                     }
                 }, 3);  // 3 segundos
             }
-        }else if ( capaPlataforma2.getCell(celdaX,celdaY) != null || capaPlataforma2.getCell(celdaX,celdaY+1) != null ) {
+        }
+        if ( capaPlataforma2.getCell(celdaX,celdaY) != null || capaPlataforma2.getCell(celdaX,celdaY+1) != null ) {
             if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
@@ -541,7 +544,7 @@ public class PantallaJuego implements Screen
         if(celda==null)
             return false;
         Object propiedad =celda.getTile().getProperties().get("tipo");
-        return "vida".equals(propiedad);
+        return "pildora".equals(propiedad);
     }
     // Verifica si esta casilla tiene una llave (simplificar con la anterior)
     private boolean esLlave1(TiledMapTileLayer.Cell celda) {
