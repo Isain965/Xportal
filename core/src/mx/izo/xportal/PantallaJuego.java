@@ -330,6 +330,7 @@ public class PantallaJuego implements Screen
                     }
                 }
                 if(tiempoJuego>6){
+                    //ISAIN EL HACKER :)
                     tiempoJuego=0;
                 }
             }
