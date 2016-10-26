@@ -217,11 +217,11 @@ public class PantallaJuego implements Screen
         texturaEnemigo2 = assetManager.get("embudo.png");
 
         Enemigo enemigo1 = new Enemigo(texturaEnemigo);
-        enemigo1.setPosicion(2000,20);
+        enemigo1.setPosicion(1142,20);
         Enemigo enemigo2 = new Enemigo(texturaEnemigo);
-        enemigo2.setPosicion(500,20);
+        enemigo2.setPosicion(2284,20);
         Enemigo enemigo3 = new Enemigo(texturaEnemigo);
-        enemigo3.setPosicion(1000,20);
+        enemigo3.setPosicion(3426,20);
         enemigos.add(enemigo1);
         enemigos.add(enemigo2);
         enemigos.add(enemigo3);
@@ -230,11 +230,11 @@ public class PantallaJuego implements Screen
 
 
         EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
-        enemigoV1.setPosicion(3000,770);
+        enemigoV1.setPosicion(571,770);
         EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
-        enemigoV2.setPosicion(800,770);
+        enemigoV2.setPosicion(1713,770);
         EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
-        enemigoV3.setPosicion(150,170);
+        enemigoV3.setPosicion(2855,170);
         enemigosV.add(enemigoV1);
         enemigosV.add(enemigoV2);
         enemigosV.add(enemigoV3);
