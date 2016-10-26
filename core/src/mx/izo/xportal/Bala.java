@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.StringBuilder;
+import com.google.gwt.user.client.rpc.core.java.lang.Integer_CustomFieldSerializer;
 
 /**
  * Created by isain on 10/24/2016.
@@ -18,6 +20,7 @@ public class Bala {
     private Sprite sprite;
     public float velocidadX = 10;
     private float x;
+    private int contadorP=0;
 
 
     public Bala(Texture textura) {
@@ -29,6 +32,8 @@ public class Bala {
 
         TextureRegion region = sprite;
         x = sprite.getX() + velocidadX;
+        contadorP+=1;
+        Gdx.app.log("Contador pixeles", Integer.toString(contadorP));
         sprite.setX(x);
         batch.draw(region, sprite.getX(), sprite.getY());
 
@@ -48,6 +53,10 @@ public class Bala {
 
     public float getY() {
         return sprite.getY();
+    }
+
+    public  int getContadorP(){
+        return contadorP;
     }
 
     public Sprite getSprite() {

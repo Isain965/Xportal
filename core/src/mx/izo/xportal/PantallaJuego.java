@@ -95,7 +95,12 @@ public class PantallaJuego implements Screen
     private boolean llaveA = false;
     private boolean llaveB = false;
 
+    private int rango = 300;
 
+    private Bala balaEnJuego;
+    private Bala balaAnterior;
+
+    private int contadorPAnterior = 0;
 
     public PantallaJuego(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -242,12 +247,11 @@ public class PantallaJuego implements Screen
 
         mario.render(batch);    // Dibuja el personaje
 
-        tiempoJuego+=Gdx.graphics.getDeltaTime();
-        Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
+        //tiempoJuego+=Gdx.graphics.getDeltaTime();
+        //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
-        for(Enemigo enemigo:enemigos){
-            if (enemigo.getVidas()>0){
-                /*Quitar for
+
+          /*Quitar for
                 for (Bala balaE : balasEnemigos) {
                     if (tiempoJuego >= 0 && tiempoJuego <= 5) {
                         balaE.setPosicion(enemigo.getX(),enemigo.getY()+50);
@@ -262,7 +266,30 @@ public class PantallaJuego implements Screen
                         tiempoJuego=0;
                     }
                 }*/
+
+        for(Enemigo enemigo:enemigos){
+            if (enemigo.getVidas()>0){
                 enemigo.render(batch);
+
+                if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())){
+                    Bala balaEnJuego = new Bala(texturaBala);
+                    balaEnJuego.setDireccion(-10);
+                    balaEnJuego.setPosicion(enemigo.getX(),enemigo.getY()+50);
+
+                    //bala en juego = bala anterior
+                    //if(balaAnterior != null) {
+                        //if (balaAnterior.getContadorP() > 640) {
+                        if (contadorPAnterior > 640) {
+                            balas.add(balaEnJuego);
+                            contadorPAnterior = balaEnJuego.getContadorP();
+                        }
+                    //}
+                }
+
+                for(Bala balitas: balas){
+                    balitas.render(batch);
+                }
+
                 for(Bala bala : balas){
                     bala.render(batch);
                     if((bala.getX() >= enemigo.getX() && bala.getX()<= (enemigo.getX()+enemigo.getSprite().getWidth()))&&
@@ -270,11 +297,13 @@ public class PantallaJuego implements Screen
                         int vidas = enemigo.getVidas();
                         enemigo.setVidas(vidas-1);
                         bala.velocidadX = 10;
-                        bala.setPosicion(100, 100);
+                        //Borrar de memoria
+                        bala.setPosicion(0, 1000);
                     }
                 }
             }
             else{
+                //Borrar de memoria
                 enemigo.setPosicion(0,2000);
             }
         }
