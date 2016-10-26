@@ -90,7 +90,7 @@ public class AcercaDe implements Screen {
         // Cargar las texturas/mapas
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
 
-        assetManager.load("AboutDef.png", Texture.class);    // Cargar imagen
+        assetManager.load("about.PNG", Texture.class);    // Cargar imagen
         assetManager.load("back.png", Texture.class);
         // Texturas de los botones
 
@@ -101,7 +101,7 @@ public class AcercaDe implements Screen {
     private void crearObjetos() {
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
         // Carga el mapa en memoria
-        texturaAcercaDe = assetManager.get("AboutDef.png");
+        texturaAcercaDe = assetManager.get("about.PNG");
         texturaRegresar = assetManager.get("back.png");
 
         btnRegresar = new Boton(texturaRegresar);
@@ -163,7 +163,7 @@ public class AcercaDe implements Screen {
     public void dispose() {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
-        assetManager.unload("AboutDef.png");
+        assetManager.unload("about.PNG");
         assetManager.unload("back.png");
 //        efecto.dispose();
 //        explosion.dispose();
