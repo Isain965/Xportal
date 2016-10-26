@@ -92,6 +92,9 @@ public class PantallaJuego implements Screen
     //Balas enemigos
     ArrayList<Bala> balasEnemigos = new ArrayList<Bala>();
 
+    private boolean llaveA = false;
+    private boolean llaveB = false;
+
 
 
     public PantallaJuego(Plataforma plataforma) {
@@ -205,10 +208,6 @@ public class PantallaJuego implements Screen
         enemigos.add(enemigo2);
         enemigos.add(enemigo3);
 
-        //Crear todas las balas de los enemigos
-        for (int i =0;i<60;i++){
-            balasEnemigos.add(new Bala(texturaBala));
-        }
 
         // Efecto moneda
         sonidoEstrella = assetManager.get("coin.wav");
@@ -248,6 +247,7 @@ public class PantallaJuego implements Screen
 
         for(Enemigo enemigo:enemigos){
             if (enemigo.getVidas()>0){
+                /*Quitar for
                 for (Bala balaE : balasEnemigos) {
                     if (tiempoJuego >= 0 && tiempoJuego <= 5) {
                         balaE.setPosicion(enemigo.getX(),enemigo.getY()+50);
@@ -261,7 +261,7 @@ public class PantallaJuego implements Screen
                     else{
                         tiempoJuego=0;
                     }
-                }
+                }*/
                 enemigo.render(batch);
                 for(Bala bala : balas){
                     bala.render(batch);
@@ -270,10 +270,9 @@ public class PantallaJuego implements Screen
                         int vidas = enemigo.getVidas();
                         enemigo.setVidas(vidas-1);
                         bala.velocidadX = 10;
-                        bala.setPosicion(0, 1000);
+                        bala.setPosicion(100, 100);
                     }
                 }
-
             }
             else{
                 enemigo.setPosicion(0,2000);
@@ -501,7 +500,7 @@ public class PantallaJuego implements Screen
         }
 
         if ( capaPlataforma1.getCell(celdaX,celdaY) != null || capaPlataforma1.getCell(celdaX,celdaY+1) != null ) {
-            if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
+            if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) && llaveA ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 Timer.schedule(new Timer.Task() {
@@ -513,7 +512,7 @@ public class PantallaJuego implements Screen
             }
         }
         if ( capaPlataforma2.getCell(celdaX,celdaY) != null || capaPlataforma2.getCell(celdaX,celdaY+1) != null ) {
-            if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
+            if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) && llaveB) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 Timer.schedule(new Timer.Task() {
@@ -560,6 +559,7 @@ public class PantallaJuego implements Screen
         capaPlataforma.setCell(70,25,null);
         capaPlataforma.setCell(70,26,null);
         capaPlataforma.setCell(70,27,null);
+        llaveB = true;
 
     }
 
@@ -580,6 +580,7 @@ public class PantallaJuego implements Screen
         capaPlataforma.setCell(40,20,null);
         capaPlataforma.setCell(40,19,null);
         capaPlataforma.setCell(40,18,null);
+        llaveA = true;
     }
 
 
