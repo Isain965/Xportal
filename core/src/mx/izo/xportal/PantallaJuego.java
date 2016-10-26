@@ -262,7 +262,15 @@ public class PantallaJuego implements Screen
                     balasEnemigos.add(balaEnJuego);
                     banderaDisparo = false;
                     tiempoJuego = 0;
+                }else if ((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==5&&banderaDisparo){
+                    Bala balaEnJuego = new Bala(texturaBala);
+                    balaEnJuego.setDireccion(10);
+                    balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
+                    balasEnemigos.add(balaEnJuego);
+                    banderaDisparo = false;
+                    tiempoJuego = 0;
                 }
+
 
                 for(Bala balitas: balasEnemigos){
                     balitas.render(batch);
@@ -279,6 +287,9 @@ public class PantallaJuego implements Screen
                         //Borrar de memoria
                         bala.setPosicion(0, 1000);
                     }
+                }
+                if(tiempoJuego>7){
+                    tiempoJuego=0;
                 }
             }
             else{
