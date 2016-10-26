@@ -50,6 +50,10 @@ public class PantallaJuego implements Screen
     private Personaje mario;
     public static final int TAM_CELDA = 32;
 
+    //Vida
+    private  Texture texturaVida;
+
+
     // HUD. Los componentes en la pantalla que no se mueven
     private OrthographicCamera camaraHUD;   // Cámara fija
     // Botones izquierda/derecha
@@ -183,7 +187,7 @@ public class PantallaJuego implements Screen
         btnGana.setPosicion(Plataforma.ANCHO_CAMARA/2-btnGana.getRectColision().width/2,Plataforma.ALTO_CAMARA/2-btnGana.getRectColision().height/2);
         btnGana.setAlfa(0.7f);
 
-
+        texturaVida=assetManager.get("pil.png");
         texturaBala = assetManager.get("bullet.png");
         texturaEnemigo = assetManager.get("Planta.png");
 

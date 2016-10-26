@@ -189,7 +189,7 @@ public class Personaje {
         tiempoSalto += 10*Gdx.graphics.getDeltaTime();
         float y= V0 *tiempoSalto -G_2 *tiempoSalto*tiempoSalto;
         if(tiempoSalto > tiempoVuelo/2){
-            estadoSalto=EstadoSalto.BAJANDO;
+            estadoSalto=EstadoSalto.EN_PISO;
         }
         if(estadoSalto==EstadoSalto.SUBIENDO){
             sprite.setY(yInicial+y);
