@@ -70,7 +70,7 @@ public class PantallaJuego implements Screen
 
     // Estrellas recolectadas
     private int estrellas;
-    private int vidaf;
+    private int vidaf =3;
     private Texto texto;
     private Sound sonidoEstrella;
 
@@ -450,7 +450,10 @@ public class PantallaJuego implements Screen
             } else if ( esVida(capaPlataforma.getCell(celdaX,celdaY)) ) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY,null);
-                vidaf++;
+                if(vidaf<=4){
+                    vidaf++;
+                }
+                sonidoEstrella.play();
             }
             else if (esVida(capaPlataforma.getCell(celdaX,celdaY+1)) ) {
                 // Borrar esta estrella y contabilizar
