@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Enemigo {
     private Sprite sprite;
-    private int vidas = 1;
+    private int vidas = 5;
 
     //animacion
     private Animation animacion;    // Caminando
@@ -54,6 +54,7 @@ public class Enemigo {
     public int getVidas(){
         return vidas;
     }
+
     public void setVidas(int vidas){
         this.vidas = vidas;
     }
