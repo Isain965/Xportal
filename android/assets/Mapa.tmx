@@ -182,11 +182,6 @@
  </tileset>
  <tileset firstgid="3593" name="PuertaCA" tilewidth="32" tileheight="32" tilecount="30" columns="6">
   <image source="puertaSol.png" trans="ff00ff" width="192" height="160"/>
-  <tile id="1">
-   <properties>
-    <property name="tipo" value="puertaA"/>
-   </properties>
-  </tile>
   <tile id="4">
    <animation>
     <frame tileid="1" duration="500"/>
@@ -196,84 +191,11 @@
  </tileset>
  <tileset firstgid="3623" name="PuertaCB" tilewidth="32" tileheight="32" tilecount="30" columns="6">
   <image source="puertaArbol.png" trans="ff00ff" width="192" height="160"/>
-  <tile id="3">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
   <tile id="4">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
    <animation>
     <frame tileid="1" duration="500"/>
     <frame tileid="4" duration="500"/>
    </animation>
-  </tile>
-  <tile id="5">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="9">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="10">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="11">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="15">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="16">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="17">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="21">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="22">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="23">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="27">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="28">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
-  </tile>
-  <tile id="29">
-   <properties>
-    <property name="tipo" value="puertaA2"/>
-   </properties>
   </tile>
  </tileset>
  <tileset firstgid="3653" name="PuertaAA" tilewidth="32" tileheight="32" tilecount="105" columns="21">
