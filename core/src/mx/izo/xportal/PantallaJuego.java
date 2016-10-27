@@ -72,7 +72,7 @@ public class PantallaJuego implements Screen
     private Texture texturaBtnPausa;
     private Boton btnPausa;
 
-    
+
 
     // Estrellas recolectadas
     private int estrellas;
@@ -171,7 +171,6 @@ public class PantallaJuego implements Screen
         assetManager.load("salto.png", Texture.class);
         // Fin del juego
         assetManager.load("ganaste.png", Texture.class);
-
         // Se bloquea hasta que cargue todos los recursos
         assetManager.finishLoading();
     }
@@ -397,7 +396,7 @@ public class PantallaJuego implements Screen
                 for(Bala bala : balas){
                     bala.render(batch);
                     if((bala.getX() >= enemigo.getX() && bala.getX()<= (enemigo.getX()+enemigo.getSprite().getWidth()))&&
-                        (bala.getY() >= enemigo.getY() && bala.getY()<= (enemigo.getY()+enemigo.getSprite().getHeight()))) {
+                            (bala.getY() >= enemigo.getY() && bala.getY()<= (enemigo.getY()+enemigo.getSprite().getHeight()))) {
                         int vidas = enemigo.getVidas();
                         enemigo.setVidas(vidas-1);
                         bala.velocidadX = 10;
@@ -456,7 +455,7 @@ public class PantallaJuego implements Screen
             camara.position.set(ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2, camara.position.y, 0);
         }//Si el personaje se coloca en el centro de la camara
 
-         if((posY>=Plataforma.ALTO_CAMARA/2 && posY<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {
+        if((posY>=Plataforma.ALTO_CAMARA/2 && posY<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {
             // El personaje define el centro de la cámara
             camara.position.set(camara.position.x,(int)posY, 0);
         } else if ((posY>ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {    // Si está en la última mitad
@@ -491,10 +490,10 @@ public class PantallaJuego implements Screen
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
                 else if( !esVida(celda) ) {  // Las estrellas no lo detienen :)
-                // Dejarlo sobre la celda que lo detiene
-                mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
-                mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
-            }
+                    // Dejarlo sobre la celda que lo detiene
+                    mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
+                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                }
 
                 break;
             case MOV_DERECHA:       // Se mueve horizontal
