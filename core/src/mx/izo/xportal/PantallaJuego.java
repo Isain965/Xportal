@@ -83,6 +83,8 @@ public class PantallaJuego implements Screen
     private Texture texturaBalaPlanta;
     private Texture texturaBalaEmbudo;
 
+    private Texture vidas;
+
     private Texture texturaEnemigo;
     private Texture texturaEnemigo2;
 
@@ -215,6 +217,9 @@ public class PantallaJuego implements Screen
         texturaBalaEmbudo = assetManager.get("balaEmbudo.png");
         texturaBalaPlanta = assetManager.get("balaPlanta.png");
 
+        vidas=assetManager.get("pil.png");
+        //vidas.draw(plataforma,100,100);
+
         texturaEnemigo = assetManager.get("Planta.png");
         texturaEnemigo2 = assetManager.get("embudo.png");
 
@@ -273,7 +278,6 @@ public class PantallaJuego implements Screen
 
         // Entre begin-end dibujamos nuestros objetos en pantalla
         batch.begin();
-
         mario.render(batch);    // Dibuja el personaje
 
         tiempoJuego+=Gdx.graphics.getDeltaTime();

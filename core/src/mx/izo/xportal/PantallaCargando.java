@@ -88,7 +88,7 @@ public class PantallaCargando implements Screen
         assetManager.load("Planta.png",Texture.class);
         assetManager.load("balaPlanta.png",Texture.class);
         assetManager.load("balaEmbudo.png",Texture.class);
-
+        assetManager.load("pil.png",Texture.class);
         // Fin del juego
         assetManager.load("ganaste.png", Texture.class);
         // Efecto al tomar la moneda
