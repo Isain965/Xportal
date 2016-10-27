@@ -67,7 +67,7 @@ public class PantallaCargando implements Screen
         cargarRecursos();
     }
 
-    // Carga los recursos a través del administrador de assets (siguiente pantalla)
+    // Carga los recursos a través del administrador de assets (siguiente pantalla):)
     private void cargarRecursos() {
 
         Gdx.app.log("cargarRecursos","Iniciando...");
