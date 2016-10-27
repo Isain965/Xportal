@@ -109,6 +109,8 @@ public class PantallaJuego implements Screen
 
     private boolean banderaArma = false;
 
+    private boolean banderaDireccion=false;
+
 
 
     public PantallaJuego(Plataforma plataforma) {
@@ -182,7 +184,7 @@ public class PantallaJuego implements Screen
         // Crear el personaje
         mario = new Personaje(texturaPersonaje,texturaSalto);
         // Posición inicial del personaje
-        mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10, Plataforma.ALTO_CAMARA * 0.90f);
+        mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
 
         // Crear los botones
         texturaBtnIzquierda = assetManager.get("BtmIzquierdo.png");
@@ -826,9 +828,12 @@ public class PantallaJuego implements Screen
                 // Preguntar si las coordenadas están sobre el botón derecho
                 if (btnDerecha.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
+                    banderaDireccion = false;
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
+
                 } else if (btnIzquierda.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón izquierda, hacer que el personaje se mueva a la izquierda
+                    banderaDireccion = true;
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
                 } else if (btnSalto.contiene(x, y)) {
                     // Tocó el botón saltar
@@ -837,8 +842,13 @@ public class PantallaJuego implements Screen
                     // Tocó el botón disparar
                     Bala bala = new Bala(texturaBala);
                     bala.setPosicion(mario.getX(),mario.getY()+30);
-                    //bala.setDireccion(-10);
-                    balas.add(bala);
+                    if(banderaDireccion){
+                        bala.setDireccion(-10);
+                        balas.add(bala);
+                    }else {
+                        bala.setDireccion(10);
+                        balas.add(bala);
+                    }
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
@@ -895,4 +905,6 @@ public class PantallaJuego implements Screen
         PERDIO
     }
 
+    //if (bandera direccion)
+    // a la hora de generar la bala la mandamos con direccion izquierda
 }
