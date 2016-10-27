@@ -253,7 +253,7 @@ public class PantallaJuego implements Screen
         EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
         enemigoV2.setPosicion(1713,770);
         EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
-        enemigoV3.setPosicion(2855,170);
+        enemigoV3.setPosicion(2855,770);
         enemigosV.add(enemigoV1);
         enemigosV.add(enemigoV2);
         enemigosV.add(enemigoV3);
@@ -301,7 +301,7 @@ public class PantallaJuego implements Screen
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    plataforma.setScreen(new Menu(plataforma));
+                    plataforma.setScreen(new PantallaPerdiste(plataforma));
                 }
             }, 3);  // 3 segundos
         }
@@ -648,7 +648,7 @@ public class PantallaJuego implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        plataforma.setScreen(new Menu(plataforma));
+                        plataforma.setScreen(new PantallaGanaste(plataforma));
                     }
                 }, 3);  // 3 segundos
             }
@@ -660,7 +660,7 @@ public class PantallaJuego implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        plataforma.setScreen(new Menu(plataforma));
+                        plataforma.setScreen(new PantallaGanaste(plataforma));
                     }
                 }, 3);  // 3 segundos
             }
