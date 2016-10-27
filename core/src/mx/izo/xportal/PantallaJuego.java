@@ -78,7 +78,7 @@ public class PantallaJuego implements Screen
     private int estrellas;
     private int vidaf =3;
     private Texto texto;
-    private Sound sonidoEstrella, sonidoLlave;
+    private Sound sonidoEstrella, sonidoLlave,sonidoPistola;
 
     // Fin del juego, Gana o Pierde
     private Texture texturaGana;
@@ -265,6 +265,7 @@ public class PantallaJuego implements Screen
         sonidoPierde = assetManager.get("opendoor.mp3");
         sonidoVida= assetManager.get("vidawi.mp3");
         sonidoLlave=assetManager.get("llave.mp3");
+        sonidoPistola=assetManager.get("pistola.mp3");
     }
 
     /*
@@ -860,6 +861,7 @@ public class PantallaJuego implements Screen
                     mario.saltar();
                 }else if (btnDisparo.contiene(x, y)&&banderaArma) {
                     // Tocó el botón disparar
+                    sonidoPistola.play();
                     Bala bala = new Bala(texturaBala);
                     bala.setPosicion(mario.getX(),mario.getY()+30);
                     if(banderaDireccion){
