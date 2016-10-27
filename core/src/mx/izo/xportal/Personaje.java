@@ -56,12 +56,12 @@ public class Personaje {
         // Crea la animación con tiempo de 0.25 segundos entre frames.
         animacion = new Animation(0.25f, texturaPersonaje[0][7],
                 texturaPersonaje[0][2], texturaPersonaje[0][1]);
-        //animarSalto = new Animation(0.25f, texturaPersonaje[0][5],
-               // texturaPersonaje[0][2], texturaPersonaje[0][1]);
+        animarSalto = new Animation(0.25f, texturaSaltar[0][5],
+                texturaSaltar[0][2], texturaSaltar[0][1]);
 
         // Animación infinita
         animacion.setPlayMode(Animation.PlayMode.LOOP);
-        //animarSalto.setPlayMode(Animation.PlayMode.LOOP);
+        animarSalto.setPlayMode(Animation.PlayMode.LOOP);
         texturaSaltoF = new TextureRegion(texturaSaltar[0][5]);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
@@ -70,27 +70,6 @@ public class Personaje {
         estadoMovimiento = EstadoMovimiento.INICIANDO;
         estadoSalto = EstadoSalto.EN_PISO;
     }
-       /*
-    public (Texture textura){
-        // Lee la textura como región
-        TextureRegion texturaCompleta = new TextureRegion(textura);
-        // La divide en frames de 16x32 (ver marioSprite.png)
-        //TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
-        TextureRegion[][] texturaSalto = texturaCompleta.split(57,96);
-        // Crea la animación con tiempo de 0.25 segundos entre frames.
-        saltando = new Animation(0.25f,texturaSalto[0][7],
-                texturaSalto[0][2], texturaSalto[0][1] );
-        // Animación infinita
-        saltando.setPlayMode(Animation.PlayMode.LOOP);
-        // Inicia el timer que contará tiempo para saber qué frame se dibuja
-        timerAnimacion = 0;
-        // Crea el sprite cuando para el personaje quieto (idle)
-        sprite = new Sprite(texturaSalto[0][0]);    // quieto
-        estadoMovimiento = EstadoMovimiento.INICIANDO;
-        estadoSalto = EstadoSalto.EN_PISO;
-    }
-   */
-
 
     // Dibuja el personaje
     public void render(SpriteBatch batch) {
@@ -125,9 +104,22 @@ public class Personaje {
             case CAIDA_LIBRE:
                 //timerAnimacion += Gdx.graphics.getDeltaTime();
                 //TextureRegion region = animarSalto.getKeyFrame(timerAnimacion);
-                timerAnimacion = 0;
-                sprite.setRegion(texturaSaltoF);
-                sprite.draw(batch);
+                //batch.draw(region, sprite.getX(), sprite.getY());
+                //timerAnimacion = 0;
+
+                //sprite.setRegion(texturaSaltoF);
+                //sprite.setRegion(region);
+                //batch.draw(region, sprite.getX(), sprite.getY());
+                //sprite.draw(batch);
+
+                // Incrementa el timer para calcular el frame que se dibuja
+                timerAnimacion += Gdx.graphics.getDeltaTime();
+                // Obtiene el frame que se debe mostrar (de acuerdo al timer)
+                TextureRegion region = animarSalto.getKeyFrame(timerAnimacion);
+
+                // Dibuja el frame en las coordenadas del sprite
+                batch.draw(region, sprite.getX(), sprite.getY());
+                //sprite.draw(batch);
                 break;
 
         }
@@ -177,11 +169,11 @@ public class Personaje {
         TiledMapTileLayer.Cell celdaDer = capa.getCell(x + 1, y);
         if(celdaDer != null){
             Object tipo = celdaDer.getTile().getProperties().get("tipo");
-        if (!"esPiso".equals(tipo)) {
-            celdaDer = null;
+            if (!"esPiso".equals(tipo)) {
+                celdaDer = null;
+            }
         }
-        }
-       return celdaA!=null || celdaDer!= null;
+        return celdaA!=null || celdaDer!= null;
     }
 
 
@@ -211,24 +203,24 @@ public class Personaje {
             else {
                 sprite.setY(sprite.getY()+VELOCIDAD_Y);
             }
-            }
+        }
         if(y<0){
             sprite.setY(yInicial);
             estadoSalto=EstadoSalto.EN_PISO;
         }
-        }
-        // Ejecutar movimiento vertical      /*
-      //  float y = V0 * tiempoSalto - G_2 * tiempoSalto * tiempoSalto;  // Desplazamiento desde que inició el salto
-        //if (tiempoSalto > tiempoVuelo / 2) { // Llegó a la altura máxima?
-            // Inicia caída
-          //  estadoSalto = EstadoSalto.BAJANDO;
+    }
+    // Ejecutar movimiento vertical      /*
+    //  float y = V0 * tiempoSalto - G_2 * tiempoSalto * tiempoSalto;  // Desplazamiento desde que inició el salto
+    //if (tiempoSalto > tiempoVuelo / 2) { // Llegó a la altura máxima?
+    // Inicia caída
+    //  estadoSalto = EstadoSalto.BAJANDO;
 
-        //tiempoSalto += 10 * Gdx.graphics.getDeltaTime();  // Actualiza tiempo
-        //sprite.setY(yInicial + y);    // Actualiza posición
-        //if (y < 0) {
-            // Regresó al piso
-           // sprite.setY(yInicial);  // Lo deja donde inició el salto
-        //estadoSalto = EstadoSalto.EN_PISO;  // Ya no está saltando
+    //tiempoSalto += 10 * Gdx.graphics.getDeltaTime();  // Actualiza tiempo
+    //sprite.setY(yInicial + y);    // Actualiza posición
+    //if (y < 0) {
+    // Regresó al piso
+    // sprite.setY(yInicial);  // Lo deja donde inició el salto
+    //estadoSalto = EstadoSalto.EN_PISO;  // Ya no está saltando
 
 
 
