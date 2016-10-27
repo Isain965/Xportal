@@ -89,7 +89,7 @@ public class PantallaCargando implements Screen
         assetManager.load("balaPlanta.png",Texture.class);
         assetManager.load("balaEmbudo.png",Texture.class);
 
-        // Fin del juego
+        // Fin del juegod
         assetManager.load("ganaste.png", Texture.class);
         // Efecto al tomar la moneda
         assetManager.load("monedas.mp3", Sound.class);
