@@ -39,13 +39,13 @@ public class AcercaDe implements Screen {
 
     // SISTEMA DE PARTICULAS
  //   private ParticleEffect efecto;
-    private int indiceEmisor;
+   /* private int indiceEmisor;
     private Array<ParticleEmitter> emisores;
     private int cuentaParticulas;
     private float fps;
 
  //   private ParticleEffect explosion;
-
+*/
 
     public AcercaDe(Plataforma plataforma) {
         this.plataforma = plataforma;

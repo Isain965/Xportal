@@ -68,16 +68,18 @@ public class PantallaJuego implements Screen
     private Texture texturaDisparo;
     private Boton btnDisparo;
 
+    
+
     // Estrellas recolectadas
     private int estrellas;
     private int vidaf =3;
     private Texto texto;
-    private Sound sonidoEstrella;
+    private Sound sonidoEstrella, sonidoLlave;
 
     // Fin del juego, Gana o Pierde
     private Texture texturaGana;
     private Boton btnGana;
-    private Sound sonidoPierde;
+    private Sound sonidoPierde, sonidoVida;
 
     private Texture texturaBala;
     private Texture texturaBalaPlanta;
@@ -242,8 +244,10 @@ public class PantallaJuego implements Screen
         balaAnteriorV.setPosicion(enemigo1.getX(),641);
 
         // Efecto moneda
-        sonidoEstrella = assetManager.get("coin.wav");
-        sonidoPierde = assetManager.get("mariodie.wav");
+        sonidoEstrella = assetManager.get("monedas.mp3");
+        sonidoPierde = assetManager.get("opendoor.mp3");
+        sonidoVida= assetManager.get("vidawi.mp3");
+        sonidoLlave=assetManager.get("llave.mp3");
     }
 
     /*
@@ -565,12 +569,13 @@ public class PantallaJuego implements Screen
                 if(vidaf<=4){
                     vidaf++;
                 }
-                sonidoEstrella.play();
+                sonidoVida.play();
             }
             else if (esVida(capaPlataforma.getCell(celdaX,celdaY+1)) ) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
                 vidaf++;
+                sonidoVida.play();
             }
 
             else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
@@ -595,13 +600,13 @@ public class PantallaJuego implements Screen
                 eliminarLlave1();
                 estrellas++;
                 abrirPuerta1();
-                sonidoEstrella.play();
+                sonidoLlave.play();
 
             }else if (esLlave2(capaPlataforma.getCell(celdaX,celdaY))){
                 eliminarLlave2();
                 estrellas++;
                 abrirPuerta2();
-                sonidoEstrella.play();
+                sonidoLlave.play();
 
             }else if(esVida(capaPlataforma.getCell(celdaX,celdaY))){
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
