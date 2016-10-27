@@ -89,14 +89,11 @@ public class PantallaCargando implements Screen
         assetManager.load("balaPlanta.png",Texture.class);
         assetManager.load("balaEmbudo.png",Texture.class);
 
-        // Fin del juegod
+        // Fin del juego
         assetManager.load("ganaste.png", Texture.class);
         // Efecto al tomar la moneda
-        assetManager.load("monedas.mp3", Sound.class);
-        assetManager.load("opendoor.mp3", Sound.class);
-        assetManager.load("vidawi.mp3", Sound.class);
-        assetManager.load("llave.mp3", Sound.class);
-
+        assetManager.load("coin.wav", Sound.class);
+        assetManager.load("mariodie.wav", Sound.class);
         Gdx.app.log("cargarRecursos", "Terminando...");
     }
 
