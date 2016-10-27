@@ -62,7 +62,7 @@ public class Personaje {
         // Animación infinita
         animacion.setPlayMode(Animation.PlayMode.LOOP);
         //animarSalto.setPlayMode(Animation.PlayMode.LOOP);
-        texturaSaltoF = new TextureRegion(texturaSaltar[0][5]);
+        //texturaSaltoF = new TextureRegion(texturaSaltar[0][5]);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
         // Crea el sprite cuando para el personaje quieto (idle)
@@ -119,7 +119,7 @@ public class Personaje {
                 sprite.draw(batch); // Dibuja el sprite
                 break;
         }
-        switch (estadoSalto) {
+       /* switch (estadoSalto) {
             case SUBIENDO:
             case BAJANDO:
             case CAIDA_LIBRE:
@@ -130,7 +130,7 @@ public class Personaje {
                 sprite.draw(batch);
                 break;
 
-        }
+        }*/
 
     }
 
