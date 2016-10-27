@@ -68,6 +68,10 @@ public class PantallaJuego implements Screen
     private Texture texturaDisparo;
     private Boton btnDisparo;
 
+    //Boton Pausa
+    private Texture texturaBtnPausa;
+    private Boton btnPausa;
+
     
 
     // Estrellas recolectadas
@@ -85,7 +89,7 @@ public class PantallaJuego implements Screen
     private Texture texturaBalaPlanta;
     private Texture texturaBalaEmbudo;
 
-    private Texture vidas;
+    //private Texture vidas;
 
     private Texture texturaEnemigo;
     private Texture texturaEnemigo2;
@@ -208,6 +212,12 @@ public class PantallaJuego implements Screen
         btnDisparo = new Boton(texturaDisparo);
         btnDisparo.setPosicion(Plataforma.ANCHO_CAMARA - 4.5f * TAM_CELDA,  TAM_CELDA+110);
         btnDisparo.setAlfa(0.7f);
+
+        texturaBtnPausa = assetManager.get("BtmPausa.png");
+        btnPausa = new Boton(texturaBtnPausa);
+        btnPausa.setPosicion(Plataforma.ANCHO_CAMARA - 4.5f * TAM_CELDA,  TAM_CELDA+570);
+        btnPausa.setAlfa(0.7f);
+
         // Gana
         texturaGana = assetManager.get("ganaste.png");
         btnGana = new Boton(texturaGana);
@@ -219,7 +229,7 @@ public class PantallaJuego implements Screen
         texturaBalaEmbudo = assetManager.get("balaEmbudo.png");
         texturaBalaPlanta = assetManager.get("balaPlanta.png");
 
-        vidas=assetManager.get("pil.png");
+        //vidas=assetManager.get("pil.png");
         //vidas.draw(plataforma,100,100);
 
         texturaEnemigo = assetManager.get("Planta.png");
@@ -423,6 +433,7 @@ public class PantallaJuego implements Screen
             btnDerecha.render(batch);
             btnSalto.render(batch);
             btnDisparo.render(batch);
+            btnPausa.render(batch);
             // Estrellas recolectadas
             texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
             texto.mostrarMensaje(batch,"Vidas: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
@@ -858,6 +869,8 @@ public class PantallaJuego implements Screen
                         bala.setDireccion(10);
                         balas.add(bala);
                     }
+                }else if(btnPausa.contiene(x,y)){
+                    plataforma.setScreen(new PantallaPausa(plataforma));
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
