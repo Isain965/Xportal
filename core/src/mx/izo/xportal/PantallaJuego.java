@@ -208,9 +208,9 @@ public class PantallaJuego implements Screen
         btnSalto.setPosicion(Plataforma.ANCHO_CAMARA - 4.5f * TAM_CELDA,  TAM_CELDA);
         btnSalto.setAlfa(0.7f);
 
-        texturaDisparo = assetManager.get("shoot.jpg");
+        texturaDisparo = assetManager.get("shoot.png");
         btnDisparo = new Boton(texturaDisparo);
-        btnDisparo.setPosicion(Plataforma.ANCHO_CAMARA - 4.5f * TAM_CELDA,  TAM_CELDA+110);
+        btnDisparo.setPosicion(Plataforma.ANCHO_CAMARA - 4.5f * TAM_CELDA,  TAM_CELDA+150);
         btnDisparo.setAlfa(0.7f);
 
         texturaBtnPausa = assetManager.get("BtmPausa.png");
@@ -822,7 +822,7 @@ public class PantallaJuego implements Screen
         assetManager.unload("BtmSaltar.png");
         assetManager.unload("ganaste.png");
         assetManager.unload("Mapa.tmx");
-        assetManager.unload("shoot.jpg");
+        assetManager.unload("shoot.png");
         assetManager.unload("pil.png");
         assetManager.unload("bullet.png");
     }

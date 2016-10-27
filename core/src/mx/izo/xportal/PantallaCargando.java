@@ -82,7 +82,7 @@ public class PantallaCargando implements Screen
         assetManager.load("BtmDerecho.png", Texture.class);
         assetManager.load("BtmIzquierdo.png", Texture.class);
         assetManager.load("BtmSaltar.png", Texture.class);
-        assetManager.load("shoot.jpg",Texture.class);
+        assetManager.load("shoot.png",Texture.class);
         assetManager.load("bullet.png",Texture.class);
         assetManager.load("embudo.png",Texture.class);
         assetManager.load("Planta.png",Texture.class);
