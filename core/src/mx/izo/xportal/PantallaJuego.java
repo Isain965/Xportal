@@ -623,7 +623,7 @@ public class PantallaJuego implements Screen
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
                 capaPlataforma.setCell(celdaX,celdaY,null);
                 banderaArma = true;
-                sonidoEstrella.play();
+                sonidoVida.play();
             }
             else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
