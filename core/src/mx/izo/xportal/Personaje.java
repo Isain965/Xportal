@@ -66,7 +66,7 @@ public class Personaje {
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
         // Crea el sprite cuando para el personaje quieto (idle)
-        sprite = new Sprite(texturaPersonaje[0][5]);    // quieto
+        sprite = new Sprite(texturaPersonaje[0][2]);    // quieto
         estadoMovimiento = EstadoMovimiento.INICIANDO;
         estadoSalto = EstadoSalto.EN_PISO;
     }
@@ -95,6 +95,7 @@ public class Personaje {
     // Dibuja el personaje
     public void render(SpriteBatch batch) {
         switch (estadoMovimiento) {
+
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
                 // Incrementa el timer para calcular el frame que se dibuja

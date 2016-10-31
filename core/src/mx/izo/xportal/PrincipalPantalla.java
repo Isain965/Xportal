@@ -89,8 +89,7 @@ public class PrincipalPantalla implements Screen {
         // Cargar las texturas/mapas
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
 
-        assetManager.load("Izo.jpg", Texture.class);    // Cargar imagen
-        assetManager.load("Izo.jpg", Texture.class);
+        assetManager.load("PantallaDeInicio.png", Texture.class);    // Cargar imagen
         // Texturas de los botones
 
         // Se bloquea hasta que cargue todos los recursos
@@ -100,8 +99,8 @@ public class PrincipalPantalla implements Screen {
     private void crearObjetos() {
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
         // Carga el mapa en memoria
-        texturaAcercaDe = assetManager.get("Izo.jpg");
-        texturaRegresar = assetManager.get("Izo.jpg");
+        texturaAcercaDe = assetManager.get("PantallaDeInicio.png");
+        texturaRegresar = assetManager.get("PantallaDeInicio.png");
 
         btnRegresar = new Boton(texturaRegresar);
         //btnRegresar.setPosicion(3 * Plataforma.ANCHO_CAMARA / 4 - texturaRegresar.getWidth() / 2,
@@ -162,7 +161,7 @@ public class PrincipalPantalla implements Screen {
     public void dispose() {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
-        assetManager.unload("Izo.jpg");
+        assetManager.unload("PantallaDeInicio");
 //        efecto.dispose();
 //        explosion.dispose();
     }
