@@ -17,8 +17,9 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.Random;
+
 import java.util.ArrayList;
-import java.util.TimerTask;
 
 
 /**
@@ -73,7 +74,7 @@ public class MiniGame1 implements Screen
 
     // Estrellas recolectadas
     private int estrellas;
-    private int vidaf =3;
+    private int vidaf = 0;
     private Texto texto;
     private Sound sonidoEstrella, sonidoLlave;
 
@@ -82,26 +83,21 @@ public class MiniGame1 implements Screen
     private Boton btnGana;
     private Sound sonidoPierde, sonidoVida;
 
-    //private Texture texturaBala;
-    private Texture texturaBalaPlanta;
-    private Texture texturaBalaEmbudo;
-
-
 
     private float tiempoJuego=0;
 
     // Estados del juego
     private EstadosJuego estadoJuego;
 
+    private Texture texturaManzanas;
+    ArrayList<BalaV> balasL = new ArrayList<BalaV>();
 
+    ArrayList<EnemigoV> enemigosV = new ArrayList<EnemigoV>();
+    private boolean banderaDisparo=true;
 
-    private boolean llaveA = false;
-    private boolean llaveB = false;
+    private Texture texturaEnemigo2;
 
-
-    private  Bala balaAnterior;
-    private  Bala balaAnteriorV;
-
+    private Random random;
 
 
 
@@ -184,21 +180,19 @@ public class MiniGame1 implements Screen
         btnGana.setPosicion(Plataforma.ANCHO_CAMARA/2-btnGana.getRectColision().width/2,Plataforma.ALTO_CAMARA/2-btnGana.getRectColision().height/2);
         btnGana.setAlfa(0.7f);
 
-
-        texturaBalaEmbudo = assetManager.get("balaEmbudo.png");
-        texturaBalaPlanta = assetManager.get("balaPlanta.png");
-
-
-        balaAnterior = new Bala(texturaBalaPlanta);
-        balaAnterior.setPosicion(0,641);
-        balaAnteriorV = new Bala(texturaBalaEmbudo);
-        balaAnteriorV.setPosicion(-5,641);
+        texturaManzanas = assetManager.get("Apple.png");
 
         // Efecto moneda
         sonidoEstrella = assetManager.get("monedas.mp3");
         sonidoPierde = assetManager.get("opendoor.mp3");
         sonidoVida= assetManager.get("vidawi.mp3");
         sonidoLlave=assetManager.get("llave.mp3");
+
+        texturaEnemigo2 = assetManager.get("embudo.png");
+
+        EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
+        enemigoV1.setPosicion(100,700);
+        enemigosV.add(enemigoV1);
 
     }
 
@@ -230,13 +224,56 @@ public class MiniGame1 implements Screen
         mario.render(batch);    // Dibuja el personaje
 
         tiempoJuego+=Gdx.graphics.getDeltaTime();
-        Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
+        //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
-        if(vidaf==0){
+        for (EnemigoV enemigoV:enemigosV){
+            if (enemigoV.getVidas()>0){
+                enemigoV.render(batch);
+
+                if((int)tiempoJuego==1&&banderaDisparo){
+                    BalaV balaEnJuego = new BalaV(texturaManzanas);
+                    balaEnJuego.setDireccion(-3);
+                    balaEnJuego.setPosicion(enemigoV.getX()+50,enemigoV.getY()+50);
+                    balasL.add(balaEnJuego);
+                    banderaDisparo = false;
+                    tiempoJuego = 0;
+                    enemigoV.setPosicion((int) (1220 * Math.random()) + 1,750);
+
+                }
+
+                for(BalaV bala: balasL){
+                    bala.render(batch);
+                    banderaDisparo = true;
+                    if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
+                            (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigoV.getSprite().getHeight()))) {
+                        int vidas = enemigoV.getVidas();
+                        if (vidaf<20){
+                            vidaf+=1;
+                        }
+                        bala.velocidadX = 10;
+                        //Borrar de memoria
+                        bala.setPosicion(0, 1000);
+                    }
+                }
+                if(tiempoJuego>6){
+                    //ISAIN EL HACKER :)
+                    tiempoJuego=0;
+                }
+            }
+            else{
+                //Borrar de memoria
+                enemigoV.setPosicion(0,2000);
+            }
+
+        }
+
+
+
+        if(vidaf==20){
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    plataforma.setScreen(new PantallaPerdiste(plataforma));
+                    plataforma.setScreen(new PantallaCargando(plataforma));
                 }
             }, 3);  // 3 segundos
         }
@@ -257,8 +294,8 @@ public class MiniGame1 implements Screen
             btnSalto.render(batch);
             btnPausa.render(batch);
             // Estrellas recolectadas
-            texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
-            texto.mostrarMensaje(batch,"Life: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
+            texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA/2-200,Plataforma.ALTO_CAMARA*0.95f);
+            texto.mostrarMensaje(batch,"POINTS: "+vidaf,Plataforma.ANCHO_CAMARA/2+200,Plataforma.ALTO_CAMARA*0.95f);
         }
         batch.end();
     }
@@ -429,15 +466,11 @@ public class MiniGame1 implements Screen
                     }
                 }, 3);
             } else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
-                eliminarLlave1();
                 estrellas++;
-                abrirPuerta1();
                 sonidoLlave.play();
 
             }else if (esLlave2(capaPlataforma.getCell(celdaX,celdaY))){
-                eliminarLlave2();
                 estrellas++;
-                abrirPuerta2();
                 sonidoLlave.play();
 
             }else if(esVida(capaPlataforma.getCell(celdaX,celdaY))){
@@ -456,7 +489,7 @@ public class MiniGame1 implements Screen
         }
 
         if ( capaPlataforma1.getCell(celdaX,celdaY) != null || capaPlataforma1.getCell(celdaX,celdaY+1) != null ) {
-            if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) && llaveA ) {
+            if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 Timer.schedule(new Timer.Task() {
@@ -468,7 +501,7 @@ public class MiniGame1 implements Screen
             }
         }
         if ( capaPlataforma2.getCell(celdaX,celdaY) != null || capaPlataforma2.getCell(celdaX,celdaY+1) != null ) {
-            if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) && llaveB) {
+            if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) )) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 Timer.schedule(new Timer.Task() {
@@ -483,64 +516,6 @@ public class MiniGame1 implements Screen
             mario.actualizar();
         }
     }
-
-    private void abrirPuerta1() {
-        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(3);
-        capaPlataforma.setVisible(false);
-        capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(4);
-        capaPlataforma.setVisible(true);
-    }
-
-    private void abrirPuerta2() {
-        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(5);
-        capaPlataforma.setVisible(false);
-        capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(6);
-        capaPlataforma.setVisible(true);
-    }
-
-    private void eliminarLlave2() {
-        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
-        capaPlataforma.setCell(68,23,null);
-        capaPlataforma.setCell(68,24,null);
-        capaPlataforma.setCell(68,25,null);
-        capaPlataforma.setCell(68,26,null);
-        capaPlataforma.setCell(68,27,null);
-        capaPlataforma.setCell(69,23,null);
-        capaPlataforma.setCell(69,24,null);
-        capaPlataforma.setCell(69,25,null);
-        capaPlataforma.setCell(69,26,null);
-        capaPlataforma.setCell(69,27,null);
-        capaPlataforma.setCell(70,23,null);
-        capaPlataforma.setCell(70,24,null);
-        capaPlataforma.setCell(70,25,null);
-        capaPlataforma.setCell(70,26,null);
-        capaPlataforma.setCell(70,27,null);
-        llaveB = true;
-
-    }
-
-    private void eliminarLlave1() {
-        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
-        capaPlataforma.setCell(38,22,null);
-        capaPlataforma.setCell(38,21,null);
-        capaPlataforma.setCell(38,20,null);
-        capaPlataforma.setCell(38,19,null);
-        capaPlataforma.setCell(38,18,null);
-        capaPlataforma.setCell(39,22,null);
-        capaPlataforma.setCell(39,21,null);
-        capaPlataforma.setCell(39,20,null);
-        capaPlataforma.setCell(39,19,null);
-        capaPlataforma.setCell(39,18,null);
-        capaPlataforma.setCell(40,22,null);
-        capaPlataforma.setCell(40,21,null);
-        capaPlataforma.setCell(40,20,null);
-        capaPlataforma.setCell(40,19,null);
-        capaPlataforma.setCell(40,18,null);
-        llaveA = true;
-    }
-
-
-
     // Verifica si esta casilla tiene una estrella (simplificar con la anterior)
     private boolean esCoin(TiledMapTileLayer.Cell celda) {
         if (celda==null) {

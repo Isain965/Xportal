@@ -89,6 +89,7 @@ public class CargandoMiniGame1 implements Screen
         assetManager.load("balaPlanta.png",Texture.class);
         assetManager.load("balaEmbudo.png",Texture.class);
         assetManager.load("BtmPausa.png",Texture.class);
+        assetManager.load("embudo.png",Texture.class);
 
         // Fin del juego
         assetManager.load("ganaste.png", Texture.class);
@@ -98,6 +99,7 @@ public class CargandoMiniGame1 implements Screen
         assetManager.load("opendoor.mp3", Sound.class);
         assetManager.load("vidawi.mp3", Sound.class);
         assetManager.load("pistola.mp3",Sound.class);
+        assetManager.load("Apple.png", Texture.class);
         Gdx.app.log("cargarRecursos", "Terminando...");
     }
 
