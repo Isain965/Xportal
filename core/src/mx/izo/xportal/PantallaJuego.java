@@ -339,7 +339,7 @@ public class PantallaJuego implements Screen
                 }
 
                 for(Bala bala : balas){
-                    bala.render(batch);
+                    bala.render(batch,banderaDireccion);
                     if((bala.getX() >= enemigoV.getX() && bala.getX()<= (enemigoV.getX()+enemigoV.getSprite().getWidth()))&&
                             (bala.getY() >= enemigoV.getY() && bala.getY()<= (enemigoV.getY()+enemigoV.getSprite().getHeight()))) {
                         int vidas = enemigoV.getVidas();
@@ -381,7 +381,7 @@ public class PantallaJuego implements Screen
 
 
                 for(Bala bala: balasEnemigos){
-                    bala.render(batch);
+                    bala.render(batch,banderaDireccion);
                     banderaDisparo = true;
                     if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
                             (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigo.getSprite().getHeight()))) {
@@ -394,7 +394,7 @@ public class PantallaJuego implements Screen
                 }
 
                 for(Bala bala : balas){
-                    bala.render(batch);
+                    bala.render(batch,banderaDireccion);
                     if((bala.getX() >= enemigo.getX() && bala.getX()<= (enemigo.getX()+enemigo.getSprite().getWidth()))&&
                             (bala.getY() >= enemigo.getY() && bala.getY()<= (enemigo.getY()+enemigo.getSprite().getHeight()))) {
                         int vidas = enemigo.getVidas();
@@ -416,7 +416,7 @@ public class PantallaJuego implements Screen
 
         //Dibuja las balas del personaje
         for(Bala bala : balas){
-            bala.render(batch);
+            bala.render(batch,banderaDireccion);
         }
 
         batch.end();
