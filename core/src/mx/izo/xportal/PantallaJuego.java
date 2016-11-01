@@ -598,21 +598,21 @@ public class PantallaJuego implements Screen
             else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
-                Timer.schedule(new Timer.Task() {
+                /*Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
                         plataforma.setScreen(new Menu(plataforma));
                     }
-                }, 3);  // 3 segundos
+                }, 3);  // 3 segundos*/
             } else if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
-                Timer.schedule(new Timer.Task() {
+                /*Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
                         plataforma.setScreen(new Menu(plataforma));
                     }
-                }, 3);
+                }, 3);*/
             } else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
                 eliminarLlave1();
                 estrellas++;
@@ -648,7 +648,7 @@ public class PantallaJuego implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        plataforma.setScreen(new PantallaGanaste(plataforma));
+                        plataforma.setScreen(new CargandoMiniGame1(plataforma));
                     }
                 }, 3);  // 3 segundos
             }
@@ -660,7 +660,7 @@ public class PantallaJuego implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        plataforma.setScreen(new PantallaGanaste(plataforma));
+                        plataforma.setScreen(new CargandoMiniGame1(plataforma));
                     }
                 }, 3);  // 3 segundos
             }
