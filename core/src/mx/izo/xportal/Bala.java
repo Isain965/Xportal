@@ -55,6 +55,10 @@ public class Bala {
         sprite.setPosition(x, y);
     }
 
+    public void setVelocidadX(float vel){
+        this.velocidadX = vel;
+    }
+
     public void setDir(int dir){
         this.dir = dir;
     }

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class PantallaMGDos implements Screen
 {
-    public static final float ANCHO_MAPA = 4000;   // Ancho del mapa en pixeles
+    public static final float ANCHO_MAPA = 1280;   // Ancho del mapa en pixeles
     public static final float ALTO_MAPA = 896;
 
     // Referencia al objeto de tipo Game (tiene setScreen para cambiar de pantalla)
@@ -194,6 +194,7 @@ public class PantallaMGDos implements Screen
         texturaSalto = assetManager.get("salto.png");
         // Crear el personaje
         mario = new Personaje(texturaPersonaje,texturaSalto);
+        mario.setVelocidadX(4);
         // Posición inicial del personaje
         //mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
         mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 2,50);
@@ -577,6 +578,9 @@ public class PantallaMGDos implements Screen
         //******************************
         if ( capaPlataforma.getCell(celdaX,celdaY) != null || capaPlataforma.getCell(celdaX,celdaY+1) != null ) {
             // Colisionará, dejamos de moverlo
+            if(mario.getX()<ANCHO_MAPA && mario.getX()>ANCHO_MAPA-150){//si llega al extremo del mapa
+                mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+            }else
             if ( esCoin(capaPlataforma.getCell(celdaX,celdaY)) ) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY,null);
