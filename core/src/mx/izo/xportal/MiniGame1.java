@@ -237,8 +237,7 @@ public class MiniGame1 implements Screen
                     balasL.add(balaEnJuego);
                     banderaDisparo = false;
                     tiempoJuego = 0;
-                    enemigoV.setPosicion((int) (1220 * Math.random()) + 1,750);
-
+                    enemigoV.setPosicion((int) (1220 * Math.random()) + 1,550);
                 }
 
                 for(BalaV bala: balasL){
