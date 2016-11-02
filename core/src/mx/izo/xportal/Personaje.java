@@ -17,7 +17,9 @@ public class Personaje {
     }
 
     public static final float VELOCIDAD_Y = -4f;   // Velocidad de caída
-    public static final float VELOCIDAD_X = 2;     // Velocidad horizontal
+    //ya no sera estático
+    //public static final float VELOCIDAD_X = 2;     // Velocidad horizontal
+    public static float VELOCIDAD_X = 2;     // Velocidad horizontal
 
     private Sprite sprite, spriteSalto;  // Sprite cuando no se mueve
 
@@ -263,6 +265,10 @@ public class Personaje {
 
     public void setEstadoSalto(EstadoSalto estadoSalto) {
         this.estadoSalto = estadoSalto;
+    }
+
+    public void setVelocidadX(float vel){
+        this.VELOCIDAD_X = vel;
     }
 
     // Inicia el salto

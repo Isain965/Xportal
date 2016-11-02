@@ -108,6 +108,8 @@ public class PantallaMGDos implements Screen
     ArrayList<Bala> balasEnemigos = new ArrayList<Bala>();
     ArrayList<BalaV> balasEnemigosV = new ArrayList<BalaV>();
 
+    //balas
+
     private boolean llaveA = false;
     private boolean llaveB = false;
 
@@ -342,7 +344,9 @@ public class PantallaMGDos implements Screen
                 }
 
                 for(Bala bala : balas){
+                    bala.setDir(1);
                     bala.render(batch,banderaDireccion);
+                    //bala.render(batch,true);//en este caso solo sera una direccion, hacia arriba
                     if((bala.getX() >= enemigoV.getX() && bala.getX()<= (enemigoV.getX()+enemigoV.getSprite().getWidth()))&&
                             (bala.getY() >= enemigoV.getY() && bala.getY()<= (enemigoV.getY()+enemigoV.getSprite().getHeight()))) {
                         int vidas = enemigoV.getVidas();
@@ -385,7 +389,7 @@ public class PantallaMGDos implements Screen
 
                 for(Bala bala: balasEnemigos){
                     bala.render(batch,banderaDireccion);
-                    banderaDisparo = true;
+                    //banderaDisparo = true;
                     if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
                             (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigo.getSprite().getHeight()))) {
                         int vidas = enemigo.getVidas();
@@ -856,7 +860,7 @@ public class PantallaMGDos implements Screen
 
                 } else if (btnIzquierda.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón izquierda, hacer que el personaje se mueva a la izquierda
-                    banderaDireccion = true;
+                    //banderaDireccion = true;
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
                 }/* else if (btnSalto.contiene(x, y)) {
                     // Tocó el botón saltar

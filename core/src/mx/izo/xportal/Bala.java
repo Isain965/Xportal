@@ -23,7 +23,8 @@ public class Bala {
         sprite = new Sprite(texturaBala);
     }
 
-    public void render(SpriteBatch batch, boolean bandera) {
+    //el boolean bandera es para definir la direccion
+    public void render(SpriteBatch batch, boolean bandera) {//De que es esta bandera? comenten su código
 
         TextureRegion region = sprite;
         if (bandera) {
@@ -35,10 +36,10 @@ public class Bala {
                 region.flip(true, false);
             }
         }
-        if(dir == 0) {
+        if(dir == 0) {//por defecto dispara solo en el eje de las x
             x = sprite.getX() + velocidadX;
             sprite.setX(x);
-        } else if(dir == 1) {
+        } else if(dir == 1) {//se cambia con el setter de dir para disparar a las Y
             y = sprite.getY() + velocidadX;
             sprite.setY(y);
         }
