@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
- * Created by k3ll3x on 10/11/2016.
+ * Created by k3ll3x on 10/11/2016..
  */
 public class CargandoMGDos implements Screen
 {
