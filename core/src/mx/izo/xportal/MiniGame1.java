@@ -273,7 +273,7 @@ public class MiniGame1 implements Screen
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    plataforma.setScreen(new PantallaCargando(plataforma));
+                    plataforma.setScreen(new PantallaGanaste(plataforma));
                 }
             }, 3);  // 3 segundos
         }
