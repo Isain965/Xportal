@@ -15,8 +15,8 @@ public class Bala {
 
     private Sprite sprite;
     public float velocidadX = 10;
-    private float x;
-
+    private float x,y;
+    private int dir = 0;//cero es para movimiento en x si es uno movimiento en y
 
     public Bala(Texture textura) {
         TextureRegion texturaBala = new TextureRegion(textura);
@@ -35,8 +35,13 @@ public class Bala {
                 region.flip(true, false);
             }
         }
-        x = sprite.getX() + velocidadX;
-        sprite.setX(x);
+        if(dir == 0) {
+            x = sprite.getX() + velocidadX;
+            sprite.setX(x);
+        } else if(dir == 1) {
+            y = sprite.getY() + velocidadX;
+            sprite.setY(y);
+        }
         batch.draw(region, sprite.getX(), sprite.getY());
 
     }
@@ -47,6 +52,10 @@ public class Bala {
 
     public void setPosicion(float x, float y) {
         sprite.setPosition(x, y);
+    }
+
+    public void setDir(int dir){
+        this.dir = dir;
     }
 
     public float getX() {
