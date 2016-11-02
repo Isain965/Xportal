@@ -15,9 +15,9 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
- * Created by isain on 10/11/2016.
+ * Created by k3ll3x on 10/11/2016.
  */
-public class PantallaCargando implements Screen
+public class CargandoMGDos implements Screen
 {
     private Plataforma plataforma;
 
@@ -34,7 +34,7 @@ public class PantallaCargando implements Screen
 
     private AssetManager assetManager;  // Asset manager principal
 
-    public PantallaCargando(Plataforma plataforma) {
+    public CargandoMGDos(Plataforma plataforma) {
         this.plataforma = plataforma;
         this.assetManager = plataforma.getAssetManager();
     }
@@ -124,7 +124,7 @@ public class PantallaCargando implements Screen
 
         if (assetManager.update()) {
             // Terminó la carga, cambiar de pantalla
-            plataforma.setScreen(new PantallaJuego(plataforma));
+            plataforma.setScreen(new PantallaMGDos(plataforma));
         } else {
             // Aún no termina la carga de assets, leer el avance
             float avance = assetManager.getProgress()*100;

@@ -35,7 +35,7 @@ public class Nave {
         switch(estadoMovimiento){
             case MOV_DERECHA:
                 x += vel;
-                if(x<=PantallaMapaMGUno.ANCHO_MAPA-sprite.getWidth()){
+                if(x<=PantallaMGDos.ANCHO_MAPA-sprite.getWidth()){
                     sprite.setX(x);
                 }
                 break;
