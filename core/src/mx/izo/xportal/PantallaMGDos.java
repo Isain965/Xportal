@@ -873,6 +873,7 @@ public class PantallaMGDos implements Screen
                     // Tocó el botón disparar
                     sonidoPistola.play();
                     Bala bala = new Bala(texturaBala);
+                    bala.setVelocidadX(5);
                     bala.setPosicion(mario.getX(),mario.getY()+30);
                     if(banderaDireccion){
                         bala.setDireccion(-10);
