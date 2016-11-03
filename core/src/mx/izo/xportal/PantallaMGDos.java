@@ -506,55 +506,15 @@ public class PantallaMGDos implements Screen
 
                 break;
             case MOV_DERECHA:       // Se mueve horizontal
+                //mario.getSprite().setX(mario.getSprite().getX() + 4);
+                //break;
             case MOV_IZQUIERDA:
+                //mario.getSprite().setX(mario.getSprite().getX() - 4);
                 probarChoqueParedes();      // Prueba si debe moverse
                 break;
         }
 
-        // Prueba si debe caer por llegar a un espacio vacío
-        if ( mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO
-                && (mario.getEstadoSalto() != Personaje.EstadoSalto.SUBIENDO) ) {
-            // Calcula la celda donde estaría después de moverlo
-            int celdaX = (int) (mario.getX() / TAM_CELDA);
-            int celdaY = (int) ((mario.getY() + mario.VELOCIDAD_Y) / TAM_CELDA);
-            // Recuperamos la celda en esta posición
-            // La capa 0 es el fondo
-            TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
-            TiledMapTileLayer.Cell celdaAbajo = capa.getCell(celdaX, celdaY);
-            TiledMapTileLayer.Cell celdaDerecha = capa.getCell(celdaX+1, celdaY);
-            // probar si la celda está ocupada
-            if ( (celdaAbajo==null && celdaDerecha==null) || esCoin(celdaAbajo) || esCoin(celdaDerecha) ) {
-                // Celda vacía, entonces el personaje puede avanzar
-                mario.caer();
-                mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
-            }
-            else if( (celdaAbajo==null && celdaDerecha==null) || esVida(celdaAbajo) || esVida(celdaDerecha) ) {
-                // Celda vacía, entonces el personaje puede avanzar
-                mario.caer();
-                mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
-            }
-            else {
-                // Dejarlo sobre la celda que lo detiene
-                mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
-                mario.setEstadoSalto(Personaje.EstadoSalto.EN_PISO);
 
-                /*if ( esMoneda(celdaAbajo) || esMoneda(celdaDerecha)) {
-                    // La encontró!!!!
-                    estadoJuego = EstadosJuego.GANO;
-                    btnIzquierda.setAlfa(0.2f);
-                    btnDerecha.setAlfa(0.2f);
-                    btnSalto.setAlfa(0.2f);
-                }*/
-            }
-        }
-
-        // Saltar
-        switch (mario.getEstadoSalto()) {
-            case SUBIENDO:
-            case BAJANDO:
-                mario.actualizarSalto(mapa);    // Actualizar posición en 'y'
-                break;
-        }
     }
 
     // Prueba si puede moverse a la izquierda o derecha
