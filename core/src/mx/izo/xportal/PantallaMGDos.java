@@ -193,7 +193,8 @@ public class PantallaMGDos implements Screen
         texturaPersonaje = assetManager.get("marioSprite.png");
         texturaSalto = assetManager.get("salto.png");
         // Crear el personaje
-        mario = new Personaje(texturaPersonaje,texturaSalto);
+        //mario = new Personaje(texturaPersonaje,texturaSalto);
+        mario = new Personaje(texturaPersonaje);
         mario.setVelocidadX(4);
         // Posición inicial del personaje
         //mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
