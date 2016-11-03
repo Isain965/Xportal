@@ -817,14 +817,33 @@ public class PantallaJuego implements Screen
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
         assetManager.unload("marioSprite.png");
+        assetManager.unload("ganaste.png");
+        assetManager.unload("salto.png");
+        assetManager.unload("Mapa.tmx");
+        assetManager.unload("pil.png");
         assetManager.unload("BtmDerecho.png");
         assetManager.unload("BtmIzquierdo.png");
         assetManager.unload("BtmSaltar.png");
-        assetManager.unload("ganaste.png");
-        assetManager.unload("Mapa.tmx");
         assetManager.unload("shoot.png");
-        assetManager.unload("pil.png");
         assetManager.unload("bullet.png");
+        assetManager.unload("embudo.png");
+        assetManager.unload("Planta.png");
+        assetManager.unload("balaPlanta.png");
+        assetManager.unload("balaEmbudo.png");
+        assetManager.unload("BtmPausa.png");
+        // Fin del juego
+        assetManager.unload("ganaste.png");
+        // Efecto al tomar la moneda
+        assetManager.unload("monedas.mp3");
+        assetManager.unload("llave.mp3");
+        assetManager.unload("opendoor.mp3");
+        assetManager.unload("vidawi.mp3");
+        assetManager.unload("pistola.mp3");
+
+       assetManager.unload("balaEmbudo.png");
+        assetManager.unload("balaPlanta.png");
+
+        assetManager.unload("Planta.png");
     }
 
     /*
