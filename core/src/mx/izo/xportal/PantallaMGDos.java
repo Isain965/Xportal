@@ -183,14 +183,14 @@ public class PantallaMGDos implements Screen
     private void crearObjetos() {
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
         // Carga el mapa en memoria
-        mapa = assetManager.get("Mapa.tmx");
+        mapa = assetManager.get("inv.tmx");
         //mapa.getLayers().get(0).setVisible(false);    // Pueden ocultar una capa así
         // Crear el objeto que dibujará el mapa
 
         rendererMapa = new OrthogonalTiledMapRenderer(mapa,batch);
         rendererMapa.setView(camara);
         // Cargar frames
-        texturaPersonaje = assetManager.get("marioSprite.png");
+        texturaPersonaje = assetManager.get("nave.png");
         texturaSalto = assetManager.get("salto.png");
         // Crear el personaje
         //mario = new Personaje(texturaPersonaje,texturaSalto);
@@ -610,6 +610,7 @@ public class PantallaMGDos implements Screen
             else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
+                estadoJuego = EstadosJuego.PERDIO;
                 /*Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
@@ -828,12 +829,12 @@ public class PantallaMGDos implements Screen
     public void dispose() {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
-        assetManager.unload("marioSprite.png");
+        assetManager.unload("nave.png");
         assetManager.unload("BtmDerecho.png");
         assetManager.unload("BtmIzquierdo.png");
         assetManager.unload("BtmSaltar.png");
         assetManager.unload("ganaste.png");
-        assetManager.unload("Mapa.tmx");
+        assetManager.unload("inv.tmx");
         assetManager.unload("shoot.png");
         assetManager.unload("pil.png");
         assetManager.unload("bala.png");

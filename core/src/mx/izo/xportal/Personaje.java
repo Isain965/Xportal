@@ -207,7 +207,9 @@ public class Personaje {
 
     public void caer() {
         timerAnimacion=0;
-        sprite.setY(sprite.getY() + VELOCIDAD_Y);
+        if(sprite.getY()>sprite.getScaleY()) {
+            sprite.setY(sprite.getY() + VELOCIDAD_Y);
+        }
     }
 
     // Actualiza la posición en 'y', está saltando
