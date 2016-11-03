@@ -83,7 +83,7 @@ public class CargandoMGDos implements Screen
         assetManager.load("BtmIzquierdo.png", Texture.class);
         assetManager.load("BtmSaltar.png", Texture.class);
         assetManager.load("shoot.png",Texture.class);
-        assetManager.load("bullet.png",Texture.class);
+        assetManager.load("bala.png",Texture.class);
         assetManager.load("embudo.png",Texture.class);
         assetManager.load("Planta.png",Texture.class);
         assetManager.load("balaPlanta.png",Texture.class);

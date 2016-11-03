@@ -12,10 +12,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Personaje {
 
-    public Personaje(Texture textura){
-        sprite = new Sprite(textura);
-    }
-
     public static final float VELOCIDAD_Y = -4f;   // Velocidad de caída
     //ya no sera estático
     //public static final float VELOCIDAD_X = 2;     // Velocidad horizontal
@@ -42,7 +38,21 @@ public class Personaje {
     private float tiempoSalto;// Tiempo actual de vuelo
 
     private TextureRegion texturaSaltoF;
+    private TextureRegion pers;
     float x;
+
+    private boolean normal = true;
+
+    //constructor que se usara en el minigame dos
+    public Personaje(Texture textura){
+        sprite = new Sprite(textura);
+        pers = new TextureRegion(textura);
+        estadoMovimiento = EstadoMovimiento.INICIANDO;
+        estadoSalto = EstadoSalto.EN_PISO;
+        timerAnimacion = 0;
+        normal = false;
+    }
+
     /*
     Constructor del personaje, recibe una imagen con varios frames, (ver imagen marioSprite.png)
      */
@@ -100,23 +110,28 @@ public class Personaje {
 
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
-                // Incrementa el timer para calcular el frame que se dibuja
-                timerAnimacion += Gdx.graphics.getDeltaTime();
-                // Obtiene el frame que se debe mostrar (de acuerdo al timer)
-                TextureRegion region = animacion.getKeyFrame(timerAnimacion);
-                // Dirección correcta
-                if (estadoMovimiento == EstadoMovimiento.MOV_IZQUIERDA) {
-                    if (!region.isFlipX()) {
-                        region.flip(true, false);
+                if(normal) {
+                    // Incrementa el timer para calcular el frame que se dibuja
+                    timerAnimacion += Gdx.graphics.getDeltaTime();
+                    // Obtiene el frame que se debe mostrar (de acuerdo al timer)
+                    TextureRegion region = animacion.getKeyFrame(timerAnimacion);
+                    // Dirección correcta
+                    if (estadoMovimiento == EstadoMovimiento.MOV_IZQUIERDA) {
+                        if (!region.isFlipX()) {
+                            region.flip(true, false);
+                        }
+                    } else {
+                        if (region.isFlipX()) {
+                            region.flip(true, false);
+                        }
                     }
-                } else {
-                    if (region.isFlipX()) {
-                        region.flip(true, false);
-                    }
+                    // Dibuja el frame en las coordenadas del sprite
+                    batch.draw(region, sprite.getX(), sprite.getY());
+                    break;
+                }else{
+                    batch.draw(pers,sprite.getX(),sprite.getY());
+                    break;
                 }
-                // Dibuja el frame en las coordenadas del sprite
-                batch.draw(region, sprite.getX(), sprite.getY());
-                break;
             case INICIANDO:
             case QUIETO:
                 sprite.draw(batch); // Dibuja el sprite

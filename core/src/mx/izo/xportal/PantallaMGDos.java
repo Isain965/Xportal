@@ -231,7 +231,7 @@ public class PantallaMGDos implements Screen
         btnGana.setAlfa(0.7f);
 
 
-        texturaBala = assetManager.get("bullet.png");
+        texturaBala = assetManager.get("bala.png");
         texturaBalaEmbudo = assetManager.get("balaEmbudo.png");
         texturaBalaPlanta = assetManager.get("balaPlanta.png");
 
@@ -836,7 +836,7 @@ public class PantallaMGDos implements Screen
         assetManager.unload("Mapa.tmx");
         assetManager.unload("shoot.png");
         assetManager.unload("pil.png");
-        assetManager.unload("bullet.png");
+        assetManager.unload("bala.png");
     }
 
     /*
