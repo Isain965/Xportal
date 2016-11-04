@@ -286,9 +286,9 @@ public class PantallaJuego implements Screen
     Este método se está ejecutando muchas veces por segundo.
      */
 
-    public void bajaBarraVidas(Sprite sprite, float alturaActual){
-        sprite.setRegion(0, 0, (int) sprite.getWidth(), (int) alturaActual); //cast importante
-        sprite.setSize(sprite.getWidth(), alturaActual);
+    public void bajaBarraVidas(Sprite sprite, float size){
+        //sprite.setRegion(0, 0, (int) size, (int) sprite.getHeight()); //cast importante
+        sprite.setSize(size, sprite.getHeight());
     }
 
     @Override
@@ -297,12 +297,18 @@ public class PantallaJuego implements Screen
         //barra vidas pregunta cuantas existen
         float barraSizeOriginal = spriteVidas.getWidth();
         float barraSizeActual=0;
-        if(vidaf!=0) {
-            barraSizeActual = barraSizeOriginal / vidaf;
-        }else{
-            barraSizeActual=0;
+        if(vidaf==1) {
+            barraSizeActual = 32;
+        }else if(vidaf==2){
+            barraSizeActual=64;
+        }else if(vidaf==3){
+            barraSizeActual=128;
+        }else if(vidaf==4){
+            barraSizeActual=160;
         }
-        bajaBarraVidas(spriteVidas,barraSizeActual);
+        //bajaBarraVidas(spriteVidas,barraSizeActual);
+        //spriteVidas.setRegion(0, 0, (int) barraSizeActual, (int) spriteVidas.getHeight()); //cast importante
+        spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
 
         if (estadoJuego!=EstadosJuego.PERDIO) {
             // Actualizar objetos en la pantalla
