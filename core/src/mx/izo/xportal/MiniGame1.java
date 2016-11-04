@@ -609,11 +609,20 @@ public class MiniGame1 implements Screen
         assetManager.unload("BtmDerecho.png");
         assetManager.unload("BtmIzquierdo.png");
         assetManager.unload("BtmSaltar.png");
+        assetManager.unload("BtmPausa.png");
         assetManager.unload("ganaste.png");
         assetManager.unload("Mapa.tmx");
+        assetManager.unload("Apple.tmx");
         assetManager.unload("shoot.png");
         assetManager.unload("pil.png");
         assetManager.unload("bullet.png");
+        assetManager.unload("embudo.png");
+        assetManager.unload("saltp.png");
+        assetManager.unload("MiniGameMapa.tmx");
+        assetManager.unload("monedas.mp3");
+        assetManager.unload("opendoor.mp3");
+        assetManager.unload("vidawi.mp3");
+        assetManager.unload("llave.mp3");
     }
 
     /*

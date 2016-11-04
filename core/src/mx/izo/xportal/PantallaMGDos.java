@@ -793,11 +793,18 @@ public class PantallaMGDos implements Screen
         assetManager.unload("BtmDerecho.png");
         assetManager.unload("BtmIzquierdo.png");
         assetManager.unload("BtmSaltar.png");
+        assetManager.unload("BtmPausa.png");
         assetManager.unload("ganaste.png");
         assetManager.unload("inv.tmx");
         assetManager.unload("shoot.png");
+        assetManager.unload("salto.png");
         assetManager.unload("pil.png");
         assetManager.unload("bala.png");
+        assetManager.unload("balaEmbudo.png");
+        assetManager.unload("balaPlanta.png");
+        assetManager.unload("Planta.png");
+        assetManager.unload("embudo.png");
+
     }
 
     /*
