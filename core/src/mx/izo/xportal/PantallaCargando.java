@@ -76,6 +76,9 @@ public class PantallaCargando implements Screen
         assetManager.load("marioSprite.png", Texture.class);
         assetManager.load("salto.png", Texture.class);
 
+        //cargar barra
+        assetManager.load("barra.png",Texture.class);
+
 
         // Cargar imagen
         // Texturas de los botones
