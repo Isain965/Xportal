@@ -294,6 +294,16 @@ public class PantallaJuego implements Screen
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
 
+        //barra vidas pregunta cuantas existen
+        float barraSizeOriginal = spriteVidas.getWidth();
+        float barraSizeActual=0;
+        if(vidaf!=0) {
+            barraSizeActual = barraSizeOriginal / vidaf;
+        }else{
+            barraSizeActual=0;
+        }
+        bajaBarraVidas(spriteVidas,barraSizeActual);
+
         if (estadoJuego!=EstadosJuego.PERDIO) {
             // Actualizar objetos en la pantalla
             moverPersonaje();
