@@ -153,6 +153,7 @@ public class MiniGame1 implements Screen
         mario = new Personaje(texturaPersonaje,texturaSalto);
         // Posición inicial del personaje
         mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
+        mario.setVelocidadX(3);
 
         // Crear los botones
         texturaBtnIzquierda = assetManager.get("BtmIzquierdo.png");
@@ -237,7 +238,7 @@ public class MiniGame1 implements Screen
                     balasL.add(balaEnJuego);
                     banderaDisparo = false;
                     tiempoJuego = 0;
-                    enemigoV.setPosicion((int) (1220 * Math.random()) + 1,550);
+                    enemigoV.setPosicion((int) (1220 * Math.random()) + 1,700);
                 }
 
                 for(BalaV bala: balasL){

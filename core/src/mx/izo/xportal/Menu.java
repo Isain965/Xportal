@@ -224,9 +224,9 @@ public class Menu implements Screen
             }else if (btnExit.contiene(x,y)){
                 //System.exit(0);
                 //Un test para el minigame
-                //plataforma.setScreen(new CargandoMiniGame1(plataforma));
+                plataforma.setScreen(new CargandoMiniGame1(plataforma));
                 //plataforma.setScreen(new CargandoMiniGameDos(plataforma));
-                plataforma.setScreen(new CargandoMGDos(plataforma));
+                //plataforma.setScreen(new CargandoMGDos(plataforma));
             }
             return true;    // Indica que ya procesó el evento
         }

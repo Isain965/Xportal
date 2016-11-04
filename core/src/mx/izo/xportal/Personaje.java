@@ -109,6 +109,28 @@ public class Personaje {
         switch (estadoMovimiento) {
 
             case MOV_DERECHA:
+                if(normal) {
+                    // Incrementa el timer para calcular el frame que se dibuja
+                    timerAnimacion += Gdx.graphics.getDeltaTime();
+                    // Obtiene el frame que se debe mostrar (de acuerdo al timer)
+                    TextureRegion region = animacion.getKeyFrame(timerAnimacion);
+                    // Dirección correcta
+                    if (estadoMovimiento == EstadoMovimiento.MOV_DERECHA) {
+                        if (!region.isFlipX()) {
+                            region.flip(false, true);
+                        }
+                    } else {
+                        if (region.isFlipX()) {
+                            region.flip(false, true);
+                        }
+                    }
+                    // Dibuja el frame en las coordenadas del sprite
+                    batch.draw(region, sprite.getX(), sprite.getY());
+                    break;
+                }else{
+                    batch.draw(pers,sprite.getX(),sprite.getY());
+                    break;
+                }
             case MOV_IZQUIERDA:
                 if(normal) {
                     // Incrementa el timer para calcular el frame que se dibuja
