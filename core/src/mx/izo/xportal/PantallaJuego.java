@@ -873,6 +873,7 @@ public class PantallaJuego implements Screen
                 } else if (btnIzquierda.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón izquierda, hacer que el personaje se mueva a la izquierda
                     banderaDireccion = true;
+                    mario.setBanderaPosicion(true);
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
                 } else if (btnSalto.contiene(x, y)) {
                     // Tocó el botón saltar

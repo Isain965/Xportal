@@ -74,6 +74,7 @@ public class PantallaCargando implements Screen
         // Carga los recursos de la siguiente pantalla (PantallaJuego)
         assetManager.load("Mapa.tmx", TiledMap.class);  // Cargar info del mapa
         assetManager.load("marioSprite.png", Texture.class);
+        assetManager.load("marioSpriteIzq.png", Texture.class);
         assetManager.load("salto.png", Texture.class);
 
 

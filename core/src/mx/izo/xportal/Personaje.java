@@ -17,13 +17,13 @@ public class Personaje {
     //public static final float VELOCIDAD_X = 2;     // Velocidad horizontal
     public static float VELOCIDAD_X = 2;     // Velocidad horizontal
 
-    private Sprite sprite, spriteSalto;  // Sprite cuando no se mueve
+    private Sprite sprite, spriteSalto, sprite1;  // Sprite cuando no se mueve
 
     // Animación
     private Animation animacion;    // Caminando
     private Animation animarSalto;    //Saltando
     private float timerAnimacion;   // tiempo para calcular el frame
-
+    private boolean banderaPosicion;
 
     // Estados del personaje
     private EstadoMovimiento estadoMovimiento;
@@ -41,11 +41,13 @@ public class Personaje {
     private TextureRegion pers;
     float x;
 
+
     private boolean normal = true;
 
     //constructor que se usara en el minigame dos
     public Personaje(Texture textura){
         sprite = new Sprite(textura);
+        sprite1= new Sprite(textura);
         pers = new TextureRegion(textura);
         estadoMovimiento = EstadoMovimiento.INICIANDO;
         estadoSalto = EstadoSalto.EN_PISO;
@@ -63,7 +65,9 @@ public class Personaje {
         // La divide en frames de 16x32 (ver marioSprite.png)
         //TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
         TextureRegion[][] texturaPersonaje = texturaCompleta.split(57, 96);
+        TextureRegion[][] texturaPersonaje2 = texturaCompleta.split(57, 96);
         TextureRegion[][] texturaSaltar = texturaSalto.split(57, 96);
+
 
         // Crea la animación con tiempo de 0.25 segundos entre frames.
         animacion = new Animation(0.25f, texturaPersonaje[0][7],
@@ -79,6 +83,7 @@ public class Personaje {
         timerAnimacion = 0;
         // Crea el sprite cuando para el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][2]);    // quieto
+        sprite1= new Sprite (texturaPersonaje2 [0][2]);
         estadoMovimiento = EstadoMovimiento.INICIANDO;
         estadoSalto = EstadoSalto.EN_PISO;
     }
@@ -134,8 +139,13 @@ public class Personaje {
                 }
             case INICIANDO:
             case QUIETO:
-                sprite.draw(batch); // Dibuja el sprite
+                if(banderaPosicion){
+                    sprite1.draw(batch);
+                }
+                else{
+                sprite.draw(batch);} // Dibuja el sprite
                 break;
+
         }
        /* switch (estadoSalto) {
             case SUBIENDO:
@@ -286,6 +296,10 @@ public class Personaje {
 
     public void setVelocidadX(float vel){
         this.VELOCIDAD_X = vel;
+    }
+
+    public void setBanderaPosicion(boolean bandera){
+        this.banderaPosicion=bandera;
     }
 
     // Inicia el salto
