@@ -310,11 +310,11 @@ public class PantallaJuego implements Screen
         }else if(vidaf==2){
             barraSizeActual=64;
         }else if(vidaf==3){
-            barraSizeActual=128;
+            barraSizeActual=96;
         }else if(vidaf==4){
-            barraSizeActual=160;
+            barraSizeActual=128;
         }else if(vidaf==vidafMax) {
-            barraSizeActual=192;
+            barraSizeActual=160;
         }
         //bajaBarraVidas(spriteVidas,barraSizeActual);
         //spriteVidas.setRegion(0, 0, (int) barraSizeActual, (int) spriteVidas.getHeight()); //cast importante
