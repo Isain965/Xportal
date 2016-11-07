@@ -23,7 +23,7 @@ public class Personaje {
     private Animation animacion;    // Caminando
     private Animation animarSalto;    //Saltando
     private float timerAnimacion;   // tiempo para calcular el frame
-    private boolean banderaPosicion;
+    private boolean banderaPosicion=false;
 
     // Estados del personaje
     private EstadoMovimiento estadoMovimiento;
@@ -83,10 +83,42 @@ public class Personaje {
         timerAnimacion = 0;
         // Crea el sprite cuando para el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][2]);    // quieto
-        sprite1= new Sprite (texturaPersonaje2 [0][2]);
+        sprite1= new Sprite (texturaPersonaje2 [0][6]);
         estadoMovimiento = EstadoMovimiento.INICIANDO;
         estadoSalto = EstadoSalto.EN_PISO;
     }
+
+    public Personaje(Texture textura, Texture texturaSaltos, Texture texturaI) {
+        // Lee la textura como región
+        TextureRegion texturaCompleta = new TextureRegion(textura);
+        TextureRegion texturaIzq = new TextureRegion(texturaI);
+        TextureRegion texturaSalto = new TextureRegion(texturaSaltos);
+        // La divide en frames de 16x32 (ver marioSprite.png)
+        //TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(57, 96);
+        TextureRegion[][] texturaPersonaje2 = texturaIzq.split(57, 96);
+        //TextureRegion[][] texturaSaltar = texturaSalto.split(57, 96);
+
+
+        // Crea la animación con tiempo de 0.25 segundos entre frames.
+        animacion = new Animation(0.25f, texturaPersonaje[0][7],
+                texturaPersonaje[0][2], texturaPersonaje[0][1]);
+        //animarSalto = new Animation(0.25f, texturaPersonaje[0][5],
+        // texturaPersonaje[0][2], texturaPersonaje[0][1]);
+
+        // Animación infinita
+        animacion.setPlayMode(Animation.PlayMode.LOOP);
+        //animarSalto.setPlayMode(Animation.PlayMode.LOOP);
+        //texturaSaltoF = new TextureRegion(texturaSaltar[0][5]);
+        // Inicia el timer que contará tiempo para saber qué frame se dibuja
+        timerAnimacion = 0;
+        // Crea el sprite cuando para el personaje quieto (idle)
+        sprite = new Sprite(texturaPersonaje[0][2]);    // quieto
+        sprite1= new Sprite(texturaPersonaje2 [0][1]);
+        estadoMovimiento = EstadoMovimiento.INICIANDO;
+        estadoSalto = EstadoSalto.EN_PISO;
+    }
+
     // Dibuja el personaje
     public void render(SpriteBatch batch) {
         switch (estadoMovimiento) {
@@ -118,10 +150,12 @@ public class Personaje {
             case INICIANDO:
             case QUIETO:
                 if(banderaPosicion){
+                    sprite1.setPosition(this.getX(),this.getY());
                     sprite1.draw(batch);
                 }
                 else{
-                sprite.draw(batch);} // Dibuja el sprite
+                    sprite.draw(batch);
+                } // Dibuja el sprite
                 break;
 
         }
