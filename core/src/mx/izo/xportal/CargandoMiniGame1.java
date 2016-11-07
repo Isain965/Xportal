@@ -74,6 +74,7 @@ public class CargandoMiniGame1 implements Screen
         // Carga los recursos de la siguiente pantalla (PantallaJuego)
         assetManager.load("MiniGameMapa.tmx", TiledMap.class);  // Cargar info del mapa
         assetManager.load("marioSprite.png", Texture.class);
+        assetManager.load("marioSpriteIzq.png", Texture.class);
         assetManager.load("salto.png", Texture.class);
 
 

@@ -105,6 +105,8 @@ public class PantallaJuego implements Screen
     private Texture texturaEnemigo;
     private Texture texturaEnemigo2;
 
+    private int tiempoDisparo=2;
+
     private float tiempoJuego=0;
 
     // Estados del juego
@@ -120,7 +122,7 @@ public class PantallaJuego implements Screen
     private boolean llaveA = false;
     private boolean llaveB = false;
 
-    private int rango = 300;
+    private int rango = 400;
     private  Bala balaAnterior;
     private  Bala balaAnteriorV;
 
@@ -355,14 +357,14 @@ public class PantallaJuego implements Screen
             if (enemigoV.getVidas()>0){
                 enemigoV.render(batch);
 
-                if((mario.getX()>=enemigoV.getX()-rango)&&(mario.getX()<=enemigoV.getX())&&(int)tiempoJuego==5&&banderaDisparo){
+                if((mario.getX()>=enemigoV.getX()-rango)&&(mario.getX()<=enemigoV.getX())&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
                     BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
                     balaEnJuego.setDireccion(-10);
                     balaEnJuego.setPosicion(enemigoV.getX(),enemigoV.getY()+50);
                     balasEnemigosV.add(balaEnJuego);
                     banderaDisparo = false;
                     tiempoJuego = 0;
-                }else if ((mario.getX()>enemigoV.getX())&&(mario.getX()<=enemigoV.getX()+rango)&&(int)tiempoJuego==5&&banderaDisparo){
+                }else if ((mario.getX()>enemigoV.getX())&&(mario.getX()<=enemigoV.getX()+rango)&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
                     BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
                     balaEnJuego.setDireccion(-10);
                     balaEnJuego.setPosicion(enemigoV.getX()+38, enemigoV.getY() + 50);
@@ -409,14 +411,14 @@ public class PantallaJuego implements Screen
             if (enemigo.getVidas()>0){
                 enemigo.render(batch);
 
-                if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())&&(int)tiempoJuego==5&&banderaDisparo){
+                if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
                     Bala balaEnJuego = new Bala(texturaBalaPlanta);
                     balaEnJuego.setDireccion(-10);
                     balaEnJuego.setPosicion(enemigo.getX(),enemigo.getY()+50);
                     balasEnemigos.add(balaEnJuego);
                     banderaDisparo = false;
                     tiempoJuego = 0;
-                }else if ((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==5&&banderaDisparo){
+                }else if ((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
                     Bala balaEnJuego = new Bala(texturaBalaPlanta);
                     balaEnJuego.setDireccion(10);
                     balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
@@ -463,6 +465,46 @@ public class PantallaJuego implements Screen
         //Dibuja las balas del personaje
         for(Bala bala : balas){
             bala.render(batch,banderaDireccion);
+        }
+
+
+        //Elimina a enemigos de embudo
+        for (int i = 0; i<enemigosV.size();i++){
+            EnemigoV enemigoV = enemigosV.get(i);
+            if(enemigoV.getY()==2000){
+                enemigosV.remove(i);
+            }
+        }
+        //Elimina las alas del enemigo
+        for (int i = 0; i<balasEnemigosV.size();i++){
+            BalaV balaV = balasEnemigosV.get(i);
+            if(balaV.getY()==1000){
+                balasEnemigosV.remove(i);
+            }
+        }
+
+        //Elimina las balas del personaje
+        for (int i = 0; i<balas.size();i++){
+            Bala bala = balas.get(i);
+            if(bala.getY()==1000 || bala.getX()>mario.getX()+rango){
+                balas.remove(i);
+            }
+        }
+
+
+        //Elimina a enemigos planta
+        for (int i = 0; i<enemigos.size();i++){
+            Enemigo enemigo = enemigos.get(i);
+            if(enemigo.getY()==2000){
+                enemigos.remove(i);
+            }
+        }
+        //Elimina las balas de planta
+        for (int i = 0; i<balasEnemigos.size();i++){
+            Bala bala = balasEnemigos.get(i);
+            if(bala.getY()==1000){
+                balasEnemigos.remove(i);
+            }
         }
 
         batch.end();
