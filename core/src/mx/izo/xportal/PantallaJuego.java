@@ -51,6 +51,7 @@ public class PantallaJuego implements Screen
 
     // Personaje
     private Texture texturaPersonaje;       // Aquí cargamos la imagen marioSprite.png con varios frames
+    private Texture texturaPersonaje2;
     private Personaje mario;
     public static final int TAM_CELDA = 32;
 
@@ -195,6 +196,7 @@ public class PantallaJuego implements Screen
         rendererMapa.setView(camara);
         // Cargar frames
         texturaPersonaje = assetManager.get("marioSprite.png");
+        texturaPersonaje2 = assetManager.get("marioSpriteIzq.png");
 
         texturaSalto = assetManager.get("salto.png");
         //textura barra de vidas
@@ -203,7 +205,7 @@ public class PantallaJuego implements Screen
         spriteVidas = new Sprite(texturaVidas);
         //spriteVidas.setPosition(100,ALTO_MAPA/2);
         // Crear el personaje
-        mario = new Personaje(texturaPersonaje,texturaSalto);
+        mario = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
         // Posición inicial del personaje
         mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
 
@@ -911,12 +913,13 @@ public class PantallaJuego implements Screen
                 if (btnDerecha.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
                     banderaDireccion = false;
+                    mario.setBanderaPosicion(banderaDireccion);
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
 
                 } else if (btnIzquierda.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón izquierda, hacer que el personaje se mueva a la izquierda
                     banderaDireccion = true;
-                    mario.setBanderaPosicion(true);
+                    mario.setBanderaPosicion(banderaDireccion);
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
                 } else if (btnSalto.contiene(x, y)) {
                     // Tocó el botón saltar
