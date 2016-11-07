@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -41,6 +42,8 @@ public class PantallaJuego implements Screen
 
     // Objeto para dibujar en la pantalla
     private SpriteBatch batch;
+
+    private Sprite spriteVidas;
 
     // MAPA
     private TiledMap mapa;      // Información del mapa en memoria
@@ -77,6 +80,8 @@ public class PantallaJuego implements Screen
     // Estrellas recolectadas
     private int estrellas;
     private int vidaf =3;
+    private int vidafMax=5;
+    private int vidafMin=0;
     private Texto texto;
     private Sound sonidoEstrella, sonidoLlave,sonidoPistola;
 
@@ -84,6 +89,9 @@ public class PantallaJuego implements Screen
     private Texture texturaGana;
     private Boton btnGana;
     private Sound sonidoPierde, sonidoVida;
+
+    //textura barra de vidas
+    private Texture texturaVidas;
 
     private Texture texturaBala;
     private Texture texturaBalaPlanta;
@@ -187,7 +195,13 @@ public class PantallaJuego implements Screen
         rendererMapa.setView(camara);
         // Cargar frames
         texturaPersonaje = assetManager.get("marioSprite.png");
+
         texturaSalto = assetManager.get("salto.png");
+        //textura barra de vidas
+        texturaVidas = assetManager.get("barra.png");
+        //dibuja barra vidas
+        spriteVidas = new Sprite(texturaVidas);
+        //spriteVidas.setPosition(100,ALTO_MAPA/2);
         // Crear el personaje
         mario = new Personaje(texturaPersonaje,texturaSalto);
         // Posición inicial del personaje
@@ -272,9 +286,29 @@ public class PantallaJuego implements Screen
     Este método se está ejecutando muchas veces por segundo.
      */
 
+    public void bajaBarraVidas(Sprite sprite, float size){
+        //sprite.setRegion(0, 0, (int) size, (int) sprite.getHeight()); //cast importante
+        sprite.setSize(size, sprite.getHeight());
+    }
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
+
+        //barra vidas pregunta cuantas existen
+        float barraSizeOriginal = spriteVidas.getWidth();
+        float barraSizeActual=0;
+        if(vidaf==1) {
+            barraSizeActual = 32;
+        }else if(vidaf==2){
+            barraSizeActual=64;
+        }else if(vidaf==3){
+            barraSizeActual=128;
+        }else if(vidaf==4){
+            barraSizeActual=160;
+        }
+        //bajaBarraVidas(spriteVidas,barraSizeActual);
+        //spriteVidas.setRegion(0, 0, (int) barraSizeActual, (int) spriteVidas.getHeight()); //cast importante
+        spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
 
         if (estadoJuego!=EstadosJuego.PERDIO) {
             // Actualizar objetos en la pantalla
@@ -293,11 +327,15 @@ public class PantallaJuego implements Screen
         // Entre begin-end dibujamos nuestros objetos en pantalla
         batch.begin();
         mario.render(batch);    // Dibuja el personaje
+        //ahora se dibuja alado de Score
+        //spriteVidas.draw(batch);
+
+        //dibuja barra vida
 
         tiempoJuego+=Gdx.graphics.getDeltaTime();
         Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
-        if(vidaf==0){
+        if(vidaf==vidafMin){
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -437,6 +475,8 @@ public class PantallaJuego implements Screen
             // Estrellas recolectadas
             texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
             texto.mostrarMensaje(batch,"Life: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
+            spriteVidas.setPosition(Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
+            spriteVidas.draw(batch);
         }
         batch.end();
     }
@@ -583,7 +623,7 @@ public class PantallaJuego implements Screen
             } else if ( esVida(capaPlataforma.getCell(celdaX,celdaY)) ) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY,null);
-                if(vidaf<=4){
+                if(vidaf<=vidafMax){
                     vidaf++;
                 }
                 sonidoVida.play();
@@ -826,6 +866,7 @@ public class PantallaJuego implements Screen
         assetManager.unload("BtmSaltar.png");
         assetManager.unload("shoot.png");
         assetManager.unload("bullet.png");
+        assetManager.unload("barra.png");
         assetManager.unload("embudo.png");
         assetManager.unload("Planta.png");
         assetManager.unload("balaPlanta.png");

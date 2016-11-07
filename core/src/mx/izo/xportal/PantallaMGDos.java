@@ -232,14 +232,14 @@ public class PantallaMGDos implements Screen
 
 
         texturaBala = assetManager.get("bala.png");
-        texturaBalaEmbudo = assetManager.get("balaEmbudo.png");
+        texturaBalaEmbudo = assetManager.get("balaA.png");
         texturaBalaPlanta = assetManager.get("balaPlanta.png");
 
         //vidas=assetManager.get("pil.png");
         //vidas.draw(plataforma,100,100);
 
         texturaEnemigo = assetManager.get("Planta.png");
-        texturaEnemigo2 = assetManager.get("embudo.png");
+        texturaEnemigo2 = assetManager.get("alien1.png");
 
         Enemigo enemigo1 = new Enemigo(texturaEnemigo);
         enemigo1.setPosicion(1142,20);
@@ -256,6 +256,8 @@ public class PantallaMGDos implements Screen
 
         EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
         enemigoV1.setPosicion(571,770);
+        /*Alien enemigoV1 = new Alien(texturaEnemigo2);
+        enemigoV1.setPosicion(ANCHO_MAPA/2,ALTO_MAPA/2);*/
         EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
         enemigoV2.setPosicion(1713,770);
         EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
