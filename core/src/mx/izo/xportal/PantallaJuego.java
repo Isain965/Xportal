@@ -288,10 +288,10 @@ public class PantallaJuego implements Screen
     Este método se está ejecutando muchas veces por segundo.
      */
 
-    public void bajaBarraVidas(Sprite sprite, float size){
+    /*public void bajaBarraVidas(Sprite sprite, float size){
         //sprite.setRegion(0, 0, (int) size, (int) sprite.getHeight()); //cast importante
         sprite.setSize(size, sprite.getHeight());
-    }
+    }*/
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
@@ -307,6 +307,8 @@ public class PantallaJuego implements Screen
             barraSizeActual=128;
         }else if(vidaf==4){
             barraSizeActual=160;
+        }else if(vidaf==vidafMax) {
+            barraSizeActual=192;
         }
         //bajaBarraVidas(spriteVidas,barraSizeActual);
         //spriteVidas.setRegion(0, 0, (int) barraSizeActual, (int) spriteVidas.getHeight()); //cast importante
@@ -477,7 +479,7 @@ public class PantallaJuego implements Screen
             // Estrellas recolectadas
             texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
             texto.mostrarMensaje(batch,"Life: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
-            spriteVidas.setPosition(Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
+            spriteVidas.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
             spriteVidas.draw(batch);
         }
         batch.end();

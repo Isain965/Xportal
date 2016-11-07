@@ -73,6 +73,7 @@ public class CargandoMGDos implements Screen
         Gdx.app.log("cargarRecursos","Iniciando...");
         // Carga los recursos de la siguiente pantalla (PantallaJuego)
         assetManager.load("inv.tmx", TiledMap.class);  // Cargar info del mapa
+        //assetManager.load("Mapa.tmx", TiledMap.class);
         assetManager.load("nave.png", Texture.class);
         assetManager.load("salto.png", Texture.class);
 
@@ -98,7 +99,7 @@ public class CargandoMGDos implements Screen
         assetManager.load("llave.mp3", Sound.class);
         assetManager.load("opendoor.mp3", Sound.class);
         assetManager.load("vidawi.mp3", Sound.class);
-        assetManager.load("shoot.wav",Sound.class);
+        assetManager.load("shoot.mp3",Sound.class);
         Gdx.app.log("cargarRecursos", "Terminando...");
     }
 
