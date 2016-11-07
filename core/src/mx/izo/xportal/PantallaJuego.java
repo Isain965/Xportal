@@ -353,6 +353,7 @@ public class PantallaJuego implements Screen
                 }
             }, 3);  // 3 segundos
         }
+
         for (EnemigoV enemigoV:enemigosV){
             if (enemigoV.getVidas()>0){
                 enemigoV.render(batch);
@@ -421,7 +422,7 @@ public class PantallaJuego implements Screen
                 }else if ((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
                     Bala balaEnJuego = new Bala(texturaBalaPlanta);
                     balaEnJuego.setDireccion(10);
-                    balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
+                    balaEnJuego.setPosicion(enemigo.getX()+120, enemigo.getY() + 50);
                     balasEnemigos.add(balaEnJuego);
                     banderaDisparo = false;
                     tiempoJuego = 0;
@@ -475,10 +476,10 @@ public class PantallaJuego implements Screen
                 enemigosV.remove(i);
             }
         }
-        //Elimina las alas del enemigo
+        //Elimina las balas del enemigo
         for (int i = 0; i<balasEnemigosV.size();i++){
             BalaV balaV = balasEnemigosV.get(i);
-            if(balaV.getY()==1000){
+            if(balaV.getX()==0){
                 balasEnemigosV.remove(i);
             }
         }
@@ -486,7 +487,7 @@ public class PantallaJuego implements Screen
         //Elimina las balas del personaje
         for (int i = 0; i<balas.size();i++){
             Bala bala = balas.get(i);
-            if(bala.getY()==1000 || bala.getX()>mario.getX()+rango){
+            if(bala.getY()==1000 || bala.getX()>mario.getX()+rango-150){
                 balas.remove(i);
             }
         }
@@ -502,7 +503,7 @@ public class PantallaJuego implements Screen
         //Elimina las balas de planta
         for (int i = 0; i<balasEnemigos.size();i++){
             Bala bala = balasEnemigos.get(i);
-            if(bala.getY()==1000){
+            if(bala.getY()==1000 || bala.getX()<0 || bala.getX()>4000){
                 balasEnemigos.remove(i);
             }
         }
