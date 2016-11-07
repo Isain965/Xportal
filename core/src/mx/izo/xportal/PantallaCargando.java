@@ -79,6 +79,7 @@ public class PantallaCargando implements Screen
 
         //cargar barra
         assetManager.load("barra.png",Texture.class);
+        assetManager.load("barraF.png",Texture.class);
 
 
         // Cargar imagen

@@ -44,6 +44,7 @@ public class PantallaJuego implements Screen
     private SpriteBatch batch;
 
     private Sprite spriteVidas;
+    private Sprite spriteVidasF;
 
     // MAPA
     private TiledMap mapa;      // Información del mapa en memoria
@@ -93,6 +94,7 @@ public class PantallaJuego implements Screen
 
     //textura barra de vidas
     private Texture texturaVidas;
+    private Texture texturaVidasF;
 
     private Texture texturaBala;
     private Texture texturaBalaPlanta;
@@ -201,8 +203,10 @@ public class PantallaJuego implements Screen
         texturaSalto = assetManager.get("salto.png");
         //textura barra de vidas
         texturaVidas = assetManager.get("barra.png");
+        texturaVidasF = assetManager.get("barraF.png");
         //dibuja barra vidas
         spriteVidas = new Sprite(texturaVidas);
+        spriteVidasF = new Sprite(texturaVidasF);
         //spriteVidas.setPosition(100,ALTO_MAPA/2);
         // Crear el personaje
         mario = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
@@ -480,7 +484,9 @@ public class PantallaJuego implements Screen
             texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
             texto.mostrarMensaje(batch,"Life: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
             spriteVidas.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
+            spriteVidasF.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
             spriteVidas.draw(batch);
+            spriteVidasF.draw(batch);
         }
         batch.end();
     }
@@ -871,6 +877,7 @@ public class PantallaJuego implements Screen
         assetManager.unload("shoot.png");
         assetManager.unload("bullet.png");
         assetManager.unload("barra.png");
+        assetManager.unload("barraF.png");
         assetManager.unload("embudo.png");
         assetManager.unload("Planta.png");
         assetManager.unload("balaPlanta.png");
