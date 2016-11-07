@@ -422,7 +422,7 @@ public class PantallaJuego implements Screen
                 }else if ((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
                     Bala balaEnJuego = new Bala(texturaBalaPlanta);
                     balaEnJuego.setDireccion(10);
-                    balaEnJuego.setPosicion(enemigo.getX()+50, enemigo.getY() + 50);
+                    balaEnJuego.setPosicion(enemigo.getX()+120, enemigo.getY() + 50);
                     balasEnemigos.add(balaEnJuego);
                     banderaDisparo = false;
                     tiempoJuego = 0;
