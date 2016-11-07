@@ -273,7 +273,7 @@ public class PantallaMGDos implements Screen
         sonidoPierde = assetManager.get("opendoor.mp3");
         sonidoVida= assetManager.get("vidawi.mp3");
         sonidoLlave=assetManager.get("llave.mp3");
-        sonidoPistola=assetManager.get("shoot.wav");
+        sonidoPistola=assetManager.get("shoot.mp3");
     }
 
     /*
