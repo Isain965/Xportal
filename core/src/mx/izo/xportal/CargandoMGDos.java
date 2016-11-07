@@ -72,8 +72,8 @@ public class CargandoMGDos implements Screen
 
         Gdx.app.log("cargarRecursos","Iniciando...");
         // Carga los recursos de la siguiente pantalla (PantallaJuego)
-        //assetManager.load("inv.tmx", TiledMap.class);  // Cargar info del mapa
-        assetManager.load("Mapa.tmx", TiledMap.class);
+        assetManager.load("inv.tmx", TiledMap.class);  // Cargar info del mapa
+        //assetManager.load("Mapa.tmx", TiledMap.class);
         assetManager.load("nave.png", Texture.class);
         assetManager.load("salto.png", Texture.class);
 

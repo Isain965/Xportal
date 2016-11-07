@@ -183,8 +183,8 @@ public class PantallaMGDos implements Screen
     private void crearObjetos() {
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
         // Carga el mapa en memoria
-        //mapa = assetManager.get("inv.tmx");
-        mapa = assetManager.get("Mapa.tmx");
+        mapa = assetManager.get("inv.tmx");
+        //mapa = assetManager.get("Mapa.tmx");
         //mapa.getLayers().get(0).setVisible(false);    // Pueden ocultar una capa así
         // Crear el objeto que dibujará el mapa
 
@@ -798,8 +798,8 @@ public class PantallaMGDos implements Screen
         assetManager.unload("BtmSaltar.png");
         assetManager.unload("BtmPausa.png");
         assetManager.unload("ganaste.png");
-        //assetManager.unload("inv.tmx");
-        assetManager.unload("Mapa.tmx");
+        assetManager.unload("inv.tmx");
+        //assetManager.unload("Mapa.tmx");
         assetManager.unload("shoot.png");
         assetManager.unload("salto.png");
         assetManager.unload("pil.png");
