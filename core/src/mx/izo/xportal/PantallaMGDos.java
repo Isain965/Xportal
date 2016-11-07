@@ -239,7 +239,7 @@ public class PantallaMGDos implements Screen
         //vidas.draw(plataforma,100,100);
 
         texturaEnemigo = assetManager.get("Planta.png");
-        texturaEnemigo2 = assetManager.get("alien1.png");
+        texturaEnemigo2 = assetManager.get("embudo.png");
 
         Enemigo enemigo1 = new Enemigo(texturaEnemigo);
         enemigo1.setPosicion(1142,20);
@@ -273,7 +273,7 @@ public class PantallaMGDos implements Screen
         sonidoPierde = assetManager.get("opendoor.mp3");
         sonidoVida= assetManager.get("vidawi.mp3");
         sonidoLlave=assetManager.get("llave.mp3");
-        sonidoPistola=assetManager.get("pistola.mp3");
+        sonidoPistola=assetManager.get("shoot.wav");
     }
 
     /*
