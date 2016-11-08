@@ -145,6 +145,7 @@ public class PantallaCargando implements Screen
     }
 
 
+
     @Override
     public void resize(int width, int height) {
         vista.update(width,height);
