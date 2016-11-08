@@ -255,7 +255,7 @@ public class MiniGame1 implements Screen
                         }
                         bala.velocidadX = 10;
                         //Borrar de memoria
-                        bala.setPosicion(0, 1000);
+                        bala.setPosicion(0, -50);
                     }
                 }
                 if(tiempoJuego>6){
@@ -270,7 +270,11 @@ public class MiniGame1 implements Screen
 
         }
 
-
+        for(int i = 0; i<balasL.size();i++){
+            if(balasL.get(i).getY()<0){
+                balasL.remove(i);
+            }
+        }
 
         if(vidaf==20){
             Timer.schedule(new Timer.Task() {

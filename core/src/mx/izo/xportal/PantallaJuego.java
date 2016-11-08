@@ -527,9 +527,9 @@ public class PantallaJuego implements Screen
             btnPausa.render(batch);
             // Estrellas recolectadas
             texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
-            texto.mostrarMensaje(batch,"Life: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
-            spriteVidas.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
-            spriteVidasF.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
+            texto.mostrarMensaje(batch,"Life: ",Plataforma.ANCHO_CAMARA-460,Plataforma.ALTO_CAMARA*0.95f);
+            spriteVidas.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
+            spriteVidasF.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
             spriteVidas.draw(batch);
             spriteVidasF.draw(batch);
         }
