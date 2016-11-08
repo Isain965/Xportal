@@ -103,6 +103,8 @@ public class PantallaCargando implements Screen
         assetManager.load("opendoor.mp3", Sound.class);
         assetManager.load("vidawi.mp3", Sound.class);
         assetManager.load("pistola.mp3",Sound.class);
+        assetManager.load("retrocarga.wav",Sound.class);
+
         Gdx.app.log("cargarRecursos", "Terminando...");
     }
 

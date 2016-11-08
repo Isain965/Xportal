@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -28,6 +29,10 @@ public class Menu implements Screen
     // La cámara y vista principal
     private OrthographicCamera camara;
     private Viewport vista;
+
+    //Musica de fondo
+    private Music musicFondo;
+
 
     // Objeto para dibujar en la pantalla
     private SpriteBatch batch;
@@ -119,6 +124,10 @@ public class Menu implements Screen
 
         btnExit = new Boton(texturaExit);
         btnExit.setPosicion(20,10);
+
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("ActionTheme.wav"));
+        musicFondo.setLooping(true);
+        musicFondo.play();
     }
 
     /*
@@ -214,6 +223,7 @@ public class Menu implements Screen
             transformarCoordenadas(screenX, screenY);
 
             if (btnPlay.contiene(x,y)){
+                musicFondo.stop();
                 plataforma.setScreen(new PantallaCargando(plataforma));
             } else if (btnAbout.contiene(x,y)){
                 plataforma.setScreen(new AcercaDe(plataforma));

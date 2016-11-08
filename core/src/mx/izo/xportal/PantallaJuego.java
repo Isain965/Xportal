@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -56,6 +57,8 @@ public class PantallaJuego implements Screen
     private Personaje mario;
     public static final int TAM_CELDA = 32;
 
+    //Musica de fondo
+    private Music musicFondo;
 
 
     // HUD. Los componentes en la pantalla que no se mueven
@@ -85,7 +88,7 @@ public class PantallaJuego implements Screen
     private int vidafMax=5;
     private int vidafMin=0;
     private Texto texto;
-    private Sound sonidoEstrella, sonidoLlave,sonidoPistola;
+    private Sound sonidoEstrella, sonidoLlave,sonidoPistola,sonidoRetrocarga;
 
     // Fin del juego, Gana o Pierde
     private Texture texturaGana;
@@ -287,6 +290,11 @@ public class PantallaJuego implements Screen
         sonidoVida= assetManager.get("vidawi.mp3");
         sonidoLlave=assetManager.get("llave.mp3");
         sonidoPistola=assetManager.get("pistola.mp3");
+        sonidoRetrocarga = assetManager.get("retrocarga.wav");
+
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("Level1.wav"));
+        musicFondo.setLooping(true);
+        musicFondo.play();
     }
 
     /*
@@ -349,6 +357,7 @@ public class PantallaJuego implements Screen
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
+                    musicFondo.stop();
                     plataforma.setScreen(new PantallaPerdiste(plataforma));
                 }
             }, 3);  // 3 segundos
@@ -729,7 +738,7 @@ public class PantallaJuego implements Screen
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
                 capaPlataforma.setCell(celdaX,celdaY,null);
                 banderaArma = true;
-                sonidoVida.play();
+                sonidoRetrocarga.play();
             }
             else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
@@ -743,6 +752,7 @@ public class PantallaJuego implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        musicFondo.stop();
                         plataforma.setScreen(new CargandoMiniGame1(plataforma));
                     }
                 }, 3);  // 3 segundos
@@ -755,6 +765,7 @@ public class PantallaJuego implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        musicFondo.stop();
                         plataforma.setScreen(new CargandoMiniGame1(plataforma));
                     }
                 }, 3);  // 3 segundos
