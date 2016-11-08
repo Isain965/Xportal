@@ -122,7 +122,7 @@ public class PantallaJuego implements Screen
     private boolean llaveA = false;
     private boolean llaveB = false;
 
-    private int rango = 400;
+    private int rango = 300;
     private  Bala balaAnterior;
     private  Bala balaAnteriorV;
 
@@ -412,14 +412,16 @@ public class PantallaJuego implements Screen
             if (enemigo.getVidas()>0){
                 enemigo.render(batch);
 
-                if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
+                if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo) {
                     Bala balaEnJuego = new Bala(texturaBalaPlanta);
                     balaEnJuego.setDireccion(-10);
-                    balaEnJuego.setPosicion(enemigo.getX(),enemigo.getY()+50);
+                    balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
                     balasEnemigos.add(balaEnJuego);
                     banderaDisparo = false;
                     tiempoJuego = 0;
-                }else if ((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
+                //}else if (mario.getX()>=enemigo.getX()+enemigo.getSprite().getWidth()&&mario.getX()<=enemigo.getX()+enemigo.getSprite().getWidth()+rango&&banderaDisparo&&tiempoJuego==tiempoDisparo){
+                }else if((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
+                    Gdx.app.log("Deberia de disparar a la derecha","");
                     Bala balaEnJuego = new Bala(texturaBalaPlanta);
                     balaEnJuego.setDireccion(10);
                     balaEnJuego.setPosicion(enemigo.getX()+120, enemigo.getY() + 50);
@@ -433,7 +435,7 @@ public class PantallaJuego implements Screen
                     bala.render(batch,banderaDireccion);
                     banderaDisparo = true;
                     if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
-                            (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigo.getSprite().getHeight()))) {
+                        (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigo.getSprite().getHeight()))) {
                         int vidas = enemigo.getVidas();
                         vidaf-=1;
                         bala.velocidadX = 10;
@@ -453,7 +455,7 @@ public class PantallaJuego implements Screen
                         bala.setPosicion(0, 1000);
                     }
                 }
-                if(tiempoJuego>6){
+                if(tiempoJuego>tiempoDisparo){
                     tiempoJuego=0;
                 }
             }
