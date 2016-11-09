@@ -29,8 +29,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Created by Equipo alfa buena maravilla onda dinamita escuadrón lobo on 10/11/2016.
  */
 
-public class Nivel2_A implements Screen
-{
+public class Nivel2_A implements Screen {
+
+
     public static final float ANCHO_MAPA = 4000;   // Ancho del mapa en pixeles
     public static final float ALTO_MAPA = 896;
 
@@ -280,6 +281,12 @@ public class Nivel2_A implements Screen
         musicFondo = Gdx.audio.newMusic(Gdx.files.internal("Level1.wav"));
         musicFondo.setLooping(true);
         musicFondo.play();
+
+
+        particulas = new ParticleEffect();
+        particulas.load(Gdx.files.internal("nieve.p"), Gdx.files.internal(""));
+        particulas.setPosition(Gdx.graphics.getWidth()/2, 900);
+        particulas.reset();
     }
 
     /*
@@ -503,12 +510,14 @@ public class Nivel2_A implements Screen
                 balasEnemigos.remove(i);
             }
         }
+        //particulas.draw(batch,Gdx.graphics.getDeltaTime());
 
         batch.end();
 
         // Dibuja el HUD
         batch.setProjectionMatrix(camaraHUD.combined);
         batch.begin();
+        particulas.draw(batch,Gdx.graphics.getDeltaTime());
 
         // ¿Ya ganó?
         if (estadoJuego==EstadosJuego.GANO) {
@@ -1040,36 +1049,6 @@ public class Nivel2_A implements Screen
         JUGANDO,
         PAUSADO,
         PERDIO
-    }
-
-    public class Principal extends ApplicationAdapter {
-        SpriteBatch batch;
-        //Sistema de particulas
-        private ParticleEffect particulas;
-
-
-        @Override
-        public void create () {
-            batch = new SpriteBatch();
-            particulas = new ParticleEffect();
-            particulas.load(Gdx.files.internal("nieve.p"), Gdx.files.internal(""));
-            particulas.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
-            particulas.reset();
-        }
-
-        @Override
-        public void render () {
-            Gdx.gl.glClearColor(0, 0, 0, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            batch.begin();
-            particulas.draw(batch,Gdx.graphics.getDeltaTime());
-            batch.end();
-        }
-
-        @Override
-        public void dispose () {
-            batch.dispose();
-        }
     }
 
 }
