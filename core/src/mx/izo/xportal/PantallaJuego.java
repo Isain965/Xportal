@@ -1057,6 +1057,4 @@ public class PantallaJuego implements Screen
         PERDIO
     }
 
-    //if (bandera direccion)
-    // a la hora de generar la bala la mandamos con direccion izquierda
 }

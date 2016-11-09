@@ -26,7 +26,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * Created by Equipo alfa buena maravilla onda dinamita escuadrón lobo on 10/11/2016.
+ * Created by Gab Sh on 10/11/2016.
  */
 
 public class Nivel2_A implements Screen {
@@ -181,7 +181,7 @@ public class Nivel2_A implements Screen {
     private void crearObjetos() {
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
         // Carga el mapa en memoria
-        mapa = assetManager.get("Mapa.tmx");
+        mapa = assetManager.get("Mapa2_A.tmx");
         //mapa.getLayers().get(0).setVisible(false);    // Pueden ocultar una capa así
         // Crear el objeto que dibujará el mapa
 
