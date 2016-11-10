@@ -695,13 +695,14 @@ public class Nivel2_A implements Screen {
 
             else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
-                estadoJuego = EstadosJuego.PERDIO;
-                /*Timer.schedule(new Timer.Task() {
+                //estadoJuego = EstadosJuego.PERDIO;
+                Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        plataforma.setScreen(new Menu(plataforma));
+                        //plataforma.setScreen(new Menu(plataforma));
+                        plataforma.setScreen(new CargandoMGDos(plataforma));
                     }
-                }, 3);  // 3 segundos*/
+                }, 3);  // 3 segundos
             } else if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
