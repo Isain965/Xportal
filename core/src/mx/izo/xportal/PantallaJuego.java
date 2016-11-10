@@ -216,6 +216,7 @@ public class PantallaJuego implements Screen
         // Crear el personaje
         mario = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
         // Posición inicial del personaje
+        mario.setVelocidadX(2.5f);
         mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
 
         // Crear los botones
@@ -1033,10 +1034,6 @@ public class PantallaJuego implements Screen
             return true;    // Indica que ya procesó el evento
         }
 
-        /*
-        Se ejecuta cuando el usuario QUITA el dedo de la pantalla.
-         */
-        @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
             // Preguntar si las coordenadas son de algún botón para DETENER el movimiento
