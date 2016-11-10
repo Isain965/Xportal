@@ -64,8 +64,8 @@ public class Personaje {
         TextureRegion texturaSalto = new TextureRegion(texturaSaltos);
         // La divide en frames de 16x32 (ver marioSprite.png)
         //TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
-        TextureRegion[][] texturaPersonaje = texturaCompleta.split(57, 96);
-        TextureRegion[][] texturaPersonaje2 = texturaCompleta.split(57, 96);
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(82, 138);
+        TextureRegion[][] texturaPersonaje2 = texturaCompleta.split(82, 138);
         TextureRegion[][] texturaSaltar = texturaSalto.split(57, 96);
 
 
@@ -95,8 +95,8 @@ public class Personaje {
         TextureRegion texturaSalto = new TextureRegion(texturaSaltos);
         // La divide en frames de 16x32 (ver marioSprite.png)
         //TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
-        TextureRegion[][] texturaPersonaje = texturaCompleta.split(57, 96);
-        TextureRegion[][] texturaPersonaje2 = texturaIzq.split(57, 96);
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(82, 138);
+        TextureRegion[][] texturaPersonaje2 = texturaIzq.split(82, 138);
         //TextureRegion[][] texturaSaltar = texturaSalto.split(57, 96);
 
 
