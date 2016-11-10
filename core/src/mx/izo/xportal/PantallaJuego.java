@@ -353,7 +353,7 @@ public class PantallaJuego implements Screen
         //dibuja barra vida
 
         tiempoJuego+=Gdx.graphics.getDeltaTime();
-        Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
+        //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
         if(vidaf==vidafMin){
             Timer.schedule(new Timer.Task() {
@@ -737,8 +737,7 @@ public class PantallaJuego implements Screen
                 sonidoEstrella.play();
 
             }else if(esPistola(capaPlataforma.getCell(celdaX,celdaY))){
-                capaPlataforma.setCell(celdaX,celdaY+1,null);
-                capaPlataforma.setCell(celdaX,celdaY,null);
+                eliminarPistolita();
                 banderaArma = true;
                 sonidoRetrocarga.play();
             }
@@ -831,6 +830,13 @@ public class PantallaJuego implements Screen
         capaPlataforma.setCell(40,19,null);
         capaPlataforma.setCell(40,18,null);
         llaveA = true;
+    }
+    private void eliminarPistolita() {
+        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
+        capaPlataforma.setCell(8,12,null);
+        capaPlataforma.setCell(8,11,null);
+        capaPlataforma.setCell(9,12,null);
+        capaPlataforma.setCell(9,11,null);
     }
 
     private void recorrerBarril(boolean banderaDireccion){
