@@ -237,7 +237,7 @@ public class Personaje {
     // Actualiza la posición en 'y', está saltando
     public void actualizarSalto(TiledMap mapa) {
         timerAnimacion=0;
-        tiempoSalto += 10*Gdx.graphics.getDeltaTime();
+        tiempoSalto += 9*Gdx.graphics.getDeltaTime();
         float y= V0 *tiempoSalto -G_2 *tiempoSalto*tiempoSalto;
         if(tiempoSalto > tiempoVuelo/2){
             estadoSalto=EstadoSalto.EN_PISO;
