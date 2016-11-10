@@ -832,6 +832,28 @@ public class PantallaJuego implements Screen
         llaveA = true;
     }
 
+    private void recorrerBarril(boolean banderaDireccion){
+        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
+        //apagado es derecha
+        if(banderaDireccion){
+            capaPlataforma.setCell(38,22,null);
+            capaPlataforma.setCell(38,21,null);
+            capaPlataforma.setCell(38,20,null);
+            capaPlataforma.setCell(38,19,null);
+            capaPlataforma.setCell(38,18,null);
+            capaPlataforma.setCell(39,22,null);
+            capaPlataforma.setCell(39,21,null);
+            capaPlataforma.setCell(39,20,null);
+            capaPlataforma.setCell(39,19,null);
+            capaPlataforma.setCell(39,18,null);
+            capaPlataforma.setCell(40,22,null);
+            capaPlataforma.setCell(40,21,null);
+            capaPlataforma.setCell(40,20,null);
+            capaPlataforma.setCell(40,19,null);
+            capaPlataforma.setCell(40,18,null);
+        }
+    }
+
 
 
     // Verifica si esta casilla tiene una estrella (simplificar con la anterior)
