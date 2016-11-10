@@ -729,8 +729,7 @@ public class Nivel2_A implements Screen {
                 sonidoEstrella.play();
 
             }else if(esPistola(capaPlataforma.getCell(celdaX,celdaY))){
-                capaPlataforma.setCell(celdaX,celdaY+1,null);
-                capaPlataforma.setCell(celdaX,celdaY,null);
+                eliminarPistolita();
                 banderaArma = true;
                 sonidoRetrocarga.play();
             }
@@ -825,7 +824,13 @@ public class Nivel2_A implements Screen {
         llaveA = true;
     }
 
-
+    private void eliminarPistolita() {
+        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
+        capaPlataforma.setCell(11,7,null);
+        capaPlataforma.setCell(11,8,null);
+        capaPlataforma.setCell(12,7,null);
+        capaPlataforma.setCell(12,8,null);
+    }
 
     // Verifica si esta casilla tiene una estrella (simplificar con la anterior)
     private boolean esCoin(TiledMapTileLayer.Cell celda) {
