@@ -292,7 +292,8 @@ public class PantallaJuego implements Screen
         sonidoPistola=assetManager.get("pistola.mp3");
         sonidoRetrocarga = assetManager.get("retrocarga.wav");
 
-        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("Level1.wav"));
+        //musicFondo = Gdx.audio.newMusic(Gdx.files.internal("Level1.wav"));
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
         musicFondo.setLooping(true);
         musicFondo.play();
     }
