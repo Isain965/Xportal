@@ -92,6 +92,15 @@ public class CargandoMGDos implements Screen
         assetManager.load("balaA.png",Texture.class);
         assetManager.load("BtmPausa.png",Texture.class);
 
+        //aliens
+        assetManager.load("alien1.png",Texture.class);
+        assetManager.load("alien2.png",Texture.class);
+        assetManager.load("alien3.png",Texture.class);
+
+        //cargar barra
+        assetManager.load("barra.png",Texture.class);
+        assetManager.load("barraF.png",Texture.class);
+
         // Fin del juego
         assetManager.load("ganaste.png", Texture.class);
         // Efecto al tomar la moneda
