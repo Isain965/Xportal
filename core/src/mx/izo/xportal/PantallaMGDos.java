@@ -276,8 +276,8 @@ public class PantallaMGDos implements Screen
         balaAnterior.setPosicion(enemigo1.getX(),641);
 
 
-        //EnemigoV enemigoV1 = new EnemigoV(alien1);
-        EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
+        EnemigoV enemigoV1 = new EnemigoV(alien1,2);
+        //EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
         enemigoV1.setPosicion(ANCHO_MAPA/2,ALTO_MAPA/2);
         /*Alien enemigoV1 = new Alien(texturaEnemigo2);
         enemigoV1.setPosicion(ANCHO_MAPA/2,ALTO_MAPA/2);*/
