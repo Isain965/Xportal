@@ -703,13 +703,14 @@ public class PantallaJuego implements Screen
 
             else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
-                estadoJuego = EstadosJuego.PERDIO;
-                /*Timer.schedule(new Timer.Task() {
+                //estadoJuego = EstadosJuego.PERDIO;
+                Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        plataforma.setScreen(new Menu(plataforma));
+                        //plataforma.setScreen(new Menu(plataforma));
+                        plataforma.setScreen(new CargandoMiniGame1(plataforma));
                     }
-                }, 3);  // 3 segundos*/
+                }, 3);  // 3 segundos
             } else if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
@@ -1021,7 +1022,7 @@ public class PantallaJuego implements Screen
                     // Tocó el botón disparar
                     sonidoPistola.play();
                     Bala bala = new Bala(texturaBala);
-                    bala.setPosicion(mario.getX(),mario.getY()+30);
+                    bala.setPosicion(mario.getX()+15,mario.getY()+70);
                     if(banderaDireccion){
                         bala.setDireccion(-10);
                         balas.add(bala);
