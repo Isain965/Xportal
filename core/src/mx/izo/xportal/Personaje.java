@@ -251,12 +251,12 @@ public class Personaje {
             else {
                 sprite.setY(sprite.getY()+VELOCIDAD_Y);
             }
-            }
+        }
         if(y<0){
             sprite.setY(yInicial);
             estadoSalto=EstadoSalto.EN_PISO;
         }
-        }
+    }
         // Ejecutar movimiento vertical      /*
       //  float y = V0 * tiempoSalto - G_2 * tiempoSalto * tiempoSalto;  // Desplazamiento desde que inició el salto
         //if (tiempoSalto > tiempoVuelo / 2) { // Llegó a la altura máxima?
