@@ -233,7 +233,7 @@ public class Menu implements Screen
             } else if (btnSettings.contiene(x,y)){
                 plataforma.setScreen(new PSettings(plataforma));
             }else if (btnExit.contiene(x,y)){
-                System.exit(0);
+                //System.exit(0);
                 //Un test para el minigame
                 //plataforma.setScreen(new CargandoMiniGame1(plataforma));
                 plataforma.setScreen(new CargandoMGDos(plataforma));
