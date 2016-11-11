@@ -284,7 +284,7 @@ public class Nivel2_B implements Screen {
 
 
         particulas = new ParticleEffect();
-        particulas.load(Gdx.files.internal("nieve.p"), Gdx.files.internal(""));
+        particulas.load(Gdx.files.internal("hojas.p"), Gdx.files.internal(""));
         particulas.setPosition(Gdx.graphics.getWidth()/2, 900);
         particulas.reset();
     }
@@ -985,7 +985,7 @@ public class Nivel2_B implements Screen {
                     // Tocó el botón disparar
                     sonidoPistola.play();
                     Bala bala = new Bala(texturaBala);
-                    bala.setPosicion(mario.getX(),mario.getY()+30);
+                    bala.setPosicion(mario.getX()+15,mario.getY()+70);
                     if(banderaDireccion){
                         bala.setDireccion(-10);
                         balas.add(bala);
