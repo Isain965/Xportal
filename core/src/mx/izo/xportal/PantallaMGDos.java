@@ -12,6 +12,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -39,7 +40,15 @@ public class PantallaMGDos implements Screen
     private OrthographicCamera camara;
     private Viewport vista;
 
+    //vidaMax
+    private int vidafMax = 5;
 
+    private Sprite spriteVidas;
+    private Sprite spriteVidasF;
+
+    //textura barra de vidas
+    private Texture texturaVidas;
+    private Texture texturaVidasF;
 
     // Objeto para dibujar en la pantalla
     private SpriteBatch batch;
@@ -95,6 +104,7 @@ public class PantallaMGDos implements Screen
 
     private Texture texturaEnemigo;
     private Texture texturaEnemigo2;
+    private Texture alien1, alien2, alien3;
 
     private float tiempoJuego=0;
 
@@ -184,6 +194,14 @@ public class PantallaMGDos implements Screen
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
         // Carga el mapa en memoria
         mapa = assetManager.get("inv.tmx");
+
+        //textura barra de vidas
+        texturaVidas = assetManager.get("barra.png");
+        texturaVidasF = assetManager.get("barraF.png");
+        //dibuja barra vidas
+        spriteVidas = new Sprite(texturaVidas);
+        spriteVidasF = new Sprite(texturaVidasF);
+
         //mapa = assetManager.get("Mapa.tmx");
         //mapa.getLayers().get(0).setVisible(false);    // Pueden ocultar una capa así
         // Crear el objeto que dibujará el mapa
@@ -241,6 +259,9 @@ public class PantallaMGDos implements Screen
 
         texturaEnemigo = assetManager.get("Planta.png");
         texturaEnemigo2 = assetManager.get("embudo.png");
+        alien1 = assetManager.get("alien1.png");
+        alien2 = assetManager.get("alien2.png");
+        alien3 = assetManager.get("alien3.png");
 
         Enemigo enemigo1 = new Enemigo(texturaEnemigo);
         enemigo1.setPosicion(1142,20);
@@ -255,14 +276,14 @@ public class PantallaMGDos implements Screen
         balaAnterior.setPosicion(enemigo1.getX(),641);
 
 
-        EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
-        enemigoV1.setPosicion(571,770);
+        EnemigoV enemigoV1 = new EnemigoV(alien1);
+        enemigoV1.setPosicion(ANCHO_MAPA/2,ALTO_MAPA/2);
         /*Alien enemigoV1 = new Alien(texturaEnemigo2);
         enemigoV1.setPosicion(ANCHO_MAPA/2,ALTO_MAPA/2);*/
-        EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
-        enemigoV2.setPosicion(1713,770);
-        EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
-        enemigoV3.setPosicion(2855,770);
+        EnemigoV enemigoV2 = new EnemigoV(alien2);
+        enemigoV2.setPosicion(ANCHO_MAPA/2-enemigoV2.getSprite().getWidth(),ALTO_MAPA/2);
+        EnemigoV enemigoV3 = new EnemigoV(alien3);
+        enemigoV3.setPosicion(ANCHO_MAPA/2-enemigoV2.getSprite().getWidth()*2,ALTO_MAPA/2);
         enemigosV.add(enemigoV1);
         enemigosV.add(enemigoV2);
         enemigosV.add(enemigoV3);
@@ -285,6 +306,21 @@ public class PantallaMGDos implements Screen
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
+//barra vidas pregunta cuantas existen
+        float barraSizeOriginal = spriteVidas.getWidth();
+        float barraSizeActual=0;
+        if(vidaf==1) {
+            barraSizeActual = 32;
+        }else if(vidaf==2){
+            barraSizeActual=64;
+        }else if(vidaf==3){
+            barraSizeActual=96;
+        }else if(vidaf==4){
+            barraSizeActual=128;
+        }else if(vidaf==vidafMax) {
+            barraSizeActual=160;
+        }
+        spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
 
         if (estadoJuego!=EstadosJuego.PERDIO) {
             // Actualizar objetos en la pantalla
@@ -449,6 +485,10 @@ public class PantallaMGDos implements Screen
             // Estrellas recolectadas
             texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
             texto.mostrarMensaje(batch,"Life: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
+            spriteVidas.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
+            spriteVidasF.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
+            spriteVidas.draw(batch);
+            spriteVidasF.draw(batch);
         }
         batch.end();
     }
@@ -802,13 +842,16 @@ public class PantallaMGDos implements Screen
         //assetManager.unload("Mapa.tmx");
         assetManager.unload("shoot.png");
         assetManager.unload("salto.png");
+        assetManager.unload("barra.png");
         assetManager.unload("pil.png");
         assetManager.unload("bala.png");
         assetManager.unload("balaEmbudo.png");
         assetManager.unload("balaPlanta.png");
         assetManager.unload("Planta.png");
         assetManager.unload("embudo.png");
-
+        assetManager.unload("alien1.png");
+        assetManager.unload("alien2.png");
+        assetManager.unload("alien3.png");
     }
 
     /*
