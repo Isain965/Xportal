@@ -70,8 +70,7 @@ public class Personaje {
 
 
         // Crea la animación con tiempo de 0.25 segundos entre frames.
-        animacion = new Animation(0.25f, texturaPersonaje[0][7],
-                texturaPersonaje[0][2], texturaPersonaje[0][1]);
+        animacion = new Animation(0.25f, texturaPersonaje[0][0],texturaPersonaje[0][1], texturaPersonaje[0][2], texturaPersonaje[0][3],texturaPersonaje[0][4], texturaPersonaje[0][5],texturaPersonaje[0][6],texturaPersonaje[0][7]);
         //animarSalto = new Animation(0.25f, texturaPersonaje[0][5],
                // texturaPersonaje[0][2], texturaPersonaje[0][1]);
 
@@ -101,8 +100,7 @@ public class Personaje {
 
 
         // Crea la animación con tiempo de 0.25 segundos entre frames.
-        animacion = new Animation(0.25f, texturaPersonaje[0][7],
-                texturaPersonaje[0][2], texturaPersonaje[0][1]);
+        animacion = new Animation(0.25f, texturaPersonaje[0][0],texturaPersonaje[0][1], texturaPersonaje[0][2], texturaPersonaje[0][3],texturaPersonaje[0][4], texturaPersonaje[0][5],texturaPersonaje[0][6],texturaPersonaje[0][7]);
         //animarSalto = new Animation(0.25f, texturaPersonaje[0][5],
         // texturaPersonaje[0][2], texturaPersonaje[0][1]);
 
@@ -253,12 +251,12 @@ public class Personaje {
             else {
                 sprite.setY(sprite.getY()+VELOCIDAD_Y);
             }
-            }
+        }
         if(y<0){
             sprite.setY(yInicial);
             estadoSalto=EstadoSalto.EN_PISO;
         }
-        }
+    }
         // Ejecutar movimiento vertical      /*
       //  float y = V0 * tiempoSalto - G_2 * tiempoSalto * tiempoSalto;  // Desplazamiento desde que inició el salto
         //if (tiempoSalto > tiempoVuelo / 2) { // Llegó a la altura máxima?
