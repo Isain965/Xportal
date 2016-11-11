@@ -32,8 +32,8 @@ public class EnemigoV {
         TextureRegion[][] texturaPersonaje;
         if(mg==0) {
             texturaPersonaje = texturaEnemigo.split(124, 134);
-            animacion = new Animation(0.25f, texturaPersonaje[0][5],
-                    texturaPersonaje[0][2], texturaPersonaje[0][1]);
+            animacion = new Animation(0.20f,texturaPersonaje[0][5], texturaPersonaje[0][4], texturaPersonaje[0][3],texturaPersonaje[0][2], texturaPersonaje[0][1],texturaPersonaje[0][0],
+                    texturaPersonaje[0][1], texturaPersonaje[0][2],texturaPersonaje[0][3], texturaPersonaje[0][4]);
             // Animación infinita
             animacion.setPlayMode(Animation.PlayMode.LOOP);
             // Inicia el timer que contará tiempo para saber qué frame se dibuja
@@ -42,7 +42,8 @@ public class EnemigoV {
             sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
         }else if(mg==2){
             texturaPersonaje = texturaEnemigo.split(64, 64);
-            animacion = new Animation(0.25f, texturaPersonaje[0][0],texturaPersonaje[1][0]);
+            animacion = new Animation(0.20f,texturaPersonaje[0][5], texturaPersonaje[0][4], texturaPersonaje[0][3],texturaPersonaje[0][2], texturaPersonaje[0][1],texturaPersonaje[0][0],
+                    texturaPersonaje[0][1], texturaPersonaje[0][2],texturaPersonaje[0][3], texturaPersonaje[0][4]);
             // Animación infinita
             animacion.setPlayMode(Animation.PlayMode.LOOP);
             // Inicia el timer que contará tiempo para saber qué frame se dibuja
