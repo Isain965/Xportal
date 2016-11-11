@@ -116,7 +116,7 @@ public class PantallaCargando implements Screen
 
         // Dibujar
         borrarPantalla();
-        spriteCargando.setRotation(spriteCargando.getRotation() + 15);
+        spriteCargando.setRotation(spriteCargando.getRotation()+10);
 
         batch.setProjectionMatrix(camara.combined);
 

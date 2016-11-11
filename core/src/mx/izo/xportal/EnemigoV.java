@@ -14,6 +14,7 @@ public class EnemigoV {
     private Sprite sprite;
     private int vidas = 5;
 
+    private int mg=0;
 
     //animacion
     private Animation animacion;    // Caminando
@@ -28,15 +29,27 @@ public class EnemigoV {
 
         sprite = new Sprite(texturaEnemigo);
 
-        TextureRegion[][] texturaPersonaje = texturaEnemigo.split(124,134);
-        animacion = new Animation(0.25f,texturaPersonaje[0][5],
-                texturaPersonaje[0][2], texturaPersonaje[0][1] );
-        // Animación infinita
-        animacion.setPlayMode(Animation.PlayMode.LOOP);
-        // Inicia el timer que contará tiempo para saber qué frame se dibuja
-        timerAnimacion = 0;
-        // Crea el sprite cuando para el personaje quieto (idle)
-        sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
+        TextureRegion[][] texturaPersonaje;
+        if(mg==0) {
+            texturaPersonaje = texturaEnemigo.split(124, 134);
+            animacion = new Animation(0.25f, texturaPersonaje[0][5],
+                    texturaPersonaje[0][2], texturaPersonaje[0][1]);
+            // Animación infinita
+            animacion.setPlayMode(Animation.PlayMode.LOOP);
+            // Inicia el timer que contará tiempo para saber qué frame se dibuja
+            timerAnimacion = 0;
+            // Crea el sprite cuando para el personaje quieto (idle)
+            sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
+        }else if(mg==2){
+            texturaPersonaje = texturaEnemigo.split(64, 64);
+            animacion = new Animation(0.25f, texturaPersonaje[0][0],texturaPersonaje[1][0]);
+            // Animación infinita
+            animacion.setPlayMode(Animation.PlayMode.LOOP);
+            // Inicia el timer que contará tiempo para saber qué frame se dibuja
+            timerAnimacion = 0;
+            // Crea el sprite cuando para el personaje quieto (idle)
+            sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
+        }
 
     }
 
@@ -58,6 +71,10 @@ public class EnemigoV {
 
     public void setVidas(int vidas){
         this.vidas = vidas;
+    }
+
+    public void setMg(int mg){
+        this.mg = mg;
     }
 
     public float getX() {
