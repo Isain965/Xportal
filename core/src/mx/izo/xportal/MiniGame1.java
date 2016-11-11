@@ -456,7 +456,7 @@ public class MiniGame1 implements Screen
 
             else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
-                estadoJuego = EstadosJuego.PERDIO;
+                //estadoJuego = EstadosJuego.PERDIO;
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {

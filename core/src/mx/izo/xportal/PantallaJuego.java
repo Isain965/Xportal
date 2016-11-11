@@ -1021,7 +1021,7 @@ public class PantallaJuego implements Screen
                     // Tocó el botón disparar
                     sonidoPistola.play();
                     Bala bala = new Bala(texturaBala);
-                    bala.setPosicion(mario.getX(),mario.getY()+30);
+                    bala.setPosicion(mario.getX()+15,mario.getY()+70);
                     if(banderaDireccion){
                         bala.setDireccion(-10);
                         balas.add(bala);
