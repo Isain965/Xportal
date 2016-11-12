@@ -216,6 +216,7 @@ public class PantallaJuego implements Screen
         // Crear el personaje
         mario = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
         // Posición inicial del personaje
+        mario.setSalto(60);
         mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
 
         // Crear los botones
@@ -499,7 +500,7 @@ public class PantallaJuego implements Screen
         //Elimina las balas del personaje
         for (int i = 0; i<balas.size();i++){
             Bala bala = balas.get(i);
-            if(bala.getY()==1000 || bala.getX()>mario.getX()+rango-150){
+            if(bala.getY()==1000 || bala.getX()>mario.getX()+rango || mario.getX()-rango>bala.getX()){
                 balas.remove(i);
             }
         }
