@@ -90,7 +90,7 @@ public class PantallaJuego implements Screen
     private int vidafMax=5;
     private int vidafMin=0;
     private Texto texto;
-    private Sound sonidoEstrella, sonidoLlave,sonidoPistola,sonidoRetrocarga;
+    private Sound sonidoEstrella, sonidoLlave,sonidoPistola,sonidoRetrocarga,mute;
 
     // Fin del juego, Gana o Pierde
     private Texture texturaGana;
@@ -314,6 +314,7 @@ public class PantallaJuego implements Screen
         sonidoLlave=assetManager.get("llave.mp3");
         sonidoPistola=assetManager.get("pistola.mp3");
         sonidoRetrocarga = assetManager.get("retrocarga.wav");
+        mute = assetManager.get("Mute.mp3");
 
         //musicFondo = Gdx.audio.newMusic(Gdx.files.internal("Level1.wav"));
         musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
@@ -813,7 +814,7 @@ public class PantallaJuego implements Screen
             }else if(esPistola(capaPlataforma.getCell(celdaX,celdaY))){
                 eliminarPistolita();
                 banderaArma = true;
-                sonidoVida.play();
+                sonidoRetrocarga.play();
             }
             else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
@@ -1022,23 +1023,38 @@ public class PantallaJuego implements Screen
     public void dispose() {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
-        assetManager.unload("marioSprite.png");
-        assetManager.unload("ganaste.png");
-        assetManager.unload("salto.png");
+        // Carga los recursos de la siguiente pantalla (PantallaJuego)
         assetManager.unload("Mapa.tmx");
-        assetManager.unload("pil.png");
+        assetManager.unload("marioSprite.png");
+        assetManager.unload("marioSpriteIzq.png");
+        assetManager.unload("salto.png");
+
+        //cargar barra
+        assetManager.unload("barra.png");
+        assetManager.unload("barraF.png");
+
+
+        // Cargar imagen
+        // Texturas de los botones
         assetManager.unload("BtmDerecho.png");
         assetManager.unload("BtmIzquierdo.png");
         assetManager.unload("BtmSaltar.png");
         assetManager.unload("shoot.png");
         assetManager.unload("bullet.png");
-        assetManager.unload("barra.png");
-        assetManager.unload("barraF.png");
         assetManager.unload("embudo.png");
         assetManager.unload("Planta.png");
         assetManager.unload("balaPlanta.png");
         assetManager.unload("balaEmbudo.png");
         assetManager.unload("BtmPausa.png");
+
+        //Para la pausa
+        assetManager.unload("Pausa.png");
+        assetManager.unload("BtmPlay.png");
+        assetManager.unload("back.png");
+        assetManager.unload("BtmSonido.png");
+        assetManager.unload("BtmMusic.png");
+        assetManager.unload("BtmSonidoF.png");
+        assetManager.unload("BtmMusicF.png");
         // Fin del juego
         assetManager.unload("ganaste.png");
         // Efecto al tomar la moneda
@@ -1047,11 +1063,8 @@ public class PantallaJuego implements Screen
         assetManager.unload("opendoor.mp3");
         assetManager.unload("vidawi.mp3");
         assetManager.unload("pistola.mp3");
-
-        assetManager.unload("balaEmbudo.png");
-        assetManager.unload("balaPlanta.png");
-
-        assetManager.unload("Planta.png");
+        assetManager.unload("retrocarga.wav");
+        assetManager.unload("Mute.mp3");
     }
 
     /*
@@ -1115,27 +1128,33 @@ public class PantallaJuego implements Screen
                     estadoJuego=EstadosJuego.JUGANDO;
                 }else if(btnMenu.contiene(x,y)){
                     musicFondo.stop();
+                    dispose();
                     plataforma.setScreen(new Menu(plataforma));
-                }
-                else if(btnSonidoT.contiene(x,y)){
+
+                } else if(btnSonidoT.contiene(x,y)){
+                    AssetManager assetManager = plataforma.getAssetManager();
+
                     btnSonidoF.setPosicion(btnSonidoT.getX(),btnSonidoT.getY());
                     btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
-                    sonidoEstrella.pause();
-                    sonidoRetrocarga.pause();
-                    sonidoLlave.pause();
-                    sonidoPierde.pause();
-                    sonidoPistola.pause();
-                    sonidoVida.pause();
+
+                    sonidoEstrella = assetManager.get("Mute.mp3");
+                    sonidoRetrocarga = assetManager.get("Mute.mp3");
+                    sonidoLlave = assetManager.get("Mute.mp3");
+                    sonidoPierde = assetManager.get("Mute.mp3");
+                    sonidoPistola = assetManager.get("Mute.mp3");
+                    sonidoVida = assetManager.get("Mute.mp3");
                 }
                 else if(btnSonidoF.contiene(x,y)){
+                    AssetManager assetManager = plataforma.getAssetManager();
+
                     btnSonidoT.setPosicion(btnSonidoF.getX(),btnSonidoF.getY());
                     btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
-                    sonidoEstrella.play();
-                    sonidoRetrocarga.play();
-                    sonidoLlave.play();
-                    sonidoPierde.play();
-                    sonidoPistola.play();
-                    sonidoVida.play();
+                    sonidoEstrella = assetManager.get("monedas.mp3");
+                    sonidoPierde = assetManager.get("opendoor.mp3");
+                    sonidoVida= assetManager.get("vidawi.mp3");
+                    sonidoLlave=assetManager.get("llave.mp3");
+                    sonidoPistola=assetManager.get("pistola.mp3");
+                    sonidoRetrocarga = assetManager.get("retrocarga.wav");
                 }
                 else if(btnMusicaT.contiene(x,y)){
                     btnMusicaF.setPosicion(btnMusicaT.getX(),btnMusicaT.getY());
