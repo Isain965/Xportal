@@ -365,7 +365,7 @@ public class PantallaJuego implements Screen
             }, 3);  // 3 segundos
         }
 
-        for (EnemigoV enemigoV:enemigosV){
+        /*for (EnemigoV enemigoV:enemigosV){
             if (enemigoV.getVidas()>0){
                 enemigoV.render(batch);
 
@@ -430,7 +430,7 @@ public class PantallaJuego implements Screen
                     balasEnemigos.add(balaEnJuego);
                     banderaDisparo = false;
                     tiempoJuego = 0;
-                //}else if (mario.getX()>=enemigo.getX()+enemigo.getSprite().getWidth()&&mario.getX()<=enemigo.getX()+enemigo.getSprite().getWidth()+rango&&banderaDisparo&&tiempoJuego==tiempoDisparo){
+                    //}else if (mario.getX()>=enemigo.getX()+enemigo.getSprite().getWidth()&&mario.getX()<=enemigo.getX()+enemigo.getSprite().getWidth()+rango&&banderaDisparo&&tiempoJuego==tiempoDisparo){
                 }else if((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
                     Gdx.app.log("Deberia de disparar a la derecha","");
                     Bala balaEnJuego = new Bala(texturaBalaPlanta);
@@ -446,7 +446,7 @@ public class PantallaJuego implements Screen
                     bala.render(batch,banderaDireccion);
                     banderaDisparo = true;
                     if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
-                        (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigo.getSprite().getHeight()))) {
+                            (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigo.getSprite().getHeight()))) {
                         int vidas = enemigo.getVidas();
                         vidaf-=1;
                         bala.velocidadX = 10;
@@ -475,7 +475,7 @@ public class PantallaJuego implements Screen
                 enemigo.setPosicion(0,2000);
             }
         }
-
+*/
         //Dibuja las balas del personaje
         for(Bala bala : balas){
             bala.render(batch,banderaDireccion);
@@ -571,9 +571,6 @@ public class PantallaJuego implements Screen
         camara.update();
     }
 
-    /*
-    Movimiento del personaje. SIMPLIFICAR LOGICA :(
-     */
     private void moverPersonaje() {
         // Prueba caída libre inicial o movimiento horizontal
         switch (mario.getEstadoMovimiento()) {
@@ -703,14 +700,13 @@ public class PantallaJuego implements Screen
 
             else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
-                //estadoJuego = EstadosJuego.PERDIO;
-                Timer.schedule(new Timer.Task() {
+                estadoJuego = EstadosJuego.PERDIO;
+                /*Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        //plataforma.setScreen(new Menu(plataforma));
-                        plataforma.setScreen(new CargandoMiniGame1(plataforma));
+                        plataforma.setScreen(new Menu(plataforma));
                     }
-                }, 3);  // 3 segundos
+                }, 3);  // 3 segundos*/
             } else if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
@@ -740,7 +736,7 @@ public class PantallaJuego implements Screen
             }else if(esPistola(capaPlataforma.getCell(celdaX,celdaY))){
                 eliminarPistolita();
                 banderaArma = true;
-                sonidoRetrocarga.play();
+                sonidoVida.play();
             }
             else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
@@ -754,7 +750,6 @@ public class PantallaJuego implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        musicFondo.stop();
                         plataforma.setScreen(new CargandoMiniGame1(plataforma));
                     }
                 }, 3);  // 3 segundos
@@ -767,15 +762,12 @@ public class PantallaJuego implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        musicFondo.stop();
                         plataforma.setScreen(new CargandoMiniGame1(plataforma));
                     }
                 }, 3);  // 3 segundos
             }
         }
-        else {
-            mario.actualizar();
-        }
+        mario.actualizar();
     }
 
     private void abrirPuerta1() {
@@ -979,7 +971,7 @@ public class PantallaJuego implements Screen
         assetManager.unload("vidawi.mp3");
         assetManager.unload("pistola.mp3");
 
-       assetManager.unload("balaEmbudo.png");
+        assetManager.unload("balaEmbudo.png");
         assetManager.unload("balaPlanta.png");
 
         assetManager.unload("Planta.png");
