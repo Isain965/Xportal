@@ -30,7 +30,7 @@ public class Personaje {
     private EstadoSalto estadoSalto;
 
     // SALTO del personaje
-    private static final float V0 = 80;     // Velocidad inicial del salto
+    private static float V0 = 80;     // Velocidad inicial del salto
     private static final float G = 9.81f;
     private static final float G_2 = G / 2;   // Gravedad
     private float yInicial;         // 'y' donde inicia el salto
@@ -100,7 +100,7 @@ public class Personaje {
 
 
         // Crea la animación con tiempo de 0.25 segundos entre frames.
-        animacion = new Animation(0.25f, texturaPersonaje[0][0],texturaPersonaje[0][1], texturaPersonaje[0][2], texturaPersonaje[0][3],texturaPersonaje[0][4], texturaPersonaje[0][5],texturaPersonaje[0][6],texturaPersonaje[0][7]);
+        animacion = new Animation(0.10f, texturaPersonaje[0][0],texturaPersonaje[0][1], texturaPersonaje[0][2], texturaPersonaje[0][3],texturaPersonaje[0][4], texturaPersonaje[0][5],texturaPersonaje[0][6],texturaPersonaje[0][7]);
         //animarSalto = new Animation(0.25f, texturaPersonaje[0][5],
         // texturaPersonaje[0][2], texturaPersonaje[0][1]);
 
@@ -310,6 +310,10 @@ public class Personaje {
 
     public void setBanderaPosicion(boolean bandera){
         this.banderaPosicion=bandera;
+    }
+
+    public void setSalto(float velocidad ){
+        this.V0 = velocidad;
     }
 
     // Inicia el salto

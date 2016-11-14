@@ -31,8 +31,8 @@ public class Enemigo {
         sprite = new Sprite(texturaEnemigo);
 
         TextureRegion[][] texturaPersonaje = texturaEnemigo.split(269,134);
-        animacion = new Animation(0.25f,texturaPersonaje[0][5],
-                texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        animacion = new Animation(0.20f,texturaPersonaje[0][5], texturaPersonaje[0][4], texturaPersonaje[0][3],texturaPersonaje[0][2], texturaPersonaje[0][1],texturaPersonaje[0][0],
+                texturaPersonaje[0][1], texturaPersonaje[0][2],texturaPersonaje[0][3], texturaPersonaje[0][4]);
         // Animación infinita
         animacion.setPlayMode(Animation.PlayMode.LOOP);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja

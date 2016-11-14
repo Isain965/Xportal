@@ -490,11 +490,10 @@ public class Nivel2_A implements Screen {
         //Elimina las balas del personaje
         for (int i = 0; i<balas.size();i++){
             Bala bala = balas.get(i);
-            if(bala.getY()==1000 || bala.getX()>mario.getX()+rango-150){
+            if(bala.getY()==1000 || bala.getX()>mario.getX()+rango || mario.getX()-rango>bala.getX()){
                 balas.remove(i);
             }
         }
-
 
         //Elimina a enemigos planta
         for (int i = 0; i<enemigos.size();i++){
