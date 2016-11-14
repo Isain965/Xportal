@@ -142,9 +142,17 @@ public class PantallaJuego implements Screen
     private Texture texturaPausa;
     private Texture texturaPlay;
     private Texture texturaMenu;
+    private Texture texturaSonidoT;
+    private Texture texturaMusicaT;
+    private Texture texturaSonidoF;
+    private Texture texturaMusicaF;
     private Boton btnPantallaPausa;
     private Boton btnPlay;
     private Boton btnMenu;
+    private Boton btnSonidoT;
+    private Boton btnMusicaT;
+    private Boton btnSonidoF;
+    private Boton btnMusicaF;
     private boolean banderaPausa = false;
 
 
@@ -316,6 +324,10 @@ public class PantallaJuego implements Screen
         texturaPausa = assetManager.get("Pausa.png");
         texturaPlay = assetManager.get("BtmPlay.png");
         texturaMenu = assetManager.get("back.png");
+        texturaSonidoT = assetManager.get("BtmSonido.png");
+        texturaMusicaT = assetManager.get("BtmMusic.png");
+        texturaSonidoF = assetManager.get("BtmSonidoF.png");
+        texturaMusicaF = assetManager.get("BtmMusicF.png");
 
         btnPantallaPausa = new Boton(texturaPausa);
         //btnPantallaPausa.setPosicion(Plataforma.ANCHO_CAMARA/2, Plataforma.ALTO_CAMARA/2);
@@ -328,6 +340,22 @@ public class PantallaJuego implements Screen
         btnMenu = new Boton (texturaMenu);
         btnMenu.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2);
         btnMenu.setAlfa(0.7f);
+
+        btnMusicaT = new Boton(texturaMusicaT);
+        btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2-180);
+        btnMusicaT.setAlfa(0.7f);
+
+        btnMusicaF = new Boton(texturaMusicaF);
+        btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2-1000);
+        btnMusicaF.setAlfa(0.7f);
+
+        btnSonidoT = new Boton(texturaSonidoT);
+        btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-180);
+        btnSonidoT.setAlfa(0.7f);
+
+        btnSonidoF = new Boton(texturaSonidoF);
+        btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+        btnSonidoF.setAlfa(0.7f);
     }
 
     /*
@@ -587,6 +615,10 @@ public class PantallaJuego implements Screen
                 btnPantallaPausa.render(batch);
                 btnPlay.render(batch);
                 btnMenu.render(batch);
+                btnMusicaT.render(batch);
+                btnMusicaF.render(batch);
+                btnSonidoT.render(batch);
+                btnSonidoF.render(batch);
             }
             batch.end();
         }
@@ -1084,6 +1116,36 @@ public class PantallaJuego implements Screen
                 }else if(btnMenu.contiene(x,y)){
                     musicFondo.stop();
                     plataforma.setScreen(new Menu(plataforma));
+                }
+                else if(btnSonidoT.contiene(x,y)){
+                    btnSonidoF.setPosicion(btnSonidoT.getX(),btnSonidoT.getY());
+                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+                    sonidoEstrella.pause();
+                    sonidoRetrocarga.pause();
+                    sonidoLlave.pause();
+                    sonidoPierde.pause();
+                    sonidoPistola.pause();
+                    sonidoVida.pause();
+                }
+                else if(btnSonidoF.contiene(x,y)){
+                    btnSonidoT.setPosicion(btnSonidoF.getX(),btnSonidoF.getY());
+                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+                    sonidoEstrella.play();
+                    sonidoRetrocarga.play();
+                    sonidoLlave.play();
+                    sonidoPierde.play();
+                    sonidoPistola.play();
+                    sonidoVida.play();
+                }
+                else if(btnMusicaT.contiene(x,y)){
+                    btnMusicaF.setPosicion(btnMusicaT.getX(),btnMusicaT.getY());
+                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+                    musicFondo.pause();
+                }
+                else if(btnMusicaF.contiene(x,y)){
+                    btnMusicaT.setPosicion(btnMusicaF.getX(),btnMusicaF.getY());
+                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+                    musicFondo.play();
                 }
 
             }
