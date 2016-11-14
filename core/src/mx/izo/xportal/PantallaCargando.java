@@ -95,6 +95,11 @@ public class PantallaCargando implements Screen
         assetManager.load("balaEmbudo.png",Texture.class);
         assetManager.load("BtmPausa.png",Texture.class);
 
+        //Para la pausa
+        assetManager.load("Pausa.png", Texture.class);
+        assetManager.load("BtmPlay.png",Texture.class);
+        assetManager.load("back.png",Texture.class);
+
         // Fin del juego
         assetManager.load("ganaste.png", Texture.class);
         // Efecto al tomar la moneda
