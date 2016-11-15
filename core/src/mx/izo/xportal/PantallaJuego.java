@@ -420,7 +420,8 @@ public class PantallaJuego implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        musicFondo.stop();
+                        musicFondo.dispose();
+                        //dispose();
                         plataforma.setScreen(new PantallaPerdiste(plataforma));
                     }
                 }, 3);  // 3 segundos
@@ -825,6 +826,7 @@ public class PantallaJuego implements Screen
             if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) && llaveA ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
+                //dispose();
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
@@ -837,6 +839,7 @@ public class PantallaJuego implements Screen
             if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) && llaveB) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
+                //dispose();
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {

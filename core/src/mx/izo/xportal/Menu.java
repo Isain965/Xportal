@@ -225,8 +225,8 @@ public class Menu implements Screen
             if (btnPlay.contiene(x,y)){
                 musicFondo.dispose();
                 dispose();
-                //plataforma.setScreen(new PantallaCargando(plataforma));
-                plataforma.setScreen(new CargandoMiniGame1(plataforma));
+                plataforma.setScreen(new PantallaCargando(plataforma));
+                //plataforma.setScreen(new CargandoMiniGame1(plataforma));
                 //plataforma.setScreen(new CargandoMGDos(plataforma));
             } else if (btnAbout.contiene(x,y)){
                 plataforma.setScreen(new AcercaDe(plataforma));

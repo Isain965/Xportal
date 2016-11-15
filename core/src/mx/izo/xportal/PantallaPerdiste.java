@@ -177,6 +177,7 @@ public class PantallaPerdiste implements Screen {
         AssetManager assetManager = plataforma.getAssetManager();
         assetManager.unload("GameOver.png");
         assetManager.unload("back.png");
+        assetManager.unload("BtmPlay.png");
 //        efecto.dispose();
 //        explosion.dispose();
     }
