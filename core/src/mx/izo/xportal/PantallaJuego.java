@@ -604,6 +604,8 @@ public class PantallaJuego implements Screen
             }
             batch.end();
         }
+
+
         else{
             borrarPantalla();
 

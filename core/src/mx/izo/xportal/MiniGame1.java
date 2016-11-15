@@ -347,7 +347,7 @@ public class MiniGame1 implements Screen
                     public void run() {
                         plataforma.setScreen(new CargandoMGDos(plataforma));
                     }
-                }, 3);  // 3 segundos
+                }, 1);  // 3 segundos
             }
 
 
@@ -371,9 +371,88 @@ public class MiniGame1 implements Screen
             }
             batch.end();
         }
+
+
+
         else{
+            borrarPantalla();
+
             // Dibuja La Pausa
             batch.setProjectionMatrix(camaraHUD.combined);
+
+            rendererMapa.setView(camara);
+            rendererMapa.render();  // Dibuja el mapa
+
+            // Entre begin-end dibujamos nuestros objetos en pantalla
+            batch.begin();
+            H.render(batch);    // Dibuja el personaje
+
+            tiempoJuego += Gdx.graphics.getDeltaTime();
+            //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
+
+            for (EnemigoV enemigoV : enemigosV) {
+                if (enemigoV.getVidas() > 0) {
+                    enemigoV.render(batch);
+
+                    if ((int) tiempoJuego == 1 && banderaDisparo) {
+                        BalaV balaEnJuego = new BalaV(texturaManzanas);
+                        balaEnJuego.setDireccion(-3);
+                        balaEnJuego.setPosicion(enemigoV.getX() + 50, enemigoV.getY() + 50);
+                        balasL.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                        enemigoV.setPosicion((int) (1220 * Math.random()) + 1, 750);
+                    }
+                    if (tiempoJuego > 6) {
+                        //ISAIN EL HACKER :)
+                        tiempoJuego = 0;
+                    }
+                } else {
+                    //Borrar de memoria
+                    enemigoV.setPosicion(0, 2000);
+                }
+
+            }
+
+            for (int i = 0; i < balasL.size(); i++) {
+                if (balasL.get(i).getY() < 0) {
+                    balasL.remove(i);
+                }
+            }
+
+            if (vidaf == 20) {
+                musicFondo.dispose();
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        plataforma.setScreen(new CargandoMGDos(plataforma));
+                    }
+                }, 3);  // 3 segundos
+            }
+
+
+            batch.end();
+
+
+            // Dibuja el HUD
+            batch.setProjectionMatrix(camaraHUD.combined);
+            batch.begin();
+
+            // ¿Ya ganó?
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                /*btnIzquierda.render(batch);
+                btnDerecha.render(batch);
+                btnSalto.render(batch);
+                btnPausa.render(batch);*/
+                // Estrellas recolectadas
+                texto.mostrarMensaje(batch, "Score: " + estrellas, Plataforma.ANCHO_CAMARA / 2 - 200, Plataforma.ALTO_CAMARA * 0.95f);
+                texto.mostrarMensaje(batch, "Points: " + vidaf, Plataforma.ANCHO_CAMARA / 2 + 200, Plataforma.ALTO_CAMARA * 0.95f);
+            }
+            batch.end();
+
+
 
             batch.begin();
             // ¿Ya ganó?
@@ -381,12 +460,19 @@ public class MiniGame1 implements Screen
                 btnGana.render(batch);
             } else {
                 btnPantallaPausa.render(batch);
+                btnPantallaPausa.setAlfa(1);
                 btnPlay.render(batch);
+                btnPlay.setAlfa(0.9f);
                 btnMenu.render(batch);
+                btnMenu.setAlfa(0.9f);
                 btnMusicaT.render(batch);
+                btnMusicaT.setAlfa(0.9f);
                 btnMusicaF.render(batch);
+                btnMusicaF.setAlfa(0.9f);
                 btnSonidoT.render(batch);
+                btnSonidoT.setAlfa(0.9f);
                 btnSonidoF.render(batch);
+                btnSonidoF.setAlfa(0.9f);
             }
             batch.end();
         }

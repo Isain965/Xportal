@@ -17,8 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 /**
  * Created by k3ll3x on 10/11/2016..
  */
-public class CargandoMGDos implements Screen
-{
+public class CargandoMGDos implements Screen {
     private Plataforma plataforma;
 
     // La cámara y vista principal
@@ -69,7 +68,6 @@ public class CargandoMGDos implements Screen
 
     // Carga los recursos a través del administrador de assets (siguiente pantalla):)
     private void cargarRecursos() {
-
         Gdx.app.log("cargarRecursos","Iniciando...");
         // Carga los recursos de la siguiente pantalla (PantallaJuego)
         assetManager.load("inv.tmx", TiledMap.class);  // Cargar info del mapa
@@ -110,6 +108,7 @@ public class CargandoMGDos implements Screen
         assetManager.load("vidawi.mp3", Sound.class);
         assetManager.load("shoot.mp3",Sound.class);
         Gdx.app.log("cargarRecursos", "Terminando...");
+
     }
 
     @Override
@@ -135,7 +134,8 @@ public class CargandoMGDos implements Screen
 
         if (assetManager.update()) {
             // Terminó la carga, cambiar de pantalla
-            plataforma.setScreen(new PantallaMGDos(plataforma));
+            dispose();
+            plataforma.setScreen(new MiniGame1(plataforma));
         } else {
             // Aún no termina la carga de assets, leer el avance
             float avance = assetManager.getProgress()*100;
@@ -171,6 +171,8 @@ public class CargandoMGDos implements Screen
 
     @Override
     public void dispose() {
+        AssetManager assetManager = plataforma.getAssetManager();
+        assetManager.unload("MiniGameMapa.tmx");
         texturaCargando.dispose();
         texturaFondo.dispose();
         // Los assets de PantallaJuego se liberan en el método dispose de PantallaJuego
