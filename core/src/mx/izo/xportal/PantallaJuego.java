@@ -605,8 +605,122 @@ public class PantallaJuego implements Screen
             batch.end();
         }
         else{
+            borrarPantalla();
+
             // Dibuja La Pausa
             batch.setProjectionMatrix(camaraHUD.combined);
+
+            //barra vidas pregunta cuantas existen
+            float barraSizeOriginal = spriteVidas.getWidth();
+            float barraSizeActual = 0;
+            if (vidaf == 1) {
+                barraSizeActual = 32;
+            } else if (vidaf == 2) {
+                barraSizeActual = 64;
+            } else if (vidaf == 3) {
+                barraSizeActual = 96;
+            } else if (vidaf == 4) {
+                barraSizeActual = 128;
+            } else if (vidaf == vidafMax) {
+                barraSizeActual = 160;
+            }
+            //bajaBarraVidas(spriteVidas,barraSizeActual);
+            //spriteVidas.setRegion(0, 0, (int) barraSizeActual, (int) spriteVidas.getHeight()); //cast importante
+            spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
+
+            if (estadoJuego != EstadosJuego.PERDIO) {
+                // Actualizar objetos en la pantalla
+                moverPersonaje();
+                actualizarCamara(); // Mover la cámara para que siga al personaje
+            }
+            rendererMapa.setView(camara);
+            rendererMapa.render();  // Dibuja el mapa
+
+
+            batch.begin();
+
+            mario.render(batch);    // Dibuja el personaje
+
+            for (EnemigoV enemigoV : enemigosV) {
+                if (enemigoV.getVidas() > 0) {
+                    enemigoV.render(batch);
+
+                    if ((mario.getX() >= enemigoV.getX() - rango) && (mario.getX() <= enemigoV.getX()) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                        BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
+                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setPosicion(enemigoV.getX(), enemigoV.getY() + 50);
+                        balasEnemigosV.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                    } else if ((mario.getX() > enemigoV.getX()) && (mario.getX() <= enemigoV.getX() + rango) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                        BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
+                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setPosicion(enemigoV.getX() + 38, enemigoV.getY() + 50);
+                        balasEnemigosV.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                    }
+
+
+                    if (tiempoJuego > 6) {
+                        //ISAIN EL HACKER :)
+                        tiempoJuego = 0;
+                    }
+                } else {
+                    //Borrar de memoria
+                    enemigoV.setPosicion(0, 2000);
+                }
+            }
+            for (Enemigo enemigo : enemigos) {
+                if (enemigo.getVidas() > 0) {
+                    enemigo.render(batch);
+
+                    if ((mario.getX() >= enemigo.getX() - rango) && (mario.getX() <= enemigo.getX()) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                        Bala balaEnJuego = new Bala(texturaBalaPlanta);
+                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
+                        balasEnemigos.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                        //}else if (mario.getX()>=enemigo.getX()+enemigo.getSprite().getWidth()&&mario.getX()<=enemigo.getX()+enemigo.getSprite().getWidth()+rango&&banderaDisparo&&tiempoJuego==tiempoDisparo){
+                    } else if ((mario.getX() > enemigo.getX()) && (mario.getX() <= enemigo.getX() + rango) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                        Gdx.app.log("Deberia de disparar a la derecha", "");
+                        Bala balaEnJuego = new Bala(texturaBalaPlanta);
+                        balaEnJuego.setDireccion(10);
+                        balaEnJuego.setPosicion(enemigo.getX() + 120, enemigo.getY() + 50);
+                        balasEnemigos.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                    }
+
+                    if (tiempoJuego > tiempoDisparo) {
+                        tiempoJuego = 0;
+                    }
+                } else {
+                    //Borrar de memoria
+                    enemigo.setPosicion(0, 2000);
+                }
+            }
+
+            batch.end();
+            // Dibuja el HUD
+            batch.setProjectionMatrix(camaraHUD.combined);
+            batch.begin();
+
+            // ¿Ya ganó?
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                // Estrellas recolectadas
+                texto.mostrarMensaje(batch, "Score: " + estrellas, Plataforma.ANCHO_CAMARA - 1000, Plataforma.ALTO_CAMARA * 0.95f);
+                texto.mostrarMensaje(batch, "Life: ", Plataforma.ANCHO_CAMARA - 460, Plataforma.ALTO_CAMARA * 0.95f);
+                spriteVidas.setPosition(Plataforma.ANCHO_CAMARA - 400, Plataforma.ALTO_CAMARA * 0.95f - 27);
+                spriteVidasF.setPosition(Plataforma.ANCHO_CAMARA - 400, Plataforma.ALTO_CAMARA * 0.95f - 27);
+                spriteVidas.draw(batch);
+                spriteVidasF.draw(batch);
+            }
+            batch.end();
+
 
             batch.begin();
             // ¿Ya ganó?
@@ -614,12 +728,19 @@ public class PantallaJuego implements Screen
                 btnGana.render(batch);
             } else {
                 btnPantallaPausa.render(batch);
+                btnPantallaPausa.setAlfa(1);
                 btnPlay.render(batch);
+                btnPlay.setAlfa(0.9f);
                 btnMenu.render(batch);
+                btnMenu.setAlfa(0.9f);
                 btnMusicaT.render(batch);
+                btnMusicaT.setAlfa(0.9f);
                 btnMusicaF.render(batch);
+                btnMusicaF.setAlfa(0.9f);
                 btnSonidoT.render(batch);
+                btnSonidoT.setAlfa(0.9f);
                 btnSonidoF.render(batch);
+                btnSonidoF.setAlfa(0.9f);
             }
             batch.end();
         }

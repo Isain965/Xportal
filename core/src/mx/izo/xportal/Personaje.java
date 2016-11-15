@@ -30,7 +30,7 @@ public class Personaje {
     private EstadoSalto estadoSalto;
 
     // SALTO del personaje
-    private static float V0 = 80;     // Velocidad inicial del salto
+    private float V0 = 80;     // Velocidad inicial del salto
     private static final float G = 9.81f;
     private static final float G_2 = G / 2;   // Gravedad
     private float yInicial;         // 'y' donde inicia el salto
