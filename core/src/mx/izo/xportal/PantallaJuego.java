@@ -27,8 +27,10 @@ import java.util.TimerTask;
  * Created by Equipo alfa buena maravilla onda dinamita escuadrón lobo on 10/11/2016.
  */
 
-public class PantallaJuego implements Screen
-{
+public class PantallaJuego implements Screen {
+
+    private PantallaCargando pantallaCargando;
+
     public static final float ANCHO_MAPA = 4000;   // Ancho del mapa en pixeles
     public static final float ALTO_MAPA = 896;
 
@@ -189,27 +191,6 @@ public class PantallaJuego implements Screen
         // Texto
         texto = new Texto();
     }
-
-
-
-    // LOS RECURSOS SE CARGAN AHORA EN PantallaCargando
-    /*
-    // Carga los recursos a través del administrador de assets
-    private void cargarRecursos() {
-        // Cargar las texturas/mapas
-        AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
-        assetManager.load("Mapa.tmx", TiledMap.class);  // Cargar info del mapa
-        assetManager.load("marioSprite.png", Texture.class);    // Cargar imagen
-        // Texturas de los botones
-        assetManager.load("derecha.png", Texture.class);
-        assetManager.load("izquierda.png", Texture.class);
-        assetManager.load("salto.png", Texture.class);
-        // Fin del juego
-        assetManager.load("ganaste.png", Texture.class);
-        // Se bloquea hasta que cargue todos los recursos
-        assetManager.finishLoading();
-    }
-    */
 
     private void crearObjetos() {
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
@@ -419,7 +400,9 @@ public class PantallaJuego implements Screen
                     @Override
                     public void run() {
                         musicFondo.dispose();
-                        plataforma.setScreen(new PantallaPerdiste1(plataforma));
+                        AssetManager assetManager = plataforma.getAssetManager();
+                        assetManager.clear();
+                        plataforma.setScreen(new PantallaPerdiste(plataforma));
                     }
                 }, 1);  // 3 segundos
             }
@@ -830,14 +813,6 @@ public class PantallaJuego implements Screen
                 // Dejarlo sobre la celda que lo detiene
                 mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
                 mario.setEstadoSalto(Personaje.EstadoSalto.EN_PISO);
-
-                /*if ( esMoneda(celdaAbajo) || esMoneda(celdaDerecha)) {
-                    // La encontró!!!!
-                    estadoJuego = EstadosJuego.GANO;
-                    btnIzquierda.setAlfa(0.2f);
-                    btnDerecha.setAlfa(0.2f);
-                    btnSalto.setAlfa(0.2f);
-                }*/
             }
         }
 
@@ -872,7 +847,7 @@ public class PantallaJuego implements Screen
         //******************************
         if ( capaPlataforma.getCell(celdaX,celdaY) != null || capaPlataforma.getCell(celdaX,celdaY+1) != null ) {
             // Colisionará, dejamos de moverlo
-            if ( esCoin(capaPlataforma.getCell(celdaX,celdaY)) ) {
+            if ( esCoin(capaPlataforma.getCell(celdaX,celdaY))) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY,null);
                 estrellas++;
@@ -895,27 +870,7 @@ public class PantallaJuego implements Screen
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
                 vidaf++;
                 sonidoVida.play();
-            }
-
-            else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
-                sonidoPierde.play();
-                estadoJuego = EstadosJuego.PERDIO;
-                /*Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        plataforma.setScreen(new Menu(plataforma));
-                    }
-                }, 3);  // 3 segundos*/
-            } else if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
-                sonidoPierde.play();
-                estadoJuego = EstadosJuego.PERDIO;
-                /*Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        plataforma.setScreen(new Menu(plataforma));
-                    }
-                }, 3);*/
-            } else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
+            }else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
                 eliminarLlave1();
                 estrellas++;
                 abrirPuerta1();
@@ -951,7 +906,11 @@ public class PantallaJuego implements Screen
                     @Override
                     public void run() {
                         musicFondo.dispose();
-                        plataforma.setScreen(new CargandoMiniGame1(plataforma));
+                        AssetManager assetManager = plataforma.getAssetManager();
+                        assetManager.clear();
+                        pantallaCargando = new PantallaCargando(plataforma);
+                        pantallaCargando.setNivel("MiniGame1");
+                        plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }
@@ -965,7 +924,11 @@ public class PantallaJuego implements Screen
                     @Override
                     public void run() {
                         musicFondo.dispose();
-                        plataforma.setScreen(new CargandoMiniGame1(plataforma));
+                        AssetManager assetManager = plataforma.getAssetManager();
+                        assetManager.clear();
+                        pantallaCargando = new PantallaCargando(plataforma);
+                        pantallaCargando.setNivel("MiniGame1");
+                        plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }

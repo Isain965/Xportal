@@ -7,12 +7,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -37,19 +33,6 @@ public class PantallaGanaste implements Screen {
     private Texture texturaRegresar;
     private Boton btnRegresar;
 
-    //Regresa al juego
-    private Texture texturaBackJuego;
-    private Boton btnBackJuego;
-
-    // SISTEMA DE PARTICULAS
-    //   private ParticleEffect efecto;
-   /* private int indiceEmisor;
-    private Array<ParticleEmitter> emisores;
-    private int cuentaParticulas;
-    private float fps;
-
- //   private ParticleEffect explosion;
-*/
 
     public PantallaGanaste(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -73,20 +56,6 @@ public class PantallaGanaste implements Screen {
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
-        // SISTEMA de PARTICULAS
-//        efecto = new ParticleEffect();
-        //      efecto.load(Gdx.files.internal("prueba.p"), Gdx.files.internal("./"));
-        //      efecto.setPosition(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 2);
-        //      emisores = new Array<ParticleEmitter>(efecto.getEmitters());
-        //      efecto.getEmitters().clear();
-        //      efecto.getEmitters().add(emisores.get(0));
-
-        // Explosion
-        //      explosion = new ParticleEffect();
-        //      explosion.load(Gdx.files.internal("explosion.p"), Gdx.files.internal("./"));
-        //      explosion.scaleEffect(1);
-        //      explosion.setPosition(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 5);
-        //      explosion.reset();
     }
 
     // Carga los recursos a través del administrador de assets
@@ -94,10 +63,8 @@ public class PantallaGanaste implements Screen {
         // Cargar las texturas/mapas
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
 
-        assetManager.load("Ganar.png", Texture.class);    // Cargar imagen
+        assetManager.load("Ganar.PNG", Texture.class);    // Cargar imagen
         assetManager.load("back.png", Texture.class);
-
-        assetManager.load("BtmPlay.png",Texture.class);
 
         // Texturas de los botones
 
@@ -108,15 +75,12 @@ public class PantallaGanaste implements Screen {
     private void crearObjetos() {
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
         // Carga el mapa en memoria
-        texturaAcercaDe = assetManager.get("Ganar.png");
+        texturaAcercaDe = assetManager.get("Ganar.PNG");
         texturaRegresar = assetManager.get("back.png");
 
         btnRegresar = new Boton(texturaRegresar);
 
-        texturaBackJuego = assetManager.get("BtmPlay.png");
-        btnBackJuego= new Boton(texturaBackJuego);
-        //btnRegresar.setPosicion(3 * Plataforma.ANCHO_CAMARA / 4 - texturaRegresar.getWidth() / 2,
-        //Plataforma.ALTO_CAMARA / 2 - texturaRegresar.getHeight() / 2);
+
     }
 
     /*
@@ -136,11 +100,7 @@ public class PantallaGanaste implements Screen {
 
         batch.draw(texturaAcercaDe, 0, 0);
         btnRegresar.render(batch);
-        //btnBackJuego.setPosicion(1150,0);
-        //btnBackJuego.render(batch);
-//        efecto.draw(batch,delta);
 
-//        explosion.draw(batch, Gdx.graphics.getDeltaTime());
 
         batch.end();
     }
@@ -177,8 +137,6 @@ public class PantallaGanaste implements Screen {
         AssetManager assetManager = plataforma.getAssetManager();
         assetManager.unload("GameOver.png");
         assetManager.unload("back.png");
-//        efecto.dispose();
-//        explosion.dispose();
     }
 
     /*
@@ -212,10 +170,8 @@ public class PantallaGanaste implements Screen {
             transformarCoordenadas(screenX, screenY);
 
             if (btnRegresar.contiene(x,y)){
+                dispose();
                 plataforma.setScreen(new Menu(plataforma));
-            }
-            else if (btnBackJuego.contiene(x,y)){
-                plataforma.setScreen(new PantallaJuego(plataforma));
             }
             return true;    // Indica que ya procesó el evento
         }

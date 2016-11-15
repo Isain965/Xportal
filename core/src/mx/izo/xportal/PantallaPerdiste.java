@@ -141,7 +141,6 @@ public class PantallaPerdiste implements Screen {
         AssetManager assetManager = plataforma.getAssetManager();
         assetManager.unload("GameOver.png");
         assetManager.unload("back.png");
-        //assetManager.unload("Mapa.tmx");
     }
 
     /*
@@ -200,5 +199,4 @@ public class PantallaPerdiste implements Screen {
             y = coordenadas.y;
         }
     }
-
 }

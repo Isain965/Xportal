@@ -21,8 +21,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 /**
  * Created by isain on 10/11/2016.
  */
-public class Menu implements Screen
-{
+public class Menu implements Screen {
+
+    PantallaCargando pantallaCargando;
     // Referencia al objeto de tipo Game (tiene setScreen para cambiar de pantalla)
     private Plataforma plataforma;
 
@@ -187,7 +188,6 @@ public class Menu implements Screen
         assetManager.unload("MenuDef.png");
         assetManager.unload("BtmPlay.png");
         assetManager.unload("BtmAbout.png");
-
         assetManager.unload("BtmSettings.png");
         assetManager.unload("BtmPremios.png");
         assetManager.unload("BtmExit.png");
@@ -225,20 +225,25 @@ public class Menu implements Screen
             if (btnPlay.contiene(x,y)){
                 musicFondo.dispose();
                 dispose();
-                plataforma.setScreen(new PantallaCargando(plataforma));
+                pantallaCargando=new PantallaCargando(plataforma);
+                pantallaCargando.setNivel("Nivel1");
+                plataforma.setScreen(pantallaCargando);
                 //plataforma.setScreen(new CargandoMiniGame1(plataforma));
                 //plataforma.setScreen(new CargandoMGDos(plataforma));
             } else if (btnAbout.contiene(x,y)){
+                musicFondo.dispose();
+                dispose();
                 plataforma.setScreen(new AcercaDe(plataforma));
             } else if(btnScore.contiene(x,y)){
+                musicFondo.dispose();
+                dispose();
                 plataforma.setScreen(new PScore(plataforma));
             } else if (btnSettings.contiene(x,y)){
+                musicFondo.dispose();
+                dispose();
                 plataforma.setScreen(new PSettings(plataforma));
             }else if (btnExit.contiene(x,y)){
                 System.exit(0);
-                //Un test para el minigame
-                //plataforma.setScreen(new CargandoMiniGame1(plataforma));
-                //plataforma.setScreen(new CargandoMGDos(plataforma));
             }
             return true;    // Indica que ya procesó el evento
         }
@@ -262,5 +267,4 @@ public class Menu implements Screen
             y = coordenadas.y;
         }
     }
-
 }

@@ -121,8 +121,6 @@ public class MiniGame1 implements Screen
     private Music musicFondo;
 
 
-
-
     public MiniGame1(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
@@ -176,7 +174,7 @@ public class MiniGame1 implements Screen
         H = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
         // Posición inicial del personaje
         H.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
-        H.setVelocidadX(3);
+        //H.setVelocidadX(3);
 
         // Crear los botones
         texturaBtnIzquierda = assetManager.get("BtmIzquierdo.png");
@@ -340,12 +338,15 @@ public class MiniGame1 implements Screen
                 }
             }
 
-            if (vidaf == 20) {
+            if (vidaf == 10) {
                 musicFondo.dispose();
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        plataforma.setScreen(new CargandoMGDos(plataforma));
+                        musicFondo.dispose();
+                        AssetManager assetManager = plataforma.getAssetManager();
+                        assetManager.clear();
+                        plataforma.setScreen(new PantallaGanaste(plataforma));
                     }
                 }, 1);  // 3 segundos
             }
