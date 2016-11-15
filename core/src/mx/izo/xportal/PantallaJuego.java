@@ -625,29 +625,29 @@ public class PantallaJuego implements Screen
         }
     }
 
-        // Actualiza la posición de la cámara para que el personaje esté en el centro,
-        // excepto cuando está en la primera y última parte del mundo
-        private void actualizarCamara() {
-            float posX = mario.getX();
-            float posY = mario.getY();
-            // Si está en la parte 'media'
-            if (posX >= Plataforma.ANCHO_CAMARA / 2 && posX <= ANCHO_MAPA - Plataforma.ANCHO_CAMARA / 2) {
-                // El personaje define el centro de la cámara
-                camara.position.set((int) posX, camara.position.y, 0);
-            } else if (posX > ANCHO_MAPA - Plataforma.ANCHO_CAMARA / 2) {    // Si está en la última mitad
-                // La cámara se queda a media pantalla antes del fin del mundo  :)
-                camara.position.set(ANCHO_MAPA - Plataforma.ANCHO_CAMARA / 2, camara.position.y, 0);
-            }//Si el personaje se coloca en el centro de la camara
+    // Actualiza la posición de la cámara para que el personaje esté en el centro,
+    // excepto cuando está en la primera y última parte del mundo
+    private void actualizarCamara() {
+        float posX = mario.getX();
+        float posY = mario.getY();
+        // Si está en la parte 'media'
+        if (posX >= Plataforma.ANCHO_CAMARA / 2 && posX <= ANCHO_MAPA - Plataforma.ANCHO_CAMARA / 2) {
+            // El personaje define el centro de la cámara
+            camara.position.set((int) posX, camara.position.y, 0);
+        } else if (posX > ANCHO_MAPA - Plataforma.ANCHO_CAMARA / 2) {    // Si está en la última mitad
+            // La cámara se queda a media pantalla antes del fin del mundo  :)
+            camara.position.set(ANCHO_MAPA - Plataforma.ANCHO_CAMARA / 2, camara.position.y, 0);
+        }//Si el personaje se coloca en el centro de la camara
 
-            if ((posY >= Plataforma.ALTO_CAMARA / 2 && posY <= ALTO_MAPA - Plataforma.ALTO_CAMARA / 2)) {
-                // El personaje define el centro de la cámara
-                camara.position.set(camara.position.x, (int) posY, 0);
-            } else if ((posY > ALTO_MAPA - Plataforma.ALTO_CAMARA / 2)) {    // Si está en la última mitad
-                // La cámara se queda a media pantalla antes del fin del mundo  :)
-                camara.position.set(camara.position.x, ALTO_MAPA - Plataforma.ALTO_CAMARA / 2, 0);
-            }
-            camara.update();
+        if ((posY >= Plataforma.ALTO_CAMARA / 2 && posY <= ALTO_MAPA - Plataforma.ALTO_CAMARA / 2)) {
+            // El personaje define el centro de la cámara
+            camara.position.set(camara.position.x, (int) posY, 0);
+        } else if ((posY > ALTO_MAPA - Plataforma.ALTO_CAMARA / 2)) {    // Si está en la última mitad
+            // La cámara se queda a media pantalla antes del fin del mundo  :)
+            camara.position.set(camara.position.x, ALTO_MAPA - Plataforma.ALTO_CAMARA / 2, 0);
         }
+        camara.update();
+    }
 
     private void moverPersonaje() {
         // Prueba caída libre inicial o movimiento horizontal
@@ -910,28 +910,6 @@ public class PantallaJuego implements Screen
         capaPlataforma.setCell(9,11,null);
     }
 
-    private void recorrerBarril(boolean banderaDireccion){
-        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
-        //apagado es derecha
-        if(banderaDireccion){
-            capaPlataforma.setCell(38,22,null);
-            capaPlataforma.setCell(38,21,null);
-            capaPlataforma.setCell(38,20,null);
-            capaPlataforma.setCell(38,19,null);
-            capaPlataforma.setCell(38,18,null);
-            capaPlataforma.setCell(39,22,null);
-            capaPlataforma.setCell(39,21,null);
-            capaPlataforma.setCell(39,20,null);
-            capaPlataforma.setCell(39,19,null);
-            capaPlataforma.setCell(39,18,null);
-            capaPlataforma.setCell(40,22,null);
-            capaPlataforma.setCell(40,21,null);
-            capaPlataforma.setCell(40,20,null);
-            capaPlataforma.setCell(40,19,null);
-            capaPlataforma.setCell(40,18,null);
-        }
-    }
-
 
 
     // Verifica si esta casilla tiene una estrella (simplificar con la anterior)
@@ -1127,7 +1105,7 @@ public class PantallaJuego implements Screen
                     banderaPausa = false;
                     estadoJuego=EstadosJuego.JUGANDO;
                 }else if(btnMenu.contiene(x,y)){
-                    musicFondo.stop();
+                    musicFondo.dispose();
                     dispose();
                     plataforma.setScreen(new Menu(plataforma));
 
@@ -1166,7 +1144,6 @@ public class PantallaJuego implements Screen
                     btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
                     musicFondo.play();
                 }
-
             }
             return true;    // Indica que ya procesó el evento
         }

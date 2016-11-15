@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -99,6 +100,26 @@ public class MiniGame1 implements Screen
     private Texture texturaEnemigo2;
 
     private boolean banderaDireccion=false;
+
+    //TEXURAS PARA LA PAUSA
+    private Texture texturaPausa;
+    private Texture texturaPlay;
+    private Texture texturaMenu;
+    private Texture texturaSonidoT;
+    private Texture texturaMusicaT;
+    private Texture texturaSonidoF;
+    private Texture texturaMusicaF;
+    private Boton btnPantallaPausa;
+    private Boton btnPlay;
+    private Boton btnMenu;
+    private Boton btnSonidoT;
+    private Boton btnMusicaT;
+    private Boton btnSonidoF;
+    private Boton btnMusicaF;
+    private boolean banderaPausa = false;
+    //Musica de fondo
+    private Music musicFondo;
+
 
 
 
@@ -198,6 +219,49 @@ public class MiniGame1 implements Screen
         enemigoV1.setPosicion(100,700);
         enemigosV.add(enemigoV1);
 
+        //Crenado la musica de fondo
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
+        musicFondo.setLooping(true);
+        musicFondo.play();
+
+
+        //IMPLEMENTANDO LA PAUSA
+        texturaPausa = assetManager.get("Pausa.png");
+        texturaPlay = assetManager.get("BtmPlay.png");
+        texturaMenu = assetManager.get("back.png");
+        texturaSonidoT = assetManager.get("BtmSonido.png");
+        texturaMusicaT = assetManager.get("BtmMusic.png");
+        texturaSonidoF = assetManager.get("BtmSonidoF.png");
+        texturaMusicaF = assetManager.get("BtmMusicF.png");
+
+        btnPantallaPausa = new Boton(texturaPausa);
+        //btnPantallaPausa.setPosicion(Plataforma.ANCHO_CAMARA/2, Plataforma.ALTO_CAMARA/2);
+        btnPantallaPausa.setAlfa(0.7f);
+
+        btnPlay = new Boton (texturaPlay);
+        btnPlay.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2);
+        btnPlay.setAlfa(0.7f);
+
+        btnMenu = new Boton (texturaMenu);
+        btnMenu.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2);
+        btnMenu.setAlfa(0.7f);
+
+        btnMusicaT = new Boton(texturaMusicaT);
+        btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2-180);
+        btnMusicaT.setAlfa(0.7f);
+
+        btnMusicaF = new Boton(texturaMusicaF);
+        btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2-1000);
+        btnMusicaF.setAlfa(0.7f);
+
+        btnSonidoT = new Boton(texturaSonidoT);
+        btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-180);
+        btnSonidoT.setAlfa(0.7f);
+
+        btnSonidoF = new Boton(texturaSonidoF);
+        btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+        btnSonidoF.setAlfa(0.7f);
+
     }
 
     /*
@@ -208,103 +272,124 @@ public class MiniGame1 implements Screen
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
+        if (!banderaPausa) {
 
-        if (estadoJuego!=EstadosJuego.PERDIO) {
-            // Actualizar objetos en la pantalla
-            moverPersonaje();
-            actualizarCamara(); // Mover la cámara para que siga al personaje
-        }
+            if (estadoJuego != EstadosJuego.PERDIO) {
+                // Actualizar objetos en la pantalla
+                moverPersonaje();
+                actualizarCamara(); // Mover la cámara para que siga al personaje
+            }
 
-        // Dibujar
-        borrarPantalla();
+            // Dibujar
+            borrarPantalla();
 
-        batch.setProjectionMatrix(camara.combined);
+            batch.setProjectionMatrix(camara.combined);
 
-        rendererMapa.setView(camara);
-        rendererMapa.render();  // Dibuja el mapa
+            rendererMapa.setView(camara);
+            rendererMapa.render();  // Dibuja el mapa
 
-        // Entre begin-end dibujamos nuestros objetos en pantalla
-        batch.begin();
-        mario.render(batch);    // Dibuja el personaje
+            // Entre begin-end dibujamos nuestros objetos en pantalla
+            batch.begin();
+            mario.render(batch);    // Dibuja el personaje
 
-        tiempoJuego+=Gdx.graphics.getDeltaTime();
-        //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
+            tiempoJuego += Gdx.graphics.getDeltaTime();
+            //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
-        for (EnemigoV enemigoV:enemigosV){
-            if (enemigoV.getVidas()>0){
-                enemigoV.render(batch);
+            for (EnemigoV enemigoV : enemigosV) {
+                if (enemigoV.getVidas() > 0) {
+                    enemigoV.render(batch);
 
-                if((int)tiempoJuego==1&&banderaDisparo){
-                    BalaV balaEnJuego = new BalaV(texturaManzanas);
-                    balaEnJuego.setDireccion(-3);
-                    balaEnJuego.setPosicion(enemigoV.getX()+50,enemigoV.getY()+50);
-                    balasL.add(balaEnJuego);
-                    banderaDisparo = false;
-                    tiempoJuego = 0;
-                    enemigoV.setPosicion((int) (1220 * Math.random()) + 1,700);
-                }
-
-                for(BalaV bala: balasL){
-                    bala.render(batch);
-                    banderaDisparo = true;
-                    if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
-                            (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigoV.getSprite().getHeight()))) {
-                        int vidas = enemigoV.getVidas();
-                        if (vidaf<20){
-                            vidaf+=1;
-                        }
-                        bala.velocidadX = 10;
-                        //Borrar de memoria
-                        bala.setPosicion(0, -50);
+                    if ((int) tiempoJuego == 1 && banderaDisparo) {
+                        BalaV balaEnJuego = new BalaV(texturaManzanas);
+                        balaEnJuego.setDireccion(-3);
+                        balaEnJuego.setPosicion(enemigoV.getX() + 50, enemigoV.getY() + 50);
+                        balasL.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                        enemigoV.setPosicion((int) (1220 * Math.random()) + 1, 750);
                     }
+
+                    for (BalaV bala : balasL) {
+                        bala.render(batch);
+                        banderaDisparo = true;
+                        if ((bala.getX() >= mario.getX() && bala.getX() <= (mario.getX() + mario.getSprite().getWidth())) &&
+                                (bala.getY() >= mario.getY() && bala.getY() <= (mario.getY() + enemigoV.getSprite().getHeight()))) {
+                            int vidas = enemigoV.getVidas();
+                            if (vidaf < 20) {
+                                vidaf += 1;
+                                sonidoLlave.play();
+                            }
+                            bala.velocidadX = 10;
+                            //Borrar de memoria
+                            bala.setPosicion(0, -50);
+                        }
+                    }
+                    if (tiempoJuego > 6) {
+                        //ISAIN EL HACKER :)
+                        tiempoJuego = 0;
+                    }
+                } else {
+                    //Borrar de memoria
+                    enemigoV.setPosicion(0, 2000);
                 }
-                if(tiempoJuego>6){
-                    //ISAIN EL HACKER :)
-                    tiempoJuego=0;
+
+            }
+
+            for (int i = 0; i < balasL.size(); i++) {
+                if (balasL.get(i).getY() < 0) {
+                    balasL.remove(i);
                 }
             }
-            else{
-                //Borrar de memoria
-                enemigoV.setPosicion(0,2000);
+
+            if (vidaf == 20) {
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        plataforma.setScreen(new CargandoMGDos(plataforma));
+                    }
+                }, 3);  // 3 segundos
             }
 
-        }
 
-        for(int i = 0; i<balasL.size();i++){
-            if(balasL.get(i).getY()<0){
-                balasL.remove(i);
+            batch.end();
+
+            // Dibuja el HUD
+            batch.setProjectionMatrix(camaraHUD.combined);
+            batch.begin();
+
+            // ¿Ya ganó?
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                btnIzquierda.render(batch);
+                btnDerecha.render(batch);
+                btnSalto.render(batch);
+                btnPausa.render(batch);
+                // Estrellas recolectadas
+                texto.mostrarMensaje(batch, "Score: " + estrellas, Plataforma.ANCHO_CAMARA / 2 - 200, Plataforma.ALTO_CAMARA * 0.95f);
+                texto.mostrarMensaje(batch, "Points: " + vidaf, Plataforma.ANCHO_CAMARA / 2 + 200, Plataforma.ALTO_CAMARA * 0.95f);
             }
+            batch.end();
         }
+        else{
+            // Dibuja La Pausa
+            batch.setProjectionMatrix(camaraHUD.combined);
 
-        if(vidaf==20){
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    plataforma.setScreen(new CargandoMGDos(plataforma));
-                }
-            }, 3);  // 3 segundos
+            batch.begin();
+            // ¿Ya ganó?
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                btnPantallaPausa.render(batch);
+                btnPlay.render(batch);
+                btnMenu.render(batch);
+                btnMusicaT.render(batch);
+                btnMusicaF.render(batch);
+                btnSonidoT.render(batch);
+                btnSonidoF.render(batch);
+            }
+            batch.end();
         }
-
-
-        batch.end();
-
-        // Dibuja el HUD
-        batch.setProjectionMatrix(camaraHUD.combined);
-        batch.begin();
-
-        // ¿Ya ganó?
-        if (estadoJuego==EstadosJuego.GANO) {
-            btnGana.render(batch);
-        } else {
-            btnIzquierda.render(batch);
-            btnDerecha.render(batch);
-            btnSalto.render(batch);
-            btnPausa.render(batch);
-            // Estrellas recolectadas
-            texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA/2-200,Plataforma.ALTO_CAMARA*0.95f);
-            texto.mostrarMensaje(batch,"POINTS: "+vidaf,Plataforma.ANCHO_CAMARA/2+200,Plataforma.ALTO_CAMARA*0.95f);
-        }
-        batch.end();
     }
 
     // Actualiza la posición de la cámara para que el personaje esté en el centro,
@@ -613,24 +698,45 @@ public class MiniGame1 implements Screen
     public void dispose() {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
+        assetManager.unload("MiniGameMapa.tmx");  // Cargar info del mapa
         assetManager.unload("marioSprite.png");
+        assetManager.unload("marioSpriteIzq.png");
+        assetManager.unload("salto.png");
+
+
+        // Cargar imagen
+        // Texturas de los botones
         assetManager.unload("BtmDerecho.png");
         assetManager.unload("BtmIzquierdo.png");
         assetManager.unload("BtmSaltar.png");
-        assetManager.unload("BtmPausa.png");
-        assetManager.unload("ganaste.png");
-        assetManager.unload("Mapa.tmx");
-        assetManager.unload("Apple.tmx");
         assetManager.unload("shoot.png");
-        assetManager.unload("pil.png");
         assetManager.unload("bullet.png");
         assetManager.unload("embudo.png");
-        assetManager.unload("saltp.png");
-        assetManager.unload("MiniGameMapa.tmx");
+        assetManager.unload("Planta.png");
+        assetManager.unload("balaPlanta.png");
+        assetManager.unload("balaEmbudo.png");
+        assetManager.unload("BtmPausa.png");
+        assetManager.unload("embudo.png");
+
+        // Fin del juego
+        assetManager.unload("ganaste.png");
+        // Efecto al tomar la moneda
         assetManager.unload("monedas.mp3");
+        assetManager.unload("llave.mp3");
         assetManager.unload("opendoor.mp3");
         assetManager.unload("vidawi.mp3");
-        assetManager.unload("llave.mp3");
+        assetManager.unload("pistola.mp3");
+        assetManager.unload("Apple.png");
+
+        //Para la pausa
+        assetManager.unload("Pausa.png");
+        assetManager.unload("BtmPlay.png");
+        assetManager.unload("back.png");
+        assetManager.unload("BtmSonido.png");
+        assetManager.unload("BtmMusic.png");
+        assetManager.unload("BtmSonidoF.png");
+        assetManager.unload("BtmMusicF.png");
+
     }
 
     /*
@@ -667,14 +773,54 @@ public class MiniGame1 implements Screen
                     // Tocó el botón saltar
                     mario.saltar();
                 }else if(btnPausa.contiene(x,y)){
-                    plataforma.setScreen(new PantallaPausa(plataforma));
+                    //plataforma.setScreen(new PantallaPausa(plataforma));
+                    estadoJuego=EstadosJuego.PAUSADO;
+                    banderaPausa = true;
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
                     Gdx.app.exit();//Buuu
                 }
+            }else if (estadoJuego == EstadosJuego.PAUSADO) {
+                if (btnPlay.contiene(x, y)) {
+                    // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
+                    banderaPausa = false;
+                    estadoJuego = EstadosJuego.JUGANDO;
+                } else if (btnMenu.contiene(x, y)) {
+                    musicFondo.dispose();
+                    dispose();
+                    plataforma.setScreen(new Menu(plataforma));
+
+                } else if (btnSonidoT.contiene(x, y)) {
+                    AssetManager assetManager = plataforma.getAssetManager();
+
+                    btnSonidoF.setPosicion(btnSonidoT.getX(), btnSonidoT.getY());
+                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 1000);
+
+                    sonidoEstrella = assetManager.get("Mute.mp3");
+                    sonidoLlave = assetManager.get("Mute.mp3");
+                    sonidoPierde = assetManager.get("Mute.mp3");
+                    sonidoVida = assetManager.get("Mute.mp3");
+                } else if (btnSonidoF.contiene(x, y)) {
+                    AssetManager assetManager = plataforma.getAssetManager();
+
+                    btnSonidoT.setPosicion(btnSonidoF.getX(), btnSonidoF.getY());
+                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 1000);
+                    sonidoEstrella = assetManager.get("monedas.mp3");
+                    sonidoPierde = assetManager.get("opendoor.mp3");
+                    sonidoVida = assetManager.get("vidawi.mp3");
+                    sonidoLlave = assetManager.get("llave.mp3");
+                } else if (btnMusicaT.contiene(x, y)) {
+                    btnMusicaF.setPosicion(btnMusicaT.getX(), btnMusicaT.getY());
+                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 1000);
+                    musicFondo.pause();
+                } else if (btnMusicaF.contiene(x, y)) {
+                    btnMusicaT.setPosicion(btnMusicaF.getX(), btnMusicaF.getY());
+                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 1000);
+                    musicFondo.play();
+                }
             }
-            return true;    // Indica que ya procesó el evento
+                return true;    // Indica que ya procesó el evento
         }
 
         /*

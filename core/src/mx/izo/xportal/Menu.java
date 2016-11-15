@@ -223,9 +223,10 @@ public class Menu implements Screen
             transformarCoordenadas(screenX, screenY);
 
             if (btnPlay.contiene(x,y)){
-                musicFondo.stop();
-                plataforma.setScreen(new PantallaCargando(plataforma));
-                //plataforma.setScreen(new PantallaCargando2_A(plataforma));
+                musicFondo.dispose();
+                dispose();
+                //plataforma.setScreen(new PantallaCargando(plataforma));
+                plataforma.setScreen(new CargandoMiniGame1(plataforma));
                 //plataforma.setScreen(new CargandoMGDos(plataforma));
             } else if (btnAbout.contiene(x,y)){
                 plataforma.setScreen(new AcercaDe(plataforma));
