@@ -29,6 +29,7 @@ import java.util.TimerTask;
 
 public class PantallaJuego implements Screen {
 
+    private Menu menu;
     private PantallaCargando pantallaCargando;
 
     public static final float ANCHO_MAPA = 4000;   // Ancho del mapa en pixeles
@@ -156,8 +157,6 @@ public class PantallaJuego implements Screen {
     private boolean banderaPausa = false;
 
 
-
-
     public PantallaJuego(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
@@ -217,6 +216,7 @@ public class PantallaJuego implements Screen {
         mario = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
         // Posición inicial del personaje
         mario.setSalto(60);
+        mario.setVelocidadX(2);
         mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
 
 
@@ -289,16 +289,16 @@ public class PantallaJuego implements Screen {
         // Efecto moneda
         sonidoEstrella = assetManager.get("monedas.mp3");
         sonidoPierde = assetManager.get("opendoor.mp3");
-        sonidoVida= assetManager.get("vidawi.mp3");
-        sonidoLlave=assetManager.get("llave.mp3");
-        sonidoPistola=assetManager.get("pistola.mp3");
+        sonidoVida = assetManager.get("vidawi.mp3");
+        sonidoLlave = assetManager.get("llave.mp3");
+        sonidoPistola = assetManager.get("pistola.mp3");
         sonidoRetrocarga = assetManager.get("retrocarga.wav");
         mute = assetManager.get("Mute.mp3");
 
-        //musicFondo = Gdx.audio.newMusic(Gdx.files.internal("Level1.wav"));
         musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
         musicFondo.setLooping(true);
         musicFondo.play();
+
 
         //IMPLEMENTANDO LA PAUSA
         texturaPausa = assetManager.get("Pausa.png");
@@ -908,6 +908,9 @@ public class PantallaJuego implements Screen {
                         musicFondo.dispose();
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
+                        //Actualizar preferencias
+                        //menu.prefs.putString("MiniGame1","Ya pase el nivel 1");
+                        //menu.prefs.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
                         pantallaCargando.setNivel("MiniGame1");
                         plataforma.setScreen(pantallaCargando);
@@ -926,6 +929,9 @@ public class PantallaJuego implements Screen {
                         musicFondo.dispose();
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
+                        //Actualizar preferencias
+                        //menu.prefs.putString("MiniGame1","Ya pase el nivel 1");
+                        //menu.prefs.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
                         pantallaCargando.setNivel("MiniGame1");
                         plataforma.setScreen(pantallaCargando);

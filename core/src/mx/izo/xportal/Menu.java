@@ -2,6 +2,7 @@ package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -22,6 +23,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  * Created by isain on 10/11/2016.
  */
 public class Menu implements Screen {
+
+    //PREFERENCIAS
+    //public Preferences prefs = Gdx.app.getPreferences("Niveles");
 
     PantallaCargando pantallaCargando;
     // Referencia al objeto de tipo Game (tiene setScreen para cambiar de pantalla)
@@ -53,6 +57,9 @@ public class Menu implements Screen {
     private Boton btnSettings;
     private Boton btnScore;
     private Boton btnExit;
+
+    private boolean estadoMusica = true;
+    private boolean estadoSonido = true;
 
     public Menu(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -194,6 +201,19 @@ public class Menu implements Screen {
 
     }
 
+    public boolean getEstadoMusica(){
+        return this.estadoMusica;
+    }
+    public boolean getEstadoSonido(){
+        return this.estadoSonido;
+    }
+    public void setEstadoMusica(boolean estadoMusica){
+        this.estadoMusica = estadoMusica;
+    }
+    public void setEstadoSonido(boolean estadoSonido){
+        this.estadoSonido = estadoSonido;
+    }
+
     /*
     Clase utilizada para manejar los eventos de touch en la pantalla
      */
@@ -226,8 +246,14 @@ public class Menu implements Screen {
                 musicFondo.dispose();
                 dispose();
                 pantallaCargando=new PantallaCargando(plataforma);
-                pantallaCargando.setNivel("Nivel1");
-                plataforma.setScreen(pantallaCargando);
+                //if(prefs.contains("MiniGame1")){
+                //    pantallaCargando.setNivel("MiniGame1");
+                //    plataforma.setScreen(pantallaCargando);
+                //}
+                //else{
+                    pantallaCargando.setNivel("Nivel1");
+                    plataforma.setScreen(pantallaCargando);
+                //}
                 //plataforma.setScreen(new CargandoMiniGame1(plataforma));
                 //plataforma.setScreen(new CargandoMGDos(plataforma));
             } else if (btnAbout.contiene(x,y)){

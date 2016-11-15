@@ -256,20 +256,6 @@ public class Personaje {
             estadoSalto=EstadoSalto.EN_PISO;
         }
     }
-        // Ejecutar movimiento vertical      /*
-      //  float y = V0 * tiempoSalto - G_2 * tiempoSalto * tiempoSalto;  // Desplazamiento desde que inició el salto
-        //if (tiempoSalto > tiempoVuelo / 2) { // Llegó a la altura máxima?
-            // Inicia caída
-          //  estadoSalto = EstadoSalto.BAJANDO;
-
-        //tiempoSalto += 10 * Gdx.graphics.getDeltaTime();  // Actualiza tiempo
-        //sprite.setY(yInicial + y);    // Actualiza posición
-        //if (y < 0) {
-            // Regresó al piso
-           // sprite.setY(yInicial);  // Lo deja donde inició el salto
-        //estadoSalto = EstadoSalto.EN_PISO;  // Ya no está saltando
-
-
 
     // Accesor de la variable sprite
     public Sprite getSprite() {
