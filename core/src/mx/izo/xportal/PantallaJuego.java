@@ -39,8 +39,6 @@ public class PantallaJuego implements Screen
     private OrthographicCamera camara;
     private Viewport vista;
 
-
-
     // Objeto para dibujar en la pantalla
     private SpriteBatch batch;
 
