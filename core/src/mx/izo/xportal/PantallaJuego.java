@@ -421,10 +421,9 @@ public class PantallaJuego implements Screen
                     @Override
                     public void run() {
                         musicFondo.dispose();
-                        //dispose();
-                        plataforma.setScreen(new PantallaPerdiste(plataforma));
+                        plataforma.setScreen(new PantallaPerdiste1(plataforma));
                     }
-                }, 3);  // 3 segundos
+                }, 1);  // 3 segundos
             }
 
             for (EnemigoV enemigoV : enemigosV) {
@@ -833,7 +832,7 @@ public class PantallaJuego implements Screen
                         musicFondo.dispose();
                         plataforma.setScreen(new CargandoMiniGame1(plataforma));
                     }
-                }, 3);  // 3 segundos
+                }, 1);  // 3 segundos
             }
         }
         if ( capaPlataforma2.getCell(celdaX,celdaY) != null || capaPlataforma2.getCell(celdaX,celdaY+1) != null ) {
@@ -847,7 +846,7 @@ public class PantallaJuego implements Screen
                         musicFondo.dispose();
                         plataforma.setScreen(new CargandoMiniGame1(plataforma));
                     }
-                }, 3);  // 3 segundos
+                }, 1);  // 3 segundos
             }
         }
         mario.actualizar();

@@ -7,19 +7,15 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * Created by isain on 10/11/2016.
  */
-public class PantallaPerdiste implements Screen {
+public class PantallaPerdiste1 implements Screen {
     // Referencia al objeto de tipo Game (tiene setScreen para cambiar de pantalla)
     private Plataforma plataforma;
 
@@ -38,7 +34,7 @@ public class PantallaPerdiste implements Screen {
     private Boton btnRegresar;
 
 
-    public PantallaPerdiste(Plataforma plataforma) {
+    public PantallaPerdiste1(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
 
@@ -141,7 +137,7 @@ public class PantallaPerdiste implements Screen {
         AssetManager assetManager = plataforma.getAssetManager();
         assetManager.unload("GameOver.png");
         assetManager.unload("back.png");
-        //assetManager.unload("Mapa.tmx");
+        assetManager.unload("Mapa.tmx");
     }
 
     /*

@@ -112,6 +112,7 @@ public class CargandoMiniGame1 implements Screen
         assetManager.load("BtmMusicF.png",Texture.class);
         assetManager.load("Mute.mp3",Sound.class);
 
+
         Gdx.app.log("cargarRecursos", "Terminando...");
 
     }
@@ -139,6 +140,7 @@ public class CargandoMiniGame1 implements Screen
 
         if (assetManager.update()) {
             // Terminó la carga, cambiar de pantalla
+            dispose();
             plataforma.setScreen(new MiniGame1(plataforma));
         } else {
             // Aún no termina la carga de assets, leer el avance
@@ -175,6 +177,8 @@ public class CargandoMiniGame1 implements Screen
 
     @Override
     public void dispose() {
+        AssetManager assetManager = plataforma.getAssetManager();
+        assetManager.unload("Mapa.tmx");
         texturaCargando.dispose();
         texturaFondo.dispose();
         // Los assets de PantallaJuego se liberan en el método dispose de PantallaJuego
