@@ -830,6 +830,7 @@ public class PantallaJuego implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        musicFondo.dispose();
                         plataforma.setScreen(new CargandoMiniGame1(plataforma));
                     }
                 }, 3);  // 3 segundos
@@ -843,6 +844,7 @@ public class PantallaJuego implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        musicFondo.dispose();
                         plataforma.setScreen(new CargandoMiniGame1(plataforma));
                     }
                 }, 3);  // 3 segundos

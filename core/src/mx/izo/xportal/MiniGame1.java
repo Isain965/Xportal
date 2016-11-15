@@ -158,7 +158,6 @@ public class MiniGame1 implements Screen
     }
 
 
-
     private void crearObjetos() {
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
         // Carga el mapa en memoria
@@ -342,6 +341,7 @@ public class MiniGame1 implements Screen
             }
 
             if (vidaf == 20) {
+                musicFondo.dispose();
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
