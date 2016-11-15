@@ -51,7 +51,7 @@ public class MiniGame1 implements Screen
     // Personaje
     private Texture texturaPersonaje;       // Aquí cargamos la imagen marioSprite.png con varios frames
     private Texture texturaPersonaje2;
-    private Personaje mario;
+    private Personaje H;
     public static final int TAM_CELDA = 32;
 
 
@@ -173,10 +173,10 @@ public class MiniGame1 implements Screen
 
         texturaSalto = assetManager.get("salto.png");
         // Crear el personaje
-        mario = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
+        H = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
         // Posición inicial del personaje
-        mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
-        mario.setVelocidadX(3);
+        H.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
+        H.setVelocidadX(3);
 
         // Crear los botones
         texturaBtnIzquierda = assetManager.get("BtmIzquierdo.png");
@@ -289,7 +289,7 @@ public class MiniGame1 implements Screen
 
             // Entre begin-end dibujamos nuestros objetos en pantalla
             batch.begin();
-            mario.render(batch);    // Dibuja el personaje
+            H.render(batch);    // Dibuja el personaje
 
             tiempoJuego += Gdx.graphics.getDeltaTime();
             //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
@@ -311,8 +311,8 @@ public class MiniGame1 implements Screen
                     for (BalaV bala : balasL) {
                         bala.render(batch);
                         banderaDisparo = true;
-                        if ((bala.getX() >= mario.getX() && bala.getX() <= (mario.getX() + mario.getSprite().getWidth())) &&
-                                (bala.getY() >= mario.getY() && bala.getY() <= (mario.getY() + enemigoV.getSprite().getHeight()))) {
+                        if ((bala.getX() >= H.getX() && bala.getX() <= (H.getX() + H.getSprite().getWidth())) &&
+                                (bala.getY() >=H.getY() && bala.getY() <= (H.getY() + enemigoV.getSprite().getHeight()))) {
                             int vidas = enemigoV.getVidas();
                             if (vidaf < 20) {
                                 vidaf += 1;
@@ -395,8 +395,8 @@ public class MiniGame1 implements Screen
     // Actualiza la posición de la cámara para que el personaje esté en el centro,
     // excepto cuando está en la primera y última parte del mundo
     private void actualizarCamara() {
-        float posX = mario.getX();
-        float posY = mario.getY();
+        float posX = H.getX();
+        float posY = H.getY();
         // Si está en la parte 'media'
         if (posX>=Plataforma.ANCHO_CAMARA/2 && posX<=ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2) {
             // El personaje define el centro de la cámara
@@ -421,12 +421,12 @@ public class MiniGame1 implements Screen
      */
     private void moverPersonaje() {
         // Prueba caída libre inicial o movimiento horizontal
-        switch (mario.getEstadoMovimiento()) {
+        switch (H.getEstadoMovimiento()) {
             case INICIANDO:     // Mueve el personaje en Y hasta que se encuentre sobre un bloque
                 // Los bloques en el mapa son de 16x16
                 // Calcula la celda donde estaría después de moverlo
-                int celdaX = (int)(mario.getX()/ TAM_CELDA);
-                int celdaY = (int)((mario.getY()+mario.VELOCIDAD_Y)/ TAM_CELDA);
+                int celdaX = (int)(H.getX()/ TAM_CELDA);
+                int celdaY = (int)((H.getY()+H.VELOCIDAD_Y)/ TAM_CELDA);
                 // Recuperamos la celda en esta posición
                 // La capa 0 es el fondo
                 TiledMapTileLayer capa = (TiledMapTileLayer)mapa.getLayers().get(1);
@@ -434,16 +434,16 @@ public class MiniGame1 implements Screen
                 // probar si la celda está ocupada
                 if (celda==null) {
                     // Celda vacía, entonces el personaje puede avanzar
-                    mario.caer();
+                    H.caer();
                 }  else if ( !esCoin(celda) ) {  // Las estrellas no lo detienen :)
                     // Dejarlo sobre la celda que lo detiene
-                    mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
-                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                    H.setPosicion(H.getX(), (celdaY + 1) * TAM_CELDA);
+                    H.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
                 else if( !esVida(celda) ) {  // Las estrellas no lo detienen :)
                     // Dejarlo sobre la celda que lo detiene
-                    mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
-                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                    H.setPosicion(H.getX(), (celdaY + 1) * TAM_CELDA);
+                    H.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
 
                 break;
@@ -454,11 +454,11 @@ public class MiniGame1 implements Screen
         }
 
         // Prueba si debe caer por llegar a un espacio vacío
-        if ( mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO
-                && (mario.getEstadoSalto() != Personaje.EstadoSalto.SUBIENDO) ) {
+        if (H.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO
+                && (H.getEstadoSalto() != Personaje.EstadoSalto.SUBIENDO) ) {
             // Calcula la celda donde estaría después de moverlo
-            int celdaX = (int) (mario.getX() / TAM_CELDA);
-            int celdaY = (int) ((mario.getY() + mario.VELOCIDAD_Y) / TAM_CELDA);
+            int celdaX = (int) (H.getX() / TAM_CELDA);
+            int celdaY = (int) ((H.getY() + H.VELOCIDAD_Y) / TAM_CELDA);
             // Recuperamos la celda en esta posición
             // La capa 0 es el fondo
             TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
@@ -467,47 +467,47 @@ public class MiniGame1 implements Screen
             // probar si la celda está ocupada
             if ( (celdaAbajo==null && celdaDerecha==null) || esCoin(celdaAbajo) || esCoin(celdaDerecha) ) {
                 // Celda vacía, entonces el personaje puede avanzar
-                mario.caer();
-                mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
+                H.caer();
+                H.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
             }
             else if( (celdaAbajo==null && celdaDerecha==null) || esVida(celdaAbajo) || esVida(celdaDerecha) ) {
                 // Celda vacía, entonces el personaje puede avanzar
-                mario.caer();
-                mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
+                H.caer();
+                H.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
             }
             else {
                 // Dejarlo sobre la celda que lo detiene
-                mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
-                mario.setEstadoSalto(Personaje.EstadoSalto.EN_PISO);
+                H.setPosicion(H.getX(), (celdaY + 1) * TAM_CELDA);
+                H.setEstadoSalto(Personaje.EstadoSalto.EN_PISO);
 
             }
         }
 
         // Saltar
-        switch (mario.getEstadoSalto()) {
+        switch (H.getEstadoSalto()) {
             case SUBIENDO:
             case BAJANDO:
-                mario.actualizarSalto(mapa);    // Actualizar posición en 'y'
+                H.actualizarSalto(mapa);    // Actualizar posición en 'y'
                 break;
         }
     }
 
     // Prueba si puede moverse a la izquierda o derecha
     private void probarChoqueParedes() {
-        Personaje.EstadoMovimiento estado = mario.getEstadoMovimiento();
+        Personaje.EstadoMovimiento estado = H.getEstadoMovimiento();
         // Quitar porque este método sólo se llama cuando se está moviendo
         if ( estado!= Personaje.EstadoMovimiento.MOV_DERECHA && estado!=Personaje.EstadoMovimiento.MOV_IZQUIERDA){
             return;
         }
-        float px = mario.getX();    // Posición actual
+        float px = H.getX();    // Posición actual
         // Posición después de actualizar
-        px = mario.getEstadoMovimiento()==Personaje.EstadoMovimiento.MOV_DERECHA? px+Personaje.VELOCIDAD_X:
+        px = H.getEstadoMovimiento()==Personaje.EstadoMovimiento.MOV_DERECHA? px+Personaje.VELOCIDAD_X:
                 px-Personaje.VELOCIDAD_X;
         int celdaX = (int)(px/TAM_CELDA);   // Casilla del personaje en X
-        if (mario.getEstadoMovimiento()== Personaje.EstadoMovimiento.MOV_DERECHA) {
+        if (H.getEstadoMovimiento()== Personaje.EstadoMovimiento.MOV_DERECHA) {
             celdaX++;   // Casilla del lado derecho
         }
-        int celdaY = (int)(mario.getY()/TAM_CELDA); // Casilla del personaje en Y
+        int celdaY = (int)(H.getY()/TAM_CELDA); // Casilla del personaje en Y
         TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
         TiledMapTileLayer capaPlataforma1 = (TiledMapTileLayer) mapa.getLayers().get(4);
         TiledMapTileLayer capaPlataforma2 = (TiledMapTileLayer) mapa.getLayers().get(6);
@@ -577,7 +577,7 @@ public class MiniGame1 implements Screen
                 sonidoVida.play();
             }
             else {
-                mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                H.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
         }
 
@@ -606,7 +606,7 @@ public class MiniGame1 implements Screen
             }
         }
         else {
-            mario.actualizar();
+            H.actualizar();
         }
     }
     // Verifica si esta casilla tiene una estrella (simplificar con la anterior)
@@ -758,20 +758,20 @@ public class MiniGame1 implements Screen
             transformarCoordenadas(screenX, screenY);
             if (estadoJuego==EstadosJuego.JUGANDO) {
                 // Preguntar si las coordenadas están sobre el botón derecho
-                if (btnDerecha.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
+                if (btnDerecha.contiene(x, y) && H.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
                     banderaDireccion = false;
-                    mario.setBanderaPosicion(banderaDireccion);
-                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
+                    H.setBanderaPosicion(banderaDireccion);
+                    H.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
 
-                } else if (btnIzquierda.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
+                } else if (btnIzquierda.contiene(x, y) && H.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón izquierda, hacer que el personaje se mueva a la izquierda
                     banderaDireccion = true;
-                    mario.setBanderaPosicion(banderaDireccion);
-                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
+                    H.setBanderaPosicion(banderaDireccion);
+                    H.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
                 } else if (btnSalto.contiene(x, y)) {
                     // Tocó el botón saltar
-                    mario.saltar();
+                    H.saltar();
                 }else if(btnPausa.contiene(x,y)){
                     //plataforma.setScreen(new PantallaPausa(plataforma));
                     estadoJuego=EstadosJuego.PAUSADO;
@@ -830,9 +830,9 @@ public class MiniGame1 implements Screen
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
             // Preguntar si las coordenadas son de algún botón para DETENER el movimiento
-            if ( mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO && (btnDerecha.contiene(x, y) || btnIzquierda.contiene(x,y)) ) {
+            if (H.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO && (btnDerecha.contiene(x, y) || btnIzquierda.contiene(x,y)) ) {
                 // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
-                mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                H.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
             return true;    // Indica que ya procesó el evento
         }
@@ -843,9 +843,9 @@ public class MiniGame1 implements Screen
         public boolean touchDragged(int screenX, int screenY, int pointer) {
             transformarCoordenadas(screenX, screenY);
             // Acaba de salir de las fechas (y no es el botón de salto)
-            if (x<Plataforma.ANCHO_CAMARA/2 && mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.QUIETO) {
+            if (x<Plataforma.ANCHO_CAMARA/2 && H.getEstadoMovimiento()!= Personaje.EstadoMovimiento.QUIETO) {
                 if (!btnIzquierda.contiene(x, y) && !btnDerecha.contiene(x, y) ) {
-                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                    H.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
             }
             return true;
