@@ -135,7 +135,7 @@ public class PantallaGanaste implements Screen {
     public void dispose() {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
-        assetManager.unload("GameOver.png");
+        assetManager.unload("Ganar.PNG");
         assetManager.unload("back.png");
     }
 
