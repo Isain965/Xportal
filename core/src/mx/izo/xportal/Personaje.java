@@ -14,8 +14,7 @@ public class Personaje {
 
     public static final float VELOCIDAD_Y = -4f;   // Velocidad de caída
     //ya no sera estático
-    //public static final float VELOCIDAD_X = 2;     // Velocidad horizontal
-    public static float VELOCIDAD_X = 2;     // Velocidad horizontal
+    public float VELOCIDAD_X = 2;     // Velocidad horizontal
 
     private Sprite sprite, spriteSalto, sprite1;  // Sprite cuando no se mueve
 
@@ -330,6 +329,10 @@ public class Personaje {
 
     public EstadoSalto getEstadoSalto() {
         return estadoSalto;
+    }
+
+    public float getVelocidadPersonaje(){
+        return VELOCIDAD_X;
     }
 
     public enum EstadoMovimiento {

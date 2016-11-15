@@ -174,7 +174,7 @@ public class MiniGame1 implements Screen
         H = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
         // Posición inicial del personaje
         H.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
-        //H.setVelocidadX(3);
+        H.setVelocidadX(3);
 
         // Crear los botones
         texturaBtnIzquierda = assetManager.get("BtmIzquierdo.png");
@@ -588,8 +588,8 @@ public class MiniGame1 implements Screen
         }
         float px = H.getX();    // Posición actual
         // Posición después de actualizar
-        px = H.getEstadoMovimiento()==Personaje.EstadoMovimiento.MOV_DERECHA? px+Personaje.VELOCIDAD_X:
-                px-Personaje.VELOCIDAD_X;
+        px = H.getEstadoMovimiento()==Personaje.EstadoMovimiento.MOV_DERECHA? px+H.getVelocidadPersonaje():
+                px-H.getVelocidadPersonaje();
         int celdaX = (int)(px/TAM_CELDA);   // Casilla del personaje en X
         if (H.getEstadoMovimiento()== Personaje.EstadoMovimiento.MOV_DERECHA) {
             celdaX++;   // Casilla del lado derecho
