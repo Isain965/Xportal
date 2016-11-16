@@ -25,6 +25,7 @@ public class PSettings implements Screen {
     // Referencia al objeto de tipo Game (tiene setScreen para cambiar de pantalla)
     private Plataforma plataforma;
 
+
     // La cámara y vista principal
     private OrthographicCamera camara;
     private Viewport vista;
@@ -58,9 +59,11 @@ public class PSettings implements Screen {
     public Preferences niveles = Gdx.app.getPreferences("Niveles");
     public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
     public Preferences musica = Gdx.app.getPreferences("Musica");
+    public Preferences score = Gdx.app.getPreferences("Score");
 
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
     private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
+
 
     //Musica de fondo
     private Music musicFondo;
@@ -341,6 +344,10 @@ public class PSettings implements Screen {
                 Gdx.input.setInputProcessor(null);
                 niveles.clear();
                 niveles.flush();
+                musica.clear();
+                musica.flush();
+                score.clear();
+                score.flush();
                 musicFondo.dispose();
                 plataforma.setScreen(new Menu(plataforma));
             }

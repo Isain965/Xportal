@@ -126,6 +126,7 @@ public class MiniGame1 implements Screen
     public Preferences niveles = Gdx.app.getPreferences("Niveles");
     public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
     public Preferences musica = Gdx.app.getPreferences("Musica");
+    public Preferences score = Gdx.app.getPreferences("Score");
 
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
     private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
@@ -360,7 +361,7 @@ public class MiniGame1 implements Screen
                         if ((bala.getX() >= H.getX() && bala.getX() <= (H.getX() + H.getSprite().getWidth())) &&
                                 (bala.getY() >=H.getY() && bala.getY() <= (H.getY() + enemigoV.getSprite().getHeight()))) {
                             int vidas = enemigoV.getVidas();
-                            if (vidaf < 20) {
+                            if (vidaf < 10) {
                                 vidaf += 1;
                                 sonidoLlave.play();
                             }
@@ -391,6 +392,12 @@ public class MiniGame1 implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        int scoreA = score.getInteger("theBest",0);
+                        if(estrellas>scoreA){
+                            score.clear();
+                            score.putInteger("theBest",estrellas);
+                            score.flush();
+                        }
                         Gdx.input.setInputProcessor(null);
                         musicFondo.dispose();
                         AssetManager assetManager = plataforma.getAssetManager();
@@ -470,17 +477,6 @@ public class MiniGame1 implements Screen
                 }
             }
 
-            if (vidaf == 20) {
-                musicFondo.dispose();
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        plataforma.setScreen(new CargandoMGDos(plataforma));
-                    }
-                }, 3);  // 3 segundos
-            }
-
-
             batch.end();
 
 
@@ -492,11 +488,6 @@ public class MiniGame1 implements Screen
             if (estadoJuego == EstadosJuego.GANO) {
                 btnGana.render(batch);
             } else {
-                /*btnIzquierda.render(batch);
-                btnDerecha.render(batch);
-                btnSalto.render(batch);
-                btnPausa.render(batch);*/
-                // Estrellas recolectadas
                 texto.mostrarMensaje(batch, "Score: " + estrellas, Plataforma.ANCHO_CAMARA / 2 - 200, Plataforma.ALTO_CAMARA * 0.95f);
                 texto.mostrarMensaje(batch, "Points: " + vidaf, Plataforma.ANCHO_CAMARA / 2 + 200, Plataforma.ALTO_CAMARA * 0.95f);
             }

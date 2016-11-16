@@ -30,6 +30,7 @@ public class Menu implements Screen {
     public Preferences niveles = Gdx.app.getPreferences("Niveles");
     public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
     public Preferences musica = Gdx.app.getPreferences("Musica");
+    public Preferences score = Gdx.app.getPreferences("Score");
 
     PantallaCargando pantallaCargando;
     // Referencia al objeto de tipo Game (tiene setScreen para cambiar de pantalla)

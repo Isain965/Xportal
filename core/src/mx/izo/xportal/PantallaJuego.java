@@ -36,6 +36,7 @@ public class PantallaJuego implements Screen{
     public Preferences niveles = Gdx.app.getPreferences("Niveles");
     public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
     public Preferences musica = Gdx.app.getPreferences("Musica");
+    public Preferences score = Gdx.app.getPreferences("Score");
 
     private PantallaCargando pantallaCargando;
 
@@ -447,6 +448,12 @@ public class PantallaJuego implements Screen{
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        int scoreA = score.getInteger("theBest",0);
+                        if(estrellas>scoreA){
+                            score.clear();
+                            score.putInteger("theBest",estrellas);
+                            score.flush();
+                        }
                         musicFondo.dispose();
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
@@ -521,7 +528,7 @@ public class PantallaJuego implements Screen{
                         tiempoJuego = 0;
                         //}else if (mario.getX()>=enemigo.getX()+enemigo.getSprite().getWidth()&&mario.getX()<=enemigo.getX()+enemigo.getSprite().getWidth()+rango&&banderaDisparo&&tiempoJuego==tiempoDisparo){
                     } else if ((mario.getX() > enemigo.getX()) && (mario.getX() <= enemigo.getX() + rango) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
-                        Gdx.app.log("Deberia de disparar a la derecha", "");
+                        //Gdx.app.log("Deberia de disparar a la derecha", "");
                         Bala balaEnJuego = new Bala(texturaBalaPlanta);
                         balaEnJuego.setDireccion(10);
                         balaEnJuego.setPosicion(enemigo.getX() + 120, enemigo.getY() + 50);
@@ -976,6 +983,12 @@ public class PantallaJuego implements Screen{
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
                         //Actualizar preferencias
+                        int scoreA = score.getInteger("theBest",0);
+                        if(estrellas>scoreA){
+                            score.clear();
+                            score.putInteger("theBest",estrellas);
+                            score.flush();
+                        }
                         niveles.clear();
                         niveles.putString("MiniGame1","Ya pase el nivel 1");
                         niveles.flush();
@@ -999,6 +1012,12 @@ public class PantallaJuego implements Screen{
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
                         //Actualizar preferencias
+                        int scoreA = score.getInteger("theBest",0);
+                        if(estrellas>scoreA){
+                            score.clear();
+                            score.putInteger("theBest",estrellas);
+                            score.flush();
+                        }
                         niveles.clear();
                         niveles.putString("MiniGame1","Ya pase el nivel 1");
                         niveles.flush();

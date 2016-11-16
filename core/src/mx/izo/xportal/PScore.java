@@ -46,9 +46,15 @@ public class PScore implements Screen {
     public Preferences niveles = Gdx.app.getPreferences("Niveles");
     public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
     public Preferences musica = Gdx.app.getPreferences("Musica");
+    public Preferences score = Gdx.app.getPreferences("Score");
+
 
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
     private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
+
+    private Texto texto;
+
+    int estrellas;
 
 
     public PScore(Plataforma plataforma) {
@@ -75,6 +81,8 @@ public class PScore implements Screen {
 
         // Tecla BACK (Android)
         Gdx.input.setCatchBackKey(true);
+
+        texto = new Texto();
 
     }
 
@@ -109,6 +117,7 @@ public class PScore implements Screen {
         else{
             musicFondo.stop();
         }
+        estrellas = score.getInteger("theBest",0);
     }
 
     /*
@@ -128,9 +137,8 @@ public class PScore implements Screen {
 
         batch.draw(texturaAcercaDe, 0, 0);
         btnRegresar.render(batch);
-//        efecto.draw(batch,delta);
 
-//        explosion.draw(batch, Gdx.graphics.getDeltaTime());
+        texto.mostrarMensaje(batch, "The best score: " + estrellas, Plataforma.ANCHO_CAMARA/2, Plataforma.ALTO_CAMARA/2);
 
         batch.end();
     }
