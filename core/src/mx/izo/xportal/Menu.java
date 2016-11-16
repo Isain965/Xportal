@@ -139,15 +139,19 @@ public class Menu implements Screen {
         musicFondo.setLooping(true);
         musicFondo.play();
 
+        Gdx.app.log("HOLA","Soy yo1");
+        musica.clear();
+        musica.flush();
         //Asignr preferencias de sonido
         if(!musica.contains("estadoMusica")){
+            Gdx.app.log("HOLA","Soy yo");
             musica.putBoolean("estadoMusica",true);
             sonidos.putBoolean("estadoSonidos",true);
             musica.flush();
             sonidos.flush();
         }
-        //niveles.clear();
-        //niveles.flush();
+
+        niveles.clear();
     }
 
     /*

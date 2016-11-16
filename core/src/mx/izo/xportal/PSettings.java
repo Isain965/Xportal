@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,7 +36,15 @@ public class PSettings implements Screen {
     private Texture texturaRegresar;
     private Boton btnRegresar;
 
-    private Music musicFondo;
+    // SISTEMA DE PARTICULAS
+    //   private ParticleEffect efecto;
+    private int indiceEmisor;
+    private Array<ParticleEmitter> emisores;
+    private int cuentaParticulas;
+    private float fps;
+
+    //   private ParticleEffect explosion;
+
 
     public PSettings(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -61,6 +68,20 @@ public class PSettings implements Screen {
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
+        // SISTEMA de PARTICULAS
+//        efecto = new ParticleEffect();
+        //      efecto.load(Gdx.files.internal("prueba.p"), Gdx.files.internal("./"));
+        //      efecto.setPosition(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 2);
+        //      emisores = new Array<ParticleEmitter>(efecto.getEmitters());
+        //      efecto.getEmitters().clear();
+        //      efecto.getEmitters().add(emisores.get(0));
+
+        // Explosion
+        //      explosion = new ParticleEffect();
+        //      explosion.load(Gdx.files.internal("explosion.p"), Gdx.files.internal("./"));
+        //      explosion.scaleEffect(1);
+        //      explosion.setPosition(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 5);
+        //      explosion.reset();
     }
 
     // Carga los recursos a través del administrador de assets
@@ -83,9 +104,8 @@ public class PSettings implements Screen {
         texturaRegresar = assetManager.get("back.png");
 
         btnRegresar = new Boton(texturaRegresar);
-        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("ActionTheme.wav"));
-        musicFondo.setLooping(true);
-        musicFondo.play();
+        //btnRegresar.setPosicion(3 * Plataforma.ANCHO_CAMARA / 4 - texturaRegresar.getWidth() / 2,
+        //Plataforma.ALTO_CAMARA / 2 - texturaRegresar.getHeight() / 2);
     }
 
     /*
@@ -179,7 +199,6 @@ public class PSettings implements Screen {
             transformarCoordenadas(screenX, screenY);
 
             if (btnRegresar.contiene(x,y)){
-                musicFondo.dispose();
                 plataforma.setScreen(new Menu(plataforma));
             }
             return true;    // Indica que ya procesó el evento
