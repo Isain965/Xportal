@@ -25,7 +25,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class Menu implements Screen {
 
     //PREFERENCIAS
-    //public Preferences prefs = Gdx.app.getPreferences("Niveles");
+    public Preferences niveles = Gdx.app.getPreferences("Niveles");
+    public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
+    public Preferences musica = Gdx.app.getPreferences("Musica");
 
     PantallaCargando pantallaCargando;
     // Referencia al objeto de tipo Game (tiene setScreen para cambiar de pantalla)
@@ -136,6 +138,16 @@ public class Menu implements Screen {
         musicFondo = Gdx.audio.newMusic(Gdx.files.internal("ActionTheme.wav"));
         musicFondo.setLooping(true);
         musicFondo.play();
+
+        //Asignr preferencias de sonido
+        if(!musica.contains("estadoMusica")){
+            musica.putBoolean("estadoMusica",true);
+            sonidos.putBoolean("estadoSonidos",true);
+            musica.flush();
+            sonidos.flush();
+        }
+        //niveles.clear();
+        //niveles.flush();
     }
 
     /*
@@ -246,14 +258,14 @@ public class Menu implements Screen {
                 musicFondo.dispose();
                 dispose();
                 pantallaCargando=new PantallaCargando(plataforma);
-                //if(prefs.contains("MiniGame1")){
-                //    pantallaCargando.setNivel("MiniGame1");
-                //    plataforma.setScreen(pantallaCargando);
-                //}
-                //else{
+                if(niveles.contains("MiniGame1")){
+                    pantallaCargando.setNivel("MiniGame1");
+                    plataforma.setScreen(pantallaCargando);
+                }
+                else{
                     pantallaCargando.setNivel("Nivel1");
                     plataforma.setScreen(pantallaCargando);
-                //}
+                }
                 //plataforma.setScreen(new CargandoMiniGame1(plataforma));
                 //plataforma.setScreen(new CargandoMGDos(plataforma));
             } else if (btnAbout.contiene(x,y)){

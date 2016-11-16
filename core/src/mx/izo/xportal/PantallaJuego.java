@@ -2,6 +2,7 @@ package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -28,6 +29,11 @@ import java.util.TimerTask;
  */
 
 public class PantallaJuego implements Screen {
+
+    //PREFERENCIAS
+    public Preferences niveles = Gdx.app.getPreferences("Niveles");
+    public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
+    public Preferences musica = Gdx.app.getPreferences("Musica");
 
     private Menu menu;
     private PantallaCargando pantallaCargando;
@@ -156,6 +162,8 @@ public class PantallaJuego implements Screen {
     private Boton btnMusicaF;
     private boolean banderaPausa = false;
 
+    private boolean estadoMusica = musica.getBoolean("estadoMusica");
+    private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
 
     public PantallaJuego(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -287,18 +295,32 @@ public class PantallaJuego implements Screen {
         balaAnteriorV.setPosicion(enemigo1.getX(),641);
 
         // Efecto moneda
-        sonidoEstrella = assetManager.get("monedas.mp3");
-        sonidoPierde = assetManager.get("opendoor.mp3");
-        sonidoVida = assetManager.get("vidawi.mp3");
-        sonidoLlave = assetManager.get("llave.mp3");
-        sonidoPistola = assetManager.get("pistola.mp3");
-        sonidoRetrocarga = assetManager.get("retrocarga.wav");
-        mute = assetManager.get("Mute.mp3");
+        if(estadoSonidos) {
+            sonidoEstrella = assetManager.get("monedas.mp3");
+            sonidoPierde = assetManager.get("opendoor.mp3");
+            sonidoVida = assetManager.get("vidawi.mp3");
+            sonidoLlave = assetManager.get("llave.mp3");
+            sonidoPistola = assetManager.get("pistola.mp3");
+            sonidoRetrocarga = assetManager.get("retrocarga.wav");
+            mute = assetManager.get("Mute.mp3");
+        }else{
+            sonidoEstrella = assetManager.get("Mute.mp3");
+            sonidoPierde = assetManager.get("Mute.mp3");
+            sonidoVida = assetManager.get("Mute.mp3");
+            sonidoLlave = assetManager.get("Mute.mp3");
+            sonidoPistola = assetManager.get("Mute.mp3");
+            sonidoRetrocarga = assetManager.get("Mute.mp3");
+            mute = assetManager.get("Mute.mp3");
 
+        }
         musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
         musicFondo.setLooping(true);
-        musicFondo.play();
-
+        if(estadoMusica) {
+            musicFondo.play();
+        }
+        else{
+            musicFondo.stop();
+        }
 
         //IMPLEMENTANDO LA PAUSA
         texturaPausa = assetManager.get("Pausa.png");
@@ -909,8 +931,9 @@ public class PantallaJuego implements Screen {
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
                         //Actualizar preferencias
-                        //menu.prefs.putString("MiniGame1","Ya pase el nivel 1");
-                        //menu.prefs.flush();
+                        niveles.clear();
+                        niveles.putString("MiniGame1","Ya pase el nivel 1");
+                        niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
                         pantallaCargando.setNivel("MiniGame1");
                         plataforma.setScreen(pantallaCargando);
@@ -930,8 +953,9 @@ public class PantallaJuego implements Screen {
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
                         //Actualizar preferencias
-                        //menu.prefs.putString("MiniGame1","Ya pase el nivel 1");
-                        //menu.prefs.flush();
+                        niveles.clear();
+                        niveles.putString("MiniGame1","Ya pase el nivel 1");
+                        niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
                         pantallaCargando.setNivel("MiniGame1");
                         plataforma.setScreen(pantallaCargando);
@@ -1209,6 +1233,9 @@ public class PantallaJuego implements Screen {
                     btnSonidoF.setPosicion(btnSonidoT.getX(),btnSonidoT.getY());
                     btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
 
+                    sonidos.clear();
+                    sonidos.putBoolean("estadoSonidos",false);
+                    sonidos.flush();
                     sonidoEstrella = assetManager.get("Mute.mp3");
                     sonidoRetrocarga = assetManager.get("Mute.mp3");
                     sonidoLlave = assetManager.get("Mute.mp3");
@@ -1218,7 +1245,9 @@ public class PantallaJuego implements Screen {
                 }
                 else if(btnSonidoF.contiene(x,y)){
                     AssetManager assetManager = plataforma.getAssetManager();
-
+                    sonidos.clear();
+                    sonidos.putBoolean("estadoSonidos",true);
+                    sonidos.flush();
                     btnSonidoT.setPosicion(btnSonidoF.getX(),btnSonidoF.getY());
                     btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
                     sonidoEstrella = assetManager.get("monedas.mp3");
@@ -1228,14 +1257,21 @@ public class PantallaJuego implements Screen {
                     sonidoPistola=assetManager.get("pistola.mp3");
                     sonidoRetrocarga = assetManager.get("retrocarga.wav");
                 }
-                else if(btnMusicaT.contiene(x,y)){
+
+                if(btnMusicaT.contiene(x,y)){
                     btnMusicaF.setPosicion(btnMusicaT.getX(),btnMusicaT.getY());
                     btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+                    musica.clear();
+                    musica.putBoolean("estadoMusica",false);
+                    musica.flush();
                     musicFondo.pause();
                 }
                 else if(btnMusicaF.contiene(x,y)){
                     btnMusicaT.setPosicion(btnMusicaF.getX(),btnMusicaF.getY());
                     btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+                    musica.clear();
+                    musica.putBoolean("estadoMusica",true);
+                    musica.flush();
                     musicFondo.play();
                 }
             }
