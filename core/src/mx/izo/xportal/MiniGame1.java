@@ -186,6 +186,7 @@ public class MiniGame1 implements Screen
         // Crear el personaje
         H = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
         // Posición inicial del personaje
+        H.setSalto(70);
         H.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
         H.setVelocidadX(3);
 

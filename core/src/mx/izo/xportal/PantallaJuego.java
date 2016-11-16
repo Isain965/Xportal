@@ -197,6 +197,7 @@ public class PantallaJuego implements Screen{
         // Tecla BACK (Android)
         Gdx.input.setCatchBackKey(true);
 
+
         estadoJuego = EstadosJuego.JUGANDO;
 
         // Texto
@@ -228,7 +229,7 @@ public class PantallaJuego implements Screen{
         mario = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
         // Posición inicial del personaje
         mario.setSalto(60);
-        mario.setVelocidadX(2);
+        mario.setVelocidadX(2.5f);
         mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
 
 
