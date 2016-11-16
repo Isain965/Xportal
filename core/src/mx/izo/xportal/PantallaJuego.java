@@ -348,7 +348,7 @@ public class PantallaJuego implements Screen {
         btnMusicaT.setAlfa(0.7f);
 
         btnMusicaF = new Boton(texturaMusicaF);
-        btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2-1000);
+        btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2+250, Plataforma.ALTO_CAMARA/2-180);
         btnMusicaF.setAlfa(0.7f);
 
         btnSonidoT = new Boton(texturaSonidoT);
@@ -356,7 +356,7 @@ public class PantallaJuego implements Screen {
         btnSonidoT.setAlfa(0.7f);
 
         btnSonidoF = new Boton(texturaSonidoF);
-        btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+        btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-350, Plataforma.ALTO_CAMARA/2-180);
         btnSonidoF.setAlfa(0.7f);
     }
 
@@ -738,14 +738,20 @@ public class PantallaJuego implements Screen {
                 btnPlay.setAlfa(0.9f);
                 btnMenu.render(batch);
                 btnMenu.setAlfa(0.9f);
-                btnMusicaT.render(batch);
-                btnMusicaT.setAlfa(0.9f);
-                btnMusicaF.render(batch);
-                btnMusicaF.setAlfa(0.9f);
-                btnSonidoT.render(batch);
-                btnSonidoT.setAlfa(0.9f);
-                btnSonidoF.render(batch);
-                btnSonidoF.setAlfa(0.9f);
+                if(estadoMusica) {
+                    btnMusicaT.render(batch);
+                    btnMusicaT.setAlfa(0.9f);
+                }else {
+                    btnMusicaF.render(batch);
+                    btnMusicaF.setAlfa(0.9f);
+                }
+                if(estadoSonidos) {
+                    btnSonidoT.render(batch);
+                    btnSonidoT.setAlfa(0.9f);
+                }else{
+                    btnSonidoF.render(batch);
+                    btnSonidoF.setAlfa(0.9f);
+                }
             }
             batch.end();
         }
@@ -1230,9 +1236,9 @@ public class PantallaJuego implements Screen {
                 } else if(btnSonidoT.contiene(x,y)){
                     AssetManager assetManager = plataforma.getAssetManager();
 
-                    btnSonidoF.setPosicion(btnSonidoT.getX(),btnSonidoT.getY());
-                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
-
+                    //btnSonidoF.setPosicion(btnSonidoT.getX(),btnSonidoT.getY());
+                    //btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+                    estadoSonidos = false;
                     sonidos.clear();
                     sonidos.putBoolean("estadoSonidos",false);
                     sonidos.flush();
@@ -1245,11 +1251,13 @@ public class PantallaJuego implements Screen {
                 }
                 else if(btnSonidoF.contiene(x,y)){
                     AssetManager assetManager = plataforma.getAssetManager();
+
+                    estadoSonidos = true;
                     sonidos.clear();
                     sonidos.putBoolean("estadoSonidos",true);
                     sonidos.flush();
-                    btnSonidoT.setPosicion(btnSonidoF.getX(),btnSonidoF.getY());
-                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+                    //btnSonidoT.setPosicion(btnSonidoF.getX(),btnSonidoF.getY());
+                    //btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
                     sonidoEstrella = assetManager.get("monedas.mp3");
                     sonidoPierde = assetManager.get("opendoor.mp3");
                     sonidoVida= assetManager.get("vidawi.mp3");
@@ -1259,16 +1267,15 @@ public class PantallaJuego implements Screen {
                 }
 
                 if(btnMusicaT.contiene(x,y)){
-                    btnMusicaF.setPosicion(btnMusicaT.getX(),btnMusicaT.getY());
-                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+                   estadoMusica=false;
                     musica.clear();
                     musica.putBoolean("estadoMusica",false);
                     musica.flush();
                     musicFondo.pause();
                 }
                 else if(btnMusicaF.contiene(x,y)){
-                    btnMusicaT.setPosicion(btnMusicaF.getX(),btnMusicaF.getY());
-                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+                    Gdx.app.log("Tocando"," musica apagada");
+                    estadoMusica = true;
                     musica.clear();
                     musica.putBoolean("estadoMusica",true);
                     musica.flush();

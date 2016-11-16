@@ -138,10 +138,6 @@ public class Menu implements Screen {
         musicFondo = Gdx.audio.newMusic(Gdx.files.internal("ActionTheme.wav"));
         musicFondo.setLooping(true);
         musicFondo.play();
-
-        Gdx.app.log("HOLA","Soy yo1");
-        musica.clear();
-        musica.flush();
         //Asignr preferencias de sonido
         if(!musica.contains("estadoMusica")){
             Gdx.app.log("HOLA","Soy yo");
@@ -150,8 +146,6 @@ public class Menu implements Screen {
             musica.flush();
             sonidos.flush();
         }
-
-        niveles.clear();
     }
 
     /*
@@ -285,6 +279,8 @@ public class Menu implements Screen {
                 dispose();
                 plataforma.setScreen(new PSettings(plataforma));
             }else if (btnExit.contiene(x,y)){
+                musica.clear();
+                musica.flush();
                 System.exit(0);
             }
             return true;    // Indica que ya procesó el evento
