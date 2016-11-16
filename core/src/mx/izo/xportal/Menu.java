@@ -296,6 +296,8 @@ public class Menu implements Screen {
             }else if (btnExit.contiene(x,y)){
                 musica.clear();
                 musica.flush();
+                sonidos.clear();
+                sonidos.flush();
                 System.exit(0);
             }
             return true;    // Indica que ya procesó el evento
