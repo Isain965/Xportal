@@ -213,7 +213,6 @@ public class PantallaCargando implements Screen {
             assetManager.load("shoot.mp3",Sound.class);
             Gdx.app.log("cargarRecursos", "Terminando...");
         }
-
     }
 
     @Override
