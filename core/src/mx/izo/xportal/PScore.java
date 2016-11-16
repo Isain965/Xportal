@@ -1,6 +1,7 @@
 package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
@@ -71,6 +72,9 @@ public class PScore implements Screen {
         crearObjetos();
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+
+        // Tecla BACK (Android)
+        Gdx.input.setCatchBackKey(true);
 
     }
 
@@ -181,6 +185,15 @@ public class PScore implements Screen {
         pointer - es el número de dedo que se pone en la pantalla, el primero es 0
         button - el botón del mouse
          */
+        @Override
+        public boolean keyDown(int keycode) {
+            if (keycode== Input.Keys.BACK) {
+                musicFondo.dispose();
+                plataforma.setScreen(new Menu(plataforma));
+            }
+            return true; // Para que el sistema operativo no la procese
+        }
+
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);

@@ -1,6 +1,7 @@
 package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
@@ -84,7 +85,11 @@ public class Menu implements Screen {
         cargarRecursos();
         crearObjetos();
 
+        // Indicar el objeto que atiende los eventos de touch (entrada en general)
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+
+        // Tecla BACK (Android)
+        Gdx.input.setCatchBackKey(true);
     }
 
     // Carga los recursos a través del administrador de assets
@@ -237,6 +242,17 @@ public class Menu implements Screen {
         pointer - es el número de dedo que se pone en la pantalla, el primero es 0
         button - el botón del mouse
          */
+
+        @Override
+        public boolean keyDown(int keycode) {
+            if (keycode== Input.Keys.BACK) {
+                musica.clear();
+                musica.flush();
+                System.exit(0);
+            }
+            return true; // Para que el sistema operativo no la procese
+        }
+
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);

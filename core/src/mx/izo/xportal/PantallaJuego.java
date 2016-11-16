@@ -1,7 +1,9 @@
 package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -28,7 +30,7 @@ import java.util.TimerTask;
  * Created by Equipo alfa buena maravilla onda dinamita escuadrón lobo on 10/11/2016.
  */
 
-public class PantallaJuego implements Screen {
+public class PantallaJuego implements Screen{
 
     //PREFERENCIAS
     public Preferences niveles = Gdx.app.getPreferences("Niveles");
@@ -192,6 +194,9 @@ public class PantallaJuego implements Screen {
         // Indicar el objeto que atiende los eventos de touch (entrada en general)
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
+        // Tecla BACK (Android)
+        Gdx.input.setCatchBackKey(true);
+
         estadoJuego = EstadosJuego.JUGANDO;
 
         // Texto
@@ -343,21 +348,44 @@ public class PantallaJuego implements Screen {
         btnMenu.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2);
         btnMenu.setAlfa(0.7f);
 
-        btnMusicaT = new Boton(texturaMusicaT);
-        btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2-180);
-        btnMusicaT.setAlfa(0.7f);
+        if(estadoMusica) {
+            btnMusicaT = new Boton(texturaMusicaT);
+            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnMusicaT.setAlfa(0.7f);
 
-        btnMusicaF = new Boton(texturaMusicaF);
-        btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2+250, Plataforma.ALTO_CAMARA/2-180);
-        btnMusicaF.setAlfa(0.7f);
+            btnMusicaF = new Boton(texturaMusicaF);
+            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);//250
+            btnMusicaF.setAlfa(0.7f);
+        }
+        else {
+            btnMusicaT = new Boton(texturaMusicaT);
+            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnMusicaT.setAlfa(0.7f);
 
-        btnSonidoT = new Boton(texturaSonidoT);
-        btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-180);
-        btnSonidoT.setAlfa(0.7f);
+            btnMusicaF = new Boton(texturaMusicaF);
+            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);//250
+            btnMusicaF.setAlfa(0.7f);
+        }
 
-        btnSonidoF = new Boton(texturaSonidoF);
-        btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-350, Plataforma.ALTO_CAMARA/2-180);
-        btnSonidoF.setAlfa(0.7f);
+
+        if (estadoSonidos) {
+            btnSonidoT = new Boton(texturaSonidoT);
+            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoT.setAlfa(0.7f);
+
+            btnSonidoF = new Boton(texturaSonidoF);
+            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoF.setAlfa(0.7f);
+        } else{
+            btnSonidoT = new Boton(texturaSonidoT);
+            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoT.setAlfa(0.7f);
+
+            btnSonidoF = new Boton(texturaSonidoF);
+            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoF.setAlfa(0.7f);
+        }
+
     }
 
     /*
@@ -365,10 +393,6 @@ public class PantallaJuego implements Screen {
     Este método se está ejecutando muchas veces por segundo.
      */
 
-    /*public void bajaBarraVidas(Sprite sprite, float size){
-        //sprite.setRegion(0, 0, (int) size, (int) sprite.getHeight()); //cast importante
-        sprite.setSize(size, sprite.getHeight());
-    }*/
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
@@ -739,16 +763,29 @@ public class PantallaJuego implements Screen {
                 btnMenu.render(batch);
                 btnMenu.setAlfa(0.9f);
                 if(estadoMusica) {
-                    btnMusicaT.render(batch);
+                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnMusicaT.setAlfa(0.9f);
+                    btnMusicaT.render(batch);
+                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaF.setAlfa(0.9f);
+
                 }else {
+                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaT.setAlfa(0.9f);
+                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnMusicaF.render(batch);
                     btnMusicaF.setAlfa(0.9f);
                 }
                 if(estadoSonidos) {
-                    btnSonidoT.render(batch);
+                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnSonidoT.setAlfa(0.9f);
+                    btnSonidoT.render(batch);
+                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoF.setAlfa(0.9f);
                 }else{
+                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoT.setAlfa(0.9f);
+                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnSonidoF.render(batch);
                     btnSonidoF.setAlfa(0.9f);
                 }
@@ -1169,6 +1206,7 @@ public class PantallaJuego implements Screen {
         assetManager.unload("Mute.mp3");
     }
 
+
     /*
     Clase utilizada para manejar los eventos de touch en la pantalla
      */
@@ -1183,6 +1221,22 @@ public class PantallaJuego implements Screen {
         pointer - es el número de dedo que se pone en la pantalla, el primero es 0
         button - el botón del mouse
          */
+
+        @Override
+        public boolean keyDown(int keycode) {
+            if (keycode== Input.Keys.BACK) {
+                if(!(estadoJuego == EstadosJuego.PAUSADO)) {
+                    estadoJuego = EstadosJuego.PAUSADO;
+                    banderaPausa = true;
+                }
+                else{
+                    estadoJuego = EstadosJuego.JUGANDO;
+                    banderaPausa = false;
+                }
+            }
+            return true; // Para que el sistema operativo no la procese
+        }
+
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
