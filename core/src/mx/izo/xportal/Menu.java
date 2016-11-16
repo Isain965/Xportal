@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sun.org.apache.xpath.internal.operations.String;
 
 /**
  * Created by isain on 10/11/2016.
@@ -60,8 +61,8 @@ public class Menu implements Screen {
     private Boton btnScore;
     private Boton btnExit;
 
-    private boolean estadoMusica = true;
-    private boolean estadoSonido = true;
+    private boolean estadoMusica = musica.getBoolean("estadoMusica");
+    private boolean estadoSonido = sonidos.getBoolean("estadoSonidos");
 
     public Menu(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -135,16 +136,27 @@ public class Menu implements Screen {
         btnExit = new Boton(texturaExit);
         btnExit.setPosicion(20,10);
 
-        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("ActionTheme.wav"));
-        musicFondo.setLooping(true);
-        musicFondo.play();
+
+
+
         //Asignr preferencias de sonido
         if(!musica.contains("estadoMusica")){
-            Gdx.app.log("HOLA","Soy yo");
             musica.putBoolean("estadoMusica",true);
+            estadoMusica=true;
             sonidos.putBoolean("estadoSonidos",true);
+            estadoSonido=true;
             musica.flush();
             sonidos.flush();
+        }
+
+        //musica de fondo
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
+        musicFondo.setLooping(true);
+        if(estadoMusica) {
+            musicFondo.play();
+        }
+        else{
+            musicFondo.stop();
         }
     }
 
@@ -209,19 +221,6 @@ public class Menu implements Screen {
         assetManager.unload("BtmPremios.png");
         assetManager.unload("BtmExit.png");
 
-    }
-
-    public boolean getEstadoMusica(){
-        return this.estadoMusica;
-    }
-    public boolean getEstadoSonido(){
-        return this.estadoSonido;
-    }
-    public void setEstadoMusica(boolean estadoMusica){
-        this.estadoMusica = estadoMusica;
-    }
-    public void setEstadoSonido(boolean estadoSonido){
-        this.estadoSonido = estadoSonido;
     }
 
     /*

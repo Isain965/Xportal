@@ -2,6 +2,7 @@ package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -40,6 +41,14 @@ public class AcercaDe implements Screen {
 
     //Musica de fondo
     private Music musicFondo;
+
+    //PREFERENCIAS
+    public Preferences niveles = Gdx.app.getPreferences("Niveles");
+    public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
+    public Preferences musica = Gdx.app.getPreferences("Musica");
+
+    private boolean estadoMusica = musica.getBoolean("estadoMusica");
+    private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
 
     public AcercaDe(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -84,10 +93,17 @@ public class AcercaDe implements Screen {
         texturaRegresar = assetManager.get("back.png");
 
         btnRegresar = new Boton(texturaRegresar);
+        btnRegresar.setPosicion(20,10);
 
-        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("ActionTheme.wav"));
+        //musica de fondo
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
         musicFondo.setLooping(true);
-        musicFondo.play();
+        if(estadoMusica) {
+            musicFondo.play();
+        }
+        else{
+            musicFondo.stop();
+        }
     }
 
     /*

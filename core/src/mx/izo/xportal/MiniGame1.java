@@ -2,6 +2,7 @@ package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -120,6 +121,14 @@ public class MiniGame1 implements Screen
     //Musica de fondo
     private Music musicFondo;
 
+    //PREFERENCIAS
+    public Preferences niveles = Gdx.app.getPreferences("Niveles");
+    public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
+    public Preferences musica = Gdx.app.getPreferences("Musica");
+
+    private boolean estadoMusica = musica.getBoolean("estadoMusica");
+    private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
+
 
     public MiniGame1(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -204,22 +213,35 @@ public class MiniGame1 implements Screen
 
         texturaManzanas = assetManager.get("Apple.png");
 
-        // Efecto moneda
-        sonidoEstrella = assetManager.get("monedas.mp3");
-        sonidoPierde = assetManager.get("opendoor.mp3");
-        sonidoVida= assetManager.get("vidawi.mp3");
-        sonidoLlave=assetManager.get("llave.mp3");
-
         texturaEnemigo2 = assetManager.get("embudo.png");
 
         EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
         enemigoV1.setPosicion(100,700);
         enemigosV.add(enemigoV1);
 
-        //Crenado la musica de fondo
+        // Efecto moneda
+        if (estadoSonidos) {
+            sonidoEstrella = assetManager.get("monedas.mp3");
+            sonidoPierde = assetManager.get("opendoor.mp3");
+            sonidoVida = assetManager.get("vidawi.mp3");
+            sonidoLlave = assetManager.get("llave.mp3");
+        }
+        else {
+            sonidoEstrella = assetManager.get("Mute.mp3");
+            sonidoPierde = assetManager.get("Mute.mp3");
+            sonidoVida = assetManager.get("Mute.mp3");
+            sonidoLlave = assetManager.get("Mute.mp3");
+        }
+
+        //Musica de fondo
         musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
         musicFondo.setLooping(true);
-        musicFondo.play();
+        if(estadoMusica) {
+            musicFondo.play();
+        }
+        else{
+            musicFondo.stop();
+        }
 
 
         //IMPLEMENTANDO LA PAUSA
@@ -232,7 +254,6 @@ public class MiniGame1 implements Screen
         texturaMusicaF = assetManager.get("BtmMusicF.png");
 
         btnPantallaPausa = new Boton(texturaPausa);
-        //btnPantallaPausa.setPosicion(Plataforma.ANCHO_CAMARA/2, Plataforma.ALTO_CAMARA/2);
         btnPantallaPausa.setAlfa(0.7f);
 
         btnPlay = new Boton (texturaPlay);
@@ -248,7 +269,7 @@ public class MiniGame1 implements Screen
         btnMusicaT.setAlfa(0.7f);
 
         btnMusicaF = new Boton(texturaMusicaF);
-        btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2-1000);
+        btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2+250, Plataforma.ALTO_CAMARA/2-180);
         btnMusicaF.setAlfa(0.7f);
 
         btnSonidoT = new Boton(texturaSonidoT);
@@ -256,9 +277,8 @@ public class MiniGame1 implements Screen
         btnSonidoT.setAlfa(0.7f);
 
         btnSonidoF = new Boton(texturaSonidoF);
-        btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
+        btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-350, Plataforma.ALTO_CAMARA/2-180);
         btnSonidoF.setAlfa(0.7f);
-
     }
 
     /*
@@ -466,14 +486,20 @@ public class MiniGame1 implements Screen
                 btnPlay.setAlfa(0.9f);
                 btnMenu.render(batch);
                 btnMenu.setAlfa(0.9f);
-                btnMusicaT.render(batch);
-                btnMusicaT.setAlfa(0.9f);
-                btnMusicaF.render(batch);
-                btnMusicaF.setAlfa(0.9f);
-                btnSonidoT.render(batch);
-                btnSonidoT.setAlfa(0.9f);
-                btnSonidoF.render(batch);
-                btnSonidoF.setAlfa(0.9f);
+                if(estadoMusica) {
+                    btnMusicaT.render(batch);
+                    btnMusicaT.setAlfa(0.9f);
+                }else {
+                    btnMusicaF.render(batch);
+                    btnMusicaF.setAlfa(0.9f);
+                }
+                if(estadoSonidos) {
+                    btnSonidoT.render(batch);
+                    btnSonidoT.setAlfa(0.9f);
+                }else{
+                    btnSonidoF.render(batch);
+                    btnSonidoF.setAlfa(0.9f);
+                }
             }
             batch.end();
         }
@@ -878,32 +904,43 @@ public class MiniGame1 implements Screen
                     dispose();
                     plataforma.setScreen(new Menu(plataforma));
 
-                } else if (btnSonidoT.contiene(x, y)) {
+                }else if(btnSonidoT.contiene(x,y)){
                     AssetManager assetManager = plataforma.getAssetManager();
-
-                    btnSonidoF.setPosicion(btnSonidoT.getX(), btnSonidoT.getY());
-                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 1000);
-
+                    estadoSonidos = false;
+                    sonidos.clear();
+                    sonidos.putBoolean("estadoSonidos",false);
+                    sonidos.flush();
                     sonidoEstrella = assetManager.get("Mute.mp3");
                     sonidoLlave = assetManager.get("Mute.mp3");
                     sonidoPierde = assetManager.get("Mute.mp3");
                     sonidoVida = assetManager.get("Mute.mp3");
-                } else if (btnSonidoF.contiene(x, y)) {
+                }
+                else if(btnSonidoF.contiene(x,y)){
                     AssetManager assetManager = plataforma.getAssetManager();
 
-                    btnSonidoT.setPosicion(btnSonidoF.getX(), btnSonidoF.getY());
-                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 1000);
+                    estadoSonidos = true;
+                    sonidos.clear();
+                    sonidos.putBoolean("estadoSonidos",true);
+                    sonidos.flush();
                     sonidoEstrella = assetManager.get("monedas.mp3");
                     sonidoPierde = assetManager.get("opendoor.mp3");
-                    sonidoVida = assetManager.get("vidawi.mp3");
-                    sonidoLlave = assetManager.get("llave.mp3");
-                } else if (btnMusicaT.contiene(x, y)) {
-                    btnMusicaF.setPosicion(btnMusicaT.getX(), btnMusicaT.getY());
-                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 1000);
+                    sonidoVida= assetManager.get("vidawi.mp3");
+                    sonidoLlave=assetManager.get("llave.mp3");
+                }
+
+                if(btnMusicaT.contiene(x,y)){
+                    estadoMusica=false;
+                    musica.clear();
+                    musica.putBoolean("estadoMusica",false);
+                    musica.flush();
                     musicFondo.pause();
-                } else if (btnMusicaF.contiene(x, y)) {
-                    btnMusicaT.setPosicion(btnMusicaF.getX(), btnMusicaF.getY());
-                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 1000);
+                }
+                else if(btnMusicaF.contiene(x,y)){
+                    Gdx.app.log("Tocando"," musica apagada");
+                    estadoMusica = true;
+                    musica.clear();
+                    musica.putBoolean("estadoMusica",true);
+                    musica.flush();
                     musicFondo.play();
                 }
             }

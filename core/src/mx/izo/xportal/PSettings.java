@@ -137,6 +137,7 @@ public class PSettings implements Screen {
 
         //crear botones
         btnRegresar = new Boton(texturaRegresar);
+        btnRegresar.setPosicion(20,10);
 
         btnMusicaT = new Boton(texturaMusicaT);
         btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2-70);
@@ -155,7 +156,7 @@ public class PSettings implements Screen {
         btnSonidoF.setAlfa(0.7f);
 
         btnReset = new Boton(texturaBtnReset);
-        btnReset.setPosicion(Plataforma.ANCHO_CAMARA-115,0);
+        btnReset.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
         btnReset.setAlfa(0.7f);
     }
 
@@ -277,8 +278,6 @@ public class PSettings implements Screen {
                 sonidos.flush();
             }
             else if(btnSonidoF.contiene(x,y)){
-                AssetManager assetManager = plataforma.getAssetManager();
-
                 estadoSonidos = true;
                 sonidos.clear();
                 sonidos.putBoolean("estadoSonidos",true);

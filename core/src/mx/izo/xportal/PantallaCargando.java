@@ -146,12 +146,15 @@ public class PantallaCargando implements Screen {
 
             // Fin del juego
             assetManager.load("ganaste.png", Texture.class);
+
             // Efecto al tomar la moneda
             assetManager.load("monedas.mp3", Sound.class);
             assetManager.load("llave.mp3", Sound.class);
             assetManager.load("opendoor.mp3", Sound.class);
             assetManager.load("vidawi.mp3", Sound.class);
             assetManager.load("pistola.mp3",Sound.class);
+            assetManager.load("Mute.mp3", Sound.class);
+
             assetManager.load("Apple.png", Texture.class);
 
             //Para la pausa
@@ -221,7 +224,7 @@ public class PantallaCargando implements Screen {
 
         // Dibujar
         borrarPantalla();
-        spriteCargando.setRotation(spriteCargando.getRotation()+10);
+        spriteCargando.setRotation(spriteCargando.getRotation()-10);
 
         batch.setProjectionMatrix(camara.combined);
 

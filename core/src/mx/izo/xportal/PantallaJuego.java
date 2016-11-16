@@ -35,7 +35,6 @@ public class PantallaJuego implements Screen {
     public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
     public Preferences musica = Gdx.app.getPreferences("Musica");
 
-    private Menu menu;
     private PantallaCargando pantallaCargando;
 
     public static final float ANCHO_MAPA = 4000;   // Ancho del mapa en pixeles
@@ -313,6 +312,8 @@ public class PantallaJuego implements Screen {
             mute = assetManager.get("Mute.mp3");
 
         }
+
+        //Musica de fondo
         musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
         musicFondo.setLooping(true);
         if(estadoMusica) {
@@ -332,7 +333,6 @@ public class PantallaJuego implements Screen {
         texturaMusicaF = assetManager.get("BtmMusicF.png");
 
         btnPantallaPausa = new Boton(texturaPausa);
-        //btnPantallaPausa.setPosicion(Plataforma.ANCHO_CAMARA/2, Plataforma.ALTO_CAMARA/2);
         btnPantallaPausa.setAlfa(0.7f);
 
         btnPlay = new Boton (texturaPlay);
@@ -1235,9 +1235,6 @@ public class PantallaJuego implements Screen {
 
                 } else if(btnSonidoT.contiene(x,y)){
                     AssetManager assetManager = plataforma.getAssetManager();
-
-                    //btnSonidoF.setPosicion(btnSonidoT.getX(),btnSonidoT.getY());
-                    //btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
                     estadoSonidos = false;
                     sonidos.clear();
                     sonidos.putBoolean("estadoSonidos",false);
@@ -1256,8 +1253,6 @@ public class PantallaJuego implements Screen {
                     sonidos.clear();
                     sonidos.putBoolean("estadoSonidos",true);
                     sonidos.flush();
-                    //btnSonidoT.setPosicion(btnSonidoF.getX(),btnSonidoF.getY());
-                    //btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
                     sonidoEstrella = assetManager.get("monedas.mp3");
                     sonidoPierde = assetManager.get("opendoor.mp3");
                     sonidoVida= assetManager.get("vidawi.mp3");
