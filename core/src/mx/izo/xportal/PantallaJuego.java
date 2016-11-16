@@ -852,7 +852,6 @@ public class PantallaJuego implements Screen{
                 probarChoqueParedes();      // Prueba si debe moverse
                 break;
         }
-
         // Prueba si debe caer por llegar a un espacio vacío
         if ( mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO
                 && (mario.getEstadoSalto() != Personaje.EstadoSalto.SUBIENDO) ) {
