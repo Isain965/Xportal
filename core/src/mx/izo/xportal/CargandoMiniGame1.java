@@ -177,7 +177,7 @@ public class CargandoMiniGame1 implements Screen
 
     @Override
     public void dispose() {
-        AssetManager assetManager = plataforma.getAssetManager();
+
         texturaCargando.dispose();
         texturaFondo.dispose();
         // Los assets de PantallaJuego se liberan en el método dispose de PantallaJuego
