@@ -139,22 +139,41 @@ public class PSettings implements Screen {
         btnRegresar = new Boton(texturaRegresar);
         btnRegresar.setPosicion(20,10);
 
-        btnMusicaT = new Boton(texturaMusicaT);
-        btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2-70);
-        btnMusicaT.setAlfa(0.7f);
+        if(estadoMusica) {
+            btnMusicaT = new Boton(texturaMusicaT);
+            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 70);
+            btnMusicaT.setAlfa(0.7f);
 
-        btnMusicaF = new Boton(texturaMusicaF);
-        btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA/2+250, Plataforma.ALTO_CAMARA/2-70);
-        btnMusicaF.setAlfa(0.7f);
+            btnMusicaF = new Boton(texturaMusicaF);
+            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 70);//250
+            btnMusicaF.setAlfa(0.7f);
+        }
+        else {
+            btnMusicaT = new Boton(texturaMusicaT);
+            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 70);
+            btnMusicaT.setAlfa(0.7f);
 
-        btnSonidoT = new Boton(texturaSonidoT);
-        btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-70);
-        btnSonidoT.setAlfa(0.7f);
+            btnMusicaF = new Boton(texturaMusicaF);
+            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 70);//250
+            btnMusicaF.setAlfa(0.7f);
+        }
+        if (estadoSonidos) {
+            btnSonidoT = new Boton(texturaSonidoT);
+            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 70);
+            btnSonidoT.setAlfa(0.7f);
 
-        btnSonidoF = new Boton(texturaSonidoF);
-        btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA/2-350, Plataforma.ALTO_CAMARA/2-70);
-        btnSonidoF.setAlfa(0.7f);
+            btnSonidoF = new Boton(texturaSonidoF);
+            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 70);
+            btnSonidoF.setAlfa(0.7f);
+        } else{
+            btnSonidoT = new Boton(texturaSonidoT);
+            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 70);
+            btnSonidoT.setAlfa(0.7f);
 
+            btnSonidoF = new Boton(texturaSonidoF);
+            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 70);
+            btnSonidoF.setAlfa(0.7f);
+        }
         btnReset = new Boton(texturaBtnReset);
         btnReset.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
         btnReset.setAlfa(0.7f);
@@ -182,16 +201,29 @@ public class PSettings implements Screen {
         btnRegresar.render(batch);
         btnReset.render(batch);
         if(estadoMusica) {
-            btnMusicaT.render(batch);
+            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 70);
             btnMusicaT.setAlfa(0.9f);
+            btnMusicaT.render(batch);
+            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 70);
+            btnMusicaF.setAlfa(0.9f);
+
         }else {
+            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 70);
+            btnMusicaT.setAlfa(0.9f);
+            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 70);
             btnMusicaF.render(batch);
             btnMusicaF.setAlfa(0.9f);
         }
         if(estadoSonidos) {
-            btnSonidoT.render(batch);
+            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 70);
             btnSonidoT.setAlfa(0.9f);
+            btnSonidoT.render(batch);
+            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 70);
+            btnSonidoF.setAlfa(0.9f);
         }else{
+            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 70);
+            btnSonidoT.setAlfa(0.9f);
+            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 70);
             btnSonidoF.render(batch);
             btnSonidoF.setAlfa(0.9f);
         }
@@ -268,10 +300,6 @@ public class PSettings implements Screen {
                 musicFondo.dispose();
                 plataforma.setScreen(new Menu(plataforma));
             }else if(btnSonidoT.contiene(x,y)){
-                AssetManager assetManager = plataforma.getAssetManager();
-
-                //btnSonidoF.setPosicion(btnSonidoT.getX(),btnSonidoT.getY());
-                //btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2-1000);
                 estadoSonidos = false;
                 sonidos.clear();
                 sonidos.putBoolean("estadoSonidos",false);
@@ -297,6 +325,8 @@ public class PSettings implements Screen {
             }else if (btnReset.contiene(x,y)){
                 niveles.clear();
                 niveles.flush();
+                musicFondo.dispose();
+                plataforma.setScreen(new Menu(plataforma));
             }
             return true;    // Indica que ya procesó el evento
         }
