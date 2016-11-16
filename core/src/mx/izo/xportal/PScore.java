@@ -211,6 +211,7 @@ public class PScore implements Screen {
             transformarCoordenadas(screenX, screenY);
 
             if (btnRegresar.contiene(x,y)){
+                Gdx.input.setInputProcessor(null);
                 musicFondo.dispose();
                 plataforma.setScreen(new Menu(plataforma));
             }

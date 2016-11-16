@@ -311,6 +311,7 @@ public class PSettings implements Screen {
             transformarCoordenadas(screenX, screenY);
 
             if (btnRegresar.contiene(x,y)){
+                Gdx.input.setInputProcessor(null);
                 musicFondo.dispose();
                 plataforma.setScreen(new Menu(plataforma));
             }else if(btnSonidoT.contiene(x,y)){
@@ -337,6 +338,7 @@ public class PSettings implements Screen {
                 musica.flush();
                 musicFondo.play();
             }else if (btnReset.contiene(x,y)){
+                Gdx.input.setInputProcessor(null);
                 niveles.clear();
                 niveles.flush();
                 musicFondo.dispose();

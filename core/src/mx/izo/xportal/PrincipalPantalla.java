@@ -63,7 +63,6 @@ public class PrincipalPantalla implements Screen {
         crearObjetos();
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
-
     }
 
     // Carga los recursos a través del administrador de assets
@@ -148,7 +147,7 @@ public class PrincipalPantalla implements Screen {
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     // Libera los assets
@@ -156,7 +155,8 @@ public class PrincipalPantalla implements Screen {
     public void dispose() {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
-        assetManager.unload("PantallaDeInicio");
+        assetManager.unload("PantallaDeInicio.png");
+        assetManager.unload("LogoTec.jpg");
 //        efecto.dispose();
 //        explosion.dispose();
     }
@@ -177,10 +177,7 @@ public class PrincipalPantalla implements Screen {
          */
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            transformarCoordenadas(screenX, screenY);
 
-//            explosion.setPosition(x,y);
-//            explosion.reset();
             return true;    // Indica que ya procesó el evento
         }
 
@@ -191,7 +188,8 @@ public class PrincipalPantalla implements Screen {
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
 
-            if (btnRegresar.contiene(x,y)){
+            if (btnRegresar.contiene(x,y)&&tiempoJuego>2.5){
+                Gdx.input.setInputProcessor(null);
                 plataforma.setScreen(new Menu(plataforma));
             }
             return true;    // Indica que ya procesó el evento
@@ -201,7 +199,6 @@ public class PrincipalPantalla implements Screen {
         // Se ejecuta cuando el usuario MUEVE el dedo sobre la pantalla
         @Override
         public boolean touchDragged(int screenX, int screenY, int pointer) {
-            transformarCoordenadas(screenX, screenY);
 
             return true;
         }

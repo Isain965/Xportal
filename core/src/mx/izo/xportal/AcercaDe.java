@@ -156,7 +156,7 @@ public class AcercaDe implements Screen {
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     // Libera los assets
@@ -208,6 +208,7 @@ public class AcercaDe implements Screen {
             transformarCoordenadas(screenX, screenY);
 
             if (btnRegresar.contiene(x,y)){
+                Gdx.input.setInputProcessor(null);
                 musicFondo.dispose();
                 plataforma.setScreen(new Menu(plataforma));
             }

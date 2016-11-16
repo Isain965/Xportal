@@ -391,6 +391,7 @@ public class MiniGame1 implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        Gdx.input.setInputProcessor(null);
                         musicFondo.dispose();
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
@@ -844,7 +845,7 @@ public class MiniGame1 implements Screen
 
     @Override
     public void hide() {
-
+        //dispose();
     }
 
     // Libera los assets
@@ -957,6 +958,7 @@ public class MiniGame1 implements Screen
                     banderaPausa = false;
                     estadoJuego = EstadosJuego.JUGANDO;
                 } else if (btnMenu.contiene(x, y)) {
+                    Gdx.input.setInputProcessor(null);
                     musicFondo.dispose();
                     dispose();
                     plataforma.setScreen(new Menu(plataforma));

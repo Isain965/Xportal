@@ -1,6 +1,7 @@
 package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -37,6 +38,8 @@ public class PantallaPerdiste implements Screen {
     private Texture texturaRegresar;
     private Boton btnRegresar;
 
+    private boolean banderaBoton = true;
+
 
     public PantallaPerdiste(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -59,6 +62,9 @@ public class PantallaPerdiste implements Screen {
         crearObjetos();
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+
+        // Tecla BACK (Android)
+        Gdx.input.setCatchBackKey(true);
 
     }
 
@@ -83,6 +89,7 @@ public class PantallaPerdiste implements Screen {
         texturaRegresar = assetManager.get("back.png");
 
         btnRegresar = new Boton(texturaRegresar);
+        btnRegresar.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
 
 
     }
@@ -131,7 +138,7 @@ public class PantallaPerdiste implements Screen {
 
     @Override
     public void hide() {
-
+        //dispose();
     }
 
     // Libera los assets
@@ -158,8 +165,15 @@ public class PantallaPerdiste implements Screen {
         button - el botón del mouse
          */
         @Override
+        public boolean keyDown(int keycode) {
+            if (keycode== Input.Keys.BACK) {
+                plataforma.setScreen(new Menu(plataforma));
+            }
+            return true; // Para que el sistema operativo no la procese
+        }
+
+        @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            transformarCoordenadas(screenX, screenY);
 
 //            explosion.setPosition(x,y);
 //            explosion.reset();
@@ -173,8 +187,12 @@ public class PantallaPerdiste implements Screen {
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
 
-            if (btnRegresar.contiene(x,y)){
-                dispose();
+            if (btnRegresar.contiene(x,y)&&banderaBoton){
+                banderaBoton = false;
+                Gdx.app.log("entre","WOO");
+                Gdx.input.setInputProcessor(null);
+                AssetManager assetManager = plataforma.getAssetManager();
+                assetManager.clear();
                 plataforma.setScreen(new Menu(plataforma));
             }
             return true;    // Indica que ya procesó el evento

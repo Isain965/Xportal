@@ -248,8 +248,8 @@ public class PantallaCargando implements Screen {
 
         } else {
             // Aún no termina la carga de assets, leer el avance
-            float avance = assetManager.getProgress()*100;
-            Gdx.app.log("Cargando",avance+"%");
+            //float avance = assetManager.getProgress()*100;
+            //Gdx.app.log("Cargando",avance+"%");
         }
     }
 

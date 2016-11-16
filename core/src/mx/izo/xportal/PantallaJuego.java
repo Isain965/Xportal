@@ -443,6 +443,7 @@ public class PantallaJuego implements Screen{
             //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
             if (vidaf == vidafMin) {
+                Gdx.input.setInputProcessor(null);
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
@@ -970,6 +971,7 @@ public class PantallaJuego implements Screen{
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        Gdx.input.setInputProcessor(null);
                         musicFondo.dispose();
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
@@ -986,6 +988,7 @@ public class PantallaJuego implements Screen{
         }
         if ( capaPlataforma2.getCell(celdaX,celdaY) != null || capaPlataforma2.getCell(celdaX,celdaY+1) != null ) {
             if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) && llaveB) {
+                Gdx.input.setInputProcessor(null);
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 //dispose();
@@ -1154,7 +1157,7 @@ public class PantallaJuego implements Screen{
 
     @Override
     public void hide() {
-
+        //dispose();
     }
 
     // Libera los assets
@@ -1283,6 +1286,7 @@ public class PantallaJuego implements Screen{
                     banderaPausa = false;
                     estadoJuego=EstadosJuego.JUGANDO;
                 }else if(btnMenu.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
                     musicFondo.dispose();
                     dispose();
                     plataforma.setScreen(new Menu(plataforma));

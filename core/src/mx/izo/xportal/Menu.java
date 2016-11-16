@@ -211,7 +211,7 @@ public class Menu implements Screen {
 
     @Override
     public void hide() {
-
+        //dispose();
     }
 
     // Libera los assets
@@ -269,31 +269,41 @@ public class Menu implements Screen {
 
             if (btnPlay.contiene(x,y)){
                 musicFondo.dispose();
-                dispose();
+                //dispose();
+                Gdx.input.setInputProcessor(null);
                 pantallaCargando=new PantallaCargando(plataforma);
                 if(niveles.contains("MiniGame1")){
                     pantallaCargando.setNivel("MiniGame1");
-                    plataforma.setScreen(pantallaCargando);
+                }else if(niveles.contains(("MiniGame2"))){
+                    pantallaCargando.setNivel("MiniGame2");
                 }
                 else{
                     pantallaCargando.setNivel("Nivel1");
-                    plataforma.setScreen(pantallaCargando);
                 }
+                plataforma.setScreen(pantallaCargando);
                 //plataforma.setScreen(new CargandoMiniGame1(plataforma));
                 //plataforma.setScreen(new CargandoMGDos(plataforma));
             } else if (btnAbout.contiene(x,y)){
+                Gdx.input.setInputProcessor(null);
+                musicFondo.stop();
                 musicFondo.dispose();
                 dispose();
                 plataforma.setScreen(new AcercaDe(plataforma));
             } else if(btnScore.contiene(x,y)){
+                Gdx.input.setInputProcessor(null);
+                musicFondo.stop();
                 musicFondo.dispose();
                 dispose();
                 plataforma.setScreen(new PScore(plataforma));
             } else if (btnSettings.contiene(x,y)){
+                Gdx.input.setInputProcessor(null);
+                musicFondo.stop();
                 musicFondo.dispose();
                 dispose();
                 plataforma.setScreen(new PSettings(plataforma));
             }else if (btnExit.contiene(x,y)){
+                Gdx.input.setInputProcessor(null);
+                musicFondo.stop();
                 musica.clear();
                 musica.flush();
                 sonidos.clear();
