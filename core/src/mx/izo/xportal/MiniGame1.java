@@ -1,9 +1,12 @@
 package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -50,7 +53,7 @@ public class MiniGame1 implements Screen
     // Personaje
     private Texture texturaPersonaje;       // Aquí cargamos la imagen marioSprite.png con varios frames
     private Texture texturaPersonaje2;
-    private Personaje mario;
+    private Personaje H;
     public static final int TAM_CELDA = 32;
 
 
@@ -100,6 +103,32 @@ public class MiniGame1 implements Screen
 
     private boolean banderaDireccion=false;
 
+    //TEXURAS PARA LA PAUSA
+    private Texture texturaPausa;
+    private Texture texturaPlay;
+    private Texture texturaMenu;
+    private Texture texturaSonidoT;
+    private Texture texturaMusicaT;
+    private Texture texturaSonidoF;
+    private Texture texturaMusicaF;
+    private Boton btnPantallaPausa;
+    private Boton btnPlay;
+    private Boton btnMenu;
+    private Boton btnSonidoT;
+    private Boton btnMusicaT;
+    private Boton btnSonidoF;
+    private Boton btnMusicaF;
+    private boolean banderaPausa = false;
+    //Musica de fondo
+    private Music musicFondo;
+
+    //PREFERENCIAS
+    public Preferences niveles = Gdx.app.getPreferences("Niveles");
+    public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
+    public Preferences musica = Gdx.app.getPreferences("Musica");
+
+    private boolean estadoMusica = musica.getBoolean("estadoMusica");
+    private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
 
 
     public MiniGame1(Plataforma plataforma) {
@@ -130,12 +159,14 @@ public class MiniGame1 implements Screen
         // Indicar el objeto que atiende los eventos de touch (entrada en general)
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
+        // Tecla BACK (Android)
+        Gdx.input.setCatchBackKey(true);
+
         estadoJuego = EstadosJuego.JUGANDO;
 
         // Texto
         texto = new Texto();
     }
-
 
 
     private void crearObjetos() {
@@ -153,10 +184,11 @@ public class MiniGame1 implements Screen
 
         texturaSalto = assetManager.get("salto.png");
         // Crear el personaje
-        mario = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
+        H = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
         // Posición inicial del personaje
-        mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
-        mario.setVelocidadX(3);
+        H.setSalto(70);
+        H.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
+        H.setVelocidadX(3);
 
         // Crear los botones
         texturaBtnIzquierda = assetManager.get("BtmIzquierdo.png");
@@ -186,17 +218,94 @@ public class MiniGame1 implements Screen
 
         texturaManzanas = assetManager.get("Apple.png");
 
-        // Efecto moneda
-        sonidoEstrella = assetManager.get("monedas.mp3");
-        sonidoPierde = assetManager.get("opendoor.mp3");
-        sonidoVida= assetManager.get("vidawi.mp3");
-        sonidoLlave=assetManager.get("llave.mp3");
-
         texturaEnemigo2 = assetManager.get("embudo.png");
 
         EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
         enemigoV1.setPosicion(100,700);
         enemigosV.add(enemigoV1);
+
+        // Efecto moneda
+        if (estadoSonidos) {
+            sonidoEstrella = assetManager.get("monedas.mp3");
+            sonidoPierde = assetManager.get("opendoor.mp3");
+            sonidoVida = assetManager.get("vidawi.mp3");
+            sonidoLlave = assetManager.get("llave.mp3");
+        }
+        else {
+            sonidoEstrella = assetManager.get("Mute.mp3");
+            sonidoPierde = assetManager.get("Mute.mp3");
+            sonidoVida = assetManager.get("Mute.mp3");
+            sonidoLlave = assetManager.get("Mute.mp3");
+        }
+
+        //Musica de fondo
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
+        musicFondo.setLooping(true);
+        if(estadoMusica) {
+            musicFondo.play();
+        }
+        else{
+            musicFondo.stop();
+        }
+
+
+        //IMPLEMENTANDO LA PAUSA
+        texturaPausa = assetManager.get("Pausa.png");
+        texturaPlay = assetManager.get("BtmPlay.png");
+        texturaMenu = assetManager.get("back.png");
+        texturaSonidoT = assetManager.get("BtmSonido.png");
+        texturaMusicaT = assetManager.get("BtmMusic.png");
+        texturaSonidoF = assetManager.get("BtmSonidoF.png");
+        texturaMusicaF = assetManager.get("BtmMusicF.png");
+
+        btnPantallaPausa = new Boton(texturaPausa);
+        btnPantallaPausa.setAlfa(0.7f);
+
+        btnPlay = new Boton (texturaPlay);
+        btnPlay.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2);
+        btnPlay.setAlfa(0.7f);
+
+        btnMenu = new Boton (texturaMenu);
+        btnMenu.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2);
+        btnMenu.setAlfa(0.7f);
+
+        if(estadoMusica) {
+            btnMusicaT = new Boton(texturaMusicaT);
+            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnMusicaT.setAlfa(0.7f);
+
+            btnMusicaF = new Boton(texturaMusicaF);
+            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);//250
+            btnMusicaF.setAlfa(0.7f);
+        }
+        else {
+            btnMusicaT = new Boton(texturaMusicaT);
+            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnMusicaT.setAlfa(0.7f);
+
+            btnMusicaF = new Boton(texturaMusicaF);
+            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);//250
+            btnMusicaF.setAlfa(0.7f);
+        }
+
+        if (estadoSonidos) {
+            btnSonidoT = new Boton(texturaSonidoT);
+            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoT.setAlfa(0.7f);
+
+            btnSonidoF = new Boton(texturaSonidoF);
+            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoF.setAlfa(0.7f);
+        } else{
+            btnSonidoT = new Boton(texturaSonidoT);
+            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoT.setAlfa(0.7f);
+
+            btnSonidoF = new Boton(texturaSonidoF);
+            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoF.setAlfa(0.7f);
+        }
+
 
     }
 
@@ -208,110 +317,240 @@ public class MiniGame1 implements Screen
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
+        if (!banderaPausa) {
 
-        if (estadoJuego!=EstadosJuego.PERDIO) {
-            // Actualizar objetos en la pantalla
-            moverPersonaje();
-            actualizarCamara(); // Mover la cámara para que siga al personaje
-        }
+            if (estadoJuego != EstadosJuego.PERDIO) {
+                // Actualizar objetos en la pantalla
+                moverPersonaje();
+                actualizarCamara(); // Mover la cámara para que siga al personaje
+            }
 
-        // Dibujar
-        borrarPantalla();
+            // Dibujar
+            borrarPantalla();
 
-        batch.setProjectionMatrix(camara.combined);
+            batch.setProjectionMatrix(camara.combined);
 
-        rendererMapa.setView(camara);
-        rendererMapa.render();  // Dibuja el mapa
+            rendererMapa.setView(camara);
+            rendererMapa.render();  // Dibuja el mapa
 
-        // Entre begin-end dibujamos nuestros objetos en pantalla
-        batch.begin();
-        mario.render(batch);    // Dibuja el personaje
+            // Entre begin-end dibujamos nuestros objetos en pantalla
+            batch.begin();
+            H.render(batch);    // Dibuja el personaje
 
-        tiempoJuego+=Gdx.graphics.getDeltaTime();
-        //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
+            tiempoJuego += Gdx.graphics.getDeltaTime();
+            //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
-        for (EnemigoV enemigoV:enemigosV){
-            if (enemigoV.getVidas()>0){
-                enemigoV.render(batch);
+            for (EnemigoV enemigoV : enemigosV) {
+                if (enemigoV.getVidas() > 0) {
+                    enemigoV.render(batch);
 
-                if((int)tiempoJuego==1&&banderaDisparo){
-                    BalaV balaEnJuego = new BalaV(texturaManzanas);
-                    balaEnJuego.setDireccion(-3);
-                    balaEnJuego.setPosicion(enemigoV.getX()+50,enemigoV.getY()+50);
-                    balasL.add(balaEnJuego);
-                    banderaDisparo = false;
-                    tiempoJuego = 0;
-                    enemigoV.setPosicion((int) (1220 * Math.random()) + 1,700);
-                }
-
-                for(BalaV bala: balasL){
-                    bala.render(batch);
-                    banderaDisparo = true;
-                    if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
-                            (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigoV.getSprite().getHeight()))) {
-                        int vidas = enemigoV.getVidas();
-                        if (vidaf<20){
-                            vidaf+=1;
-                        }
-                        bala.velocidadX = 10;
-                        //Borrar de memoria
-                        bala.setPosicion(0, -50);
+                    if ((int) tiempoJuego == 1 && banderaDisparo) {
+                        BalaV balaEnJuego = new BalaV(texturaManzanas);
+                        balaEnJuego.setDireccion(-3);
+                        balaEnJuego.setPosicion(enemigoV.getX() + 50, enemigoV.getY() + 50);
+                        balasL.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                        enemigoV.setPosicion((int) (1220 * Math.random()) + 1, 750);
                     }
+
+                    for (BalaV bala : balasL) {
+                        bala.render(batch);
+                        banderaDisparo = true;
+                        if ((bala.getX() >= H.getX() && bala.getX() <= (H.getX() + H.getSprite().getWidth())) &&
+                                (bala.getY() >=H.getY() && bala.getY() <= (H.getY() + enemigoV.getSprite().getHeight()))) {
+                            int vidas = enemigoV.getVidas();
+                            if (vidaf < 20) {
+                                vidaf += 1;
+                                sonidoLlave.play();
+                            }
+                            bala.velocidadX = 10;
+                            //Borrar de memoria
+                            bala.setPosicion(0, -50);
+                        }
+                    }
+                    if (tiempoJuego > 6) {
+                        //ISAIN EL HACKER :)
+                        tiempoJuego = 0;
+                    }
+                } else {
+                    //Borrar de memoria
+                    enemigoV.setPosicion(0, 2000);
                 }
-                if(tiempoJuego>6){
-                    //ISAIN EL HACKER :)
-                    tiempoJuego=0;
+
+            }
+
+            for (int i = 0; i < balasL.size(); i++) {
+                if (balasL.get(i).getY() < 0) {
+                    balasL.remove(i);
                 }
             }
-            else{
-                //Borrar de memoria
-                enemigoV.setPosicion(0,2000);
+
+            if (vidaf == 10) {
+                musicFondo.dispose();
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        musicFondo.dispose();
+                        AssetManager assetManager = plataforma.getAssetManager();
+                        assetManager.clear();
+                        plataforma.setScreen(new PantallaGanaste(plataforma));
+                    }
+                }, 1);  // 3 segundos
             }
 
-        }
 
-        for(int i = 0; i<balasL.size();i++){
-            if(balasL.get(i).getY()<0){
-                balasL.remove(i);
+            batch.end();
+
+            // Dibuja el HUD
+            batch.setProjectionMatrix(camaraHUD.combined);
+            batch.begin();
+
+            // ¿Ya ganó?
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                btnIzquierda.render(batch);
+                btnDerecha.render(batch);
+                btnSalto.render(batch);
+                btnPausa.render(batch);
+                // Estrellas recolectadas
+                texto.mostrarMensaje(batch, "Score: " + estrellas, Plataforma.ANCHO_CAMARA / 2 - 200, Plataforma.ALTO_CAMARA * 0.95f);
+                texto.mostrarMensaje(batch, "Points: " + vidaf, Plataforma.ANCHO_CAMARA / 2 + 200, Plataforma.ALTO_CAMARA * 0.95f);
             }
+            batch.end();
         }
 
-        if(vidaf==20){
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    plataforma.setScreen(new CargandoMGDos(plataforma));
+
+
+        else{
+            borrarPantalla();
+
+            // Dibuja La Pausa
+            batch.setProjectionMatrix(camaraHUD.combined);
+
+            rendererMapa.setView(camara);
+            rendererMapa.render();  // Dibuja el mapa
+
+            // Entre begin-end dibujamos nuestros objetos en pantalla
+            batch.begin();
+            H.render(batch);    // Dibuja el personaje
+
+            tiempoJuego += Gdx.graphics.getDeltaTime();
+            //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
+
+            for (EnemigoV enemigoV : enemigosV) {
+                if (enemigoV.getVidas() > 0) {
+                    enemigoV.render(batch);
+
+                    if ((int) tiempoJuego == 1 && banderaDisparo) {
+                        BalaV balaEnJuego = new BalaV(texturaManzanas);
+                        balaEnJuego.setDireccion(-3);
+                        balaEnJuego.setPosicion(enemigoV.getX() + 50, enemigoV.getY() + 50);
+                        balasL.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                        enemigoV.setPosicion((int) (1220 * Math.random()) + 1, 750);
+                    }
+                    if (tiempoJuego > 6) {
+                        //ISAIN EL HACKER :)
+                        tiempoJuego = 0;
+                    }
+                } else {
+                    //Borrar de memoria
+                    enemigoV.setPosicion(0, 2000);
                 }
-            }, 3);  // 3 segundos
+
+            }
+
+            for (int i = 0; i < balasL.size(); i++) {
+                if (balasL.get(i).getY() < 0) {
+                    balasL.remove(i);
+                }
+            }
+
+            if (vidaf == 20) {
+                musicFondo.dispose();
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        plataforma.setScreen(new CargandoMGDos(plataforma));
+                    }
+                }, 3);  // 3 segundos
+            }
+
+
+            batch.end();
+
+
+            // Dibuja el HUD
+            batch.setProjectionMatrix(camaraHUD.combined);
+            batch.begin();
+
+            // ¿Ya ganó?
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                /*btnIzquierda.render(batch);
+                btnDerecha.render(batch);
+                btnSalto.render(batch);
+                btnPausa.render(batch);*/
+                // Estrellas recolectadas
+                texto.mostrarMensaje(batch, "Score: " + estrellas, Plataforma.ANCHO_CAMARA / 2 - 200, Plataforma.ALTO_CAMARA * 0.95f);
+                texto.mostrarMensaje(batch, "Points: " + vidaf, Plataforma.ANCHO_CAMARA / 2 + 200, Plataforma.ALTO_CAMARA * 0.95f);
+            }
+            batch.end();
+
+
+
+            batch.begin();
+            // ¿Ya ganó?
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                btnPantallaPausa.render(batch);
+                btnPantallaPausa.setAlfa(1);
+                btnPlay.render(batch);
+                btnPlay.setAlfa(0.9f);
+                btnMenu.render(batch);
+                btnMenu.setAlfa(0.9f);
+                if(estadoMusica) {
+                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaT.setAlfa(0.9f);
+                    btnMusicaT.render(batch);
+                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaF.setAlfa(0.9f);
+
+                }else {
+                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaT.setAlfa(0.9f);
+                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaF.render(batch);
+                    btnMusicaF.setAlfa(0.9f);
+                }
+                if(estadoSonidos) {
+                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoT.setAlfa(0.9f);
+                    btnSonidoT.render(batch);
+                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoF.setAlfa(0.9f);
+                }else{
+                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoT.setAlfa(0.9f);
+                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoF.render(batch);
+                    btnSonidoF.setAlfa(0.9f);
+                }
+            }
+            batch.end();
         }
-
-
-        batch.end();
-
-        // Dibuja el HUD
-        batch.setProjectionMatrix(camaraHUD.combined);
-        batch.begin();
-
-        // ¿Ya ganó?
-        if (estadoJuego==EstadosJuego.GANO) {
-            btnGana.render(batch);
-        } else {
-            btnIzquierda.render(batch);
-            btnDerecha.render(batch);
-            btnSalto.render(batch);
-            btnPausa.render(batch);
-            // Estrellas recolectadas
-            texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA/2-200,Plataforma.ALTO_CAMARA*0.95f);
-            texto.mostrarMensaje(batch,"POINTS: "+vidaf,Plataforma.ANCHO_CAMARA/2+200,Plataforma.ALTO_CAMARA*0.95f);
-        }
-        batch.end();
     }
 
     // Actualiza la posición de la cámara para que el personaje esté en el centro,
     // excepto cuando está en la primera y última parte del mundo
     private void actualizarCamara() {
-        float posX = mario.getX();
-        float posY = mario.getY();
+        float posX = H.getX();
+        float posY = H.getY();
         // Si está en la parte 'media'
         if (posX>=Plataforma.ANCHO_CAMARA/2 && posX<=ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2) {
             // El personaje define el centro de la cámara
@@ -336,12 +575,12 @@ public class MiniGame1 implements Screen
      */
     private void moverPersonaje() {
         // Prueba caída libre inicial o movimiento horizontal
-        switch (mario.getEstadoMovimiento()) {
+        switch (H.getEstadoMovimiento()) {
             case INICIANDO:     // Mueve el personaje en Y hasta que se encuentre sobre un bloque
                 // Los bloques en el mapa son de 16x16
                 // Calcula la celda donde estaría después de moverlo
-                int celdaX = (int)(mario.getX()/ TAM_CELDA);
-                int celdaY = (int)((mario.getY()+mario.VELOCIDAD_Y)/ TAM_CELDA);
+                int celdaX = (int)(H.getX()/ TAM_CELDA);
+                int celdaY = (int)((H.getY()+H.VELOCIDAD_Y)/ TAM_CELDA);
                 // Recuperamos la celda en esta posición
                 // La capa 0 es el fondo
                 TiledMapTileLayer capa = (TiledMapTileLayer)mapa.getLayers().get(1);
@@ -349,16 +588,16 @@ public class MiniGame1 implements Screen
                 // probar si la celda está ocupada
                 if (celda==null) {
                     // Celda vacía, entonces el personaje puede avanzar
-                    mario.caer();
+                    H.caer();
                 }  else if ( !esCoin(celda) ) {  // Las estrellas no lo detienen :)
                     // Dejarlo sobre la celda que lo detiene
-                    mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
-                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                    H.setPosicion(H.getX(), (celdaY + 1) * TAM_CELDA);
+                    H.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
                 else if( !esVida(celda) ) {  // Las estrellas no lo detienen :)
                     // Dejarlo sobre la celda que lo detiene
-                    mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
-                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                    H.setPosicion(H.getX(), (celdaY + 1) * TAM_CELDA);
+                    H.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
 
                 break;
@@ -369,11 +608,11 @@ public class MiniGame1 implements Screen
         }
 
         // Prueba si debe caer por llegar a un espacio vacío
-        if ( mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO
-                && (mario.getEstadoSalto() != Personaje.EstadoSalto.SUBIENDO) ) {
+        if (H.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO
+                && (H.getEstadoSalto() != Personaje.EstadoSalto.SUBIENDO) ) {
             // Calcula la celda donde estaría después de moverlo
-            int celdaX = (int) (mario.getX() / TAM_CELDA);
-            int celdaY = (int) ((mario.getY() + mario.VELOCIDAD_Y) / TAM_CELDA);
+            int celdaX = (int) (H.getX() / TAM_CELDA);
+            int celdaY = (int) ((H.getY() + H.VELOCIDAD_Y) / TAM_CELDA);
             // Recuperamos la celda en esta posición
             // La capa 0 es el fondo
             TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
@@ -382,47 +621,47 @@ public class MiniGame1 implements Screen
             // probar si la celda está ocupada
             if ( (celdaAbajo==null && celdaDerecha==null) || esCoin(celdaAbajo) || esCoin(celdaDerecha) ) {
                 // Celda vacía, entonces el personaje puede avanzar
-                mario.caer();
-                mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
+                H.caer();
+                H.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
             }
             else if( (celdaAbajo==null && celdaDerecha==null) || esVida(celdaAbajo) || esVida(celdaDerecha) ) {
                 // Celda vacía, entonces el personaje puede avanzar
-                mario.caer();
-                mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
+                H.caer();
+                H.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
             }
             else {
                 // Dejarlo sobre la celda que lo detiene
-                mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
-                mario.setEstadoSalto(Personaje.EstadoSalto.EN_PISO);
+                H.setPosicion(H.getX(), (celdaY + 1) * TAM_CELDA);
+                H.setEstadoSalto(Personaje.EstadoSalto.EN_PISO);
 
             }
         }
 
         // Saltar
-        switch (mario.getEstadoSalto()) {
+        switch (H.getEstadoSalto()) {
             case SUBIENDO:
             case BAJANDO:
-                mario.actualizarSalto(mapa);    // Actualizar posición en 'y'
+                H.actualizarSalto(mapa);    // Actualizar posición en 'y'
                 break;
         }
     }
 
     // Prueba si puede moverse a la izquierda o derecha
     private void probarChoqueParedes() {
-        Personaje.EstadoMovimiento estado = mario.getEstadoMovimiento();
+        Personaje.EstadoMovimiento estado = H.getEstadoMovimiento();
         // Quitar porque este método sólo se llama cuando se está moviendo
         if ( estado!= Personaje.EstadoMovimiento.MOV_DERECHA && estado!=Personaje.EstadoMovimiento.MOV_IZQUIERDA){
             return;
         }
-        float px = mario.getX();    // Posición actual
+        float px = H.getX();    // Posición actual
         // Posición después de actualizar
-        px = mario.getEstadoMovimiento()==Personaje.EstadoMovimiento.MOV_DERECHA? px+Personaje.VELOCIDAD_X:
-                px-Personaje.VELOCIDAD_X;
+        px = H.getEstadoMovimiento()==Personaje.EstadoMovimiento.MOV_DERECHA? px+H.getVelocidadPersonaje():
+                px-H.getVelocidadPersonaje();
         int celdaX = (int)(px/TAM_CELDA);   // Casilla del personaje en X
-        if (mario.getEstadoMovimiento()== Personaje.EstadoMovimiento.MOV_DERECHA) {
+        if (H.getEstadoMovimiento()== Personaje.EstadoMovimiento.MOV_DERECHA) {
             celdaX++;   // Casilla del lado derecho
         }
-        int celdaY = (int)(mario.getY()/TAM_CELDA); // Casilla del personaje en Y
+        int celdaY = (int)(H.getY()/TAM_CELDA); // Casilla del personaje en Y
         TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
         TiledMapTileLayer capaPlataforma1 = (TiledMapTileLayer) mapa.getLayers().get(4);
         TiledMapTileLayer capaPlataforma2 = (TiledMapTileLayer) mapa.getLayers().get(6);
@@ -492,7 +731,7 @@ public class MiniGame1 implements Screen
                 sonidoVida.play();
             }
             else {
-                mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                H.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
         }
 
@@ -521,7 +760,7 @@ public class MiniGame1 implements Screen
             }
         }
         else {
-            mario.actualizar();
+            H.actualizar();
         }
     }
     // Verifica si esta casilla tiene una estrella (simplificar con la anterior)
@@ -613,24 +852,45 @@ public class MiniGame1 implements Screen
     public void dispose() {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
+        assetManager.unload("MiniGameMapa.tmx");  // Cargar info del mapa
         assetManager.unload("marioSprite.png");
+        assetManager.unload("marioSpriteIzq.png");
+        assetManager.unload("salto.png");
+
+
+        // Cargar imagen
+        // Texturas de los botones
         assetManager.unload("BtmDerecho.png");
         assetManager.unload("BtmIzquierdo.png");
         assetManager.unload("BtmSaltar.png");
-        assetManager.unload("BtmPausa.png");
-        assetManager.unload("ganaste.png");
-        assetManager.unload("Mapa.tmx");
-        assetManager.unload("Apple.tmx");
         assetManager.unload("shoot.png");
-        assetManager.unload("pil.png");
         assetManager.unload("bullet.png");
         assetManager.unload("embudo.png");
-        assetManager.unload("saltp.png");
-        assetManager.unload("MiniGameMapa.tmx");
+        assetManager.unload("Planta.png");
+        assetManager.unload("balaPlanta.png");
+        assetManager.unload("balaEmbudo.png");
+        assetManager.unload("BtmPausa.png");
+        assetManager.unload("embudo.png");
+
+        // Fin del juego
+        assetManager.unload("ganaste.png");
+        // Efecto al tomar la moneda
         assetManager.unload("monedas.mp3");
+        assetManager.unload("llave.mp3");
         assetManager.unload("opendoor.mp3");
         assetManager.unload("vidawi.mp3");
-        assetManager.unload("llave.mp3");
+        assetManager.unload("pistola.mp3");
+        assetManager.unload("Apple.png");
+
+        //Para la pausa
+        assetManager.unload("Pausa.png");
+        assetManager.unload("BtmPlay.png");
+        assetManager.unload("back.png");
+        assetManager.unload("BtmSonido.png");
+        assetManager.unload("BtmMusic.png");
+        assetManager.unload("BtmSonidoF.png");
+        assetManager.unload("BtmMusicF.png");
+
     }
 
     /*
@@ -647,34 +907,101 @@ public class MiniGame1 implements Screen
         pointer - es el número de dedo que se pone en la pantalla, el primero es 0
         button - el botón del mouse
          */
+
+        @Override
+        public boolean keyDown(int keycode) {
+            if (keycode== Input.Keys.BACK) {
+                if(!(estadoJuego == EstadosJuego.PAUSADO)) {
+                    estadoJuego = EstadosJuego.PAUSADO;
+                    banderaPausa = true;
+                }
+                else{
+                    estadoJuego = EstadosJuego.JUGANDO;
+                    banderaPausa = false;
+                }
+            }
+            return true; // Para que el sistema operativo no la procese
+        }
+
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
             if (estadoJuego==EstadosJuego.JUGANDO) {
                 // Preguntar si las coordenadas están sobre el botón derecho
-                if (btnDerecha.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
+                if (btnDerecha.contiene(x, y) && H.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
                     banderaDireccion = false;
-                    mario.setBanderaPosicion(banderaDireccion);
-                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
+                    H.setBanderaPosicion(banderaDireccion);
+                    H.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
 
-                } else if (btnIzquierda.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
+                } else if (btnIzquierda.contiene(x, y) && H.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón izquierda, hacer que el personaje se mueva a la izquierda
                     banderaDireccion = true;
-                    mario.setBanderaPosicion(banderaDireccion);
-                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
+                    H.setBanderaPosicion(banderaDireccion);
+                    H.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
                 } else if (btnSalto.contiene(x, y)) {
                     // Tocó el botón saltar
-                    mario.saltar();
+                    H.saltar();
                 }else if(btnPausa.contiene(x,y)){
-                    plataforma.setScreen(new PantallaPausa(plataforma));
+                    //plataforma.setScreen(new PantallaPausa(plataforma));
+                    estadoJuego=EstadosJuego.PAUSADO;
+                    banderaPausa = true;
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
                     Gdx.app.exit();//Buuu
                 }
+            }else if (estadoJuego == EstadosJuego.PAUSADO) {
+                if (btnPlay.contiene(x, y)) {
+                    // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
+                    banderaPausa = false;
+                    estadoJuego = EstadosJuego.JUGANDO;
+                } else if (btnMenu.contiene(x, y)) {
+                    musicFondo.dispose();
+                    dispose();
+                    plataforma.setScreen(new Menu(plataforma));
+
+                }else if(btnSonidoT.contiene(x,y)){
+                    AssetManager assetManager = plataforma.getAssetManager();
+                    estadoSonidos = false;
+                    sonidos.clear();
+                    sonidos.putBoolean("estadoSonidos",false);
+                    sonidos.flush();
+                    sonidoEstrella = assetManager.get("Mute.mp3");
+                    sonidoLlave = assetManager.get("Mute.mp3");
+                    sonidoPierde = assetManager.get("Mute.mp3");
+                    sonidoVida = assetManager.get("Mute.mp3");
+                }
+                else if(btnSonidoF.contiene(x,y)){
+                    AssetManager assetManager = plataforma.getAssetManager();
+
+                    estadoSonidos = true;
+                    sonidos.clear();
+                    sonidos.putBoolean("estadoSonidos",true);
+                    sonidos.flush();
+                    sonidoEstrella = assetManager.get("monedas.mp3");
+                    sonidoPierde = assetManager.get("opendoor.mp3");
+                    sonidoVida= assetManager.get("vidawi.mp3");
+                    sonidoLlave=assetManager.get("llave.mp3");
+                }
+
+                if(btnMusicaT.contiene(x,y)){
+                    estadoMusica=false;
+                    musica.clear();
+                    musica.putBoolean("estadoMusica",false);
+                    musica.flush();
+                    musicFondo.pause();
+                }
+                else if(btnMusicaF.contiene(x,y)){
+                    Gdx.app.log("Tocando"," musica apagada");
+                    estadoMusica = true;
+                    musica.clear();
+                    musica.putBoolean("estadoMusica",true);
+                    musica.flush();
+                    musicFondo.play();
+                }
             }
-            return true;    // Indica que ya procesó el evento
+                return true;    // Indica que ya procesó el evento
         }
 
         /*
@@ -684,9 +1011,9 @@ public class MiniGame1 implements Screen
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
             // Preguntar si las coordenadas son de algún botón para DETENER el movimiento
-            if ( mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO && (btnDerecha.contiene(x, y) || btnIzquierda.contiene(x,y)) ) {
+            if (H.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO && (btnDerecha.contiene(x, y) || btnIzquierda.contiene(x,y)) ) {
                 // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
-                mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                H.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
             return true;    // Indica que ya procesó el evento
         }
@@ -697,9 +1024,9 @@ public class MiniGame1 implements Screen
         public boolean touchDragged(int screenX, int screenY, int pointer) {
             transformarCoordenadas(screenX, screenY);
             // Acaba de salir de las fechas (y no es el botón de salto)
-            if (x<Plataforma.ANCHO_CAMARA/2 && mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.QUIETO) {
+            if (x<Plataforma.ANCHO_CAMARA/2 && H.getEstadoMovimiento()!= Personaje.EstadoMovimiento.QUIETO) {
                 if (!btnIzquierda.contiene(x, y) && !btnDerecha.contiene(x, y) ) {
-                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                    H.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
             }
             return true;

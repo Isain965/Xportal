@@ -655,8 +655,8 @@ public class Nivel2_B implements Screen {
         }
         float px = mario.getX();    // Posición actual
         // Posición después de actualizar
-        px = mario.getEstadoMovimiento()==Personaje.EstadoMovimiento.MOV_DERECHA? px+Personaje.VELOCIDAD_X:
-                px-Personaje.VELOCIDAD_X;
+        px = mario.getEstadoMovimiento()==Personaje.EstadoMovimiento.MOV_DERECHA? px+mario.getVelocidadPersonaje():
+                px-mario.getVelocidadPersonaje();
         int celdaX = (int)(px/TAM_CELDA);   // Casilla del personaje en X
         if (mario.getEstadoMovimiento()== Personaje.EstadoMovimiento.MOV_DERECHA) {
             celdaX++;   // Casilla del lado derecho

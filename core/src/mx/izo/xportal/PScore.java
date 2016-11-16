@@ -1,9 +1,12 @@
 package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,14 +39,16 @@ public class PScore implements Screen {
     private Texture texturaRegresar;
     private Boton btnRegresar;
 
-    // SISTEMA DE PARTICULAS
-    //   private ParticleEffect efecto;
-    private int indiceEmisor;
-    private Array<ParticleEmitter> emisores;
-    private int cuentaParticulas;
-    private float fps;
+    //Musica de fondo
+    private Music musicFondo;
 
-    //   private ParticleEffect explosion;
+    //PREFERENCIAS
+    public Preferences niveles = Gdx.app.getPreferences("Niveles");
+    public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
+    public Preferences musica = Gdx.app.getPreferences("Musica");
+
+    private boolean estadoMusica = musica.getBoolean("estadoMusica");
+    private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
 
 
     public PScore(Plataforma plataforma) {
@@ -68,20 +73,9 @@ public class PScore implements Screen {
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
-        // SISTEMA de PARTICULAS
-//        efecto = new ParticleEffect();
-        //      efecto.load(Gdx.files.internal("prueba.p"), Gdx.files.internal("./"));
-        //      efecto.setPosition(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 2);
-        //      emisores = new Array<ParticleEmitter>(efecto.getEmitters());
-        //      efecto.getEmitters().clear();
-        //      efecto.getEmitters().add(emisores.get(0));
+        // Tecla BACK (Android)
+        Gdx.input.setCatchBackKey(true);
 
-        // Explosion
-        //      explosion = new ParticleEffect();
-        //      explosion.load(Gdx.files.internal("explosion.p"), Gdx.files.internal("./"));
-        //      explosion.scaleEffect(1);
-        //      explosion.setPosition(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 5);
-        //      explosion.reset();
     }
 
     // Carga los recursos a través del administrador de assets
@@ -104,8 +98,17 @@ public class PScore implements Screen {
         texturaRegresar = assetManager.get("back.png");
 
         btnRegresar = new Boton(texturaRegresar);
-        //btnRegresar.setPosicion(3 * Plataforma.ANCHO_CAMARA / 4 - texturaRegresar.getWidth() / 2,
-        //Plataforma.ALTO_CAMARA / 2 - texturaRegresar.getHeight() / 2);
+        btnRegresar.setPosicion(20,10);
+
+        //musica de fondo
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
+        musicFondo.setLooping(true);
+        if(estadoMusica) {
+            musicFondo.play();
+        }
+        else{
+            musicFondo.stop();
+        }
     }
 
     /*
@@ -183,6 +186,15 @@ public class PScore implements Screen {
         button - el botón del mouse
          */
         @Override
+        public boolean keyDown(int keycode) {
+            if (keycode== Input.Keys.BACK) {
+                musicFondo.dispose();
+                plataforma.setScreen(new Menu(plataforma));
+            }
+            return true; // Para que el sistema operativo no la procese
+        }
+
+        @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
 
@@ -199,6 +211,7 @@ public class PScore implements Screen {
             transformarCoordenadas(screenX, screenY);
 
             if (btnRegresar.contiene(x,y)){
+                musicFondo.dispose();
                 plataforma.setScreen(new Menu(plataforma));
             }
             return true;    // Indica que ya procesó el evento

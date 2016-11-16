@@ -17,8 +17,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 /**
  * Created by isain on 10/11/2016.
  */
-public class PantallaCargando implements Screen
-{
+public class PantallaCargando implements Screen {
+    private String nivel = "";
+
     private Plataforma plataforma;
 
     // La cámara y vista principal
@@ -70,52 +71,148 @@ public class PantallaCargando implements Screen
     // Carga los recursos a través del administrador de assets (siguiente pantalla):)
     private void cargarRecursos() {
 
-        Gdx.app.log("cargarRecursos","Iniciando...");
-        // Carga los recursos de la siguiente pantalla (PantallaJuego)
-        assetManager.load("Mapa.tmx", TiledMap.class);  // Cargar info del mapa
-        assetManager.load("marioSprite.png", Texture.class);
-        assetManager.load("marioSpriteIzq.png", Texture.class);
-        assetManager.load("salto.png", Texture.class);
+        if(nivel.equals("Nivel1")) {
 
-        //cargar barra
-        assetManager.load("barra.png",Texture.class);
-        assetManager.load("barraF.png",Texture.class);
+            Gdx.app.log("cargarRecursos", "Iniciando...");
+            // Carga los recursos de la siguiente pantalla (PantallaJuego)
+            assetManager.load("Mapa.tmx", TiledMap.class);  // Cargar info del mapa
+            assetManager.load("marioSprite.png", Texture.class);
+            assetManager.load("marioSpriteIzq.png", Texture.class);
+            assetManager.load("salto.png", Texture.class);
 
-
-        // Cargar imagen
-        // Texturas de los botones
-        assetManager.load("BtmDerecho.png", Texture.class);
-        assetManager.load("BtmIzquierdo.png", Texture.class);
-        assetManager.load("BtmSaltar.png", Texture.class);
-        assetManager.load("shoot.png",Texture.class);
-        assetManager.load("bullet.png",Texture.class);
-        assetManager.load("embudo.png",Texture.class);
-        assetManager.load("Planta.png",Texture.class);
-        assetManager.load("balaPlanta.png",Texture.class);
-        assetManager.load("balaEmbudo.png",Texture.class);
-        assetManager.load("BtmPausa.png",Texture.class);
-
-        //Para la pausa
-        assetManager.load("Pausa.png", Texture.class);
-        assetManager.load("BtmPlay.png",Texture.class);
-        assetManager.load("back.png",Texture.class);
-        assetManager.load("BtmSonido.png",Texture.class);
-        assetManager.load("BtmMusic.png",Texture.class);
-        assetManager.load("BtmSonidoF.png",Texture.class);
-        assetManager.load("BtmMusicF.png",Texture.class);
-        // Fin del juego
-        assetManager.load("ganaste.png", Texture.class);
-        // Efecto al tomar la moneda
-        assetManager.load("monedas.mp3", Sound.class);
-        assetManager.load("llave.mp3", Sound.class);
-        assetManager.load("opendoor.mp3", Sound.class);
-        assetManager.load("vidawi.mp3", Sound.class);
-        assetManager.load("pistola.mp3",Sound.class);
-        assetManager.load("retrocarga.wav",Sound.class);
-        assetManager.load("Mute.mp3",Sound.class);
+            //cargar barra
+            assetManager.load("barra.png", Texture.class);
+            assetManager.load("barraF.png", Texture.class);
 
 
-        Gdx.app.log("cargarRecursos", "Terminando...");
+            // Cargar imagen
+            // Texturas de los botones
+            assetManager.load("BtmDerecho.png", Texture.class);
+            assetManager.load("BtmIzquierdo.png", Texture.class);
+            assetManager.load("BtmSaltar.png", Texture.class);
+            assetManager.load("shoot.png", Texture.class);
+            assetManager.load("bullet.png", Texture.class);
+            assetManager.load("embudo.png", Texture.class);
+            assetManager.load("Planta.png", Texture.class);
+            assetManager.load("balaPlanta.png", Texture.class);
+            assetManager.load("balaEmbudo.png", Texture.class);
+            assetManager.load("BtmPausa.png", Texture.class);
+
+            //Para la pausa
+            assetManager.load("Pausa.png", Texture.class);
+            assetManager.load("BtmPlay.png", Texture.class);
+            assetManager.load("back.png", Texture.class);
+            assetManager.load("BtmSonido.png", Texture.class);
+            assetManager.load("BtmMusic.png", Texture.class);
+            assetManager.load("BtmSonidoF.png", Texture.class);
+            assetManager.load("BtmMusicF.png", Texture.class);
+            // Fin del juego
+            assetManager.load("ganaste.png", Texture.class);
+            // Efecto al tomar la moneda
+            assetManager.load("monedas.mp3", Sound.class);
+            assetManager.load("llave.mp3", Sound.class);
+            assetManager.load("opendoor.mp3", Sound.class);
+            assetManager.load("vidawi.mp3", Sound.class);
+            assetManager.load("pistola.mp3", Sound.class);
+            assetManager.load("retrocarga.wav", Sound.class);
+            assetManager.load("Mute.mp3", Sound.class);
+
+
+            Gdx.app.log("cargarRecursos", "Terminando...");
+
+
+        }else if(nivel.equals("MiniGame1")){
+            Gdx.app.log("cargarRecursos","Iniciando...");
+            // Carga los recursos de la siguiente pantalla (PantallaJuego)
+            assetManager.load("MiniGameMapa.tmx", TiledMap.class);  // Cargar info del mapa
+            assetManager.load("marioSprite.png", Texture.class);
+            assetManager.load("marioSpriteIzq.png", Texture.class);
+            assetManager.load("salto.png", Texture.class);
+
+
+            // Cargar imagen
+            // Texturas de los botones
+            assetManager.load("BtmDerecho.png", Texture.class);
+            assetManager.load("BtmIzquierdo.png", Texture.class);
+            assetManager.load("BtmSaltar.png", Texture.class);
+            assetManager.load("shoot.png",Texture.class);
+            assetManager.load("bullet.png",Texture.class);
+            assetManager.load("embudo.png",Texture.class);
+            assetManager.load("Planta.png",Texture.class);
+            assetManager.load("balaPlanta.png",Texture.class);
+            assetManager.load("balaEmbudo.png",Texture.class);
+            assetManager.load("BtmPausa.png",Texture.class);
+            assetManager.load("embudo.png",Texture.class);
+
+            // Fin del juego
+            assetManager.load("ganaste.png", Texture.class);
+
+            // Efecto al tomar la moneda
+            assetManager.load("monedas.mp3", Sound.class);
+            assetManager.load("llave.mp3", Sound.class);
+            assetManager.load("opendoor.mp3", Sound.class);
+            assetManager.load("vidawi.mp3", Sound.class);
+            assetManager.load("pistola.mp3",Sound.class);
+            assetManager.load("Mute.mp3", Sound.class);
+
+            assetManager.load("Apple.png", Texture.class);
+
+            //Para la pausa
+            assetManager.load("Pausa.png", Texture.class);
+            assetManager.load("BtmPlay.png",Texture.class);
+            assetManager.load("back.png",Texture.class);
+            assetManager.load("BtmSonido.png",Texture.class);
+            assetManager.load("BtmMusic.png",Texture.class);
+            assetManager.load("BtmSonidoF.png",Texture.class);
+            assetManager.load("BtmMusicF.png",Texture.class);
+            assetManager.load("Mute.mp3",Sound.class);
+
+
+            Gdx.app.log("cargarRecursos", "Terminando...");
+
+
+        }else if(nivel.equals("MiniGame2")){
+            Gdx.app.log("cargarRecursos","Iniciando...");
+            // Carga los recursos de la siguiente pantalla (PantallaJuego)
+            assetManager.load("inv.tmx", TiledMap.class);  // Cargar info del mapa
+            //assetManager.load("Mapa.tmx", TiledMap.class);
+            assetManager.load("nave.png", Texture.class);
+            assetManager.load("salto.png", Texture.class);
+
+
+            // Cargar imagen
+            // Texturas de los botones
+            assetManager.load("BtmDerecho.png", Texture.class);
+            assetManager.load("BtmIzquierdo.png", Texture.class);
+            assetManager.load("BtmSaltar.png", Texture.class);
+            assetManager.load("shoot.png",Texture.class);
+            assetManager.load("bala.png",Texture.class);
+            assetManager.load("embudo.png",Texture.class);
+            //assetManager.load("alien1.png",Texture.class);
+            assetManager.load("Planta.png",Texture.class);
+            assetManager.load("balaPlanta.png",Texture.class);
+            assetManager.load("balaA.png",Texture.class);
+            assetManager.load("BtmPausa.png",Texture.class);
+
+            //aliens
+            assetManager.load("alien1.png",Texture.class);
+            assetManager.load("alien2.png",Texture.class);
+            assetManager.load("alien3.png",Texture.class);
+
+            //cargar barra
+            assetManager.load("barra.png",Texture.class);
+            assetManager.load("barraF.png",Texture.class);
+
+            // Fin del juego
+            assetManager.load("ganaste.png", Texture.class);
+            // Efecto al tomar la moneda
+            assetManager.load("monedas.mp3", Sound.class);
+            assetManager.load("llave.mp3", Sound.class);
+            assetManager.load("opendoor.mp3", Sound.class);
+            assetManager.load("vidawi.mp3", Sound.class);
+            assetManager.load("shoot.mp3",Sound.class);
+            Gdx.app.log("cargarRecursos", "Terminando...");
+        }
     }
 
     @Override
@@ -126,7 +223,7 @@ public class PantallaCargando implements Screen
 
         // Dibujar
         borrarPantalla();
-        spriteCargando.setRotation(spriteCargando.getRotation()+10);
+        spriteCargando.setRotation(spriteCargando.getRotation()-10);
 
         batch.setProjectionMatrix(camara.combined);
 
@@ -141,7 +238,14 @@ public class PantallaCargando implements Screen
 
         if (assetManager.update()) {
             // Terminó la carga, cambiar de pantalla
-            plataforma.setScreen(new PantallaJuego(plataforma));
+            if(nivel.equals("Nivel1")){
+                plataforma.setScreen(new PantallaJuego(plataforma));
+            }else if(nivel.equals("MiniGame1")){
+                plataforma.setScreen(new MiniGame1(plataforma));
+            }else if(nivel.equals("MiniGame12")){
+                plataforma.setScreen(new PantallaMGDos(plataforma));
+            }
+
         } else {
             // Aún no termina la carga de assets, leer el avance
             float avance = assetManager.getProgress()*100;
@@ -181,5 +285,9 @@ public class PantallaCargando implements Screen
         texturaCargando.dispose();
         texturaFondo.dispose();
         // Los assets de PantallaJuego se liberan en el método dispose de PantallaJuego
+    }
+
+    public void setNivel(String nivel){
+        this.nivel = nivel;
     }
 }

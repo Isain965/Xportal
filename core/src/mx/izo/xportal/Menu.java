@@ -1,7 +1,9 @@
 package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -17,12 +19,19 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sun.org.apache.xpath.internal.operations.String;
 
 /**
  * Created by isain on 10/11/2016.
  */
-public class Menu implements Screen
-{
+public class Menu implements Screen {
+
+    //PREFERENCIAS
+    public Preferences niveles = Gdx.app.getPreferences("Niveles");
+    public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
+    public Preferences musica = Gdx.app.getPreferences("Musica");
+
+    PantallaCargando pantallaCargando;
     // Referencia al objeto de tipo Game (tiene setScreen para cambiar de pantalla)
     private Plataforma plataforma;
 
@@ -53,6 +62,9 @@ public class Menu implements Screen
     private Boton btnScore;
     private Boton btnExit;
 
+    private boolean estadoMusica = musica.getBoolean("estadoMusica");
+    private boolean estadoSonido = sonidos.getBoolean("estadoSonidos");
+
     public Menu(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
@@ -73,7 +85,11 @@ public class Menu implements Screen
         cargarRecursos();
         crearObjetos();
 
+        // Indicar el objeto que atiende los eventos de touch (entrada en general)
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+
+        // Tecla BACK (Android)
+        Gdx.input.setCatchBackKey(true);
     }
 
     // Carga los recursos a través del administrador de assets
@@ -125,9 +141,28 @@ public class Menu implements Screen
         btnExit = new Boton(texturaExit);
         btnExit.setPosicion(20,10);
 
-        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("ActionTheme.wav"));
+
+
+
+        //Asignr preferencias de sonido
+        if(!musica.contains("estadoMusica")){
+            musica.putBoolean("estadoMusica",true);
+            estadoMusica=true;
+            sonidos.putBoolean("estadoSonidos",true);
+            estadoSonido=true;
+            musica.flush();
+            sonidos.flush();
+        }
+
+        //musica de fondo
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
         musicFondo.setLooping(true);
-        musicFondo.play();
+        if(estadoMusica) {
+            musicFondo.play();
+        }
+        else{
+            musicFondo.stop();
+        }
     }
 
     /*
@@ -187,7 +222,6 @@ public class Menu implements Screen
         assetManager.unload("MenuDef.png");
         assetManager.unload("BtmPlay.png");
         assetManager.unload("BtmAbout.png");
-
         assetManager.unload("BtmSettings.png");
         assetManager.unload("BtmPremios.png");
         assetManager.unload("BtmExit.png");
@@ -208,6 +242,17 @@ public class Menu implements Screen
         pointer - es el número de dedo que se pone en la pantalla, el primero es 0
         button - el botón del mouse
          */
+
+        @Override
+        public boolean keyDown(int keycode) {
+            if (keycode== Input.Keys.BACK) {
+                musica.clear();
+                musica.flush();
+                System.exit(0);
+            }
+            return true; // Para que el sistema operativo no la procese
+        }
+
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
@@ -223,21 +268,35 @@ public class Menu implements Screen
             transformarCoordenadas(screenX, screenY);
 
             if (btnPlay.contiene(x,y)){
-                musicFondo.stop();
-                plataforma.setScreen(new PantallaCargando(plataforma));
-                //plataforma.setScreen(new PantallaCargando2_A(plataforma));
-                //plataforma.setScreen(new CargandoMGDos(plataforma));
-            } else if (btnAbout.contiene(x,y)){
-                plataforma.setScreen(new AcercaDe(plataforma));
-            } else if(btnScore.contiene(x,y)){
-                plataforma.setScreen(new PScore(plataforma));
-            } else if (btnSettings.contiene(x,y)){
-                plataforma.setScreen(new PSettings(plataforma));
-            }else if (btnExit.contiene(x,y)){
-                System.exit(0);
-                //Un test para el minigame
+                musicFondo.dispose();
+                dispose();
+                pantallaCargando=new PantallaCargando(plataforma);
+                if(niveles.contains("MiniGame1")){
+                    pantallaCargando.setNivel("MiniGame1");
+                    plataforma.setScreen(pantallaCargando);
+                }
+                else{
+                    pantallaCargando.setNivel("Nivel1");
+                    plataforma.setScreen(pantallaCargando);
+                }
                 //plataforma.setScreen(new CargandoMiniGame1(plataforma));
                 //plataforma.setScreen(new CargandoMGDos(plataforma));
+            } else if (btnAbout.contiene(x,y)){
+                musicFondo.dispose();
+                dispose();
+                plataforma.setScreen(new AcercaDe(plataforma));
+            } else if(btnScore.contiene(x,y)){
+                musicFondo.dispose();
+                dispose();
+                plataforma.setScreen(new PScore(plataforma));
+            } else if (btnSettings.contiene(x,y)){
+                musicFondo.dispose();
+                dispose();
+                plataforma.setScreen(new PSettings(plataforma));
+            }else if (btnExit.contiene(x,y)){
+                musica.clear();
+                musica.flush();
+                System.exit(0);
             }
             return true;    // Indica que ya procesó el evento
         }
@@ -261,5 +320,4 @@ public class Menu implements Screen
             y = coordenadas.y;
         }
     }
-
 }

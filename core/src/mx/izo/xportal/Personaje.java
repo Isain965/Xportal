@@ -14,8 +14,7 @@ public class Personaje {
 
     public static final float VELOCIDAD_Y = -4f;   // Velocidad de caída
     //ya no sera estático
-    //public static final float VELOCIDAD_X = 2;     // Velocidad horizontal
-    public static float VELOCIDAD_X = 2;     // Velocidad horizontal
+    public float VELOCIDAD_X = 2;     // Velocidad horizontal
 
     private Sprite sprite, spriteSalto, sprite1;  // Sprite cuando no se mueve
 
@@ -30,7 +29,7 @@ public class Personaje {
     private EstadoSalto estadoSalto;
 
     // SALTO del personaje
-    private static float V0 = 80;     // Velocidad inicial del salto
+    private float V0 = 80;     // Velocidad inicial del salto
     private static final float G = 9.81f;
     private static final float G_2 = G / 2;   // Gravedad
     private float yInicial;         // 'y' donde inicia el salto
@@ -257,20 +256,6 @@ public class Personaje {
             estadoSalto=EstadoSalto.EN_PISO;
         }
     }
-        // Ejecutar movimiento vertical      /*
-      //  float y = V0 * tiempoSalto - G_2 * tiempoSalto * tiempoSalto;  // Desplazamiento desde que inició el salto
-        //if (tiempoSalto > tiempoVuelo / 2) { // Llegó a la altura máxima?
-            // Inicia caída
-          //  estadoSalto = EstadoSalto.BAJANDO;
-
-        //tiempoSalto += 10 * Gdx.graphics.getDeltaTime();  // Actualiza tiempo
-        //sprite.setY(yInicial + y);    // Actualiza posición
-        //if (y < 0) {
-            // Regresó al piso
-           // sprite.setY(yInicial);  // Lo deja donde inició el salto
-        //estadoSalto = EstadoSalto.EN_PISO;  // Ya no está saltando
-
-
 
     // Accesor de la variable sprite
     public Sprite getSprite() {
@@ -330,6 +315,10 @@ public class Personaje {
 
     public EstadoSalto getEstadoSalto() {
         return estadoSalto;
+    }
+
+    public float getVelocidadPersonaje(){
+        return VELOCIDAD_X;
     }
 
     public enum EstadoMovimiento {

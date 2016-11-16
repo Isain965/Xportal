@@ -37,19 +37,6 @@ public class PantallaPerdiste implements Screen {
     private Texture texturaRegresar;
     private Boton btnRegresar;
 
-    //Regresa al juego
-    private Texture texturaBackJuego;
-    private Boton btnBackJuego;
-
-    // SISTEMA DE PARTICULAS
-    //   private ParticleEffect efecto;
-   /* private int indiceEmisor;
-    private Array<ParticleEmitter> emisores;
-    private int cuentaParticulas;
-    private float fps;
-
- //   private ParticleEffect explosion;
-*/
 
     public PantallaPerdiste(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -73,20 +60,6 @@ public class PantallaPerdiste implements Screen {
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
-        // SISTEMA de PARTICULAS
-//        efecto = new ParticleEffect();
-        //      efecto.load(Gdx.files.internal("prueba.p"), Gdx.files.internal("./"));
-        //      efecto.setPosition(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 2);
-        //      emisores = new Array<ParticleEmitter>(efecto.getEmitters());
-        //      efecto.getEmitters().clear();
-        //      efecto.getEmitters().add(emisores.get(0));
-
-        // Explosion
-        //      explosion = new ParticleEffect();
-        //      explosion.load(Gdx.files.internal("explosion.p"), Gdx.files.internal("./"));
-        //      explosion.scaleEffect(1);
-        //      explosion.setPosition(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 5);
-        //      explosion.reset();
     }
 
     // Carga los recursos a través del administrador de assets
@@ -96,8 +69,6 @@ public class PantallaPerdiste implements Screen {
 
         assetManager.load("GameOver.png", Texture.class);    // Cargar imagen
         assetManager.load("back.png", Texture.class);
-
-        assetManager.load("BtmPlay.png",Texture.class);
 
         // Texturas de los botones
 
@@ -113,10 +84,7 @@ public class PantallaPerdiste implements Screen {
 
         btnRegresar = new Boton(texturaRegresar);
 
-        texturaBackJuego = assetManager.get("BtmPlay.png");
-        btnBackJuego= new Boton(texturaBackJuego);
-        //btnRegresar.setPosicion(3 * Plataforma.ANCHO_CAMARA / 4 - texturaRegresar.getWidth() / 2,
-        //Plataforma.ALTO_CAMARA / 2 - texturaRegresar.getHeight() / 2);
+
     }
 
     /*
@@ -136,11 +104,7 @@ public class PantallaPerdiste implements Screen {
 
         batch.draw(texturaAcercaDe, 0, 0);
         btnRegresar.render(batch);
-        //btnBackJuego.setPosicion(1150,0);
-        //btnBackJuego.render(batch);
-//        efecto.draw(batch,delta);
 
-//        explosion.draw(batch, Gdx.graphics.getDeltaTime());
 
         batch.end();
     }
@@ -177,8 +141,6 @@ public class PantallaPerdiste implements Screen {
         AssetManager assetManager = plataforma.getAssetManager();
         assetManager.unload("GameOver.png");
         assetManager.unload("back.png");
-//        efecto.dispose();
-//        explosion.dispose();
     }
 
     /*
@@ -212,10 +174,8 @@ public class PantallaPerdiste implements Screen {
             transformarCoordenadas(screenX, screenY);
 
             if (btnRegresar.contiene(x,y)){
+                dispose();
                 plataforma.setScreen(new Menu(plataforma));
-            }
-            else if (btnBackJuego.contiene(x,y)){
-                plataforma.setScreen(new PantallaJuego(plataforma));
             }
             return true;    // Indica que ya procesó el evento
         }
@@ -239,5 +199,4 @@ public class PantallaPerdiste implements Screen {
             y = coordenadas.y;
         }
     }
-
 }

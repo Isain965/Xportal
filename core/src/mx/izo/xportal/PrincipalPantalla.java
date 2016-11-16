@@ -36,14 +36,10 @@ public class PrincipalPantalla implements Screen {
     private Texture texturaRegresar;
     private Boton btnRegresar;
 
-    // SISTEMA DE PARTICULAS
-    //   private ParticleEffect efecto;
-    private int indiceEmisor;
-    private Array<ParticleEmitter> emisores;
-    private int cuentaParticulas;
-    private float fps;
+    private Texture texturaTec;
+    private Boton btnTec;
 
-    //   private ParticleEffect explosion;
+    private float tiempoJuego=0;
 
 
     public PrincipalPantalla(Plataforma plataforma) {
@@ -68,30 +64,18 @@ public class PrincipalPantalla implements Screen {
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
-        // SISTEMA de PARTICULAS
-//        efecto = new ParticleEffect();
-        //      efecto.load(Gdx.files.internal("prueba.p"), Gdx.files.internal("./"));
-        //      efecto.setPosition(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 2);
-        //      emisores = new Array<ParticleEmitter>(efecto.getEmitters());
-        //      efecto.getEmitters().clear();
-        //      efecto.getEmitters().add(emisores.get(0));
-
-        // Explosion
-        //      explosion = new ParticleEffect();
-        //      explosion.load(Gdx.files.internal("explosion.p"), Gdx.files.internal("./"));
-        //      explosion.scaleEffect(1);
-        //      explosion.setPosition(Plataforma.ANCHO_CAMARA / 2, Plataforma.ALTO_CAMARA / 5);
-        //      explosion.reset();
     }
 
     // Carga los recursos a través del administrador de assets
     private void cargarRecursos() {
+
         // Cargar las texturas/mapas
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
 
         assetManager.load("PantallaDeInicio.png", Texture.class);    // Cargar imagen
         // Texturas de los botones
 
+        assetManager.load("LogoTec.jpg",Texture.class);
         // Se bloquea hasta que cargue todos los recursos
         assetManager.finishLoading();
     }
@@ -102,7 +86,12 @@ public class PrincipalPantalla implements Screen {
         texturaAcercaDe = assetManager.get("PantallaDeInicio.png");
         texturaRegresar = assetManager.get("PantallaDeInicio.png");
 
+        texturaTec = assetManager.get("LogoTec.jpg");
+
+
         btnRegresar = new Boton(texturaRegresar);
+
+        btnTec = new Boton(texturaTec);
         //btnRegresar.setPosicion(3 * Plataforma.ANCHO_CAMARA / 4 - texturaRegresar.getWidth() / 2,
         //Plataforma.ALTO_CAMARA / 2 - texturaRegresar.getHeight() / 2);
     }
@@ -122,11 +111,17 @@ public class PrincipalPantalla implements Screen {
         // Entre begin-end dibujamos nuestros objetos en pantalla
         batch.begin();
 
-        batch.draw(texturaAcercaDe, 0, 0);
-        btnRegresar.render(batch);
-//        efecto.draw(batch,delta);
+        tiempoJuego += Gdx.graphics.getDeltaTime();
 
-//        explosion.draw(batch, Gdx.graphics.getDeltaTime());
+        batch.draw(texturaAcercaDe, 0, 0);
+
+        if((int)tiempoJuego<2){
+            btnTec.render(batch);
+        }else {
+
+            btnRegresar.render(batch);
+        }
+
 
         batch.end();
     }
