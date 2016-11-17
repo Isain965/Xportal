@@ -156,7 +156,7 @@ public class Menu implements Screen {
         }
 
         //musica de fondo
-        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("Level1.wav"));
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("psykex1.mp3"));
         musicFondo.setLooping(true);
         if(estadoMusica) {
             musicFondo.play();

@@ -49,6 +49,8 @@ public class PantallaMGDos implements Screen
     private OrthographicCamera camara;
     private Viewport vista;
 
+    private boolean banderaPausa = false;
+
     //vidaMax
     private int vidafMax = 5;
 
@@ -920,7 +922,9 @@ public class PantallaMGDos implements Screen
                         balas.add(bala);
                     }
                 }else if(btnPausa.contiene(x,y)){
-                    plataforma.setScreen(new PantallaPausa(plataforma));
+                    //plataforma.setScreen(new PantallaPausa(plataforma));
+                    estadoJuego = EstadosJuego.PAUSADO;
+                    banderaPausa = true;
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
