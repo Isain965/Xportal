@@ -36,6 +36,7 @@ public class PantallaJuego implements Screen{
     public Preferences niveles = Gdx.app.getPreferences("Niveles");
     public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
     public Preferences musica = Gdx.app.getPreferences("Musica");
+    public Preferences score = Gdx.app.getPreferences("Score");
 
     private PantallaCargando pantallaCargando;
 
@@ -162,6 +163,13 @@ public class PantallaJuego implements Screen{
     private Boton btnSonidoF;
     private Boton btnMusicaF;
     private boolean banderaPausa = false;
+
+    //Textura para cuando pierde
+    private Texture texturaPierde;
+    private Texture texturaMenuP;
+    private Boton btnPierde;
+    private Boton btnMenuP;
+    private boolean haPerdio = false;
 
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
     private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
@@ -290,7 +298,7 @@ public class PantallaJuego implements Screen{
         EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
         enemigoV1.setPosicion(571,770);
         EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
-        enemigoV2.setPosicion(1713,770);
+        enemigoV2.setPosicion(2000,770);
         EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
         enemigoV3.setPosicion(2855,770);
         enemigosV.add(enemigoV1);
@@ -387,6 +395,14 @@ public class PantallaJuego implements Screen{
             btnSonidoF.setAlfa(0.7f);
         }
 
+        //Implementando la perdida
+        texturaPierde = assetManager.get("GameOver.png");
+        texturaMenuP = assetManager.get("back.png");
+
+        btnPierde = new Boton (texturaPierde);
+        btnMenuP = new Boton(texturaMenuP);
+        btnMenuP.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
+
     }
 
     /*
@@ -398,7 +414,7 @@ public class PantallaJuego implements Screen{
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
 
-        if (!banderaPausa) {
+        if (!banderaPausa && !haPerdio) {
             //barra vidas pregunta cuantas existen
             float barraSizeOriginal = spriteVidas.getWidth();
             float barraSizeActual = 0;
@@ -443,15 +459,14 @@ public class PantallaJuego implements Screen{
             //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
             if (vidaf == vidafMin) {
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        musicFondo.dispose();
-                        AssetManager assetManager = plataforma.getAssetManager();
-                        assetManager.clear();
-                        plataforma.setScreen(new PantallaPerdiste(plataforma));
-                    }
-                }, 1);  // 3 segundos
+                int scoreA = score.getInteger("theBest",0);
+                if(estrellas>scoreA){
+                    score.clear();
+                    score.putInteger("theBest",estrellas);
+                    score.flush();
+                }
+                haPerdio=true;
+                estadoJuego = EstadosJuego.PERDIOI;
             }
 
             for (EnemigoV enemigoV : enemigosV) {
@@ -520,7 +535,7 @@ public class PantallaJuego implements Screen{
                         tiempoJuego = 0;
                         //}else if (mario.getX()>=enemigo.getX()+enemigo.getSprite().getWidth()&&mario.getX()<=enemigo.getX()+enemigo.getSprite().getWidth()+rango&&banderaDisparo&&tiempoJuego==tiempoDisparo){
                     } else if ((mario.getX() > enemigo.getX()) && (mario.getX() <= enemigo.getX() + rango) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
-                        Gdx.app.log("Deberia de disparar a la derecha", "");
+                        //Gdx.app.log("Deberia de disparar a la derecha", "");
                         Bala balaEnJuego = new Bala(texturaBalaPlanta);
                         balaEnJuego.setDireccion(10);
                         balaEnJuego.setPosicion(enemigo.getX() + 120, enemigo.getY() + 50);
@@ -634,6 +649,25 @@ public class PantallaJuego implements Screen{
         }
 
 
+        else if(haPerdio){
+            borrarPantalla();
+
+            // Dibuja cuando has perdido
+            batch.setProjectionMatrix(camaraHUD.combined);
+
+            batch.begin();
+            // ¿Ya ganó?
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                btnPierde.render(batch);
+                btnMenuP.render(batch);
+            }
+            batch.end();
+
+        }
+
+        //CUANDO ESTA EN PAUSA
         else{
             borrarPantalla();
 
@@ -970,10 +1004,17 @@ public class PantallaJuego implements Screen{
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        Gdx.input.setInputProcessor(null);
                         musicFondo.dispose();
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
                         //Actualizar preferencias
+                        int scoreA = score.getInteger("theBest",0);
+                        if(estrellas>scoreA){
+                            score.clear();
+                            score.putInteger("theBest",estrellas);
+                            score.flush();
+                        }
                         niveles.clear();
                         niveles.putString("MiniGame1","Ya pase el nivel 1");
                         niveles.flush();
@@ -986,6 +1027,7 @@ public class PantallaJuego implements Screen{
         }
         if ( capaPlataforma2.getCell(celdaX,celdaY) != null || capaPlataforma2.getCell(celdaX,celdaY+1) != null ) {
             if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) && llaveB) {
+                Gdx.input.setInputProcessor(null);
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 //dispose();
@@ -996,6 +1038,12 @@ public class PantallaJuego implements Screen{
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
                         //Actualizar preferencias
+                        int scoreA = score.getInteger("theBest",0);
+                        if(estrellas>scoreA){
+                            score.clear();
+                            score.putInteger("theBest",estrellas);
+                            score.flush();
+                        }
                         niveles.clear();
                         niveles.putString("MiniGame1","Ya pase el nivel 1");
                         niveles.flush();
@@ -1154,7 +1202,7 @@ public class PantallaJuego implements Screen{
 
     @Override
     public void hide() {
-
+        //dispose();
     }
 
     // Libera los assets
@@ -1283,6 +1331,7 @@ public class PantallaJuego implements Screen{
                     banderaPausa = false;
                     estadoJuego=EstadosJuego.JUGANDO;
                 }else if(btnMenu.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
                     musicFondo.dispose();
                     dispose();
                     plataforma.setScreen(new Menu(plataforma));
@@ -1329,6 +1378,13 @@ public class PantallaJuego implements Screen{
                     musica.putBoolean("estadoMusica",true);
                     musica.flush();
                     musicFondo.play();
+                }
+            }else if(estadoJuego == EstadosJuego.PERDIOI || haPerdio){
+                if(btnMenuP.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.dispose();
+                    dispose();
+                    plataforma.setScreen(new Menu(plataforma));
                 }
             }
             return true;    // Indica que ya procesó el evento
@@ -1378,7 +1434,8 @@ public class PantallaJuego implements Screen{
         GANO,
         JUGANDO,
         PAUSADO,
-        PERDIO
+        PERDIO,
+        PERDIOI
     }
 
 }

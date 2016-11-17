@@ -122,10 +122,18 @@ public class MiniGame1 implements Screen
     //Musica de fondo
     private Music musicFondo;
 
+    //Textura para cuando pierde
+    private Texture texturaGanaP;
+    private Texture texturaMenuP;
+    private Boton btnGanaP;
+    private Boton btnMenuP;
+    private boolean haGanado = false;
+
     //PREFERENCIAS
     public Preferences niveles = Gdx.app.getPreferences("Niveles");
     public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
     public Preferences musica = Gdx.app.getPreferences("Musica");
+    public Preferences score = Gdx.app.getPreferences("Score");
 
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
     private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
@@ -305,6 +313,13 @@ public class MiniGame1 implements Screen
             btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
             btnSonidoF.setAlfa(0.7f);
         }
+        //Implementando la perdida
+        texturaGanaP = assetManager.get("Ganar.PNG");
+        texturaMenuP = assetManager.get("back.png");
+
+        btnGanaP = new Boton (texturaGanaP);
+        btnMenuP = new Boton(texturaMenuP);
+        btnMenuP.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
 
 
     }
@@ -317,7 +332,7 @@ public class MiniGame1 implements Screen
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
-        if (!banderaPausa) {
+        if (!banderaPausa && !haGanado) {
 
             if (estadoJuego != EstadosJuego.PERDIO) {
                 // Actualizar objetos en la pantalla
@@ -360,7 +375,7 @@ public class MiniGame1 implements Screen
                         if ((bala.getX() >= H.getX() && bala.getX() <= (H.getX() + H.getSprite().getWidth())) &&
                                 (bala.getY() >=H.getY() && bala.getY() <= (H.getY() + enemigoV.getSprite().getHeight()))) {
                             int vidas = enemigoV.getVidas();
-                            if (vidaf < 20) {
+                            if (vidaf < 10) {
                                 vidaf += 1;
                                 sonidoLlave.play();
                             }
@@ -386,17 +401,16 @@ public class MiniGame1 implements Screen
                 }
             }
 
-            if (vidaf == 10) {
+            if (vidaf == 15) {
                 musicFondo.dispose();
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        musicFondo.dispose();
-                        AssetManager assetManager = plataforma.getAssetManager();
-                        assetManager.clear();
-                        plataforma.setScreen(new PantallaGanaste(plataforma));
-                    }
-                }, 1);  // 3 segundos
+                int scoreA = score.getInteger("theBest",0);
+                if(estrellas>scoreA){
+                    score.clear();
+                    score.putInteger("theBest",(estrellas+1)*vidaf);
+                    score.flush();
+                }
+                haGanado=true;
+                estadoJuego = EstadosJuego.GANOI;
             }
 
 
@@ -421,8 +435,25 @@ public class MiniGame1 implements Screen
             batch.end();
         }
 
+        else if(haGanado){
+            borrarPantalla();
 
+            // Dibuja cuando has perdido
+            batch.setProjectionMatrix(camaraHUD.combined);
 
+            batch.begin();
+            // ¿Ya ganó?
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                btnGanaP.render(batch);
+                btnMenuP.render(batch);
+            }
+            batch.end();
+
+        }
+
+        //ESTO ES CUANDO ESTA EN PAUSA
         else{
             borrarPantalla();
 
@@ -469,14 +500,16 @@ public class MiniGame1 implements Screen
                 }
             }
 
-            if (vidaf == 20) {
+            if (vidaf == 10) {
                 musicFondo.dispose();
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        plataforma.setScreen(new CargandoMGDos(plataforma));
-                    }
-                }, 3);  // 3 segundos
+                int scoreA = score.getInteger("theBest",0);
+                if(estrellas>scoreA){
+                    score.clear();
+                    score.putInteger("theBest",estrellas);
+                    score.flush();
+                }
+                haGanado=true;
+                estadoJuego = EstadosJuego.GANOI;
             }
 
 
@@ -491,11 +524,6 @@ public class MiniGame1 implements Screen
             if (estadoJuego == EstadosJuego.GANO) {
                 btnGana.render(batch);
             } else {
-                /*btnIzquierda.render(batch);
-                btnDerecha.render(batch);
-                btnSalto.render(batch);
-                btnPausa.render(batch);*/
-                // Estrellas recolectadas
                 texto.mostrarMensaje(batch, "Score: " + estrellas, Plataforma.ANCHO_CAMARA / 2 - 200, Plataforma.ALTO_CAMARA * 0.95f);
                 texto.mostrarMensaje(batch, "Points: " + vidaf, Plataforma.ANCHO_CAMARA / 2 + 200, Plataforma.ALTO_CAMARA * 0.95f);
             }
@@ -844,7 +872,7 @@ public class MiniGame1 implements Screen
 
     @Override
     public void hide() {
-
+        //dispose();
     }
 
     // Libera los assets
@@ -957,6 +985,7 @@ public class MiniGame1 implements Screen
                     banderaPausa = false;
                     estadoJuego = EstadosJuego.JUGANDO;
                 } else if (btnMenu.contiene(x, y)) {
+                    Gdx.input.setInputProcessor(null);
                     musicFondo.dispose();
                     dispose();
                     plataforma.setScreen(new Menu(plataforma));
@@ -1001,7 +1030,15 @@ public class MiniGame1 implements Screen
                     musicFondo.play();
                 }
             }
-                return true;    // Indica que ya procesó el evento
+            else if(estadoJuego ==EstadosJuego.GANOI){
+                if(btnMenuP.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.dispose();
+                    dispose();
+                    plataforma.setScreen(new Menu(plataforma));
+                }
+            }
+            return true;    // Indica que ya procesó el evento
         }
 
         /*
@@ -1048,7 +1085,8 @@ public class MiniGame1 implements Screen
         GANO,
         JUGANDO,
         PAUSADO,
-        PERDIO
+        PERDIO,
+        GANOI
     }
 
     //if (bandera direccion)

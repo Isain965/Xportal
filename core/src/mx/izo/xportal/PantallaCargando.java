@@ -117,6 +117,9 @@ public class PantallaCargando implements Screen {
             assetManager.load("retrocarga.wav", Sound.class);
             assetManager.load("Mute.mp3", Sound.class);
 
+            //Para cuando pierde
+            assetManager.load("GameOver.png",Texture.class);
+
 
             Gdx.app.log("cargarRecursos", "Terminando...");
 
@@ -166,13 +169,14 @@ public class PantallaCargando implements Screen {
             assetManager.load("BtmSonidoF.png",Texture.class);
             assetManager.load("BtmMusicF.png",Texture.class);
             assetManager.load("Mute.mp3",Sound.class);
+            //Para cuando Gana
+            assetManager.load("Ganar.PNG",Texture.class);
 
 
             Gdx.app.log("cargarRecursos", "Terminando...");
 
 
         }else if(nivel.equals("MiniGame2")){
-            Gdx.app.log("cargarRecursos","Iniciando...");
             // Carga los recursos de la siguiente pantalla (PantallaJuego)
             assetManager.load("inv.tmx", TiledMap.class);  // Cargar info del mapa
             //assetManager.load("Mapa.tmx", TiledMap.class);
@@ -211,7 +215,6 @@ public class PantallaCargando implements Screen {
             assetManager.load("opendoor.mp3", Sound.class);
             assetManager.load("vidawi.mp3", Sound.class);
             assetManager.load("shoot.mp3",Sound.class);
-            Gdx.app.log("cargarRecursos", "Terminando...");
         }
     }
 
@@ -242,14 +245,14 @@ public class PantallaCargando implements Screen {
                 plataforma.setScreen(new PantallaJuego(plataforma));
             }else if(nivel.equals("MiniGame1")){
                 plataforma.setScreen(new MiniGame1(plataforma));
-            }else if(nivel.equals("MiniGame12")){
+            }else if(nivel.equals("MiniGame2")){
                 plataforma.setScreen(new PantallaMGDos(plataforma));
             }
 
         } else {
             // Aún no termina la carga de assets, leer el avance
-            float avance = assetManager.getProgress()*100;
-            Gdx.app.log("Cargando",avance+"%");
+            //float avance = assetManager.getProgress()*100;
+            //Gdx.app.log("Cargando",avance+"%");
         }
     }
 

@@ -63,7 +63,6 @@ public class PrincipalPantalla implements Screen {
         crearObjetos();
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
-
     }
 
     // Carga los recursos a través del administrador de assets
@@ -75,7 +74,7 @@ public class PrincipalPantalla implements Screen {
         assetManager.load("PantallaDeInicio.png", Texture.class);    // Cargar imagen
         // Texturas de los botones
 
-        assetManager.load("LogoTec.jpg",Texture.class);
+        assetManager.load("LogoTec.png",Texture.class);
         // Se bloquea hasta que cargue todos los recursos
         assetManager.finishLoading();
     }
@@ -86,14 +85,13 @@ public class PrincipalPantalla implements Screen {
         texturaAcercaDe = assetManager.get("PantallaDeInicio.png");
         texturaRegresar = assetManager.get("PantallaDeInicio.png");
 
-        texturaTec = assetManager.get("LogoTec.jpg");
+        texturaTec = assetManager.get("LogoTec.png");
 
 
         btnRegresar = new Boton(texturaRegresar);
 
         btnTec = new Boton(texturaTec);
-        //btnRegresar.setPosicion(3 * Plataforma.ANCHO_CAMARA / 4 - texturaRegresar.getWidth() / 2,
-        //Plataforma.ALTO_CAMARA / 2 - texturaRegresar.getHeight() / 2);
+
     }
 
     /*
@@ -113,7 +111,7 @@ public class PrincipalPantalla implements Screen {
 
         tiempoJuego += Gdx.graphics.getDeltaTime();
 
-        batch.draw(texturaAcercaDe, 0, 0);
+        //batch.draw(texturaAcercaDe, 0, 0);
 
         if((int)tiempoJuego<2){
             btnTec.render(batch);
@@ -127,7 +125,7 @@ public class PrincipalPantalla implements Screen {
     }
 
     private void borrarPantalla() {
-        Gdx.gl.glClearColor(0.42f, 0.55f, 1, 1);    // r, g, b, alpha
+        Gdx.gl.glClearColor(0, 0, 1, 1);    // r, g, b, alpha
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
@@ -148,7 +146,7 @@ public class PrincipalPantalla implements Screen {
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     // Libera los assets
@@ -156,7 +154,8 @@ public class PrincipalPantalla implements Screen {
     public void dispose() {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
-        assetManager.unload("PantallaDeInicio");
+        assetManager.unload("PantallaDeInicio.png");
+        assetManager.unload("LogoTec.png");
 //        efecto.dispose();
 //        explosion.dispose();
     }
@@ -177,10 +176,7 @@ public class PrincipalPantalla implements Screen {
          */
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            transformarCoordenadas(screenX, screenY);
 
-//            explosion.setPosition(x,y);
-//            explosion.reset();
             return true;    // Indica que ya procesó el evento
         }
 
@@ -191,7 +187,8 @@ public class PrincipalPantalla implements Screen {
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
 
-            if (btnRegresar.contiene(x,y)){
+            if (btnRegresar.contiene(x,y)&&tiempoJuego>2.5){
+                Gdx.input.setInputProcessor(null);
                 plataforma.setScreen(new Menu(plataforma));
             }
             return true;    // Indica que ya procesó el evento
@@ -201,7 +198,6 @@ public class PrincipalPantalla implements Screen {
         // Se ejecuta cuando el usuario MUEVE el dedo sobre la pantalla
         @Override
         public boolean touchDragged(int screenX, int screenY, int pointer) {
-            transformarCoordenadas(screenX, screenY);
 
             return true;
         }

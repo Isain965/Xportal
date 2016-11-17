@@ -6,6 +6,7 @@ package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -30,6 +31,14 @@ import java.util.ArrayList;
 
 public class PantallaMGDos implements Screen
 {
+    //PREFERENCIAS
+    public Preferences niveles = Gdx.app.getPreferences("Niveles");
+    public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
+    public Preferences musica = Gdx.app.getPreferences("Musica");
+    public Preferences score = Gdx.app.getPreferences("Score");
+
+    private PantallaCargando pantallaCargando;
+
     public static final float ANCHO_MAPA = 1280;   // Ancho del mapa en pixeles
     public static final float ALTO_MAPA = 896;
 
@@ -40,8 +49,12 @@ public class PantallaMGDos implements Screen
     private OrthographicCamera camara;
     private Viewport vista;
 
+    private boolean banderaPausa = false;
+
     //vidaMax
     private int vidafMax = 5;
+
+    private int enemD = 12;
 
     private Sprite spriteVidas;
     private Sprite spriteVidasF;
@@ -133,8 +146,6 @@ public class PantallaMGDos implements Screen
 
     private boolean banderaDireccion=false;
 
-
-
     public PantallaMGDos(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
@@ -168,27 +179,6 @@ public class PantallaMGDos implements Screen
         // Texto
         texto = new Texto();
     }
-
-
-
-    // LOS RECURSOS SE CARGAN AHORA EN PantallaCargando
-    /*
-    // Carga los recursos a través del administrador de assets
-    private void cargarRecursos() {
-        // Cargar las texturas/mapas
-        AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
-        assetManager.load("Mapa.tmx", TiledMap.class);  // Cargar info del mapa
-        assetManager.load("marioSprite.png", Texture.class);    // Cargar imagen
-        // Texturas de los botones
-        assetManager.load("derecha.png", Texture.class);
-        assetManager.load("izquierda.png", Texture.class);
-        assetManager.load("salto.png", Texture.class);
-        // Fin del juego
-        assetManager.load("ganaste.png", Texture.class);
-        // Se bloquea hasta que cargue todos los recursos
-        assetManager.finishLoading();
-    }
-    */
 
     private void crearObjetos() {
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
@@ -275,21 +265,45 @@ public class PantallaMGDos implements Screen
         balaAnterior = new Bala(texturaBalaPlanta);
         balaAnterior.setPosicion(enemigo1.getX(),641);
 
-
         EnemigoV enemigoV1 = new EnemigoV(alien1,2);
-        //EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
-        enemigoV1.setPosicion(ANCHO_MAPA/2,ALTO_MAPA/2);
-        /*Alien enemigoV1 = new Alien(texturaEnemigo2);
-        enemigoV1.setPosicion(ANCHO_MAPA/2,ALTO_MAPA/2);*/
-        //EnemigoV enemigoV2 = new EnemigoV(alien2);
-        EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
-        enemigoV2.setPosicion(ANCHO_MAPA/2-enemigoV2.getSprite().getWidth(),ALTO_MAPA/2);
-        //EnemigoV enemigoV3 = new EnemigoV(alien3);
-        EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
-        enemigoV3.setPosicion(ANCHO_MAPA/2-enemigoV2.getSprite().getWidth()*2,ALTO_MAPA/2);
+        //enemigoV1 = new EnemigoV(alien1,2);
+        enemigoV1.setPosicion(ANCHO_MAPA/2-enemigoV1.getSprite().getWidth()*2,ALTO_MAPA/2);
+        EnemigoV enemigoV2 = new EnemigoV(alien1,2);
+        enemigoV2.setPosicion(ANCHO_MAPA/2-(enemigoV2.getSprite().getWidth()*4),ALTO_MAPA/2);
+        EnemigoV enemigoV3 = new EnemigoV(alien1,2);
+        enemigoV3.setPosicion(ANCHO_MAPA/2+(enemigoV3.getSprite().getWidth()),ALTO_MAPA/2);
+        EnemigoV enemigoV4 = new EnemigoV(alien1,2);
+        //enemigoV4 = new EnemigoV(alien1,2);
+        enemigoV4.setPosicion(ANCHO_MAPA/2+(enemigoV4.getSprite().getWidth()*3),ALTO_MAPA/2);
+        EnemigoV enemigoV5 = new EnemigoV(alien2,2);
+        enemigoV5.setPosicion(ANCHO_MAPA/2-enemigoV5.getSprite().getWidth()*2,ALTO_MAPA/3);
+        EnemigoV enemigoV6 = new EnemigoV(alien2,2);
+        enemigoV6.setPosicion(ANCHO_MAPA/2-(enemigoV6.getSprite().getWidth()*4),ALTO_MAPA/3);
+        EnemigoV enemigoV7 = new EnemigoV(alien2,2);
+        enemigoV7.setPosicion(ANCHO_MAPA/2+(enemigoV7.getSprite().getWidth()),ALTO_MAPA/3);
+        EnemigoV enemigoV8 = new EnemigoV(alien2,2);
+        enemigoV8.setPosicion(ANCHO_MAPA/2+(enemigoV8.getSprite().getWidth()*3),ALTO_MAPA/3);
+        EnemigoV enemigoV9 = new EnemigoV(alien3,2);
+        enemigoV9.setPosicion(ANCHO_MAPA/2-enemigoV9.getSprite().getWidth()*2,ALTO_MAPA/3+enemigoV9.getSprite().getHeight()*4);
+        EnemigoV enemigoV10 = new EnemigoV(alien3,2);
+        enemigoV10.setPosicion(ANCHO_MAPA/2-(enemigoV10.getSprite().getWidth()*4),ALTO_MAPA/3+enemigoV10.getSprite().getHeight()*4);
+        EnemigoV enemigoV11 = new EnemigoV(alien3,2);
+        enemigoV11.setPosicion(ANCHO_MAPA/2+(enemigoV11.getSprite().getWidth()),ALTO_MAPA/3+enemigoV11.getSprite().getHeight()*4);
+        EnemigoV enemigoV12 = new EnemigoV(alien3,2);
+        enemigoV12.setPosicion(ANCHO_MAPA/2+(enemigoV12.getSprite().getWidth()*3),ALTO_MAPA/3+enemigoV12.getSprite().getHeight()*4);
+
         enemigosV.add(enemigoV1);
         enemigosV.add(enemigoV2);
         enemigosV.add(enemigoV3);
+        enemigosV.add(enemigoV4);
+        enemigosV.add(enemigoV5);
+        enemigosV.add(enemigoV6);
+        enemigosV.add(enemigoV7);
+        enemigosV.add(enemigoV8);
+        enemigosV.add(enemigoV9);
+        enemigosV.add(enemigoV10);
+        enemigosV.add(enemigoV11);
+        enemigosV.add(enemigoV12);
         balaAnteriorV = new Bala(texturaBalaEmbudo);
         balaAnteriorV.setPosicion(enemigo1.getX(),641);
 
@@ -309,6 +323,11 @@ public class PantallaMGDos implements Screen
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
+
+        if(enemD==0){
+            estadoJuego=EstadosJuego.GANO;
+        }
+
 //barra vidas pregunta cuantas existen
         float barraSizeOriginal = spriteVidas.getWidth();
         float barraSizeActual=0;
@@ -395,6 +414,7 @@ public class PantallaMGDos implements Screen
                             (bala.getY() >= enemigoV.getY() && bala.getY()<= (enemigoV.getY()+enemigoV.getSprite().getHeight()))) {
                         int vidas = enemigoV.getVidas();
                         enemigoV.setVidas(vidas-1);
+                        enemD--;
                         bala.velocidadX = 10;
                         //Borrar de memoria
                         bala.setPosicion(0, 1000);
@@ -902,11 +922,19 @@ public class PantallaMGDos implements Screen
                         balas.add(bala);
                     }
                 }else if(btnPausa.contiene(x,y)){
-                    plataforma.setScreen(new PantallaPausa(plataforma));
+                    //plataforma.setScreen(new PantallaPausa(plataforma));
+                    estadoJuego = EstadosJuego.PAUSADO;
+                    banderaPausa = true;
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
-                    Gdx.app.exit();//Buuu
+                    //Gdx.app.exit();//Buuu
+                    niveles.clear();
+                    niveles.putString("Nivel3_A","Ya pase el minigame 2");
+                    niveles.flush();
+                    pantallaCargando = new PantallaCargando(plataforma);
+                    pantallaCargando.setNivel("Nivel3_A");
+                    plataforma.setScreen(pantallaCargando);
                 }
             }
             return true;    // Indica que ya procesó el evento

@@ -33,6 +33,8 @@ public class PantallaGanaste implements Screen {
     private Texture texturaRegresar;
     private Boton btnRegresar;
 
+    private boolean banderaBoton=true;
+
 
     public PantallaGanaste(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -79,6 +81,7 @@ public class PantallaGanaste implements Screen {
         texturaRegresar = assetManager.get("back.png");
 
         btnRegresar = new Boton(texturaRegresar);
+        btnRegresar.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
 
 
     }
@@ -127,7 +130,7 @@ public class PantallaGanaste implements Screen {
 
     @Override
     public void hide() {
-
+        //dispose();
     }
 
     // Libera los assets
@@ -155,10 +158,7 @@ public class PantallaGanaste implements Screen {
          */
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            transformarCoordenadas(screenX, screenY);
 
-//            explosion.setPosition(x,y);
-//            explosion.reset();
             return true;    // Indica que ya procesó el evento
         }
 
@@ -169,8 +169,12 @@ public class PantallaGanaste implements Screen {
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
 
-            if (btnRegresar.contiene(x,y)){
-                dispose();
+            if (btnRegresar.contiene(x,y)&&banderaBoton){
+                banderaBoton=false;
+                Gdx.input.setInputProcessor(null);
+                AssetManager assetManager = plataforma.getAssetManager();
+                assetManager.clear();
+                plataforma.dispose();
                 plataforma.setScreen(new Menu(plataforma));
             }
             return true;    // Indica que ya procesó el evento
@@ -180,7 +184,6 @@ public class PantallaGanaste implements Screen {
         // Se ejecuta cuando el usuario MUEVE el dedo sobre la pantalla
         @Override
         public boolean touchDragged(int screenX, int screenY, int pointer) {
-            transformarCoordenadas(screenX, screenY);
 
             return true;
         }

@@ -12,15 +12,18 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class EnemigoV {
     private Sprite sprite;
-    private int vidas = 5;
+    private int vidas = 1;
 
     //animacion
     private Animation animacion;    // Caminando
     private float timerAnimacion;   // tiempo para calcular el frame
 
+    int mov=0;
+    float ancho;
 
     public EnemigoV(Texture textura, int mg){
         if(mg==2) {
+            mov=2;
             TextureRegion texturaEnemigo = new TextureRegion(textura);
             sprite = new Sprite(texturaEnemigo);
             TextureRegion[][] texturaPersonaje;
@@ -32,6 +35,8 @@ public class EnemigoV {
             timerAnimacion = 0;
             // Crea el sprite cuando para el personaje quieto (idle)
             sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
+            //ancho para movimiento pregunta por nivel
+            ancho = PantallaMGDos.ANCHO_MAPA;
         }
     }
 
@@ -51,10 +56,29 @@ public class EnemigoV {
         timerAnimacion = 0;
         // Crea el sprite cuando para el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
-
+        //ancho para movimiento de enemigo pregunta por nivel
+        ancho = PantallaJuego.ANCHO_MAPA;
     }
 
+    int i=0;
+    boolean bandDer = true;
+    float x;
+    int vX = 5;
+    int tim = 60*3;
+    int timN = 0;
+
     public void render(SpriteBatch batch) {
+        if(bandDer){
+            x = sprite.getX() + vX;
+        }else{
+            x = sprite.getX() - vX;
+        }
+        if(sprite.getX()>=ancho-sprite.getWidth()) {
+            bandDer=false;
+        }else if(sprite.getX()<=sprite.getWidth()){
+            bandDer=true;
+        }
+        sprite.setX(x);
 
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Obtiene el frame que se debe mostrar (de acuerdo al timer)
