@@ -49,8 +49,6 @@ public class PantallaMGDos implements Screen
     private OrthographicCamera camara;
     private Viewport vista;
 
-    private boolean banderaPausa = false;
-
     //vidaMax
     private int vidafMax = 5;
 
@@ -62,6 +60,31 @@ public class PantallaMGDos implements Screen
     //textura barra de vidas
     private Texture texturaVidas;
     private Texture texturaVidasF;
+
+    //TEXURAS PARA LA PAUSA
+    private Texture texturaPausa;
+    private Texture texturaPlay;
+    private Texture texturaMenu;
+    private Texture texturaSonidoT;
+    private Texture texturaMusicaT;
+    private Texture texturaSonidoF;
+    private Texture texturaMusicaF;
+    private Boton btnPantallaPausa;
+    private Boton btnPlay;
+    private Boton btnMenu;
+    private Boton btnSonidoT;
+    private Boton btnMusicaT;
+    private Boton btnSonidoF;
+    private Boton btnMusicaF;
+    private boolean banderaPausa = false;
+
+    //Textura para cuando pierde
+    private Texture texturaPierde;
+    private Texture texturaMenuP;
+    private Boton btnPierde;
+    private Boton btnMenuP;
+    private boolean haPerdio = false;
+
 
     // Objeto para dibujar en la pantalla
     private SpriteBatch batch;
@@ -313,6 +336,35 @@ public class PantallaMGDos implements Screen
         sonidoVida= assetManager.get("vidawi.mp3");
         sonidoLlave=assetManager.get("llave.mp3");
         sonidoPistola=assetManager.get("shoot.mp3");
+
+        //IMPLEMENTANDO LA PAUSA
+        texturaPausa = assetManager.get("Pausa.png");
+        texturaPlay = assetManager.get("BtmPlay.png");
+        texturaMenu = assetManager.get("back.png");
+        texturaSonidoT = assetManager.get("BtmSonido.png");
+        texturaMusicaT = assetManager.get("BtmMusic.png");
+        texturaSonidoF = assetManager.get("BtmSonidoF.png");
+        texturaMusicaF = assetManager.get("BtmMusicF.png");
+
+        btnPantallaPausa = new Boton(texturaPausa);
+        btnPantallaPausa.setAlfa(0.7f);
+
+        btnPlay = new Boton (texturaPlay);
+        btnPlay.setPosicion(Plataforma.ANCHO_CAMARA/2+150, Plataforma.ALTO_CAMARA/2);
+        btnPlay.setAlfa(0.7f);
+
+        btnMenu = new Boton (texturaMenu);
+        btnMenu.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2);
+        btnMenu.setAlfa(0.7f);
+
+        //Implementando la perdida
+        texturaPierde = assetManager.get("GameOver.png");
+        texturaMenuP = assetManager.get("back.png");
+
+        btnPierde = new Boton (texturaPierde);
+        btnMenuP = new Boton(texturaMenuP);
+        btnMenuP.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
+
     }
 
     /*
@@ -323,197 +375,198 @@ public class PantallaMGDos implements Screen
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
+            if (!banderaPausa && !haPerdio) {
+            if(enemD==0){
+                estadoJuego=EstadosJuego.GANO;
+            }
 
-        if(enemD==0){
-            estadoJuego=EstadosJuego.GANO;
-        }
+    //barra vidas pregunta cuantas existen
+            float barraSizeOriginal = spriteVidas.getWidth();
+            float barraSizeActual=0;
+            if(vidaf==1) {
+                barraSizeActual = 32;
+            }else if(vidaf==2){
+                barraSizeActual=64;
+            }else if(vidaf==3){
+                barraSizeActual=96;
+            }else if(vidaf==4){
+                barraSizeActual=128;
+            }else if(vidaf==vidafMax) {
+                barraSizeActual=160;
+            }
+            spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
 
-//barra vidas pregunta cuantas existen
-        float barraSizeOriginal = spriteVidas.getWidth();
-        float barraSizeActual=0;
-        if(vidaf==1) {
-            barraSizeActual = 32;
-        }else if(vidaf==2){
-            barraSizeActual=64;
-        }else if(vidaf==3){
-            barraSizeActual=96;
-        }else if(vidaf==4){
-            barraSizeActual=128;
-        }else if(vidaf==vidafMax) {
-            barraSizeActual=160;
-        }
-        spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
+            if (estadoJuego!=EstadosJuego.PERDIO) {
+                // Actualizar objetos en la pantalla
+                moverPersonaje();
+                actualizarCamara(); // Mover la cámara para que siga al personaje
+            }
 
-        if (estadoJuego!=EstadosJuego.PERDIO) {
-            // Actualizar objetos en la pantalla
-            moverPersonaje();
-            actualizarCamara(); // Mover la cámara para que siga al personaje
-        }
+            // Dibujar
+            borrarPantalla();
 
-        // Dibujar
-        borrarPantalla();
+            batch.setProjectionMatrix(camara.combined);
 
-        batch.setProjectionMatrix(camara.combined);
+            rendererMapa.setView(camara);
+            rendererMapa.render();  // Dibuja el mapa
 
-        rendererMapa.setView(camara);
-        rendererMapa.render();  // Dibuja el mapa
+            // Entre begin-end dibujamos nuestros objetos en pantalla
+            batch.begin();
+            mario.render(batch);    // Dibuja el personaje
 
-        // Entre begin-end dibujamos nuestros objetos en pantalla
-        batch.begin();
-        mario.render(batch);    // Dibuja el personaje
+            tiempoJuego+=Gdx.graphics.getDeltaTime();
+            Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
-        tiempoJuego+=Gdx.graphics.getDeltaTime();
-        Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
+            if(vidaf==0){
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        plataforma.setScreen(new PantallaPerdiste(plataforma));
+                    }
+                }, 3);  // 3 segundos
+            }
+            for (EnemigoV enemigoV:enemigosV){
+                if (enemigoV.getVidas()>0){
+                    enemigoV.render(batch);
 
-        if(vidaf==0){
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    plataforma.setScreen(new PantallaPerdiste(plataforma));
-                }
-            }, 3);  // 3 segundos
-        }
-        for (EnemigoV enemigoV:enemigosV){
-            if (enemigoV.getVidas()>0){
-                enemigoV.render(batch);
+                    if((mario.getX()>=enemigoV.getX()-rango)&&(mario.getX()<=enemigoV.getX())&&(int)tiempoJuego==5&&banderaDisparo){
+                        BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
+                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setPosicion(enemigoV.getX(),enemigoV.getY()+50);
+                        balasEnemigosV.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                    }else if ((mario.getX()>enemigoV.getX())&&(mario.getX()<=enemigoV.getX()+rango)&&(int)tiempoJuego==5&&banderaDisparo){
+                        BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
+                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setPosicion(enemigoV.getX()+38, enemigoV.getY() + 50);
+                        balasEnemigosV.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                    }
 
-                if((mario.getX()>=enemigoV.getX()-rango)&&(mario.getX()<=enemigoV.getX())&&(int)tiempoJuego==5&&banderaDisparo){
-                    BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
-                    balaEnJuego.setDireccion(-10);
-                    balaEnJuego.setPosicion(enemigoV.getX(),enemigoV.getY()+50);
-                    balasEnemigosV.add(balaEnJuego);
-                    banderaDisparo = false;
-                    tiempoJuego = 0;
-                }else if ((mario.getX()>enemigoV.getX())&&(mario.getX()<=enemigoV.getX()+rango)&&(int)tiempoJuego==5&&banderaDisparo){
-                    BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
-                    balaEnJuego.setDireccion(-10);
-                    balaEnJuego.setPosicion(enemigoV.getX()+38, enemigoV.getY() + 50);
-                    balasEnemigosV.add(balaEnJuego);
-                    banderaDisparo = false;
-                    tiempoJuego = 0;
-                }
+                    for(BalaV bala: balasEnemigosV){
+                        bala.render(batch);
+                        banderaDisparo = true;
+                        if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
+                                (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigoV.getSprite().getHeight()))) {
+                            int vidas = enemigoV.getVidas();
+                            vidaf-=1;
+                            bala.velocidadX = 10;
+                            //Borrar de memoria
+                            bala.setPosicion(0, 1000);
+                        }
+                    }
 
-                for(BalaV bala: balasEnemigosV){
-                    bala.render(batch);
-                    banderaDisparo = true;
-                    if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
-                            (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigoV.getSprite().getHeight()))) {
-                        int vidas = enemigoV.getVidas();
-                        vidaf-=1;
-                        bala.velocidadX = 10;
-                        //Borrar de memoria
-                        bala.setPosicion(0, 1000);
+                    for(Bala bala : balas){
+                        bala.setDir(1);
+                        bala.render(batch,banderaDireccion);
+                        //bala.render(batch,true);//en este caso solo sera una direccion, hacia arriba
+                        if((bala.getX() >= enemigoV.getX() && bala.getX()<= (enemigoV.getX()+enemigoV.getSprite().getWidth()))&&
+                                (bala.getY() >= enemigoV.getY() && bala.getY()<= (enemigoV.getY()+enemigoV.getSprite().getHeight()))) {
+                            int vidas = enemigoV.getVidas();
+                            enemigoV.setVidas(vidas-1);
+                            enemD--;
+                            bala.velocidadX = 10;
+                            //Borrar de memoria
+                            bala.setPosicion(0, 1000);
+                        }
+                    }
+                    if(tiempoJuego>6){
+                        //ISAIN EL HACKER :)
+                        tiempoJuego=0;
                     }
                 }
+                else{
+                    //Borrar de memoria
+                    enemigoV.setPosicion(0,2000);
+                }
+            }
+            for(Enemigo enemigo:enemigos){
+                if (enemigo.getVidas()>0){
+                    enemigo.render(batch);
 
-                for(Bala bala : balas){
-                    bala.setDir(1);
-                    bala.render(batch,banderaDireccion);
-                    //bala.render(batch,true);//en este caso solo sera una direccion, hacia arriba
-                    if((bala.getX() >= enemigoV.getX() && bala.getX()<= (enemigoV.getX()+enemigoV.getSprite().getWidth()))&&
-                            (bala.getY() >= enemigoV.getY() && bala.getY()<= (enemigoV.getY()+enemigoV.getSprite().getHeight()))) {
-                        int vidas = enemigoV.getVidas();
-                        enemigoV.setVidas(vidas-1);
-                        enemD--;
-                        bala.velocidadX = 10;
-                        //Borrar de memoria
-                        bala.setPosicion(0, 1000);
+                    if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())&&(int)tiempoJuego==5&&banderaDisparo){
+                        Bala balaEnJuego = new Bala(texturaBalaPlanta);
+                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setPosicion(enemigo.getX(),enemigo.getY()+50);
+                        balasEnemigos.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                    }else if ((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==5&&banderaDisparo){
+                        Bala balaEnJuego = new Bala(texturaBalaPlanta);
+                        balaEnJuego.setDireccion(10);
+                        balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
+                        balasEnemigos.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                    }
+
+
+                    for(Bala bala: balasEnemigos){
+                        bala.render(batch,banderaDireccion);
+                        //banderaDisparo = true;
+                        if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
+                                (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigo.getSprite().getHeight()))) {
+                            int vidas = enemigo.getVidas();
+                            vidaf-=1;
+                            bala.velocidadX = 10;
+                            //Borrar de memoria
+                            bala.setPosicion(0, 1000);
+                        }
+                    }
+
+                    for(Bala bala : balas){
+                        bala.render(batch,banderaDireccion);
+                        if((bala.getX() >= enemigo.getX() && bala.getX()<= (enemigo.getX()+enemigo.getSprite().getWidth()))&&
+                                (bala.getY() >= enemigo.getY() && bala.getY()<= (enemigo.getY()+enemigo.getSprite().getHeight()))) {
+                            int vidas = enemigo.getVidas();
+                            enemigo.setVidas(vidas-1);
+                            bala.velocidadX = 10;
+                            //Borrar de memoria
+                            bala.setPosicion(0, 1000);
+                        }
+                    }
+                    if(tiempoJuego>6){
+                        tiempoJuego=0;
                     }
                 }
-                if(tiempoJuego>6){
-                    //ISAIN EL HACKER :)
-                    tiempoJuego=0;
+                else{
+                    //Borrar de memoria
+                    enemigo.setPosicion(0,2000);
                 }
             }
-            else{
-                //Borrar de memoria
-                enemigoV.setPosicion(0,2000);
+
+            //Dibuja las balas del personaje
+            for(Bala bala : balas){
+                bala.render(batch,banderaDireccion);
             }
-        }
-        for(Enemigo enemigo:enemigos){
-            if (enemigo.getVidas()>0){
-                enemigo.render(batch);
 
-                if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())&&(int)tiempoJuego==5&&banderaDisparo){
-                    Bala balaEnJuego = new Bala(texturaBalaPlanta);
-                    balaEnJuego.setDireccion(-10);
-                    balaEnJuego.setPosicion(enemigo.getX(),enemigo.getY()+50);
-                    balasEnemigos.add(balaEnJuego);
-                    banderaDisparo = false;
-                    tiempoJuego = 0;
-                }else if ((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==5&&banderaDisparo){
-                    Bala balaEnJuego = new Bala(texturaBalaPlanta);
-                    balaEnJuego.setDireccion(10);
-                    balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
-                    balasEnemigos.add(balaEnJuego);
-                    banderaDisparo = false;
-                    tiempoJuego = 0;
-                }
+            batch.end();
 
+            // Dibuja el HUD
+            batch.setProjectionMatrix(camaraHUD.combined);
+            batch.begin();
 
-                for(Bala bala: balasEnemigos){
-                    bala.render(batch,banderaDireccion);
-                    //banderaDisparo = true;
-                    if((bala.getX() >= mario.getX() && bala.getX()<= (mario.getX()+mario.getSprite().getWidth()))&&
-                            (bala.getY() >= mario.getY() && bala.getY()<= (mario.getY()+enemigo.getSprite().getHeight()))) {
-                        int vidas = enemigo.getVidas();
-                        vidaf-=1;
-                        bala.velocidadX = 10;
-                        //Borrar de memoria
-                        bala.setPosicion(0, 1000);
-                    }
-                }
-
-                for(Bala bala : balas){
-                    bala.render(batch,banderaDireccion);
-                    if((bala.getX() >= enemigo.getX() && bala.getX()<= (enemigo.getX()+enemigo.getSprite().getWidth()))&&
-                            (bala.getY() >= enemigo.getY() && bala.getY()<= (enemigo.getY()+enemigo.getSprite().getHeight()))) {
-                        int vidas = enemigo.getVidas();
-                        enemigo.setVidas(vidas-1);
-                        bala.velocidadX = 10;
-                        //Borrar de memoria
-                        bala.setPosicion(0, 1000);
-                    }
-                }
-                if(tiempoJuego>6){
-                    tiempoJuego=0;
-                }
+            // ¿Ya ganó?
+            if (estadoJuego==EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                btnIzquierda.render(batch);
+                btnDerecha.render(batch);
+                //btnSalto.render(batch);
+                btnDisparo.render(batch);
+                btnPausa.render(batch);
+                // Estrellas recolectadas
+                texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
+                //texto.mostrarMensaje(batch,"Life: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
+                spriteVidas.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
+                spriteVidasF.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
+                spriteVidas.draw(batch);
+                spriteVidasF.draw(batch);
             }
-            else{
-                //Borrar de memoria
-                enemigo.setPosicion(0,2000);
+            batch.end();
             }
-        }
-
-        //Dibuja las balas del personaje
-        for(Bala bala : balas){
-            bala.render(batch,banderaDireccion);
-        }
-
-        batch.end();
-
-        // Dibuja el HUD
-        batch.setProjectionMatrix(camaraHUD.combined);
-        batch.begin();
-
-        // ¿Ya ganó?
-        if (estadoJuego==EstadosJuego.GANO) {
-            btnGana.render(batch);
-        } else {
-            btnIzquierda.render(batch);
-            btnDerecha.render(batch);
-            //btnSalto.render(batch);
-            btnDisparo.render(batch);
-            btnPausa.render(batch);
-            // Estrellas recolectadas
-            texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
-            //texto.mostrarMensaje(batch,"Life: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
-            spriteVidas.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
-            spriteVidasF.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
-            spriteVidas.draw(batch);
-            spriteVidasF.draw(batch);
-        }
-        batch.end();
     }
 
     // Actualiza la posición de la cámara para que el personaje esté en el centro,

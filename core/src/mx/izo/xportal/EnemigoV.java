@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class EnemigoV {
     private Sprite sprite;
-    private int vidas = 1;
+    private int vidas = 5;
 
     //animacion
     private Animation animacion;    // Caminando
@@ -23,6 +23,7 @@ public class EnemigoV {
 
     public EnemigoV(Texture textura, int mg){
         if(mg==2) {
+            vidas=1;
             mov=2;
             TextureRegion texturaEnemigo = new TextureRegion(textura);
             sprite = new Sprite(texturaEnemigo);
