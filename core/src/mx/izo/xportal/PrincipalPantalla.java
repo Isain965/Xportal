@@ -74,7 +74,7 @@ public class PrincipalPantalla implements Screen {
         assetManager.load("PantallaDeInicio.png", Texture.class);    // Cargar imagen
         // Texturas de los botones
 
-        assetManager.load("LogoTec.jpg",Texture.class);
+        assetManager.load("LogoTec.png",Texture.class);
         // Se bloquea hasta que cargue todos los recursos
         assetManager.finishLoading();
     }
@@ -85,12 +85,13 @@ public class PrincipalPantalla implements Screen {
         texturaAcercaDe = assetManager.get("PantallaDeInicio.png");
         texturaRegresar = assetManager.get("PantallaDeInicio.png");
 
-        texturaTec = assetManager.get("LogoTec.jpg");
+        texturaTec = assetManager.get("LogoTec.png");
 
 
         btnRegresar = new Boton(texturaRegresar);
 
         btnTec = new Boton(texturaTec);
+        btnTec.setPosicion(20,Plataforma.ALTO_CAMARA/2-150);
         //btnRegresar.setPosicion(3 * Plataforma.ANCHO_CAMARA / 4 - texturaRegresar.getWidth() / 2,
         //Plataforma.ALTO_CAMARA / 2 - texturaRegresar.getHeight() / 2);
     }
@@ -112,7 +113,7 @@ public class PrincipalPantalla implements Screen {
 
         tiempoJuego += Gdx.graphics.getDeltaTime();
 
-        batch.draw(texturaAcercaDe, 0, 0);
+        //batch.draw(texturaAcercaDe, 0, 0);
 
         if((int)tiempoJuego<2){
             btnTec.render(batch);
@@ -126,7 +127,7 @@ public class PrincipalPantalla implements Screen {
     }
 
     private void borrarPantalla() {
-        Gdx.gl.glClearColor(0.42f, 0.55f, 1, 1);    // r, g, b, alpha
+        Gdx.gl.glClearColor(0, 0, 1, 1);    // r, g, b, alpha
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
@@ -156,7 +157,7 @@ public class PrincipalPantalla implements Screen {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
         assetManager.unload("PantallaDeInicio.png");
-        assetManager.unload("LogoTec.jpg");
+        assetManager.unload("LogoTec.png");
 //        efecto.dispose();
 //        explosion.dispose();
     }
