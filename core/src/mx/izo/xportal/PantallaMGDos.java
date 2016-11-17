@@ -336,6 +336,7 @@ public class PantallaMGDos implements Screen
         }else if(vidaf==2){
             barraSizeActual=64;
         }else if(vidaf==3){
+            barraSizeActual=96;
         }else if(vidaf==4){
             barraSizeActual=128;
         }else if(vidaf==vidafMax) {
@@ -506,7 +507,7 @@ public class PantallaMGDos implements Screen
             btnPausa.render(batch);
             // Estrellas recolectadas
             texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
-            texto.mostrarMensaje(batch,"Life: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
+            //texto.mostrarMensaje(batch,"Life: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
             spriteVidas.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
             spriteVidasF.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
             spriteVidas.draw(batch);
