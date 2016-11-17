@@ -336,7 +336,6 @@ public class PantallaMGDos implements Screen
         }else if(vidaf==2){
             barraSizeActual=64;
         }else if(vidaf==3){
-            barraSizeActual=96;
         }else if(vidaf==4){
             barraSizeActual=128;
         }else if(vidaf==vidafMax) {
@@ -922,9 +921,9 @@ public class PantallaMGDos implements Screen
                         balas.add(bala);
                     }
                 }else if(btnPausa.contiene(x,y)){
-                    //plataforma.setScreen(new PantallaPausa(plataforma));
-                    estadoJuego = EstadosJuego.PAUSADO;
-                    banderaPausa = true;
+                    plataforma.setScreen(new PantallaPausa(plataforma));
+                    //estadoJuego = EstadosJuego.PAUSADO;
+                    //banderaPausa = true;
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
