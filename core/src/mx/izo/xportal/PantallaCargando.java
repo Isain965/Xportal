@@ -169,8 +169,8 @@ public class PantallaCargando implements Screen {
             assetManager.load("BtmSonidoF.png",Texture.class);
             assetManager.load("BtmMusicF.png",Texture.class);
             assetManager.load("Mute.mp3",Sound.class);
-            //Para cuando pierde
-            assetManager.load("GameOver.png",Texture.class);
+            //Para cuando Gana
+            assetManager.load("Ganar.PNG",Texture.class);
 
 
             Gdx.app.log("cargarRecursos", "Terminando...");
