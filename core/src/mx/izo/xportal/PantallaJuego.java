@@ -298,7 +298,7 @@ public class PantallaJuego implements Screen{
         EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
         enemigoV1.setPosicion(571,770);
         EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
-        enemigoV2.setPosicion(1713,770);
+        enemigoV2.setPosicion(2000,770);
         EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
         enemigoV3.setPosicion(2855,770);
         enemigosV.add(enemigoV1);
