@@ -1019,7 +1019,7 @@ public class PantallaJuego implements Screen{
                         niveles.putString("MiniGame1","Ya pase el nivel 1");
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("MiniGame2");
+                        pantallaCargando.setNivel("MiniGame1");
                         plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
