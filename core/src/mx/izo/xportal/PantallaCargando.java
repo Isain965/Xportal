@@ -177,7 +177,6 @@ public class PantallaCargando implements Screen {
 
 
         }else if(nivel.equals("MiniGame2")){
-            Gdx.app.log("cargarRecursos","Iniciando...");
             // Carga los recursos de la siguiente pantalla (PantallaJuego)
             assetManager.load("inv.tmx", TiledMap.class);  // Cargar info del mapa
             //assetManager.load("Mapa.tmx", TiledMap.class);
@@ -216,7 +215,6 @@ public class PantallaCargando implements Screen {
             assetManager.load("opendoor.mp3", Sound.class);
             assetManager.load("vidawi.mp3", Sound.class);
             assetManager.load("shoot.mp3",Sound.class);
-            Gdx.app.log("cargarRecursos", "Terminando...");
         }
     }
 
