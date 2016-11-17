@@ -275,21 +275,43 @@ public class PantallaMGDos implements Screen
         balaAnterior = new Bala(texturaBalaPlanta);
         balaAnterior.setPosicion(enemigo1.getX(),641);
 
-
         EnemigoV enemigoV1 = new EnemigoV(alien1,2);
-        //EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
-        enemigoV1.setPosicion(ANCHO_MAPA/2,ALTO_MAPA/2);
-        /*Alien enemigoV1 = new Alien(texturaEnemigo2);
-        enemigoV1.setPosicion(ANCHO_MAPA/2,ALTO_MAPA/2);*/
-        //EnemigoV enemigoV2 = new EnemigoV(alien2);
-        EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
-        enemigoV2.setPosicion(ANCHO_MAPA/2-enemigoV2.getSprite().getWidth(),ALTO_MAPA/2);
-        //EnemigoV enemigoV3 = new EnemigoV(alien3);
-        EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
-        enemigoV3.setPosicion(ANCHO_MAPA/2-enemigoV2.getSprite().getWidth()*2,ALTO_MAPA/2);
+        enemigoV1.setPosicion(ANCHO_MAPA/2-enemigoV1.getSprite().getWidth()*2,ALTO_MAPA/2);
+        EnemigoV enemigoV2 = new EnemigoV(alien1,2);
+        enemigoV2.setPosicion(ANCHO_MAPA/2-(enemigoV2.getSprite().getWidth()*4),ALTO_MAPA/2);
+        EnemigoV enemigoV3 = new EnemigoV(alien1,2);
+        enemigoV3.setPosicion(ANCHO_MAPA/2+(enemigoV3.getSprite().getWidth()),ALTO_MAPA/2);
+        EnemigoV enemigoV4 = new EnemigoV(alien1,2);
+        enemigoV4.setPosicion(ANCHO_MAPA/2+(enemigoV4.getSprite().getWidth()*3),ALTO_MAPA/2);
+        EnemigoV enemigoV5 = new EnemigoV(alien2,2);
+        enemigoV5.setPosicion(ANCHO_MAPA/2-enemigoV5.getSprite().getWidth()*2,ALTO_MAPA/3);
+        EnemigoV enemigoV6 = new EnemigoV(alien2,2);
+        enemigoV6.setPosicion(ANCHO_MAPA/2-(enemigoV6.getSprite().getWidth()*4),ALTO_MAPA/3);
+        EnemigoV enemigoV7 = new EnemigoV(alien2,2);
+        enemigoV7.setPosicion(ANCHO_MAPA/2+(enemigoV7.getSprite().getWidth()),ALTO_MAPA/3);
+        EnemigoV enemigoV8 = new EnemigoV(alien2,2);
+        enemigoV8.setPosicion(ANCHO_MAPA/2+(enemigoV8.getSprite().getWidth()*3),ALTO_MAPA/3);
+        EnemigoV enemigoV9 = new EnemigoV(alien3,2);
+        enemigoV9.setPosicion(ANCHO_MAPA/2-enemigoV9.getSprite().getWidth()*2,ALTO_MAPA/3+enemigoV9.getSprite().getHeight()*4);
+        EnemigoV enemigoV10 = new EnemigoV(alien3,2);
+        enemigoV10.setPosicion(ANCHO_MAPA/2-(enemigoV10.getSprite().getWidth()*4),ALTO_MAPA/3+enemigoV10.getSprite().getHeight()*4);
+        EnemigoV enemigoV11 = new EnemigoV(alien3,2);
+        enemigoV11.setPosicion(ANCHO_MAPA/2+(enemigoV11.getSprite().getWidth()),ALTO_MAPA/3+enemigoV11.getSprite().getHeight()*4);
+        EnemigoV enemigoV12 = new EnemigoV(alien3,2);
+        enemigoV12.setPosicion(ANCHO_MAPA/2+(enemigoV12.getSprite().getWidth()*3),ALTO_MAPA/3+enemigoV12.getSprite().getHeight()*4);
+
         enemigosV.add(enemigoV1);
         enemigosV.add(enemigoV2);
         enemigosV.add(enemigoV3);
+        enemigosV.add(enemigoV4);
+        enemigosV.add(enemigoV5);
+        enemigosV.add(enemigoV6);
+        enemigosV.add(enemigoV7);
+        enemigosV.add(enemigoV8);
+        enemigosV.add(enemigoV9);
+        enemigosV.add(enemigoV10);
+        enemigosV.add(enemigoV11);
+        enemigosV.add(enemigoV12);
         balaAnteriorV = new Bala(texturaBalaEmbudo);
         balaAnteriorV.setPosicion(enemigo1.getX(),641);
 

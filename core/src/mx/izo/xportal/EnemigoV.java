@@ -18,9 +18,11 @@ public class EnemigoV {
     private Animation animacion;    // Caminando
     private float timerAnimacion;   // tiempo para calcular el frame
 
+    int mov=0;
 
     public EnemigoV(Texture textura, int mg){
         if(mg==2) {
+            mov=2;
             TextureRegion texturaEnemigo = new TextureRegion(textura);
             sprite = new Sprite(texturaEnemigo);
             TextureRegion[][] texturaPersonaje;
@@ -54,7 +56,25 @@ public class EnemigoV {
 
     }
 
+    int i=0;
+    boolean bandDer;
+
     public void render(SpriteBatch batch) {
+        /*if(sprite.getX()>=0 && sprite.getX()<=sprite.getWidth()*2){
+            bandDer=true;
+        } else if(sprite.getX()>PantallaMGDos.ANCHO_MAPA-sprite.getWidth()*2 && sprite.getX()<PantallaMGDos.ANCHO_MAPA){
+            bandDer=false;
+        }
+
+        if(bandDer){
+            if(sprite.getX()<PantallaMGDos.ANCHO_MAPA){// - sprite.getWidth()) {
+                sprite.setX(sprite.getX() + i++);
+            }
+        }else if(sprite.getX()>0){
+            sprite.setX(sprite.getX()+i--);
+        }*/
+
+
 
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Obtiene el frame que se debe mostrar (de acuerdo al timer)
