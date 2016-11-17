@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class EnemigoV {
     private Sprite sprite;
-    private int vidas = 5;
+    private int vidas = 1;
 
     //animacion
     private Animation animacion;    // Caminando
@@ -70,10 +70,8 @@ public class EnemigoV {
             x = sprite.getX() - vX;
         }
         if(sprite.getX()>=PantallaMGDos.ANCHO_MAPA-sprite.getWidth()) {
-            //x = sprite.getX() - vX;
             bandDer=false;
         }else if(sprite.getX()<=sprite.getWidth()){
-            //x = sprite.getX() + vX;
             bandDer=true;
         }
         sprite.setX(x);

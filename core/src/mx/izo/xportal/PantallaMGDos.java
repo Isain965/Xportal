@@ -6,6 +6,7 @@ package mx.izo.xportal;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -30,6 +31,14 @@ import java.util.ArrayList;
 
 public class PantallaMGDos implements Screen
 {
+    //PREFERENCIAS
+    public Preferences niveles = Gdx.app.getPreferences("Niveles");
+    public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
+    public Preferences musica = Gdx.app.getPreferences("Musica");
+    public Preferences score = Gdx.app.getPreferences("Score");
+
+    private PantallaCargando pantallaCargando;
+
     public static final float ANCHO_MAPA = 1280;   // Ancho del mapa en pixeles
     public static final float ALTO_MAPA = 896;
 
@@ -42,6 +51,8 @@ public class PantallaMGDos implements Screen
 
     //vidaMax
     private int vidafMax = 5;
+
+    private int enemD = 12;
 
     private Sprite spriteVidas;
     private Sprite spriteVidasF;
@@ -166,27 +177,6 @@ public class PantallaMGDos implements Screen
         // Texto
         texto = new Texto();
     }
-
-
-
-    // LOS RECURSOS SE CARGAN AHORA EN PantallaCargando
-    /*
-    // Carga los recursos a través del administrador de assets
-    private void cargarRecursos() {
-        // Cargar las texturas/mapas
-        AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
-        assetManager.load("Mapa.tmx", TiledMap.class);  // Cargar info del mapa
-        assetManager.load("marioSprite.png", Texture.class);    // Cargar imagen
-        // Texturas de los botones
-        assetManager.load("derecha.png", Texture.class);
-        assetManager.load("izquierda.png", Texture.class);
-        assetManager.load("salto.png", Texture.class);
-        // Fin del juego
-        assetManager.load("ganaste.png", Texture.class);
-        // Se bloquea hasta que cargue todos los recursos
-        assetManager.finishLoading();
-    }
-    */
 
     private void crearObjetos() {
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
@@ -331,6 +321,11 @@ public class PantallaMGDos implements Screen
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
+
+        if(enemD==0){
+            estadoJuego=EstadosJuego.GANO;
+        }
+
 //barra vidas pregunta cuantas existen
         float barraSizeOriginal = spriteVidas.getWidth();
         float barraSizeActual=0;
@@ -417,6 +412,7 @@ public class PantallaMGDos implements Screen
                             (bala.getY() >= enemigoV.getY() && bala.getY()<= (enemigoV.getY()+enemigoV.getSprite().getHeight()))) {
                         int vidas = enemigoV.getVidas();
                         enemigoV.setVidas(vidas-1);
+                        enemD--;
                         bala.velocidadX = 10;
                         //Borrar de memoria
                         bala.setPosicion(0, 1000);
@@ -928,7 +924,13 @@ public class PantallaMGDos implements Screen
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
-                    Gdx.app.exit();//Buuu
+                    //Gdx.app.exit();//Buuu
+                    niveles.clear();
+                    niveles.putString("Nivel3_A","Ya pase el minigame 2");
+                    niveles.flush();
+                    pantallaCargando = new PantallaCargando(plataforma);
+                    pantallaCargando.setNivel("Nivel3_A");
+                    plataforma.setScreen(pantallaCargando);
                 }
             }
             return true;    // Indica que ya procesó el evento

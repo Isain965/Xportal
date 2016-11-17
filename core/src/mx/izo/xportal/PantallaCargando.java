@@ -247,7 +247,7 @@ public class PantallaCargando implements Screen {
                 plataforma.setScreen(new PantallaJuego(plataforma));
             }else if(nivel.equals("MiniGame1")){
                 plataforma.setScreen(new MiniGame1(plataforma));
-            }else if(nivel.equals("MiniGame12")){
+            }else if(nivel.equals("MiniGame2")){
                 plataforma.setScreen(new PantallaMGDos(plataforma));
             }
 
