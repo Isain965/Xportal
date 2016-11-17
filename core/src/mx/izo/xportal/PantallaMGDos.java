@@ -133,8 +133,6 @@ public class PantallaMGDos implements Screen
 
     private boolean banderaDireccion=false;
 
-
-
     public PantallaMGDos(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
@@ -276,12 +274,14 @@ public class PantallaMGDos implements Screen
         balaAnterior.setPosicion(enemigo1.getX(),641);
 
         EnemigoV enemigoV1 = new EnemigoV(alien1,2);
+        //enemigoV1 = new EnemigoV(alien1,2);
         enemigoV1.setPosicion(ANCHO_MAPA/2-enemigoV1.getSprite().getWidth()*2,ALTO_MAPA/2);
         EnemigoV enemigoV2 = new EnemigoV(alien1,2);
         enemigoV2.setPosicion(ANCHO_MAPA/2-(enemigoV2.getSprite().getWidth()*4),ALTO_MAPA/2);
         EnemigoV enemigoV3 = new EnemigoV(alien1,2);
         enemigoV3.setPosicion(ANCHO_MAPA/2+(enemigoV3.getSprite().getWidth()),ALTO_MAPA/2);
         EnemigoV enemigoV4 = new EnemigoV(alien1,2);
+        //enemigoV4 = new EnemigoV(alien1,2);
         enemigoV4.setPosicion(ANCHO_MAPA/2+(enemigoV4.getSprite().getWidth()*3),ALTO_MAPA/2);
         EnemigoV enemigoV5 = new EnemigoV(alien2,2);
         enemigoV5.setPosicion(ANCHO_MAPA/2-enemigoV5.getSprite().getWidth()*2,ALTO_MAPA/3);

@@ -57,12 +57,25 @@ public class EnemigoV {
     }
 
     int i=0;
-    boolean bandDer;
+    boolean bandDer = true;
     float x;
     int vX = 5;
+    int tim = 60*3;
+    int timN = 0;
 
     public void render(SpriteBatch batch) {
-        x = sprite.getX() + vX;
+        if(bandDer){
+            x = sprite.getX() + vX;
+        }else{
+            x = sprite.getX() - vX;
+        }
+        if(sprite.getX()>=PantallaMGDos.ANCHO_MAPA-sprite.getWidth()) {
+            //x = sprite.getX() - vX;
+            bandDer=false;
+        }else if(sprite.getX()<=sprite.getWidth()){
+            //x = sprite.getX() + vX;
+            bandDer=true;
+        }
         sprite.setX(x);
 
         timerAnimacion += Gdx.graphics.getDeltaTime();
