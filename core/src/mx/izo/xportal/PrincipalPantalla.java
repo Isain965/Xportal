@@ -91,9 +91,7 @@ public class PrincipalPantalla implements Screen {
         btnRegresar = new Boton(texturaRegresar);
 
         btnTec = new Boton(texturaTec);
-        //btnTec.setPosicion(20,Plataforma.ALTO_CAMARA/2-150);
-        //btnRegresar.setPosicion(3 * Plataforma.ANCHO_CAMARA / 4 - texturaRegresar.getWidth() / 2,
-        //Plataforma.ALTO_CAMARA / 2 - texturaRegresar.getHeight() / 2);
+
     }
 
     /*
