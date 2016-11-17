@@ -74,7 +74,7 @@ public class PrincipalPantalla implements Screen {
         assetManager.load("PantallaDeInicio.png", Texture.class);    // Cargar imagen
         // Texturas de los botones
 
-        assetManager.load("LogoTec.png",Texture.class);
+        assetManager.load("LogoTec.JPG",Texture.class);
         // Se bloquea hasta que cargue todos los recursos
         assetManager.finishLoading();
     }
@@ -85,7 +85,7 @@ public class PrincipalPantalla implements Screen {
         texturaAcercaDe = assetManager.get("PantallaDeInicio.png");
         texturaRegresar = assetManager.get("PantallaDeInicio.png");
 
-        texturaTec = assetManager.get("LogoTec.png");
+        texturaTec = assetManager.get("LogoTec.JPG");
 
 
         btnRegresar = new Boton(texturaRegresar);
@@ -155,7 +155,7 @@ public class PrincipalPantalla implements Screen {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
         assetManager.unload("PantallaDeInicio.png");
-        assetManager.unload("LogoTec.png");
+        assetManager.unload("LogoTec.JPG");
 //        efecto.dispose();
 //        explosion.dispose();
     }
