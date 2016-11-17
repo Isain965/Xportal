@@ -174,6 +174,7 @@ public class PantallaGanaste implements Screen {
                 Gdx.input.setInputProcessor(null);
                 AssetManager assetManager = plataforma.getAssetManager();
                 assetManager.clear();
+                plataforma.dispose();
                 plataforma.setScreen(new Menu(plataforma));
             }
             return true;    // Indica que ya procesó el evento

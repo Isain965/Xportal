@@ -117,6 +117,9 @@ public class PantallaCargando implements Screen {
             assetManager.load("retrocarga.wav", Sound.class);
             assetManager.load("Mute.mp3", Sound.class);
 
+            //Para cuando pierde
+            assetManager.load("GameOver.png",Texture.class);
+
 
             Gdx.app.log("cargarRecursos", "Terminando...");
 
@@ -166,6 +169,8 @@ public class PantallaCargando implements Screen {
             assetManager.load("BtmSonidoF.png",Texture.class);
             assetManager.load("BtmMusicF.png",Texture.class);
             assetManager.load("Mute.mp3",Sound.class);
+            //Para cuando pierde
+            assetManager.load("GameOver.png",Texture.class);
 
 
             Gdx.app.log("cargarRecursos", "Terminando...");

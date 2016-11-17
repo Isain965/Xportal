@@ -392,12 +392,6 @@ public class MiniGame1 implements Screen
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        int scoreA = score.getInteger("theBest",0);
-                        if(estrellas>scoreA){
-                            score.clear();
-                            score.putInteger("theBest",estrellas);
-                            score.flush();
-                        }
                         Gdx.input.setInputProcessor(null);
                         musicFondo.dispose();
                         AssetManager assetManager = plataforma.getAssetManager();
@@ -476,6 +470,24 @@ public class MiniGame1 implements Screen
                     balasL.remove(i);
                 }
             }
+
+            if (vidaf == 20) {
+                musicFondo.dispose();
+                int scoreA = score.getInteger("theBest",0);
+                if(estrellas>scoreA){
+                    score.clear();
+                    score.putInteger("theBest",estrellas);
+                    score.flush();
+                }
+
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        plataforma.setScreen(new CargandoMGDos(plataforma));
+                    }
+                }, 3);  // 3 segundos
+            }
+
 
             batch.end();
 

@@ -164,6 +164,13 @@ public class PantallaJuego implements Screen{
     private Boton btnMusicaF;
     private boolean banderaPausa = false;
 
+    //Textura para cuando pierde
+    private Texture texturaPierde;
+    private Texture texturaMenuP;
+    private Boton btnPierde;
+    private Boton btnMenuP;
+    private boolean haPerdio = false;
+
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
     private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
 
@@ -388,6 +395,14 @@ public class PantallaJuego implements Screen{
             btnSonidoF.setAlfa(0.7f);
         }
 
+        //Implementando la perdida
+        texturaPierde = assetManager.get("GameOver.png");
+        texturaMenuP = assetManager.get("back.png");
+
+        btnPierde = new Boton (texturaPierde);
+        btnMenuP = new Boton(texturaMenuP);
+        btnMenuP.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
+
     }
 
     /*
@@ -399,7 +414,7 @@ public class PantallaJuego implements Screen{
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
 
-        if (!banderaPausa) {
+        if (!banderaPausa && !haPerdio) {
             //barra vidas pregunta cuantas existen
             float barraSizeOriginal = spriteVidas.getWidth();
             float barraSizeActual = 0;
@@ -444,22 +459,14 @@ public class PantallaJuego implements Screen{
             //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
 
             if (vidaf == vidafMin) {
-                Gdx.input.setInputProcessor(null);
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        int scoreA = score.getInteger("theBest",0);
-                        if(estrellas>scoreA){
-                            score.clear();
-                            score.putInteger("theBest",estrellas);
-                            score.flush();
-                        }
-                        musicFondo.dispose();
-                        AssetManager assetManager = plataforma.getAssetManager();
-                        assetManager.clear();
-                        plataforma.setScreen(new PantallaPerdiste(plataforma));
-                    }
-                }, 1);  // 3 segundos
+                int scoreA = score.getInteger("theBest",0);
+                if(estrellas>scoreA){
+                    score.clear();
+                    score.putInteger("theBest",estrellas);
+                    score.flush();
+                }
+                haPerdio=true;
+                estadoJuego = EstadosJuego.PERDIOI;
             }
 
             for (EnemigoV enemigoV : enemigosV) {
@@ -642,6 +649,25 @@ public class PantallaJuego implements Screen{
         }
 
 
+        else if(haPerdio){
+            borrarPantalla();
+
+            // Dibuja cuando has perdido
+            batch.setProjectionMatrix(camaraHUD.combined);
+
+            batch.begin();
+            // ¿Ya ganó?
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                btnPierde.render(batch);
+                btnMenuP.render(batch);
+            }
+            batch.end();
+
+        }
+
+        //CUANDO ESTA EN PAUSA
         else{
             borrarPantalla();
 
@@ -1353,6 +1379,13 @@ public class PantallaJuego implements Screen{
                     musica.flush();
                     musicFondo.play();
                 }
+            }else if(estadoJuego == EstadosJuego.PERDIOI || haPerdio){
+                if(btnMenuP.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.dispose();
+                    dispose();
+                    plataforma.setScreen(new Menu(plataforma));
+                }
             }
             return true;    // Indica que ya procesó el evento
         }
@@ -1401,7 +1434,8 @@ public class PantallaJuego implements Screen{
         GANO,
         JUGANDO,
         PAUSADO,
-        PERDIO
+        PERDIO,
+        PERDIOI
     }
 
 }
