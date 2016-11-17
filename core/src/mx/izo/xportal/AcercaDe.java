@@ -100,7 +100,7 @@ public class AcercaDe implements Screen {
         btnRegresar.setPosicion(20,10);
 
         //musica de fondo
-        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("psykex1.mp3"));
         musicFondo.setLooping(true);
         if(estadoMusica) {
             musicFondo.play();
