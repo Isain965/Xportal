@@ -37,6 +37,7 @@ public class PantallaJuego implements Screen{
     public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
     public Preferences musica = Gdx.app.getPreferences("Musica");
     public Preferences score = Gdx.app.getPreferences("Score");
+    public Preferences siguienteNivel = Gdx.app.getPreferences("SiguienteNivel");
 
     private PantallaCargando pantallaCargando;
 
@@ -418,21 +419,22 @@ public class PantallaJuego implements Screen{
             //barra vidas pregunta cuantas existen
             float barraSizeOriginal = spriteVidas.getWidth();
             float barraSizeActual = 0;
-            if (vidaf == 1) {
-                barraSizeActual = 32;
-            } else if (vidaf == 2) {
-                barraSizeActual = 64;
-            } else if (vidaf == 3) {
-                barraSizeActual = 96;
-            } else if (vidaf == 4) {
-                barraSizeActual = 128;
-            } else if (vidaf == vidafMax) {
-                barraSizeActual = 160;
+            if(vidaf<=5) {
+                if (vidaf == 1) {
+                    barraSizeActual = 32;
+                } else if (vidaf == 2) {
+                    barraSizeActual = 64;
+                } else if (vidaf == 3) {
+                    barraSizeActual = 96;
+                } else if (vidaf == 4) {
+                    barraSizeActual = 128;
+                } else if (vidaf == vidafMax) {
+                    barraSizeActual = 160;
+                }
+                //bajaBarraVidas(spriteVidas,barraSizeActual);
+                //spriteVidas.setRegion(0, 0, (int) barraSizeActual, (int) spriteVidas.getHeight()); //cast importante
+                spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
             }
-            //bajaBarraVidas(spriteVidas,barraSizeActual);
-            //spriteVidas.setRegion(0, 0, (int) barraSizeActual, (int) spriteVidas.getHeight()); //cast importante
-            spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
-
             if (estadoJuego != EstadosJuego.PERDIO) {
                 // Actualizar objetos en la pantalla
                 moverPersonaje();
@@ -1015,6 +1017,9 @@ public class PantallaJuego implements Screen{
                             score.putInteger("theBest",estrellas);
                             score.flush();
                         }
+                        siguienteNivel.clear();
+                        siguienteNivel.putString("Nivel2_A","Entre al nivel 2A");
+                        siguienteNivel.flush();
                         niveles.clear();
                         niveles.putString("MiniGame1","Ya pase el nivel 1");
                         niveles.flush();
@@ -1044,6 +1049,9 @@ public class PantallaJuego implements Screen{
                             score.putInteger("theBest",estrellas);
                             score.flush();
                         }
+                        siguienteNivel.clear();
+                        siguienteNivel.putString("Nivel2_B","Entre al nivel 2B");
+                        siguienteNivel.flush();
                         niveles.clear();
                         niveles.putString("MiniGame1","Ya pase el nivel 1");
                         niveles.flush();

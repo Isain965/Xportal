@@ -293,6 +293,58 @@ public class PantallaCargando implements Screen {
 
             Gdx.app.log("cargarRecursos", "Terminando...");
         }
+        else if(nivel.equals("Nivel2_B")){
+
+            Gdx.app.log("cargarRecursos", "Iniciando... Nivel2_B");
+            // Carga los recursos de la siguiente pantalla (PantallaJuego)
+            assetManager.load("Mapa2_B.tmx", TiledMap.class);  // Cargar info del mapa
+            assetManager.load("marioSprite.png", Texture.class);
+            assetManager.load("marioSpriteIzq.png", Texture.class);
+            assetManager.load("salto.png", Texture.class);
+
+            //cargar barra
+            assetManager.load("barra.png", Texture.class);
+            assetManager.load("barraF.png", Texture.class);
+
+
+            // Cargar imagen
+            // Texturas de los botones
+            assetManager.load("BtmDerecho.png", Texture.class);
+            assetManager.load("BtmIzquierdo.png", Texture.class);
+            assetManager.load("BtmSaltar.png", Texture.class);
+            assetManager.load("shoot.png", Texture.class);
+            assetManager.load("bullet.png", Texture.class);
+            assetManager.load("embudo.png", Texture.class);
+            assetManager.load("Planta.png", Texture.class);
+            assetManager.load("balaPlanta.png", Texture.class);
+            assetManager.load("balaEmbudo.png", Texture.class);
+            assetManager.load("BtmPausa.png", Texture.class);
+
+            //Para la pausa
+            assetManager.load("Pausa.png", Texture.class);
+            assetManager.load("BtmPlay.png", Texture.class);
+            assetManager.load("back.png", Texture.class);
+            assetManager.load("BtmSonido.png", Texture.class);
+            assetManager.load("BtmMusic.png", Texture.class);
+            assetManager.load("BtmSonidoF.png", Texture.class);
+            assetManager.load("BtmMusicF.png", Texture.class);
+            // Fin del juego
+            assetManager.load("ganaste.png", Texture.class);
+            // Efecto al tomar la moneda
+            assetManager.load("monedas.mp3", Sound.class);
+            assetManager.load("llave.mp3", Sound.class);
+            assetManager.load("opendoor.mp3", Sound.class);
+            assetManager.load("vidawi.mp3", Sound.class);
+            assetManager.load("pistola.mp3", Sound.class);
+            assetManager.load("retrocarga.wav", Sound.class);
+            assetManager.load("Mute.mp3", Sound.class);
+
+            //Para cuando pierde
+            assetManager.load("GameOver.png",Texture.class);
+
+
+            Gdx.app.log("cargarRecursos", "Terminando...");
+        }
     }
 
     @Override
@@ -326,6 +378,9 @@ public class PantallaCargando implements Screen {
                 plataforma.setScreen(new PantallaMGDos(plataforma));
             }else if(nivel.equals("Nivel2_A")){
                 plataforma.setScreen(new Nivel2_A(plataforma));
+            }
+            else if(nivel.equals("Nivel2_B")){
+                plataforma.setScreen(new Nivel2_B(plataforma));
             }
 
         } else {

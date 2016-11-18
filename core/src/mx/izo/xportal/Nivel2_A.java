@@ -418,20 +418,23 @@ public class Nivel2_A implements Screen{
             //barra vidas pregunta cuantas existen
             float barraSizeOriginal = spriteVidas.getWidth();
             float barraSizeActual = 0;
-            if (vidaf == 1) {
-                barraSizeActual = 32;
-            } else if (vidaf == 2) {
-                barraSizeActual = 64;
-            } else if (vidaf == 3) {
-                barraSizeActual = 96;
-            } else if (vidaf == 4) {
-                barraSizeActual = 128;
-            } else if (vidaf == vidafMax) {
-                barraSizeActual = 160;
+            if(vidaf<=5){
+                if (vidaf == 1) {
+                    barraSizeActual = 32;
+                } else if (vidaf == 2) {
+                    barraSizeActual = 64;
+                } else if (vidaf == 3) {
+                    barraSizeActual = 96;
+                } else if (vidaf == 4) {
+                    barraSizeActual = 128;
+                } else if (vidaf == vidafMax) {
+                    barraSizeActual = 160;
+                }
+                spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
             }
             //bajaBarraVidas(spriteVidas,barraSizeActual);
             //spriteVidas.setRegion(0, 0, (int) barraSizeActual, (int) spriteVidas.getHeight()); //cast importante
-            spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
+
 
             if (estadoJuego != EstadosJuego.PERDIO) {
                 // Actualizar objetos en la pantalla
@@ -1020,7 +1023,8 @@ public class Nivel2_A implements Screen{
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
                         pantallaCargando.setNivel("MiniGame1");
-                        plataforma.setScreen(pantallaCargando);
+                        plataforma.setScreen(new Menu(plataforma));
+                        //plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }
@@ -1049,7 +1053,8 @@ public class Nivel2_A implements Screen{
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
                         pantallaCargando.setNivel("MiniGame1");
-                        plataforma.setScreen(pantallaCargando);
+                        plataforma.setScreen(new Menu(plataforma));
+                        //plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }
