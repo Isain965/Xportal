@@ -85,6 +85,9 @@ public class PantallaMGDos implements Screen
     private Boton btnMenuP;
     private boolean haPerdio = false;
 
+    private boolean estadoMusica = musica.getBoolean("estadoMusica");
+    private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
+
 
     // Objeto para dibujar en la pantalla
     private SpriteBatch batch;
@@ -376,7 +379,7 @@ public class PantallaMGDos implements Screen
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
-            if (!banderaPausa && !haPerdio) {
+        if (!banderaPausa && !haPerdio) {
             if(enemD==0){
                 estadoJuego=EstadosJuego.GANO;
             }
@@ -586,6 +589,43 @@ public class PantallaMGDos implements Screen
             }else{
                 borrarPantalla();
                 batch.setProjectionMatrix(camaraHUD.combined);
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                btnPantallaPausa.render(batch);
+                btnPantallaPausa.setAlfa(1);
+                btnPlay.render(batch);
+                btnPlay.setAlfa(0.9f);
+                btnMenu.render(batch);
+                btnMenu.setAlfa(0.9f);
+                if(estadoMusica) {
+                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaT.setAlfa(0.9f);
+                    btnMusicaT.render(batch);
+                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaF.setAlfa(0.9f);
+
+                }else {
+                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaT.setAlfa(0.9f);
+                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaF.render(batch);
+                    btnMusicaF.setAlfa(0.9f);
+                }
+                if(estadoSonidos) {
+                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoT.setAlfa(0.9f);
+                    btnSonidoT.render(batch);
+                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoF.setAlfa(0.9f);
+                }else{
+                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoT.setAlfa(0.9f);
+                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoF.render(batch);
+                    btnSonidoF.setAlfa(0.9f);
+                }
+            }
             }
     }
 
