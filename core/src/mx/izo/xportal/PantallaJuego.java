@@ -96,7 +96,7 @@ public class PantallaJuego implements Screen{
 
     // Estrellas recolectadas
     private int estrellas;
-    private int vidaf =3;
+    private int vidaf =10;
     private int vidafMax=5;
     private int vidafMin=0;
     private Texto texto;
@@ -1017,6 +1017,7 @@ public class PantallaJuego implements Screen{
                             score.putInteger("theBest",estrellas);
                             score.flush();
                         }
+                        Gdx.app.log("Ya entre ","al nivel miniGame");
                         siguienteNivel.clear();
                         siguienteNivel.putString("Nivel2_A","Entre al nivel 2A");
                         siguienteNivel.flush();

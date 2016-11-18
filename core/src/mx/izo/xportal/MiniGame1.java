@@ -140,6 +140,8 @@ public class MiniGame1 implements Screen
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
     private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
 
+    private boolean banderaEspera = true;
+
 
     public MiniGame1(Plataforma plataforma) {
         this.plataforma = plataforma;
@@ -403,12 +405,14 @@ public class MiniGame1 implements Screen
                 }
             }
 
-            if (vidaf == 15) {
+            if (vidaf == 10 && banderaEspera) {
                 //haGanado=true;
                 //estadoJuego = EstadosJuego.GANOI;
+                banderaEspera=false;
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+
                         musicFondo.dispose();
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
@@ -419,8 +423,10 @@ public class MiniGame1 implements Screen
                             score.putInteger("theBest",estrellas);
                             score.flush();
                         }
+                        Gdx.app.log("estoy","Esta");
                         //Checar a que nivel debe de irse
                         if(siguienteNivel.contains("Nivel2_A")){
+                            Gdx.app.log("entre en el if","Esta");
                             siguienteNivel.clear();
                             niveles.flush();
                             niveles.clear();
@@ -429,6 +435,7 @@ public class MiniGame1 implements Screen
                             pantallaCargando = new PantallaCargando(plataforma);
                             pantallaCargando.setNivel("Nivel2_A");
                         }else if (siguienteNivel.contains("Nivel2_B")){
+                            Gdx.app.log("entre en el else if","no pase");
                             siguienteNivel.clear();
                             niveles.flush();
                             niveles.clear();
@@ -439,6 +446,7 @@ public class MiniGame1 implements Screen
                         }
 
                         plataforma.setScreen(pantallaCargando);
+
                     }
                 }, 1);  // 3 segundos
             }
