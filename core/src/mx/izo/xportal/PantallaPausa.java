@@ -212,6 +212,9 @@ public class PantallaPausa implements Screen {
             transformarCoordenadas(screenX, screenY);
 
             if (btnRegresar.contiene(x,y)){
+                Gdx.input.setInputProcessor(null);
+                dispose();
+                //plataforma.setScreen(new Menu(plataforma));
                 plataforma.setScreen(new Menu(plataforma));
             }
             else if (btnBackJuego.contiene(x,y)){
