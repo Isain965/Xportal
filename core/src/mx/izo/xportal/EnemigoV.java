@@ -19,7 +19,7 @@ public class EnemigoV {
     private float timerAnimacion;   // tiempo para calcular el frame
 
     int mov=0;
-    int ancho;
+    float ancho;
 
     public EnemigoV(Texture textura, int mg){
         if(mg==2) {
