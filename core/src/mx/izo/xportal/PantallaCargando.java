@@ -215,6 +215,30 @@ public class PantallaCargando implements Screen {
             assetManager.load("opendoor.mp3", Sound.class);
             assetManager.load("vidawi.mp3", Sound.class);
             assetManager.load("shoot.mp3",Sound.class);
+
+
+            //Para la pausa
+            assetManager.load("Pausa.png", Texture.class);
+            assetManager.load("BtmPlay.png", Texture.class);
+            assetManager.load("back.png", Texture.class);
+            assetManager.load("BtmSonido.png", Texture.class);
+            assetManager.load("BtmMusic.png", Texture.class);
+            assetManager.load("BtmSonidoF.png", Texture.class);
+            assetManager.load("BtmMusicF.png", Texture.class);
+            // Fin del juego
+            assetManager.load("ganaste.png", Texture.class);
+            // Efecto al tomar la moneda
+            assetManager.load("monedas.mp3", Sound.class);
+            assetManager.load("llave.mp3", Sound.class);
+            assetManager.load("opendoor.mp3", Sound.class);
+            assetManager.load("vidawi.mp3", Sound.class);
+            assetManager.load("pistola.mp3", Sound.class);
+            assetManager.load("retrocarga.wav", Sound.class);
+            assetManager.load("Mute.mp3", Sound.class);
+
+            //Para cuando pierde
+            assetManager.load("GameOver.png",Texture.class);
+
         }
     }
 

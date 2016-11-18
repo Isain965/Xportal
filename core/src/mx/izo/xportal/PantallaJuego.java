@@ -119,7 +119,7 @@ public class PantallaJuego implements Screen{
     private Texture texturaEnemigo;
     private Texture texturaEnemigo2;
 
-    private int tiempoDisparo=2;
+    private int tiempoDisparo=1;
 
     private float tiempoJuego=0;
 
