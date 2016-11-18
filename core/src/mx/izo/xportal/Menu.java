@@ -303,7 +303,7 @@ public class Menu implements Screen {
                 dispose();
                 plataforma.setScreen(new PSettings(plataforma));
             }else if (btnExit.contiene(x,y)){
-                //plataforma.setScreen(new CargandoMGDos(plataforma));
+               // plataforma.setScreen(new CargandoMGDos(plataforma));
                 Gdx.input.setInputProcessor(null);
                 musicFondo.stop();
                 musica.clear();
