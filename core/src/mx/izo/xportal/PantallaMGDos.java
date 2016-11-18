@@ -143,6 +143,7 @@ public class PantallaMGDos implements Screen
     private Texture alien1, alien2, alien3;
 
     private float tiempoJuego=0;
+    private int tiempoDisparo=1;
 
     // Estados del juego
     private EstadosJuego estadoJuego;
@@ -429,14 +430,14 @@ public class PantallaMGDos implements Screen
                 if (enemigoV.getVidas()>0){
                     enemigoV.render(batch);
 
-                    if((mario.getX()>=enemigoV.getX()-rango)&&(mario.getX()<=enemigoV.getX())&&(int)tiempoJuego==5&&banderaDisparo){
+                    if((mario.getX()>=enemigoV.getX()-rango)&&(mario.getX()<=enemigoV.getX())&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
                         BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
                         balaEnJuego.setDireccion(-10);
                         balaEnJuego.setPosicion(enemigoV.getX(),enemigoV.getY()+50);
                         balasEnemigosV.add(balaEnJuego);
                         banderaDisparo = false;
                         tiempoJuego = 0;
-                    }else if ((mario.getX()>enemigoV.getX())&&(mario.getX()<=enemigoV.getX()+rango)&&(int)tiempoJuego==5&&banderaDisparo){
+                    }else if ((mario.getX()>enemigoV.getX())&&(mario.getX()<=enemigoV.getX()+rango)&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
                         BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
                         balaEnJuego.setDireccion(-10);
                         balaEnJuego.setPosicion(enemigoV.getX()+38, enemigoV.getY() + 50);
@@ -472,7 +473,7 @@ public class PantallaMGDos implements Screen
                             bala.setPosicion(0, 1000);
                         }
                     }
-                    if(tiempoJuego>6){
+                    if(tiempoJuego>tiempoDisparo){
                         //ISAIN EL HACKER :)
                         tiempoJuego=0;
                     }
@@ -486,14 +487,14 @@ public class PantallaMGDos implements Screen
                 if (enemigo.getVidas()>0){
                     enemigo.render(batch);
 
-                    if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())&&(int)tiempoJuego==5&&banderaDisparo){
+                    if((mario.getX()>=enemigo.getX()-rango)&&(mario.getX()<=enemigo.getX())&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
                         Bala balaEnJuego = new Bala(texturaBalaPlanta);
                         balaEnJuego.setDireccion(-10);
                         balaEnJuego.setPosicion(enemigo.getX(),enemigo.getY()+50);
                         balasEnemigos.add(balaEnJuego);
                         banderaDisparo = false;
                         tiempoJuego = 0;
-                    }else if ((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==5&&banderaDisparo){
+                    }else if ((mario.getX()>enemigo.getX())&&(mario.getX()<=enemigo.getX()+rango)&&(int)tiempoJuego==tiempoDisparo&&banderaDisparo){
                         Bala balaEnJuego = new Bala(texturaBalaPlanta);
                         balaEnJuego.setDireccion(10);
                         balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
@@ -527,7 +528,7 @@ public class PantallaMGDos implements Screen
                             bala.setPosicion(0, 1000);
                         }
                     }
-                    if(tiempoJuego>6){
+                    if(tiempoJuego>tiempoDisparo){
                         tiempoJuego=0;
                     }
                 }
@@ -566,6 +567,25 @@ public class PantallaMGDos implements Screen
                 spriteVidasF.draw(batch);
             }
             batch.end();
+            }else if(haPerdio){
+                borrarPantalla();
+
+                // Dibuja cuando has perdido
+                batch.setProjectionMatrix(camaraHUD.combined);
+
+                batch.begin();
+                // ¿Ya ganó?
+                if (estadoJuego == EstadosJuego.GANO) {
+                    btnGana.render(batch);
+                } else {
+                    btnPierde.render(batch);
+                    btnMenuP.render(batch);
+                }
+                batch.end();
+
+            }else{
+                borrarPantalla();
+                batch.setProjectionMatrix(camaraHUD.combined);
             }
     }
 
@@ -975,9 +995,9 @@ public class PantallaMGDos implements Screen
                         balas.add(bala);
                     }
                 }else if(btnPausa.contiene(x,y)){
-                    plataforma.setScreen(new PantallaPausa(plataforma));
-                    //estadoJuego = EstadosJuego.PAUSADO;
-                    //banderaPausa = true;
+                    //plataforma.setScreen(new PantallaPausa(plataforma));
+                    estadoJuego = EstadosJuego.PAUSADO;
+                    banderaPausa = true;
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
