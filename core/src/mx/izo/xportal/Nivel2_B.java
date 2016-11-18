@@ -1022,11 +1022,12 @@ public class Nivel2_B implements Screen {
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("MiniGame1","Ya pase el nivel 1");
+                        niveles.putString("Nivel2_B","Ya pase el nivel 1");
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("MiniGame1");
-                        plataforma.setScreen(pantallaCargando);
+                        pantallaCargando.setNivel("Nivel2_B");
+                        plataforma.setScreen(new Menu(plataforma));
+                        //plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }
@@ -1051,11 +1052,12 @@ public class Nivel2_B implements Screen {
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("MiniGame1","Ya pase el nivel 1");
+                        niveles.putString("Nivel2_B","Ya pase el nivel 1");
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("MiniGame1");
-                        plataforma.setScreen(pantallaCargando);
+                        pantallaCargando.setNivel("Nivel2_B");
+                        plataforma.setScreen(new Menu(plataforma));
+                        //plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }

@@ -1019,10 +1019,10 @@ public class Nivel2_A implements Screen{
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("MiniGame1","Ya pase el nivel 1");
+                        niveles.putString("Nivel2_A","Estoy en el nivel 2A");
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("MiniGame1");
+                        pantallaCargando.setNivel("Nivel2_A");
                         plataforma.setScreen(new Menu(plataforma));
                         //plataforma.setScreen(pantallaCargando);
                     }
@@ -1049,10 +1049,10 @@ public class Nivel2_A implements Screen{
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("MiniGame1","Ya pase el nivel 1");
+                        niveles.putString("Nivel2_A","Estoy en el nivel 2 A");
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("MiniGame1");
+                        pantallaCargando.setNivel("Nivel2_A");
                         plataforma.setScreen(new Menu(plataforma));
                         //plataforma.setScreen(pantallaCargando);
                     }
