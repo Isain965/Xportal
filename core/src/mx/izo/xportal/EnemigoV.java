@@ -19,6 +19,7 @@ public class EnemigoV {
     private float timerAnimacion;   // tiempo para calcular el frame
 
     int mov=0;
+    int ancho;
 
     public EnemigoV(Texture textura, int mg){
         if(mg==2) {
@@ -34,6 +35,8 @@ public class EnemigoV {
             timerAnimacion = 0;
             // Crea el sprite cuando para el personaje quieto (idle)
             sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
+            //ancho para movimiento pregunta por nivel
+            ancho = PantallaMGDos.ANCHO_MAPA;
         }
     }
 
@@ -53,7 +56,8 @@ public class EnemigoV {
         timerAnimacion = 0;
         // Crea el sprite cuando para el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
-
+        //ancho para movimiento de enemigo pregunta por nivel
+        ancho = PantallaJuego.ANCHO_MAPA;
     }
 
     int i=0;
@@ -69,7 +73,7 @@ public class EnemigoV {
         }else{
             x = sprite.getX() - vX;
         }
-        if(sprite.getX()>=PantallaMGDos.ANCHO_MAPA-sprite.getWidth()) {
+        if(sprite.getX()>=ancho-sprite.getWidth()) {
             bandDer=false;
         }else if(sprite.getX()<=sprite.getWidth()){
             bandDer=true;
