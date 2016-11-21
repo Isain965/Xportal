@@ -73,7 +73,7 @@ public class PantallaCargando implements Screen {
 
         if(nivel.equals("Nivel1")) {
 
-            Gdx.app.log("cargarRecursos", "Iniciando...");
+            Gdx.app.log("cargarRecursos", "Nivel1");
             // Carga los recursos de la siguiente pantalla (PantallaJuego)
             assetManager.load("Mapa.tmx", TiledMap.class);  // Cargar info del mapa
             assetManager.load("marioSprite.png", Texture.class);
@@ -97,6 +97,8 @@ public class PantallaCargando implements Screen {
             assetManager.load("balaPlanta.png", Texture.class);
             assetManager.load("balaEmbudo.png", Texture.class);
             assetManager.load("BtmPausa.png", Texture.class);
+
+            Gdx.app.log("cargarRecursos", "Ya llegue aqui");
 
             //Para la pausa
             assetManager.load("Pausa.png", Texture.class);

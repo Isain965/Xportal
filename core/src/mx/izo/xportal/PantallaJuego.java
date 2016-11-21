@@ -96,7 +96,7 @@ public class PantallaJuego implements Screen{
 
     // Estrellas recolectadas
     private int estrellas;
-    private int vidaf =10;
+    private int vidaf =3;
     private int vidafMax=5;
     private int vidafMin=0;
     private Texto texto;

@@ -1219,7 +1219,7 @@ public class Nivel2_B implements Screen {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
         // Carga los recursos de la siguiente pantalla (PantallaJuego)
-        assetManager.unload("Mapa2_A.tmx");
+        assetManager.unload("Mapa2_B.tmx");
         assetManager.unload("marioSprite.png");
         assetManager.unload("marioSpriteIzq.png");
         assetManager.unload("salto.png");
