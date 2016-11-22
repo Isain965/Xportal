@@ -134,9 +134,13 @@ public class MiniGame1 implements Screen
     public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
     public Preferences musica = Gdx.app.getPreferences("Musica");
     public Preferences score = Gdx.app.getPreferences("Score");
+    public Preferences siguienteNivel = Gdx.app.getPreferences("SiguienteNivel");
+    private PantallaCargando pantallaCargando;
 
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
     private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
+
+    private boolean banderaEspera = true;
 
 
     public MiniGame1(Plataforma plataforma) {
@@ -401,16 +405,50 @@ public class MiniGame1 implements Screen
                 }
             }
 
-            if (vidaf == 15) {
-                musicFondo.dispose();
-                int scoreA = score.getInteger("theBest",0);
-                if(estrellas>scoreA){
-                    score.clear();
-                    score.putInteger("theBest",(estrellas+1)*vidaf);
-                    score.flush();
-                }
-                haGanado=true;
-                estadoJuego = EstadosJuego.GANOI;
+            if (vidaf == 10 && banderaEspera) {
+                //haGanado=true;
+                //estadoJuego = EstadosJuego.GANOI;
+                banderaEspera=false;
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+
+                        musicFondo.dispose();
+                        AssetManager assetManager = plataforma.getAssetManager();
+                        assetManager.clear();
+                        //Actualizar preferencias
+                        int scoreA = score.getInteger("theBest",0);
+                        if(estrellas>scoreA){
+                            score.clear();
+                            score.putInteger("theBest",estrellas);
+                            score.flush();
+                        }
+                        Gdx.app.log("estoy","Esta");
+                        //Checar a que nivel debe de irse
+                        if(siguienteNivel.contains("Nivel2_A")){
+                            Gdx.app.log("entre en el if","Esta");
+                            siguienteNivel.clear();
+                            niveles.flush();
+                            niveles.clear();
+                            niveles.putString("Nivel2_A","Ya pase el nivel 1");
+                            niveles.flush();
+                            pantallaCargando = new PantallaCargando(plataforma);
+                            pantallaCargando.setNivel("Nivel2_A");
+                        }else if (siguienteNivel.contains("Nivel2_B")){
+                            Gdx.app.log("entre en el else if","no pase");
+                            siguienteNivel.clear();
+                            niveles.flush();
+                            niveles.clear();
+                            niveles.putString("Nivel2_B","Ya pase el nivel 1");
+                            niveles.flush();
+                            pantallaCargando = new PantallaCargando(plataforma);
+                            pantallaCargando.setNivel("Nivel2_B");
+                        }
+
+                        plataforma.setScreen(pantallaCargando);
+
+                    }
+                }, 1);  // 3 segundos
             }
 
 

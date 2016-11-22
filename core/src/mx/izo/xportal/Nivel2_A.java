@@ -40,8 +40,8 @@ public class Nivel2_A implements Screen{
 
     private PantallaCargando pantallaCargando;
 
-    public static final float ANCHO_MAPA = 4000;   // Ancho del mapa en pixeles
-    public static final float ALTO_MAPA = 896;
+    public static final float ANCHO_MAPA = 4080-32;   // Ancho del mapa en pixeles
+    public static final float ALTO_MAPA = 1000-10;
 
     // Referencia al objeto de tipo Game (tiene setScreen para cambiar de pantalla)
     private Plataforma plataforma;
@@ -215,7 +215,7 @@ public class Nivel2_A implements Screen{
     private void crearObjetos() {
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
         // Carga el mapa en memoria
-        mapa = assetManager.get("Mapa.tmx");
+        mapa = assetManager.get("Mapa2_A.tmx");
         //mapa.getLayers().get(0).setVisible(false);    // Pueden ocultar una capa así
         // Crear el objeto que dibujará el mapa
 
@@ -296,11 +296,11 @@ public class Nivel2_A implements Screen{
 
 
         EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
-        enemigoV1.setPosicion(571,770);
+        enemigoV1.setPosicion(571,855);
         EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
-        enemigoV2.setPosicion(1713,770);
+        enemigoV2.setPosicion(2000,855);
         EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
-        enemigoV3.setPosicion(2855,770);
+        enemigoV3.setPosicion(2855,855);
         enemigosV.add(enemigoV1);
         enemigosV.add(enemigoV2);
         enemigosV.add(enemigoV3);
@@ -418,20 +418,23 @@ public class Nivel2_A implements Screen{
             //barra vidas pregunta cuantas existen
             float barraSizeOriginal = spriteVidas.getWidth();
             float barraSizeActual = 0;
-            if (vidaf == 1) {
-                barraSizeActual = 32;
-            } else if (vidaf == 2) {
-                barraSizeActual = 64;
-            } else if (vidaf == 3) {
-                barraSizeActual = 96;
-            } else if (vidaf == 4) {
-                barraSizeActual = 128;
-            } else if (vidaf == vidafMax) {
-                barraSizeActual = 160;
+            if(vidaf<=5){
+                if (vidaf == 1) {
+                    barraSizeActual = 32;
+                } else if (vidaf == 2) {
+                    barraSizeActual = 64;
+                } else if (vidaf == 3) {
+                    barraSizeActual = 96;
+                } else if (vidaf == 4) {
+                    barraSizeActual = 128;
+                } else if (vidaf == vidafMax) {
+                    barraSizeActual = 160;
+                }
+                spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
             }
             //bajaBarraVidas(spriteVidas,barraSizeActual);
             //spriteVidas.setRegion(0, 0, (int) barraSizeActual, (int) spriteVidas.getHeight()); //cast importante
-            spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
+
 
             if (estadoJuego != EstadosJuego.PERDIO) {
                 // Actualizar objetos en la pantalla
@@ -473,17 +476,17 @@ public class Nivel2_A implements Screen{
                 if (enemigoV.getVidas() > 0) {
                     enemigoV.render(batch);
 
-                    if ((mario.getX() >= enemigoV.getX() - rango) && (mario.getX() <= enemigoV.getX()) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                    if ((mario.getX() >= enemigoV.getX() - rango) && (mario.getX() <= enemigoV.getX()) && (int) tiempoJuego == (tiempoDisparo/2) && banderaDisparo) {
                         BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
                         balaEnJuego.setDireccion(-10);
-                        balaEnJuego.setPosicion(enemigoV.getX(), enemigoV.getY() + 50);
+                        balaEnJuego.setPosicion(enemigoV.getX()+41, enemigoV.getY() + 50);
                         balasEnemigosV.add(balaEnJuego);
                         banderaDisparo = false;
                         tiempoJuego = 0;
-                    } else if ((mario.getX() > enemigoV.getX()) && (mario.getX() <= enemigoV.getX() + rango) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                    } else if ((mario.getX() > enemigoV.getX()) && (mario.getX() <= enemigoV.getX() + rango) && (int) tiempoJuego == (tiempoDisparo/2) && banderaDisparo) {
                         BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
                         balaEnJuego.setDireccion(-10);
-                        balaEnJuego.setPosicion(enemigoV.getX() + 38, enemigoV.getY() + 50);
+                        balaEnJuego.setPosicion(enemigoV.getX() + 41, enemigoV.getY() + 50);
                         balasEnemigosV.add(balaEnJuego);
                         banderaDisparo = false;
                         tiempoJuego = 0;
@@ -526,7 +529,7 @@ public class Nivel2_A implements Screen{
                 if (enemigo.getVidas() > 0) {
                     enemigo.render(batch);
 
-                    if ((mario.getX() >= enemigo.getX() - rango) && (mario.getX() <= enemigo.getX()) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                    if ((mario.getX() >= enemigo.getX() - rango) && (mario.getX() <= enemigo.getX()) && (int) (tiempoJuego) == tiempoDisparo && banderaDisparo) {
                         Bala balaEnJuego = new Bala(texturaBalaPlanta);
                         balaEnJuego.setDireccion(-10);
                         balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
@@ -534,7 +537,7 @@ public class Nivel2_A implements Screen{
                         banderaDisparo = false;
                         tiempoJuego = 0;
                         //}else if (mario.getX()>=enemigo.getX()+enemigo.getSprite().getWidth()&&mario.getX()<=enemigo.getX()+enemigo.getSprite().getWidth()+rango&&banderaDisparo&&tiempoJuego==tiempoDisparo){
-                    } else if ((mario.getX() > enemigo.getX()) && (mario.getX() <= enemigo.getX() + rango) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                    } else if ((mario.getX() > enemigo.getX()) && (mario.getX() <= enemigo.getX() + rango) && (int) (tiempoJuego) == tiempoDisparo && banderaDisparo) {
                         //Gdx.app.log("Deberia de disparar a la derecha", "");
                         Bala balaEnJuego = new Bala(texturaBalaPlanta);
                         balaEnJuego.setDireccion(10);
@@ -1016,11 +1019,12 @@ public class Nivel2_A implements Screen{
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("MiniGame1","Ya pase el nivel 1");
+                        niveles.putString("Nivel2_A","Estoy en el nivel 2A");
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("MiniGame1");
-                        plataforma.setScreen(pantallaCargando);
+                        pantallaCargando.setNivel("Nivel2_A");
+                        plataforma.setScreen(new Menu(plataforma));
+                        //plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }
@@ -1045,11 +1049,12 @@ public class Nivel2_A implements Screen{
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("MiniGame1","Ya pase el nivel 1");
+                        niveles.putString("Nivel2_A","Estoy en el nivel 2 A");
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("MiniGame1");
-                        plataforma.setScreen(pantallaCargando);
+                        pantallaCargando.setNivel("Nivel2_A");
+                        plataforma.setScreen(new Menu(plataforma));
+                        //plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }
@@ -1113,10 +1118,10 @@ public class Nivel2_A implements Screen{
     }
     private void eliminarPistolita() {
         TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
-        capaPlataforma.setCell(8,12,null);
-        capaPlataforma.setCell(8,11,null);
-        capaPlataforma.setCell(9,12,null);
-        capaPlataforma.setCell(9,11,null);
+        capaPlataforma.setCell(11,7,null);
+        capaPlataforma.setCell(11,8,null);
+        capaPlataforma.setCell(12,7,null);
+        capaPlataforma.setCell(12,8,null);
     }
 
 
@@ -1211,7 +1216,7 @@ public class Nivel2_A implements Screen{
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
         // Carga los recursos de la siguiente pantalla (PantallaJuego)
-        assetManager.unload("Mapa.tmx");
+        assetManager.unload("Mapa2_A.tmx");
         assetManager.unload("marioSprite.png");
         assetManager.unload("marioSpriteIzq.png");
         assetManager.unload("salto.png");
@@ -1437,5 +1442,4 @@ public class Nivel2_A implements Screen{
         PERDIO,
         PERDIOI
     }
-
 }
