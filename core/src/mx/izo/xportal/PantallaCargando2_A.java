@@ -10,15 +10,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
- * Created by Gab Silva on 09/11/2016.
+ * Created by Gab Sh
  */
-
-
-public class PantallaCargando2_A implements Screen {
+public class PantallaCargando2_A implements Screen
+{
     private Plataforma plataforma;
 
     // La cámara y vista principal
@@ -52,7 +52,7 @@ public class PantallaCargando2_A implements Screen {
         // Cargar recursos
         assetManager.load("cargando.png", Texture.class);
 
-        assetManager.load("PantallaInicioCargando.png",Texture.class);
+        assetManager.load("PantallaInicioCargando1.png",Texture.class);
 
         assetManager.finishLoading();
         texturaCargando = assetManager.get("cargando.png");
@@ -60,7 +60,7 @@ public class PantallaCargando2_A implements Screen {
         spriteCargando.setPosition(Plataforma.ANCHO_CAMARA / 2 - spriteCargando.getWidth() / 2,
                 Plataforma.ALTO_CAMARA / 2 - spriteCargando.getHeight() / 2);
 
-        texturaFondo = assetManager.get("PantallaInicioCargando.png");
+        texturaFondo = assetManager.get("PantallaInicioCargando1.png");
 
 
 
@@ -95,6 +95,14 @@ public class PantallaCargando2_A implements Screen {
         assetManager.load("balaEmbudo.png",Texture.class);
         assetManager.load("BtmPausa.png",Texture.class);
 
+        //Para la pausa
+        assetManager.load("Pausa.png", Texture.class);
+        assetManager.load("BtmPlay.png",Texture.class);
+        assetManager.load("back.png",Texture.class);
+        assetManager.load("BtmSonido.png",Texture.class);
+        assetManager.load("BtmMusic.png",Texture.class);
+        assetManager.load("BtmSonidoF.png",Texture.class);
+        assetManager.load("BtmMusicF.png",Texture.class);
         // Fin del juego
         assetManager.load("ganaste.png", Texture.class);
         // Efecto al tomar la moneda
@@ -104,6 +112,8 @@ public class PantallaCargando2_A implements Screen {
         assetManager.load("vidawi.mp3", Sound.class);
         assetManager.load("pistola.mp3",Sound.class);
         assetManager.load("retrocarga.wav",Sound.class);
+        assetManager.load("Mute.mp3",Sound.class);
+
 
         Gdx.app.log("cargarRecursos", "Terminando...");
     }
@@ -116,7 +126,7 @@ public class PantallaCargando2_A implements Screen {
 
         // Dibujar
         borrarPantalla();
-        spriteCargando.setRotation(spriteCargando.getRotation() + 15);
+        spriteCargando.setRotation(spriteCargando.getRotation()+10);
 
         batch.setProjectionMatrix(camara.combined);
 

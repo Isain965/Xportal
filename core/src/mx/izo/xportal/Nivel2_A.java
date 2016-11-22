@@ -12,6 +12,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -68,6 +69,10 @@ public class Nivel2_A implements Screen{
 
     //Musica de fondo
     private Music musicFondo;
+
+    //Para nieve
+     //Sistema de particulas
+    private ParticleEffect particulas;
 
 
     // HUD. Los componentes en la pantalla que no se mueven
@@ -306,6 +311,11 @@ public class Nivel2_A implements Screen{
         enemigosV.add(enemigoV3);
         balaAnteriorV = new Bala(texturaBalaEmbudo);
         balaAnteriorV.setPosicion(enemigo1.getX(),641);
+
+        particulas = new ParticleEffect();
+        particulas.load(Gdx.files.internal("nieve.p"), Gdx.files.internal(""));
+        particulas.setPosition(Gdx.graphics.getWidth()/2, 900);
+        particulas.reset();
 
         // Efecto moneda
         if(estadoSonidos) {
@@ -630,6 +640,7 @@ public class Nivel2_A implements Screen{
             // Dibuja el HUD
             batch.setProjectionMatrix(camaraHUD.combined);
             batch.begin();
+            particulas.draw(batch,Gdx.graphics.getDeltaTime());
 
             // ¿Ya ganó?
             if (estadoJuego == EstadosJuego.GANO) {

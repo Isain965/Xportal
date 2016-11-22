@@ -279,6 +279,8 @@ public class Menu implements Screen {
                     pantallaCargando.setNivel("MiniGame2");
                 }else if(niveles.contains(("Nivel2_A"))){
                     pantallaCargando.setNivel("Nivel2_A");
+                }else if(niveles.contains(("Nivel2_B"))){
+                    pantallaCargando.setNivel("Nivel2_B");
                 }
                 else{
                     pantallaCargando.setNivel("Nivel1");

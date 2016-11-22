@@ -3,6 +3,7 @@ package mx.izo.xportal;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -20,20 +22,16 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import java.util.ArrayList;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import java.util.TimerTask;
+
 
 /**
- * Created by Gab Sh on 10/11/2016.
+ * Created by Equipo alfa buena maravilla onda dinamita escuadrón lobo on 10/11/2016.
  */
 
-public class Nivel2_B implements Screen {
-
-
+public class Nivel2_B implements Screen{
 
     //PREFERENCIAS
     public Preferences niveles = Gdx.app.getPreferences("Niveles");
@@ -71,6 +69,10 @@ public class Nivel2_B implements Screen {
 
     //Musica de fondo
     private Music musicFondo;
+
+    //Para hojas
+    //Sistema de particulas
+    private ParticleEffect particulas;
 
 
     // HUD. Los componentes en la pantalla que no se mueven
@@ -309,6 +311,11 @@ public class Nivel2_B implements Screen {
         enemigosV.add(enemigoV3);
         balaAnteriorV = new Bala(texturaBalaEmbudo);
         balaAnteriorV.setPosicion(enemigo1.getX(),641);
+
+        particulas = new ParticleEffect();
+        particulas.load(Gdx.files.internal("hojas.p"), Gdx.files.internal(""));
+        particulas.setPosition(Gdx.graphics.getWidth()/2, 900);
+        particulas.reset();
 
         // Efecto moneda
         if(estadoSonidos) {
@@ -633,6 +640,7 @@ public class Nivel2_B implements Screen {
             // Dibuja el HUD
             batch.setProjectionMatrix(camaraHUD.combined);
             batch.begin();
+            particulas.draw(batch,Gdx.graphics.getDeltaTime());
 
             // ¿Ya ganó?
             if (estadoJuego == EstadosJuego.GANO) {
@@ -1022,7 +1030,7 @@ public class Nivel2_B implements Screen {
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("Nivel2_B","Ya pase el nivel 1");
+                        niveles.putString("Nivel2_B","Estoy en el nivel 2A");
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
                         pantallaCargando.setNivel("Nivel2_B");
@@ -1052,7 +1060,7 @@ public class Nivel2_B implements Screen {
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("Nivel2_B","Ya pase el nivel 1");
+                        niveles.putString("Nivel2_B","Estoy en el nivel 2 B");
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
                         pantallaCargando.setNivel("Nivel2_B");
