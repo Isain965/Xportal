@@ -277,12 +277,17 @@ public class Menu implements Screen {
                     pantallaCargando.setNivel("MiniGame1");
                 }else if(niveles.contains(("MiniGame2"))){
                     pantallaCargando.setNivel("MiniGame2");
+                }else if(niveles.contains(("Nivel2_A"))){
+                    pantallaCargando.setNivel("Nivel2_A");
+                }else if(niveles.contains(("Nivel2_B"))){
+                    pantallaCargando.setNivel("Nivel2_B");
+                }else if(niveles.contains(("Nivel3_A"))){
+                    pantallaCargando.setNivel("Nivel3_A");
                 }
                 else{
                     pantallaCargando.setNivel("Nivel1");
                 }
                 plataforma.setScreen(pantallaCargando);
-                //plataforma.setScreen(new CargandoMiniGame1(plataforma));
                 //plataforma.setScreen(new CargandoMGDos(plataforma));
             } else if (btnAbout.contiene(x,y)){
                 Gdx.input.setInputProcessor(null);
