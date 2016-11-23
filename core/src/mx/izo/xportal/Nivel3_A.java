@@ -175,6 +175,13 @@ public class Nivel3_A implements Screen{
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
     private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
 
+    //Implementando el ganado
+    private Texture pantallaGanado;
+    private Boton btnPantallaGanando;
+    private Texture btnMenuG;
+    private Boton btnMenuGa;
+
+
     public Nivel3_A(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
@@ -404,6 +411,12 @@ public class Nivel3_A implements Screen{
         btnMenuP = new Boton(texturaMenuP);
         btnMenuP.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
 
+        //Implementado Ganado
+        pantallaGanado = assetManager.get("GanarJuego.jpg");
+        btnPantallaGanando = new Boton(pantallaGanado);
+        btnMenuG = assetManager.get("back.png");
+        btnMenuGa = new Boton(btnMenuG);
+
     }
 
     /*
@@ -415,7 +428,22 @@ public class Nivel3_A implements Screen{
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
 
-        if (!banderaPausa && !haPerdio) {
+        if(estadoJuego == EstadosJuego.GANOI){
+            // Dibujar
+            borrarPantalla();
+
+            batch.setProjectionMatrix(camara.combined);
+
+            batch.begin();
+
+            btnPantallaGanando.render(batch);
+            btnMenuGa.render(batch);
+
+
+            batch.end();
+
+        }
+        else if (!banderaPausa && !haPerdio) {
             //barra vidas pregunta cuantas existen
             float barraSizeOriginal = spriteVidas.getWidth();
             float barraSizeActual = 0;
@@ -1000,7 +1028,7 @@ public class Nivel3_A implements Screen{
 
         if ( capaPlataforma1.getCell(celdaX,celdaY) != null || capaPlataforma1.getCell(celdaX,celdaY+1) != null ) {
             if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) && llaveA ) {
-                sonidoPierde.play();
+                /*sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 //dispose();
                 Timer.schedule(new Timer.Task() {
@@ -1028,12 +1056,13 @@ public class Nivel3_A implements Screen{
                         pantallaCargando.setNivel("MiniGame1");
                         plataforma.setScreen(pantallaCargando);
                     }
-                }, 1);  // 3 segundos
+                }, 1);  // 3 segundos*/
+                estadoJuego = EstadosJuego.GANOI;
             }
         }
         if ( capaPlataforma2.getCell(celdaX,celdaY) != null || capaPlataforma2.getCell(celdaX,celdaY+1) != null ) {
             if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) && llaveB) {
-                Gdx.input.setInputProcessor(null);
+                /*Gdx.input.setInputProcessor(null);
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
                 //dispose();
@@ -1060,7 +1089,8 @@ public class Nivel3_A implements Screen{
                         pantallaCargando.setNivel("MiniGame1");
                         plataforma.setScreen(pantallaCargando);
                     }
-                }, 1);  // 3 segundos
+                }, 1);  // 3 segundos*/
+                estadoJuego = EstadosJuego.GANOI;
             }
         }
         mario.actualizar();
@@ -1261,6 +1291,7 @@ public class Nivel3_A implements Screen{
         assetManager.unload("pistola.mp3");
         assetManager.unload("retrocarga.wav");
         assetManager.unload("Mute.mp3");
+        assetManager.unload("GanarJuego.jpg");
     }
 
 
@@ -1396,6 +1427,15 @@ public class Nivel3_A implements Screen{
                     plataforma.setScreen(new Menu(plataforma));
                 }
             }
+            else if(estadoJuego == EstadosJuego.GANOI){
+                if(btnMenuGa.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.dispose();
+                    dispose();
+                    plataforma.setScreen(new Menu(plataforma));
+                }
+
+            }
             return true;    // Indica que ya procesó el evento
         }
 
@@ -1444,7 +1484,8 @@ public class Nivel3_A implements Screen{
         JUGANDO,
         PAUSADO,
         PERDIO,
-        PERDIOI
+        PERDIOI,
+        GANOI
     }
 
 }

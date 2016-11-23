@@ -66,6 +66,19 @@ public class Menu implements Screen {
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
     private boolean estadoSonido = sonidos.getBoolean("estadoSonidos");
 
+
+    //Implementando pantalla seguridad
+    private Texture texturaPantallaExit;
+    private Texture texturaAprobado;
+    private Texture texturaRechazo;
+
+    private Boton btnPantallaExit;
+    private Boton btnAporbar;
+    private Boton btnRechazar;
+
+    private EstadosPantalla estadoPantalla;
+
+
     public Menu(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
@@ -89,6 +102,8 @@ public class Menu implements Screen {
         // Indicar el objeto que atiende los eventos de touch (entrada en general)
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
+        estadoPantalla = EstadosPantalla.NORMAL;
+
         // Tecla BACK (Android)
         Gdx.input.setCatchBackKey(true);
     }
@@ -106,6 +121,8 @@ public class Menu implements Screen {
         assetManager.load("BtmPremios.png",Texture.class);
         assetManager.load("BtmSettings.png",Texture.class);
         assetManager.load("BtmExit.png",Texture.class);
+        assetManager.load("PantallaExit.png",Texture.class);
+        assetManager.load("BtmOk.png",Texture.class);
 
 
         // Se bloquea hasta que cargue todos los recursos
@@ -164,6 +181,17 @@ public class Menu implements Screen {
         else{
             musicFondo.stop();
         }
+
+        //Implementando pantalla de seguridad
+        texturaPantallaExit = assetManager.get("PantallaExit.png");
+        texturaAprobado = assetManager.get("BtmOk.png");
+        texturaRechazo = assetManager.get("BtmExit.png");
+
+        btnPantallaExit = new Boton(texturaPantallaExit);
+        btnAporbar = new Boton (texturaAprobado);
+        btnAporbar.setPosicion(Plataforma.ANCHO_CAMARA/2-250,Plataforma.ALTO_CAMARA/2-150);
+        btnRechazar = new Boton (texturaRechazo);
+        btnRechazar.setPosicion(Plataforma.ANCHO_CAMARA/2+200,Plataforma.ALTO_CAMARA/2-150);
     }
 
     /*
@@ -172,22 +200,40 @@ public class Menu implements Screen {
      */
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
+        if(!(estadoPantalla == EstadosPantalla.SALIENDO)){
+            // Dibujar
+            borrarPantalla();
 
-        // Dibujar
-        borrarPantalla();
+            batch.setProjectionMatrix(camara.combined);
 
-        batch.setProjectionMatrix(camara.combined);
+            // Entre begin-end dibujamos nuestros objetos en pantalla
+            batch.begin();
 
-        // Entre begin-end dibujamos nuestros objetos en pantalla
-        batch.begin();
+            batch.draw(texturaMenu, 0, 0);
+            btnAbout.render(batch);
+            btnPlay.render(batch);
+            btnScore.render(batch);
+            btnSettings.render(batch);
+            btnExit.render(batch);
+            batch.end();
+        }
+        else{
+            borrarPantalla();
 
-        batch.draw(texturaMenu, 0, 0);
-        btnAbout.render(batch);
-        btnPlay.render(batch);
-        btnScore.render(batch);
-        btnSettings.render(batch);
-        btnExit.render(batch);
-        batch.end();
+            batch.setProjectionMatrix(camara.combined);
+
+            batch.begin();
+            batch.draw(texturaMenu, 0, 0);
+            btnAbout.render(batch);
+            btnPlay.render(batch);
+            btnScore.render(batch);
+            btnSettings.render(batch);
+
+            btnPantallaExit.render(batch);
+            btnAporbar.render(batch);
+            btnRechazar.render(batch);
+            batch.end();
+        }
     }
 
     private void borrarPantalla() {
@@ -226,6 +272,8 @@ public class Menu implements Screen {
         assetManager.unload("BtmSettings.png");
         assetManager.unload("BtmPremios.png");
         assetManager.unload("BtmExit.png");
+        assetManager.unload("PantallaExit.png");
+        assetManager.unload("BtmOk.png");
 
     }
 
@@ -267,61 +315,76 @@ public class Menu implements Screen {
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
+            if(estadoPantalla == EstadosPantalla.NORMAL) {
+                if (btnPlay.contiene(x, y)) {
+                    musicFondo.dispose();
+                    //dispose();
+                    Gdx.input.setInputProcessor(null);
+                    pantallaCargando = new PantallaCargando(plataforma);
+                    if (niveles.contains("MiniGame1")) {
+                        pantallaCargando.setNivel("MiniGame1");
+                    } else if (niveles.contains(("MiniGame2"))) {
+                        pantallaCargando.setNivel("MiniGame2");
+                    } else if (niveles.contains(("Nivel2_A"))) {
+                        pantallaCargando.setNivel("Nivel2_A");
+                    } else if (niveles.contains(("Nivel2_B"))) {
+                        pantallaCargando.setNivel("Nivel2_B");
+                    } else if (niveles.contains(("Nivel3_A"))) {
+                        pantallaCargando.setNivel("Nivel3_A");
+                    } else {
+                        pantallaCargando.setNivel("Nivel3_A");
+                    }
+                    plataforma.setScreen(pantallaCargando);
+                    //plataforma.setScreen(new CargandoMGDos(plataforma));
+                } else if (btnAbout.contiene(x, y)) {
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.stop();
+                    musicFondo.dispose();
+                    dispose();
+                    plataforma.setScreen(new AcercaDe(plataforma));
+                } else if (btnScore.contiene(x, y)) {
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.stop();
+                    musicFondo.dispose();
+                    dispose();
+                    plataforma.setScreen(new PScore(plataforma));
+                } else if (btnSettings.contiene(x, y)) {
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.stop();
+                    musicFondo.dispose();
+                    dispose();
+                    plataforma.setScreen(new PSettings(plataforma));
+                } else if (btnExit.contiene(x, y)) {
+                    //plataforma.setScreen(new CargandoMGDos(plataforma));
 
-            if (btnPlay.contiene(x,y)){
-                musicFondo.dispose();
-                //dispose();
-                Gdx.input.setInputProcessor(null);
-                pantallaCargando=new PantallaCargando(plataforma);
-                if(niveles.contains("MiniGame1")){
-                    pantallaCargando.setNivel("MiniGame1");
-                }else if(niveles.contains(("MiniGame2"))){
+                    /*Gdx.input.setInputProcessor(null);
+                    pantallaCargando=new PantallaCargando(plataforma);
                     pantallaCargando.setNivel("MiniGame2");
-                }else if(niveles.contains(("Nivel2_A"))){
-                    pantallaCargando.setNivel("Nivel2_A");
-                }else if(niveles.contains(("Nivel2_B"))){
-                    pantallaCargando.setNivel("Nivel2_B");
-                }else if(niveles.contains(("Nivel3_A"))){
-                    pantallaCargando.setNivel("Nivel3_A");
-                }
-                else{
-                    pantallaCargando.setNivel("Nivel1");
-                }
-                plataforma.setScreen(pantallaCargando);
-                //plataforma.setScreen(new CargandoMGDos(plataforma));
-            } else if (btnAbout.contiene(x,y)){
-                Gdx.input.setInputProcessor(null);
-                musicFondo.stop();
-                musicFondo.dispose();
-                dispose();
-                plataforma.setScreen(new AcercaDe(plataforma));
-            } else if(btnScore.contiene(x,y)){
-                Gdx.input.setInputProcessor(null);
-                musicFondo.stop();
-                musicFondo.dispose();
-                dispose();
-                plataforma.setScreen(new PScore(plataforma));
-            } else if (btnSettings.contiene(x,y)){
-                Gdx.input.setInputProcessor(null);
-                musicFondo.stop();
-                musicFondo.dispose();
-                dispose();
-                plataforma.setScreen(new PSettings(plataforma));
-            }else if (btnExit.contiene(x,y)){
-                //plataforma.setScreen(new CargandoMGDos(plataforma));
+                    plataforma.setScreen(pantallaCargando);*/
 
-                /*Gdx.input.setInputProcessor(null);
-                pantallaCargando=new PantallaCargando(plataforma);
-                pantallaCargando.setNivel("MiniGame2");
-                plataforma.setScreen(pantallaCargando);*/
-
-                Gdx.input.setInputProcessor(null);
-                musicFondo.stop();
-                musica.clear();
-                musica.flush();
-                sonidos.clear();
-                sonidos.flush();
-                System.exit(0);
+                    /*Gdx.input.setInputProcessor(null);
+                    musicFondo.stop();
+                    musica.clear();
+                    musica.flush();
+                    sonidos.clear();
+                    sonidos.flush();
+                    System.exit(0);*/
+                    estadoPantalla = EstadosPantalla.SALIENDO;
+                }
+            }
+            else if(estadoPantalla == EstadosPantalla.SALIENDO){
+                if(btnAporbar.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.stop();
+                    musica.clear();
+                    musica.flush();
+                    sonidos.clear();
+                    sonidos.flush();
+                    System.exit(0);
+                }
+                if(btnRechazar.contiene(x,y)){
+                    estadoPantalla = EstadosPantalla.NORMAL;
+                }
             }
             return true;    // Indica que ya procesó el evento
         }
@@ -344,5 +407,10 @@ public class Menu implements Screen {
             x = coordenadas.x;
             y = coordenadas.y;
         }
+    }
+
+    public enum EstadosPantalla {
+        SALIENDO,
+        NORMAL
     }
 }

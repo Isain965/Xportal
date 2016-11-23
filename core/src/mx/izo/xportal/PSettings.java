@@ -69,6 +69,17 @@ public class PSettings implements Screen {
     private Music musicFondo;
 
 
+    //Implementando pantalla seguridad
+    private Texture texturaPantallaExit;
+    private Texture texturaAprobado;
+    private Texture texturaRechazo;
+
+    private Boton btnPantallaExit;
+    private Boton btnAporbar;
+    private Boton btnRechazar;
+
+    private EstadosPantalla estadoPantalla;
+
     public PSettings(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
@@ -91,6 +102,8 @@ public class PSettings implements Screen {
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
+        estadoPantalla = EstadosPantalla.NORMAL;
+
         // Tecla BACK (Android)
         Gdx.input.setCatchBackKey(true);
 
@@ -110,6 +123,10 @@ public class PSettings implements Screen {
         assetManager.load("BtmMusic.png", Texture.class);
         assetManager.load("BtmSonidoF.png", Texture.class);
         assetManager.load("BtmMusicF.png", Texture.class);
+
+        assetManager.load("PantallaReset.png",Texture.class);
+        assetManager.load("BtmOk.png",Texture.class);
+        assetManager.load("BtmExit.png",Texture.class);
 
         //Textura boton reset
         assetManager.load("reset.png",Texture.class);
@@ -184,6 +201,17 @@ public class PSettings implements Screen {
         btnReset = new Boton(texturaBtnReset);
         btnReset.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
         btnReset.setAlfa(0.7f);
+
+        //Implementando pantalla de seguridad
+        texturaPantallaExit = assetManager.get("PantallaReset.png");
+        texturaAprobado = assetManager.get("BtmOk.png");
+        texturaRechazo = assetManager.get("BtmExit.png");
+
+        btnPantallaExit = new Boton(texturaPantallaExit);
+        btnAporbar = new Boton (texturaAprobado);
+        btnAporbar.setPosicion(Plataforma.ANCHO_CAMARA/2-250,Plataforma.ALTO_CAMARA/2-150);
+        btnRechazar = new Boton (texturaRechazo);
+        btnRechazar.setPosicion(Plataforma.ANCHO_CAMARA/2+200,Plataforma.ALTO_CAMARA/2-150);
     }
 
     /*
@@ -192,51 +220,105 @@ public class PSettings implements Screen {
      */
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
+        if(!(estadoPantalla==EstadosPantalla.RESETENADO)){
+            // Dibujar
+            borrarPantalla();
 
-        // Dibujar
-        borrarPantalla();
+            batch.setProjectionMatrix(camara.combined);
 
-        batch.setProjectionMatrix(camara.combined);
-
-        // Entre begin-end dibujamos nuestros objetos en pantalla
-        batch.begin();
+            // Entre begin-end dibujamos nuestros objetos en pantalla
+            batch.begin();
 
 
-        batch.draw(texturaAcercaDe, 0, 0);
+            batch.draw(texturaAcercaDe, 0, 0);
 
-        //DibujarBotones
-        btnRegresar.render(batch);
-        btnReset.render(batch);
-        if(estadoMusica) {
-            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 70);
-            btnMusicaT.setAlfa(0.9f);
-            btnMusicaT.render(batch);
-            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 70);
-            btnMusicaF.setAlfa(0.9f);
+            //DibujarBotones
+            btnRegresar.render(batch);
+            btnReset.render(batch);
+            if(estadoMusica) {
+                btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnMusicaT.setAlfa(0.9f);
+                btnMusicaT.render(batch);
+                btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnMusicaF.setAlfa(0.9f);
 
-        }else {
-            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 70);
-            btnMusicaT.setAlfa(0.9f);
-            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 70);
-            btnMusicaF.render(batch);
-            btnMusicaF.setAlfa(0.9f);
+            }else {
+                btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnMusicaT.setAlfa(0.9f);
+                btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnMusicaF.render(batch);
+                btnMusicaF.setAlfa(0.9f);
+            }
+            if(estadoSonidos) {
+                btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnSonidoT.setAlfa(0.9f);
+                btnSonidoT.render(batch);
+                btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnSonidoF.setAlfa(0.9f);
+            }else{
+                btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnSonidoT.setAlfa(0.9f);
+                btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnSonidoF.render(batch);
+                btnSonidoF.setAlfa(0.9f);
+            }
+
+
+            batch.end();
         }
-        if(estadoSonidos) {
-            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 70);
-            btnSonidoT.setAlfa(0.9f);
-            btnSonidoT.render(batch);
-            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 70);
-            btnSonidoF.setAlfa(0.9f);
-        }else{
-            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 70);
-            btnSonidoT.setAlfa(0.9f);
-            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 70);
-            btnSonidoF.render(batch);
-            btnSonidoF.setAlfa(0.9f);
+        else {
+            borrarPantalla();
+
+            batch.setProjectionMatrix(camara.combined);
+
+            // Entre begin-end dibujamos nuestros objetos en pantalla
+            batch.begin();
+
+
+            batch.draw(texturaAcercaDe, 0, 0);
+
+            //DibujarBotones
+            btnRegresar.render(batch);
+            btnReset.render(batch);
+            if(estadoMusica) {
+                btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnMusicaT.setAlfa(0.9f);
+                btnMusicaT.render(batch);
+                btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnMusicaF.setAlfa(0.9f);
+
+            }else {
+                btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnMusicaT.setAlfa(0.9f);
+                btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnMusicaF.render(batch);
+                btnMusicaF.setAlfa(0.9f);
+            }
+            if(estadoSonidos) {
+                btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnSonidoT.setAlfa(0.9f);
+                btnSonidoT.render(batch);
+                btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnSonidoF.setAlfa(0.9f);
+            }else{
+                btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnSonidoT.setAlfa(0.9f);
+                btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 70);
+                btnSonidoF.render(batch);
+                btnSonidoF.setAlfa(0.9f);
+            }
+
+
+
+
+
+            btnPantallaExit.render(batch);
+            btnAporbar.render(batch);
+            btnRechazar.render(batch);
+            batch.end();
+
+
         }
-
-
-        batch.end();
     }
 
     private void borrarPantalla() {
@@ -271,6 +353,9 @@ public class PSettings implements Screen {
         AssetManager assetManager = plataforma.getAssetManager();
         assetManager.unload("SettingsDef.png");
         assetManager.unload("back.png");
+        assetManager.unload("BtmOk.png");
+        assetManager.unload("BtmExit.png");
+        assetManager.unload("PantallaReset.png");
     }
 
     /*
@@ -312,45 +397,55 @@ public class PSettings implements Screen {
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
+            if(estadoPantalla == EstadosPantalla.NORMAL){
+                if (btnRegresar.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.dispose();
+                    plataforma.setScreen(new Menu(plataforma));
+                }else if(btnSonidoT.contiene(x,y)){
+                    estadoSonidos = false;
+                    sonidos.clear();
+                    sonidos.putBoolean("estadoSonidos",false);
+                    sonidos.flush();
+                }
+                else if(btnSonidoF.contiene(x,y)){
+                    estadoSonidos = true;
+                    sonidos.clear();
+                    sonidos.putBoolean("estadoSonidos",true);
+                    sonidos.flush();
+                }else if(btnMusicaT.contiene(x,y)){
+                    estadoMusica=false;
+                    musica.clear();
+                    musica.putBoolean("estadoMusica",false);
+                    musica.flush();
+                    musicFondo.pause();
+                } else if(btnMusicaF.contiene(x,y)){
+                    estadoMusica = true;
+                    musica.clear();
+                    musica.putBoolean("estadoMusica",true);
+                    musica.flush();
+                    musicFondo.play();
+                }else if (btnReset.contiene(x,y)) {
+                    Gdx.app.log("HHO","FASAD");
+                    estadoPantalla = EstadosPantalla.RESETENADO;
+                }
+            }else if(estadoPantalla == EstadosPantalla.RESETENADO){
+                if(btnAporbar.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
+                    niveles.clear();
+                    niveles.flush();
+                    musica.clear();
+                    musica.flush();
+                    score.clear();
+                    score.flush();
+                    musicFondo.dispose();
+                    plataforma.setScreen(new Menu(plataforma));
+                }
+                if(btnRechazar.contiene(x,y)){
+                    estadoPantalla = EstadosPantalla.NORMAL;
+                }
+            }
 
-            if (btnRegresar.contiene(x,y)){
-                Gdx.input.setInputProcessor(null);
-                musicFondo.dispose();
-                plataforma.setScreen(new Menu(plataforma));
-            }else if(btnSonidoT.contiene(x,y)){
-                estadoSonidos = false;
-                sonidos.clear();
-                sonidos.putBoolean("estadoSonidos",false);
-                sonidos.flush();
-            }
-            else if(btnSonidoF.contiene(x,y)){
-                estadoSonidos = true;
-                sonidos.clear();
-                sonidos.putBoolean("estadoSonidos",true);
-                sonidos.flush();
-            }else if(btnMusicaT.contiene(x,y)){
-                estadoMusica=false;
-                musica.clear();
-                musica.putBoolean("estadoMusica",false);
-                musica.flush();
-                musicFondo.pause();
-            } else if(btnMusicaF.contiene(x,y)){
-                estadoMusica = true;
-                musica.clear();
-                musica.putBoolean("estadoMusica",true);
-                musica.flush();
-                musicFondo.play();
-            }else if (btnReset.contiene(x,y)){
-                Gdx.input.setInputProcessor(null);
-                niveles.clear();
-                niveles.flush();
-                musica.clear();
-                musica.flush();
-                score.clear();
-                score.flush();
-                musicFondo.dispose();
-                plataforma.setScreen(new Menu(plataforma));
-            }
             return true;    // Indica que ya procesó el evento
         }
 
@@ -372,5 +467,9 @@ public class PSettings implements Screen {
             x = coordenadas.x;
             y = coordenadas.y;
         }
+    }
+    public enum EstadosPantalla {
+        RESETENADO,
+        NORMAL
     }
 }
