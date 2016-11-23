@@ -132,7 +132,7 @@ public class Nivel2_B implements Screen{
     private EstadosJuego estadoJuego;
 
     ArrayList<Bala> balas = new ArrayList<Bala>();
-    ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
+    ArrayList<EnemigoCalabaza> enemigos = new ArrayList<EnemigoCalabaza>();
     ArrayList<EnemigoV> enemigosV = new ArrayList<EnemigoV>();
     //Balas enemigos
     ArrayList<Bala> balasEnemigos = new ArrayList<Bala>();
@@ -278,20 +278,20 @@ public class Nivel2_B implements Screen{
 
 
         texturaBala = assetManager.get("bullet.png");
-        texturaBalaEmbudo = assetManager.get("balaEmbudo.png");
-        texturaBalaPlanta = assetManager.get("balaPlanta.png");
+        texturaBalaEmbudo = assetManager.get("Arania.png");
+        texturaBalaPlanta = assetManager.get("BalaCalabaza.png");
 
         //vidas=assetManager.get("pil.png");
         //vidas.draw(plataforma,100,100);
 
-        texturaEnemigo = assetManager.get("Planta.png");
+        texturaEnemigo = assetManager.get("ECalabaza.png");
         texturaEnemigo2 = assetManager.get("embudo.png");
 
-        Enemigo enemigo1 = new Enemigo(texturaEnemigo);
+        EnemigoCalabaza enemigo1 = new EnemigoCalabaza(texturaEnemigo);
         enemigo1.setPosicion(1142,20);
-        Enemigo enemigo2 = new Enemigo(texturaEnemigo);
+        EnemigoCalabaza enemigo2 = new EnemigoCalabaza(texturaEnemigo);
         enemigo2.setPosicion(2284,20);
-        Enemigo enemigo3 = new Enemigo(texturaEnemigo);
+        EnemigoCalabaza enemigo3 = new EnemigoCalabaza(texturaEnemigo);
         enemigo3.setPosicion(3426,20);
         enemigos.add(enemigo1);
         enemigos.add(enemigo2);
@@ -301,11 +301,11 @@ public class Nivel2_B implements Screen{
 
 
         EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
-        enemigoV1.setPosicion(571,855);
+        enemigoV1.setPosicion(571,990);
         EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
-        enemigoV2.setPosicion(2000,855);
+        enemigoV2.setPosicion(2000,990);
         EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
-        enemigoV3.setPosicion(2855,855);
+        enemigoV3.setPosicion(2855,990);
         enemigosV.add(enemigoV1);
         enemigosV.add(enemigoV2);
         enemigosV.add(enemigoV3);
@@ -488,14 +488,14 @@ public class Nivel2_B implements Screen{
 
                     if ((mario.getX() >= enemigoV.getX() - rango) && (mario.getX() <= enemigoV.getX()) && (int) tiempoJuego == (tiempoDisparo/2) && banderaDisparo) {
                         BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
-                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setDireccion(-5);
                         balaEnJuego.setPosicion(enemigoV.getX()+41, enemigoV.getY() + 50);
                         balasEnemigosV.add(balaEnJuego);
                         banderaDisparo = false;
                         tiempoJuego = 0;
                     } else if ((mario.getX() > enemigoV.getX()) && (mario.getX() <= enemigoV.getX() + rango) && (int) tiempoJuego == (tiempoDisparo/2) && banderaDisparo) {
                         BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
-                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setDireccion(-5);
                         balaEnJuego.setPosicion(enemigoV.getX() + 41, enemigoV.getY() + 50);
                         balasEnemigosV.add(balaEnJuego);
                         banderaDisparo = false;
@@ -535,7 +535,7 @@ public class Nivel2_B implements Screen{
                     enemigoV.setPosicion(0, 2000);
                 }
             }
-            for (Enemigo enemigo : enemigos) {
+            for (EnemigoCalabaza enemigo : enemigos) {
                 if (enemigo.getVidas() > 0) {
                     enemigo.render(batch);
 
@@ -622,7 +622,7 @@ public class Nivel2_B implements Screen{
 
             //Elimina a enemigos planta
             for (int i = 0; i < enemigos.size(); i++) {
-                Enemigo enemigo = enemigos.get(i);
+                EnemigoCalabaza enemigo = enemigos.get(i);
                 if (enemigo.getY() == 2000) {
                     enemigos.remove(i);
                 }
@@ -749,7 +749,7 @@ public class Nivel2_B implements Screen{
                     enemigoV.setPosicion(0, 2000);
                 }
             }
-            for (Enemigo enemigo : enemigos) {
+            for (EnemigoCalabaza enemigo : enemigos) {
                 if (enemigo.getVidas() > 0) {
                     enemigo.render(batch);
 
@@ -1245,9 +1245,9 @@ public class Nivel2_B implements Screen{
         assetManager.unload("shoot.png");
         assetManager.unload("bullet.png");
         assetManager.unload("embudo.png");
-        assetManager.unload("Planta.png");
-        assetManager.unload("balaPlanta.png");
-        assetManager.unload("balaEmbudo.png");
+        assetManager.unload("ECalabaza.png");
+        assetManager.unload("BalaCalabaza.png");
+        assetManager.unload("Arania.png");
         assetManager.unload("BtmPausa.png");
 
         //Para la pausa
