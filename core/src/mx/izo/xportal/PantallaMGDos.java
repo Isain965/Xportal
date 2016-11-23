@@ -599,29 +599,29 @@ public class PantallaMGDos implements Screen
                 btnMenu.render(batch);
                 btnMenu.setAlfa(0.9f);
                 if(estadoMusica) {
-                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaT.setPosicion(ANCHO_MAPA / 2 + 150, ALTO_MAPA / 2 - 180);
                     btnMusicaT.setAlfa(0.9f);
                     btnMusicaT.render(batch);
-                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaF.setPosicion(ANCHO_MAPA / 2 + 250, ALTO_MAPA / 2 - 180);
                     btnMusicaF.setAlfa(0.9f);
 
                 }else {
-                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaT.setPosicion(ANCHO_MAPA / 2 + 250, ALTO_MAPA / 2 - 180);
                     btnMusicaT.setAlfa(0.9f);
-                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnMusicaF.setPosicion(ANCHO_MAPA / 2 + 150, ALTO_MAPA / 2 - 180);
                     btnMusicaF.render(batch);
                     btnMusicaF.setAlfa(0.9f);
                 }
                 if(estadoSonidos) {
-                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoT.setPosicion(ANCHO_MAPA / 2 - 250, ALTO_MAPA / 2 - 180);
                     btnSonidoT.setAlfa(0.9f);
                     btnSonidoT.render(batch);
-                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoF.setPosicion(ANCHO_MAPA / 2 - 350, ALTO_MAPA / 2 - 180);
                     btnSonidoF.setAlfa(0.9f);
                 }else{
-                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoT.setPosicion(ANCHO_MAPA / 2 - 350, ALTO_MAPA / 2 - 180);
                     btnSonidoT.setAlfa(0.9f);
-                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+                    btnSonidoF.setPosicion(ANCHO_MAPA / 2 - 250, ALTO_MAPA / 2 - 180);
                     btnSonidoF.render(batch);
                     btnSonidoF.setAlfa(0.9f);
                 }
