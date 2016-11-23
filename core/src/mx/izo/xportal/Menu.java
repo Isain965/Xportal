@@ -332,7 +332,7 @@ public class Menu implements Screen {
                     } else if (niveles.contains(("Nivel3_A"))) {
                         pantallaCargando.setNivel("Nivel3_A");
                     } else {
-                        pantallaCargando.setNivel("Nivel3_A");
+                        pantallaCargando.setNivel("Nivel1");
                     }
                     plataforma.setScreen(pantallaCargando);
                     //plataforma.setScreen(new CargandoMGDos(plataforma));

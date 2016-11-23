@@ -416,6 +416,7 @@ public class Nivel3_A implements Screen{
         btnPantallaGanando = new Boton(pantallaGanado);
         btnMenuG = assetManager.get("back.png");
         btnMenuGa = new Boton(btnMenuG);
+        btnMenuGa.setPosicion(Plataforma.ANCHO_CAMARA/2,100);
 
     }
 
@@ -1127,7 +1128,18 @@ public class Nivel3_A implements Screen{
         capaPlataforma.setCell(70,25,null);
         capaPlataforma.setCell(70,26,null);
         capaPlataforma.setCell(70,27,null);
-        llaveB = true;
+
+        TiledMapTileLayer capaPlataforma1 = (TiledMapTileLayer) mapa.getLayers().get(3);
+        capaPlataforma1.setVisible(false);
+        capaPlataforma1 = (TiledMapTileLayer) mapa.getLayers().get(4);
+        capaPlataforma1.setVisible(true);
+
+        TiledMapTileLayer capaPlataforma2 = (TiledMapTileLayer) mapa.getLayers().get(5);
+        capaPlataforma2.setVisible(false);
+        capaPlataforma2 = (TiledMapTileLayer) mapa.getLayers().get(6);
+        capaPlataforma2.setVisible(true);
+
+        llaveA = true;
 
     }
 
@@ -1152,10 +1164,10 @@ public class Nivel3_A implements Screen{
     }
     private void eliminarPistolita() {
         TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
-        capaPlataforma.setCell(8,12,null);
-        capaPlataforma.setCell(8,11,null);
-        capaPlataforma.setCell(9,12,null);
-        capaPlataforma.setCell(9,11,null);
+        capaPlataforma.setCell(23,25,null);
+        capaPlataforma.setCell(23,26,null);
+        capaPlataforma.setCell(24,25,null);
+        capaPlataforma.setCell(24,26,null);
     }
 
 
@@ -1312,7 +1324,7 @@ public class Nivel3_A implements Screen{
 
         @Override
         public boolean keyDown(int keycode) {
-            if (keycode== Input.Keys.BACK) {
+            if (keycode== Input.Keys.BACK && !(estadoJuego==EstadosJuego.GANOI)) {
                 if(!(estadoJuego == EstadosJuego.PAUSADO)) {
                     estadoJuego = EstadosJuego.PAUSADO;
                     banderaPausa = true;
