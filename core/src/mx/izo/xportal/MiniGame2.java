@@ -475,6 +475,7 @@ public class MiniGame2 implements Screen{
                 niveles.flush();
                 pantallaCargando = new PantallaCargando(plataforma);
                 pantallaCargando.setNivel("Nivel3_A");
+                plataforma.setScreen(pantallaCargando);
             }
             //barra vidas pregunta cuantas existen
             float barraSizeOriginal = spriteVidas.getWidth();
@@ -1393,7 +1394,7 @@ public class MiniGame2 implements Screen{
                     bala.setVelocidadX(5);
                     bala.setPosicion(mario.getX(),mario.getY()+30);
                     if(banderaDireccion){
-                        bala.setDireccion(-10);
+                        bala.setDireccion(10);
                         balas.add(bala);
                     }else {
                         bala.setDireccion(10);
