@@ -293,7 +293,7 @@ public class MiniGame2 implements Screen{
         alien2 = assetManager.get("alien2.png");
         alien3 = assetManager.get("alien3.png");
 
-        Enemigo enemigo1 = new Enemigo(texturaEnemigo);
+        /*Enemigo enemigo1 = new Enemigo(texturaEnemigo);
         enemigo1.setPosicion(1142,20);
         Enemigo enemigo2 = new Enemigo(texturaEnemigo);
         enemigo2.setPosicion(2284,20);
@@ -303,7 +303,7 @@ public class MiniGame2 implements Screen{
         enemigos.add(enemigo2);
         enemigos.add(enemigo3);
         balaAnterior = new Bala(texturaBalaPlanta);
-        balaAnterior.setPosicion(enemigo1.getX(),641);
+        balaAnterior.setPosicion(enemigo1.getX(),641);*/
 
         EnemigoV enemigoV1 = new EnemigoV(alien1,2);
         //enemigoV1 = new EnemigoV(alien1,2);
@@ -345,7 +345,7 @@ public class MiniGame2 implements Screen{
         enemigosV.add(enemigoV11);
         enemigosV.add(enemigoV12);
         balaAnteriorV = new Bala(texturaBalaEmbudo);
-        balaAnteriorV.setPosicion(enemigo1.getX(),641);
+        balaAnteriorV.setPosicion(enemigoV1.getX(),641);
 
 
         // Efecto moneda
