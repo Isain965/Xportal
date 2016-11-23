@@ -281,6 +281,8 @@ public class Menu implements Screen {
                     pantallaCargando.setNivel("Nivel2_A");
                 }else if(niveles.contains(("Nivel2_B"))){
                     pantallaCargando.setNivel("Nivel2_B");
+                }else if(niveles.contains(("Nivel3_A"))){
+                    pantallaCargando.setNivel("Nivel3_A");
                 }
                 else{
                     pantallaCargando.setNivel("Nivel1");
