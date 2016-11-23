@@ -149,7 +149,8 @@ public class CargandoMGDos implements Screen
 
         if (assetManager.update()) {
             // Terminó la carga, cambiar de pantalla
-            plataforma.setScreen(new PantallaMGDos(plataforma));
+            //plataforma.setScreen(new PantallaMGDos(plataforma));
+            plataforma.setScreen(new MiniGame2(plataforma));
         } else {
             // Aún no termina la carga de assets, leer el avance
             float avance = assetManager.getProgress()*100;
