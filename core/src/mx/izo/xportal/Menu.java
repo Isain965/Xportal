@@ -310,18 +310,18 @@ public class Menu implements Screen {
             }else if (btnExit.contiene(x,y)){
                 //plataforma.setScreen(new CargandoMGDos(plataforma));
 
-                Gdx.input.setInputProcessor(null);
-                pantallaCargando=new PantallaCargando(plataforma);
-                pantallaCargando.setNivel("MiniGame2");
-                plataforma.setScreen(pantallaCargando);
-
                 /*Gdx.input.setInputProcessor(null);
+                pantallaCargando=new PantallaCargando(plataforma);
+                pantallaCargando.setNivel("Nivel3_A");
+                plataforma.setScreen(pantallaCargando);*/
+
+                Gdx.input.setInputProcessor(null);
                 musicFondo.stop();
                 musica.clear();
                 musica.flush();
                 sonidos.clear();
                 sonidos.flush();
-                System.exit(0);*/
+                System.exit(0);
             }
             return true;    // Indica que ya procesó el evento
         }

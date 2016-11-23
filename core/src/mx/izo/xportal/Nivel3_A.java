@@ -107,6 +107,12 @@ public class Nivel3_A implements Screen{
     private Boton btnGana;
     private Sound sonidoPierde, sonidoVida;
 
+    //Gana definitivamente
+    private Texture texturaGana1;
+    private Boton btnGana1;
+    private Texture texturaGana2;
+    private Boton btnGana2;
+
     //textura barra de vidas
     private Texture texturaVidas;
     private Texture texturaVidasF;
@@ -271,6 +277,12 @@ public class Nivel3_A implements Screen{
         btnGana = new Boton(texturaGana);
         btnGana.setPosicion(Plataforma.ANCHO_CAMARA/2-btnGana.getRectColision().width/2,Plataforma.ALTO_CAMARA/2-btnGana.getRectColision().height/2);
         btnGana.setAlfa(0.7f);
+
+        //Gana Definitivamente
+        texturaGana1 = assetManager.get("gana1.jpg");
+        texturaGana2 = assetManager.get("gana2.jpg");
+        btnGana1 = new Boton(texturaGana1);
+        btnGana2 = new Boton(texturaGana2);
 
 
         texturaBala = assetManager.get("bullet.png");
@@ -667,6 +679,22 @@ public class Nivel3_A implements Screen{
             }
             batch.end();
 
+        }else if(estadoJuego == EstadosJuego.GANOS){
+            Gdx.app.log("Nigs","yeah");
+            borrarPantalla();
+
+            batch.setProjectionMatrix(camara.combined);
+
+            tiempoJuego += Gdx.graphics.getDeltaTime();
+            batch.begin();
+            // ¿Ya ganó?
+            if((int)tiempoJuego < 2) {
+                btnGana1.render(batch);
+            }else {
+                btnGana2.render(batch);
+                btnMenuP.render(batch);
+            }
+            batch.begin();
         }
 
         //CUANDO ESTA EN PAUSA
@@ -1000,33 +1028,24 @@ public class Nivel3_A implements Screen{
 
         if ( capaPlataforma1.getCell(celdaX,celdaY) != null || capaPlataforma1.getCell(celdaX,celdaY+1) != null ) {
             if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) && llaveA ) {
+            //if(true){//prueba gana
                 sonidoPierde.play();
-                estadoJuego = EstadosJuego.PERDIO;
+                //estadoJuego = EstadosJuego.PERDIO;
+                estadoJuego = EstadosJuego.GANOS;
+                Gdx.app.log("gas","pas");
+
+                borrarPantalla();
+
                 //dispose();
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+
                         Gdx.input.setInputProcessor(null);
                         musicFondo.dispose();
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
-                        //Actualizar preferencias
-                        int scoreA = score.getInteger("theBest",0);
-                        if(estrellas>scoreA){
-                            score.clear();
-                            score.putInteger("theBest",estrellas);
-                            score.flush();
-                        }
-                        Gdx.app.log("Ya entre ","al nivel miniGame");
-                        siguienteNivel.clear();
-                        siguienteNivel.putString("Nivel2_A","Entre al nivel 2A");
-                        siguienteNivel.flush();
-                        niveles.clear();
-                        niveles.putString("MiniGame1","Ya pase el nivel 1");
-                        niveles.flush();
-                        pantallaCargando = new PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("MiniGame1");
-                        plataforma.setScreen(pantallaCargando);
+
                     }
                 }, 1);  // 3 segundos
             }
@@ -1229,6 +1248,8 @@ public class Nivel3_A implements Screen{
         assetManager.unload("barra.png");
         assetManager.unload("barraF.png");
 
+        assetManager.unload("gana1.jpg");
+        assetManager.unload("gana2.jpg");
 
         // Cargar imagen
         // Texturas de los botones
@@ -1444,7 +1465,8 @@ public class Nivel3_A implements Screen{
         JUGANDO,
         PAUSADO,
         PERDIO,
-        PERDIOI
+        PERDIOI,
+        GANOS//hgano chido
     }
 
 }
