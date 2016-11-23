@@ -264,7 +264,8 @@ public class MiniGame2 implements Screen{
 
         texturaDisparo = assetManager.get("shoot.png");
         btnDisparo = new Boton(texturaDisparo);
-        btnDisparo.setPosicion(Plataforma.ANCHO_CAMARA/2, Plataforma.ALTO_CAMARA/2);
+        //btnDisparo.setPosicion(Plataforma.ANCHO_CAMARA/2, Plataforma.ALTO_CAMARA/2);
+        btnDisparo.setPosicion(Plataforma.ANCHO_CAMARA - 4.5f * TAM_CELDA,  TAM_CELDA);
         btnDisparo.setAlfa(0.7f);
 
         texturaBtnPausa = assetManager.get("BtmPausa.png");
@@ -456,8 +457,10 @@ public class MiniGame2 implements Screen{
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
-
         if (!banderaPausa && !haPerdio) {
+            if(enemD==0){
+                estadoJuego=EstadosJuego.GANO;
+            }
             //barra vidas pregunta cuantas existen
             float barraSizeOriginal = spriteVidas.getWidth();
             float barraSizeActual = 0;

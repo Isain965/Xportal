@@ -309,6 +309,12 @@ public class Menu implements Screen {
                 plataforma.setScreen(new PSettings(plataforma));
             }else if (btnExit.contiene(x,y)){
                 //plataforma.setScreen(new CargandoMGDos(plataforma));
+
+                /*Gdx.input.setInputProcessor(null);
+                pantallaCargando=new PantallaCargando(plataforma);
+                pantallaCargando.setNivel("MiniGame2");
+                plataforma.setScreen(pantallaCargando);*/
+
                 Gdx.input.setInputProcessor(null);
                 musicFondo.stop();
                 musica.clear();
