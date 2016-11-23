@@ -177,6 +177,8 @@ public class PantallaCargando implements Screen {
             //Para cuando Gana
             assetManager.load("Ganar.PNG",Texture.class);
 
+            assetManager.load("CazaCalabazas.png",Texture.class);
+
 
             Gdx.app.log("cargarRecursos", "Terminando...");
 

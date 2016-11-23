@@ -143,6 +143,11 @@ public class MiniGame1 implements Screen
     private boolean banderaEspera = true;
 
 
+    private Texture calabazas;
+    private Boton btnCalabazas;
+
+    private float tiempoLetrero;
+
     public MiniGame1(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
@@ -325,6 +330,10 @@ public class MiniGame1 implements Screen
         btnMenuP = new Boton(texturaMenuP);
         btnMenuP.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
 
+        calabazas = assetManager.get("CazaCalabazas.png");
+        btnCalabazas = new Boton(calabazas);
+        btnCalabazas.setPosicion(170,Plataforma.ALTO_CAMARA/2);
+
 
     }
 
@@ -354,10 +363,16 @@ public class MiniGame1 implements Screen
 
             // Entre begin-end dibujamos nuestros objetos en pantalla
             batch.begin();
-            H.render(batch);    // Dibuja el personaje
 
+
+            H.render(batch);    // Dibuja el personaje
+            tiempoLetrero +=Gdx.graphics.getDeltaTime();
             tiempoJuego += Gdx.graphics.getDeltaTime();
             //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
+
+            if(tiempoLetrero<5){
+                btnCalabazas.render(batch);
+            }
 
             for (EnemigoV enemigoV : enemigosV) {
                 if (enemigoV.getVidas() > 0) {
