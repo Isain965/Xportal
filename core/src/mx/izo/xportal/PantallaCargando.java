@@ -351,6 +351,9 @@ public class PantallaCargando implements Screen {
             assetManager.load("marioSpriteIzq.png", Texture.class);
             assetManager.load("salto.png", Texture.class);
 
+            assetManager.load("gana1.jpg", Texture.class);
+            assetManager.load("gana2.jpg", Texture.class);
+
             //cargar barra
             assetManager.load("barra.png", Texture.class);
             assetManager.load("barraF.png", Texture.class);
