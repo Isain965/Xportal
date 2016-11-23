@@ -1004,6 +1004,8 @@ public class PantallaJuego implements Screen{
             }
         }
 
+        //verifica puertas y manda a siguente nivel. guarda preferencias
+
         if ( capaPlataforma1.getCell(celdaX,celdaY) != null || capaPlataforma1.getCell(celdaX,celdaY+1) != null ) {
             if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) && llaveA ) {
                 sonidoPierde.play();
@@ -1046,9 +1048,11 @@ public class PantallaJuego implements Screen{
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        //-----------Fin Nivel
                         musicFondo.dispose();
                         AssetManager assetManager = plataforma.getAssetManager();
                         assetManager.clear();
+                        //-----------
                         //Actualizar preferencias
                         int scoreA = score.getInteger("theBest",0);
                         if(estrellas>scoreA){

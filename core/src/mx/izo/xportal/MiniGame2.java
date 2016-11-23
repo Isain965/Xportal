@@ -459,7 +459,22 @@ public class MiniGame2 implements Screen{
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
         if (!banderaPausa && !haPerdio) {
             if(enemD==0){
-                estadoJuego=EstadosJuego.GANO;
+                //estadoJuego=EstadosJuego.GANO;
+
+                //-----------Fin Nivel
+                musicFondo.dispose();
+                AssetManager assetManager = plataforma.getAssetManager();
+                assetManager.clear();
+                //-----------
+
+                Gdx.input.setInputProcessor(null);
+                siguienteNivel.clear();
+                niveles.flush();
+                niveles.clear();
+                niveles.putString("Nivel3_A","Ya pase el nivel 1");
+                niveles.flush();
+                pantallaCargando = new PantallaCargando(plataforma);
+                pantallaCargando.setNivel("Nivel3_A");
             }
             //barra vidas pregunta cuantas existen
             float barraSizeOriginal = spriteVidas.getWidth();

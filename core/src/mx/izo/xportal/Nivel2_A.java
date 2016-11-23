@@ -1030,12 +1030,12 @@ public class Nivel2_A implements Screen{
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("Nivel2_A","Estoy en el nivel 2A");
+                        niveles.putString("MiniGame2","Estoy en el nivel 2A");
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("Nivel2_A");
-                        plataforma.setScreen(new Menu(plataforma));
-                        //plataforma.setScreen(pantallaCargando);
+                        pantallaCargando.setNivel("MiniGame2");
+                        //plataforma.setScreen(new Menu(plataforma));
+                        plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }
@@ -1060,12 +1060,12 @@ public class Nivel2_A implements Screen{
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("Nivel2_A","Estoy en el nivel 2 A");
+                        niveles.putString("MiniGame2","Estoy en el nivel 2 A");
                         niveles.flush();
                         pantallaCargando = new PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("Nivel2_A");
-                        plataforma.setScreen(new Menu(plataforma));
-                        //plataforma.setScreen(pantallaCargando);
+                        pantallaCargando.setNivel("MiniGame2");
+                        //plataforma.setScreen(new Menu(plataforma));
+                        plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }
