@@ -150,15 +150,15 @@ public class PantallaJuego implements Screen{
 
     //TEXURAS PARA LA PAUSA
     private Texture texturaPausa;
-    private Texture texturaPlay;
     private Texture texturaMenu;
     private Texture texturaSonidoT;
     private Texture texturaMusicaT;
     private Texture texturaSonidoF;
     private Texture texturaMusicaF;
+    private Texture texturaPlay;
     private Boton btnPantallaPausa;
-    private Boton btnPlay;
     private Boton btnMenu;
+    private Boton btnPlay;
     private Boton btnSonidoT;
     private Boton btnMusicaT;
     private Boton btnSonidoF;
@@ -168,8 +168,10 @@ public class PantallaJuego implements Screen{
     //Textura para cuando pierde
     private Texture texturaPierde;
     private Texture texturaMenuP;
+    private Texture texturaPlayP;
     private Boton btnPierde;
     private Boton btnMenuP;
+    private Boton btnPlayP;
     private boolean haPerdio = false;
 
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
@@ -399,10 +401,13 @@ public class PantallaJuego implements Screen{
         //Implementando la perdida
         texturaPierde = assetManager.get("GameOver.png");
         texturaMenuP = assetManager.get("back.png");
+        texturaPlayP = assetManager.get("BtmPlay.png");
 
         btnPierde = new Boton (texturaPierde);
         btnMenuP = new Boton(texturaMenuP);
         btnMenuP.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
+        btnPlayP = new Boton(texturaPlayP);
+        btnPlayP.setPosicion(10,10);
 
     }
 
@@ -664,6 +669,7 @@ public class PantallaJuego implements Screen{
             } else {
                 btnPierde.render(batch);
                 btnMenuP.render(batch);
+                //btnPlayP.render(batch);
             }
             batch.end();
 
@@ -1394,6 +1400,11 @@ public class PantallaJuego implements Screen{
                     musicFondo.dispose();
                     dispose();
                     plataforma.setScreen(new Menu(plataforma));
+                }
+                else if(btnPlayP.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.dispose();
+                    plataforma.setScreen(new PantallaJuego(plataforma));
                 }
             }
             return true;    // Indica que ya procesó el evento

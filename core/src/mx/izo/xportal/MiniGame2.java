@@ -1,14 +1,13 @@
 package mx.izo.xportal;
 
-/**
- * Created by k3ll3x on 02/11/2016.
- */
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -24,18 +23,21 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
+import java.util.TimerTask;
+
 
 /**
  * Created by Equipo alfa buena maravilla onda dinamita escuadrón lobo on 10/11/2016.
  */
 
-public class PantallaMGDos implements Screen
-{
+public class MiniGame2 implements Screen{
+
     //PREFERENCIAS
     public Preferences niveles = Gdx.app.getPreferences("Niveles");
     public Preferences sonidos = Gdx.app.getPreferences("Sonidos");
     public Preferences musica = Gdx.app.getPreferences("Musica");
     public Preferences score = Gdx.app.getPreferences("Score");
+    public Preferences siguienteNivel = Gdx.app.getPreferences("SiguienteNivel");
 
     private PantallaCargando pantallaCargando;
 
@@ -49,48 +51,11 @@ public class PantallaMGDos implements Screen
     private OrthographicCamera camara;
     private Viewport vista;
 
-    //vidaMax
-    private int vidafMax = 5;
-
-    private int enemD = 12;
+    // Objeto para dibujar en la pantalla
+    private SpriteBatch batch;
 
     private Sprite spriteVidas;
     private Sprite spriteVidasF;
-
-    //textura barra de vidas
-    private Texture texturaVidas;
-    private Texture texturaVidasF;
-
-    //TEXURAS PARA LA PAUSA
-    private Texture texturaPausa;
-    private Texture texturaPlay;
-    private Texture texturaMenu;
-    private Texture texturaSonidoT;
-    private Texture texturaMusicaT;
-    private Texture texturaSonidoF;
-    private Texture texturaMusicaF;
-    private Boton btnPantallaPausa;
-    private Boton btnPlay;
-    private Boton btnMenu;
-    private Boton btnSonidoT;
-    private Boton btnMusicaT;
-    private Boton btnSonidoF;
-    private Boton btnMusicaF;
-    private boolean banderaPausa = false;
-
-    //Textura para cuando pierde
-    private Texture texturaPierde;
-    private Texture texturaMenuP;
-    private Boton btnPierde;
-    private Boton btnMenuP;
-    private boolean haPerdio = false;
-
-    private boolean estadoMusica = musica.getBoolean("estadoMusica");
-    private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
-
-
-    // Objeto para dibujar en la pantalla
-    private SpriteBatch batch;
 
     // MAPA
     private TiledMap mapa;      // Información del mapa en memoria
@@ -98,9 +63,12 @@ public class PantallaMGDos implements Screen
 
     // Personaje
     private Texture texturaPersonaje;       // Aquí cargamos la imagen marioSprite.png con varios frames
+    private Texture texturaPersonaje2;
     private Personaje mario;
     public static final int TAM_CELDA = 32;
 
+    //Musica de fondo
+    private Music musicFondo;
 
 
     // HUD. Los componentes en la pantalla que no se mueven
@@ -112,7 +80,9 @@ public class PantallaMGDos implements Screen
     private Boton btnDerecha;
     // Botón saltar
     private Texture texturaSalto;
-    //private Boton btnSalto;
+    private Boton btnSalto;
+
+
 
     //Boton disparar
     private Texture texturaDisparo;
@@ -127,13 +97,21 @@ public class PantallaMGDos implements Screen
     // Estrellas recolectadas
     private int estrellas;
     private int vidaf =3;
+    private int vidafMax=5;
+    private int vidafMin=0;
     private Texto texto;
-    private Sound sonidoEstrella, sonidoLlave,sonidoPistola;
+    private Sound sonidoEstrella, sonidoLlave,sonidoPistola,sonidoRetrocarga,mute;
+    private int enemD = 12;
+
 
     // Fin del juego, Gana o Pierde
     private Texture texturaGana;
     private Boton btnGana;
     private Sound sonidoPierde, sonidoVida;
+
+    //textura barra de vidas
+    private Texture texturaVidas;
+    private Texture texturaVidasF;
 
     private Texture texturaBala;
     private Texture texturaBalaPlanta;
@@ -145,8 +123,9 @@ public class PantallaMGDos implements Screen
     private Texture texturaEnemigo2;
     private Texture alien1, alien2, alien3;
 
+    private int tiempoDisparo=2;
+
     private float tiempoJuego=0;
-    private int tiempoDisparo=1;
 
     // Estados del juego
     private EstadosJuego estadoJuego;
@@ -158,8 +137,6 @@ public class PantallaMGDos implements Screen
     ArrayList<Bala> balasEnemigos = new ArrayList<Bala>();
     ArrayList<BalaV> balasEnemigosV = new ArrayList<BalaV>();
 
-    //balas
-
     private boolean llaveA = false;
     private boolean llaveB = false;
 
@@ -169,11 +146,41 @@ public class PantallaMGDos implements Screen
 
     private boolean banderaDisparo=true;
 
-    //private boolean banderaArma = false;
+    private boolean banderaArma = false;
 
     private boolean banderaDireccion=false;
 
-    public PantallaMGDos(Plataforma plataforma) {
+
+    //TEXURAS PARA LA PAUSA
+    private Texture texturaPausa;
+    private Texture texturaMenu;
+    private Texture texturaSonidoT;
+    private Texture texturaMusicaT;
+    private Texture texturaSonidoF;
+    private Texture texturaMusicaF;
+    private Texture texturaPlay;
+    private Boton btnPantallaPausa;
+    private Boton btnMenu;
+    private Boton btnPlay;
+    private Boton btnSonidoT;
+    private Boton btnMusicaT;
+    private Boton btnSonidoF;
+    private Boton btnMusicaF;
+    private boolean banderaPausa = false;
+
+    //Textura para cuando pierde
+    private Texture texturaPierde;
+    private Texture texturaMenuP;
+    private Texture texturaPlayP;
+    private Boton btnPierde;
+    private Boton btnMenuP;
+    private Boton btnPlayP;
+    private boolean haPerdio = false;
+
+    private boolean estadoMusica = musica.getBoolean("estadoMusica");
+    private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
+
+    public MiniGame2(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
 
@@ -201,6 +208,10 @@ public class PantallaMGDos implements Screen
         // Indicar el objeto que atiende los eventos de touch (entrada en general)
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
+        // Tecla BACK (Android)
+        Gdx.input.setCatchBackKey(true);
+
+
         estadoJuego = EstadosJuego.JUGANDO;
 
         // Texto
@@ -211,15 +222,6 @@ public class PantallaMGDos implements Screen
         AssetManager assetManager = plataforma.getAssetManager();   // Referencia al assetManager
         // Carga el mapa en memoria
         mapa = assetManager.get("inv.tmx");
-
-        //textura barra de vidas
-        texturaVidas = assetManager.get("barra.png");
-        texturaVidasF = assetManager.get("barraF.png");
-        //dibuja barra vidas
-        spriteVidas = new Sprite(texturaVidas);
-        spriteVidasF = new Sprite(texturaVidasF);
-
-        //mapa = assetManager.get("Mapa.tmx");
         //mapa.getLayers().get(0).setVisible(false);    // Pueden ocultar una capa así
         // Crear el objeto que dibujará el mapa
 
@@ -227,14 +229,24 @@ public class PantallaMGDos implements Screen
         rendererMapa.setView(camara);
         // Cargar frames
         texturaPersonaje = assetManager.get("nave.png");
+        //texturaPersonaje2 = assetManager.get("marioSpriteIzq.png");
+
         texturaSalto = assetManager.get("salto.png");
+        //textura barra de vidas
+        texturaVidas = assetManager.get("barra.png");
+        texturaVidasF = assetManager.get("barraF.png");
+
+        //dibuja barra vidas
+        spriteVidas = new Sprite(texturaVidas);
+        spriteVidasF = new Sprite(texturaVidasF);
+        //spriteVidas.setPosition(100,ALTO_MAPA/2);
+
         // Crear el personaje
-        //mario = new Personaje(texturaPersonaje,texturaSalto);
         mario = new Personaje(texturaPersonaje);
-        mario.setVelocidadX(4);
         // Posición inicial del personaje
-        //mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 10+50, Plataforma.ALTO_CAMARA * 0.90f);
+        mario.setVelocidadX(4);
         mario.getSprite().setPosition(Plataforma.ANCHO_CAMARA / 2,50);
+
 
         // Crear los botones
         texturaBtnIzquierda = assetManager.get("BtmIzquierdo.png");
@@ -252,7 +264,7 @@ public class PantallaMGDos implements Screen
 
         texturaDisparo = assetManager.get("shoot.png");
         btnDisparo = new Boton(texturaDisparo);
-        btnDisparo.setPosicion(Plataforma.ANCHO_CAMARA - 4.5f * TAM_CELDA,  TAM_CELDA);
+        btnDisparo.setPosicion(Plataforma.ANCHO_CAMARA/2, Plataforma.ALTO_CAMARA/2);
         btnDisparo.setAlfa(0.7f);
 
         texturaBtnPausa = assetManager.get("BtmPausa.png");
@@ -334,12 +346,36 @@ public class PantallaMGDos implements Screen
         balaAnteriorV = new Bala(texturaBalaEmbudo);
         balaAnteriorV.setPosicion(enemigo1.getX(),641);
 
+
         // Efecto moneda
-        sonidoEstrella = assetManager.get("monedas.mp3");
-        sonidoPierde = assetManager.get("opendoor.mp3");
-        sonidoVida= assetManager.get("vidawi.mp3");
-        sonidoLlave=assetManager.get("llave.mp3");
-        sonidoPistola=assetManager.get("shoot.mp3");
+        if(estadoSonidos) {
+            sonidoEstrella = assetManager.get("monedas.mp3");
+            sonidoPierde = assetManager.get("opendoor.mp3");
+            sonidoVida = assetManager.get("vidawi.mp3");
+            sonidoLlave = assetManager.get("llave.mp3");
+            sonidoPistola = assetManager.get("pistola.mp3");
+            sonidoRetrocarga = assetManager.get("retrocarga.wav");
+            mute = assetManager.get("Mute.mp3");
+        }else{
+            sonidoEstrella = assetManager.get("Mute.mp3");
+            sonidoPierde = assetManager.get("Mute.mp3");
+            sonidoVida = assetManager.get("Mute.mp3");
+            sonidoLlave = assetManager.get("Mute.mp3");
+            sonidoPistola = assetManager.get("Mute.mp3");
+            sonidoRetrocarga = assetManager.get("Mute.mp3");
+            mute = assetManager.get("Mute.mp3");
+
+        }
+
+        //Musica de fondo
+        musicFondo = Gdx.audio.newMusic(Gdx.files.internal("little-forest.mp3"));
+        musicFondo.setLooping(true);
+        if(estadoMusica) {
+            musicFondo.play();
+        }
+        else{
+            musicFondo.stop();
+        }
 
         //IMPLEMENTANDO LA PAUSA
         texturaPausa = assetManager.get("Pausa.png");
@@ -361,13 +397,54 @@ public class PantallaMGDos implements Screen
         btnMenu.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2);
         btnMenu.setAlfa(0.7f);
 
+        if(estadoMusica) {
+            btnMusicaT = new Boton(texturaMusicaT);
+            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnMusicaT.setAlfa(0.7f);
+
+            btnMusicaF = new Boton(texturaMusicaF);
+            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);//250
+            btnMusicaF.setAlfa(0.7f);
+        }
+        else {
+            btnMusicaT = new Boton(texturaMusicaT);
+            btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnMusicaT.setAlfa(0.7f);
+
+            btnMusicaF = new Boton(texturaMusicaF);
+            btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);//250
+            btnMusicaF.setAlfa(0.7f);
+        }
+
+
+        if (estadoSonidos) {
+            btnSonidoT = new Boton(texturaSonidoT);
+            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoT.setAlfa(0.7f);
+
+            btnSonidoF = new Boton(texturaSonidoF);
+            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoF.setAlfa(0.7f);
+        } else{
+            btnSonidoT = new Boton(texturaSonidoT);
+            btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoT.setAlfa(0.7f);
+
+            btnSonidoF = new Boton(texturaSonidoF);
+            btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
+            btnSonidoF.setAlfa(0.7f);
+        }
+
         //Implementando la perdida
         texturaPierde = assetManager.get("GameOver.png");
         texturaMenuP = assetManager.get("back.png");
+        texturaPlayP = assetManager.get("BtmPlay.png");
 
         btnPierde = new Boton (texturaPierde);
         btnMenuP = new Boton(texturaMenuP);
         btnMenuP.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
+        btnPlayP = new Boton(texturaPlayP);
+        btnPlayP.setPosicion(10,10);
 
     }
 
@@ -379,28 +456,28 @@ public class PantallaMGDos implements Screen
 
     @Override
     public void render(float delta) { // delta es el tiempo entre frames (Gdx.graphics.getDeltaTime())
-        if (!banderaPausa && !haPerdio) {
-            if(enemD==0){
-                estadoJuego=EstadosJuego.GANO;
-            }
 
+        if (!banderaPausa && !haPerdio) {
             //barra vidas pregunta cuantas existen
             float barraSizeOriginal = spriteVidas.getWidth();
-            float barraSizeActual=0;
-            if(vidaf==1) {
-                barraSizeActual = 32;
-            }else if(vidaf==2){
-                barraSizeActual=64;
-            }else if(vidaf==3){
-                barraSizeActual=96;
-            }else if(vidaf==4){
-                barraSizeActual=128;
-            }else if(vidaf==vidafMax) {
-                barraSizeActual=160;
+            float barraSizeActual = 0;
+            if(vidaf<=5) {
+                if (vidaf == 1) {
+                    barraSizeActual = 32;
+                } else if (vidaf == 2) {
+                    barraSizeActual = 64;
+                } else if (vidaf == 3) {
+                    barraSizeActual = 96;
+                } else if (vidaf == 4) {
+                    barraSizeActual = 128;
+                } else if (vidaf == vidafMax) {
+                    barraSizeActual = 160;
+                }
+                //bajaBarraVidas(spriteVidas,barraSizeActual);
+                //spriteVidas.setRegion(0, 0, (int) barraSizeActual, (int) spriteVidas.getHeight()); //cast importante
+                spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
             }
-            spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
-
-            if (estadoJuego!=EstadosJuego.PERDIO) {
+            if (estadoJuego != EstadosJuego.PERDIO) {
                 // Actualizar objetos en la pantalla
                 moverPersonaje();
                 actualizarCamara(); // Mover la cámara para que siga al personaje
@@ -417,18 +494,25 @@ public class PantallaMGDos implements Screen
             // Entre begin-end dibujamos nuestros objetos en pantalla
             batch.begin();
             mario.render(batch);    // Dibuja el personaje
+            //ahora se dibuja alado de Score
+            //spriteVidas.draw(batch);
 
-            tiempoJuego+=Gdx.graphics.getDeltaTime();
-            Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
+            //dibuja barra vida
 
-            if(vidaf==0){
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        plataforma.setScreen(new PantallaPerdiste(plataforma));
-                    }
-                }, 3);  // 3 segundos
+            tiempoJuego += Gdx.graphics.getDeltaTime();
+            //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
+
+            if (vidaf == vidafMin) {
+                int scoreA = score.getInteger("theBest",0);
+                if(estrellas>scoreA){
+                    score.clear();
+                    score.putInteger("theBest",estrellas);
+                    score.flush();
+                }
+                haPerdio=true;
+                estadoJuego = EstadosJuego.PERDIOI;
             }
+
             for (EnemigoV enemigoV:enemigosV){
                 if (enemigoV.getVidas()>0){
                     enemigoV.render(batch);
@@ -542,8 +626,48 @@ public class PantallaMGDos implements Screen
             }
 
             //Dibuja las balas del personaje
-            for(Bala bala : balas){
-                bala.render(batch,banderaDireccion);
+            for (Bala bala : balas) {
+                bala.render(batch, banderaDireccion);
+            }
+
+
+            //Elimina a enemigos de embudo
+            for (int i = 0; i < enemigosV.size(); i++) {
+                EnemigoV enemigoV = enemigosV.get(i);
+                if (enemigoV.getY() == 2000) {
+                    enemigosV.remove(i);
+                }
+            }
+            //Elimina las balas del enemigo
+            for (int i = 0; i < balasEnemigosV.size(); i++) {
+                BalaV balaV = balasEnemigosV.get(i);
+                if (balaV.getX() == 0) {
+                    balasEnemigosV.remove(i);
+                }
+            }
+
+            //Elimina las balas del personaje
+            for (int i = 0; i < balas.size(); i++) {
+                Bala bala = balas.get(i);
+                if (bala.getY() == 1000 || bala.getX() > mario.getX() + rango || mario.getX() - rango > bala.getX()) {
+                    balas.remove(i);
+                }
+            }
+
+
+            //Elimina a enemigos planta
+            for (int i = 0; i < enemigos.size(); i++) {
+                Enemigo enemigo = enemigos.get(i);
+                if (enemigo.getY() == 2000) {
+                    enemigos.remove(i);
+                }
+            }
+            //Elimina las balas de planta
+            for (int i = 0; i < balasEnemigos.size(); i++) {
+                Bala bala = balasEnemigos.get(i);
+                if (bala.getY() == 1000 || bala.getX() < 0 || bala.getX() > 4000) {
+                    balasEnemigos.remove(i);
+                }
             }
 
             batch.end();
@@ -553,7 +677,7 @@ public class PantallaMGDos implements Screen
             batch.begin();
 
             // ¿Ya ganó?
-            if (estadoJuego==EstadosJuego.GANO) {
+            if (estadoJuego == EstadosJuego.GANO) {
                 btnGana.render(batch);
             } else {
                 btnIzquierda.render(batch);
@@ -562,15 +686,18 @@ public class PantallaMGDos implements Screen
                 btnDisparo.render(batch);
                 btnPausa.render(batch);
                 // Estrellas recolectadas
-                texto.mostrarMensaje(batch,"Score: "+estrellas,Plataforma.ANCHO_CAMARA-1000,Plataforma.ALTO_CAMARA*0.95f);
-                //texto.mostrarMensaje(batch,"Life: "+vidaf,Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f);
-                spriteVidas.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
-                spriteVidasF.setPosition(Plataforma.ANCHO_CAMARA-400,Plataforma.ALTO_CAMARA*0.95f-27);
+                texto.mostrarMensaje(batch, "Score: " + estrellas, Plataforma.ANCHO_CAMARA - 1000, Plataforma.ALTO_CAMARA * 0.95f);
+                texto.mostrarMensaje(batch, "Life: ", Plataforma.ANCHO_CAMARA - 460, Plataforma.ALTO_CAMARA * 0.95f);
+                spriteVidas.setPosition(Plataforma.ANCHO_CAMARA - 400, Plataforma.ALTO_CAMARA * 0.95f - 27);
+                spriteVidasF.setPosition(Plataforma.ANCHO_CAMARA - 400, Plataforma.ALTO_CAMARA * 0.95f - 27);
                 spriteVidas.draw(batch);
                 spriteVidasF.draw(batch);
             }
             batch.end();
-        }else if(haPerdio){
+        }
+
+
+        else if(haPerdio){
             borrarPantalla();
 
             // Dibuja cuando has perdido
@@ -583,12 +710,133 @@ public class PantallaMGDos implements Screen
             } else {
                 btnPierde.render(batch);
                 btnMenuP.render(batch);
+                //btnPlayP.render(batch);
             }
             batch.end();
 
-        }else{
+        }
+
+        //CUANDO ESTA EN PAUSA
+        else{
             borrarPantalla();
+
+            // Dibuja La Pausa
             batch.setProjectionMatrix(camaraHUD.combined);
+
+            //barra vidas pregunta cuantas existen
+            float barraSizeOriginal = spriteVidas.getWidth();
+            float barraSizeActual = 0;
+            if (vidaf == 1) {
+                barraSizeActual = 32;
+            } else if (vidaf == 2) {
+                barraSizeActual = 64;
+            } else if (vidaf == 3) {
+                barraSizeActual = 96;
+            } else if (vidaf == 4) {
+                barraSizeActual = 128;
+            } else if (vidaf == vidafMax) {
+                barraSizeActual = 160;
+            }
+            //bajaBarraVidas(spriteVidas,barraSizeActual);
+            //spriteVidas.setRegion(0, 0, (int) barraSizeActual, (int) spriteVidas.getHeight()); //cast importante
+            spriteVidas.setSize(barraSizeActual, spriteVidas.getHeight());
+
+            if (estadoJuego != EstadosJuego.PERDIO) {
+                // Actualizar objetos en la pantalla
+                moverPersonaje();
+                actualizarCamara(); // Mover la cámara para que siga al personaje
+            }
+            rendererMapa.setView(camara);
+            rendererMapa.render();  // Dibuja el mapa
+
+
+            batch.begin();
+
+            mario.render(batch);    // Dibuja el personaje
+
+            for (EnemigoV enemigoV : enemigosV) {
+                if (enemigoV.getVidas() > 0) {
+                    enemigoV.render(batch);
+
+                    if ((mario.getX() >= enemigoV.getX() - rango) && (mario.getX() <= enemigoV.getX()) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                        BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
+                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setPosicion(enemigoV.getX(), enemigoV.getY() + 50);
+                        balasEnemigosV.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                    } else if ((mario.getX() > enemigoV.getX()) && (mario.getX() <= enemigoV.getX() + rango) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                        BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
+                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setPosicion(enemigoV.getX() + 38, enemigoV.getY() + 50);
+                        balasEnemigosV.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                    }
+
+
+                    if (tiempoJuego > 6) {
+                        //ISAIN EL HACKER :)
+                        tiempoJuego = 0;
+                    }
+                } else {
+                    //Borrar de memoria
+                    enemigoV.setPosicion(0, 2000);
+                }
+            }
+            for (Enemigo enemigo : enemigos) {
+                if (enemigo.getVidas() > 0) {
+                    enemigo.render(batch);
+
+                    if ((mario.getX() >= enemigo.getX() - rango) && (mario.getX() <= enemigo.getX()) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                        Bala balaEnJuego = new Bala(texturaBalaPlanta);
+                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
+                        balasEnemigos.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                        //}else if (mario.getX()>=enemigo.getX()+enemigo.getSprite().getWidth()&&mario.getX()<=enemigo.getX()+enemigo.getSprite().getWidth()+rango&&banderaDisparo&&tiempoJuego==tiempoDisparo){
+                    } else if ((mario.getX() > enemigo.getX()) && (mario.getX() <= enemigo.getX() + rango) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
+                        Gdx.app.log("Deberia de disparar a la derecha", "");
+                        Bala balaEnJuego = new Bala(texturaBalaPlanta);
+                        balaEnJuego.setDireccion(10);
+                        balaEnJuego.setPosicion(enemigo.getX() + 120, enemigo.getY() + 50);
+                        balasEnemigos.add(balaEnJuego);
+                        banderaDisparo = false;
+                        tiempoJuego = 0;
+                    }
+
+                    if (tiempoJuego > tiempoDisparo) {
+                        tiempoJuego = 0;
+                    }
+                } else {
+                    //Borrar de memoria
+                    enemigo.setPosicion(0, 2000);
+                }
+            }
+
+            batch.end();
+            // Dibuja el HUD
+            batch.setProjectionMatrix(camaraHUD.combined);
+            batch.begin();
+
+            // ¿Ya ganó?
+            if (estadoJuego == EstadosJuego.GANO) {
+                btnGana.render(batch);
+            } else {
+                // Estrellas recolectadas
+                texto.mostrarMensaje(batch, "Score: " + estrellas, Plataforma.ANCHO_CAMARA - 1000, Plataforma.ALTO_CAMARA * 0.95f);
+                texto.mostrarMensaje(batch, "Life: ", Plataforma.ANCHO_CAMARA - 460, Plataforma.ALTO_CAMARA * 0.95f);
+                spriteVidas.setPosition(Plataforma.ANCHO_CAMARA - 400, Plataforma.ALTO_CAMARA * 0.95f - 27);
+                spriteVidasF.setPosition(Plataforma.ANCHO_CAMARA - 400, Plataforma.ALTO_CAMARA * 0.95f - 27);
+                spriteVidas.draw(batch);
+                spriteVidasF.draw(batch);
+            }
+            batch.end();
+
+
+            batch.begin();
+            // ¿Ya ganó?
             if (estadoJuego == EstadosJuego.GANO) {
                 btnGana.render(batch);
             } else {
@@ -599,33 +847,34 @@ public class PantallaMGDos implements Screen
                 btnMenu.render(batch);
                 btnMenu.setAlfa(0.9f);
                 if(estadoMusica) {
-                    btnMusicaT.setPosicion(ANCHO_MAPA / 2 + 150, ALTO_MAPA / 2 - 180);
+                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnMusicaT.setAlfa(0.9f);
                     btnMusicaT.render(batch);
-                    btnMusicaF.setPosicion(ANCHO_MAPA / 2 + 250, ALTO_MAPA / 2 - 180);
+                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnMusicaF.setAlfa(0.9f);
 
                 }else {
-                    btnMusicaT.setPosicion(ANCHO_MAPA / 2 + 250, ALTO_MAPA / 2 - 180);
+                    btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 250, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnMusicaT.setAlfa(0.9f);
-                    btnMusicaF.setPosicion(ANCHO_MAPA / 2 + 150, ALTO_MAPA / 2 - 180);
+                    btnMusicaF.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnMusicaF.render(batch);
                     btnMusicaF.setAlfa(0.9f);
                 }
                 if(estadoSonidos) {
-                    btnSonidoT.setPosicion(ANCHO_MAPA / 2 - 250, ALTO_MAPA / 2 - 180);
+                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnSonidoT.setAlfa(0.9f);
                     btnSonidoT.render(batch);
-                    btnSonidoF.setPosicion(ANCHO_MAPA / 2 - 350, ALTO_MAPA / 2 - 180);
+                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnSonidoF.setAlfa(0.9f);
                 }else{
-                    btnSonidoT.setPosicion(ANCHO_MAPA / 2 - 350, ALTO_MAPA / 2 - 180);
+                    btnSonidoT.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 350, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnSonidoT.setAlfa(0.9f);
-                    btnSonidoF.setPosicion(ANCHO_MAPA / 2 - 250, ALTO_MAPA / 2 - 180);
+                    btnSonidoF.setPosicion(Plataforma.ANCHO_CAMARA / 2 - 250, Plataforma.ALTO_CAMARA / 2 - 180);
                     btnSonidoF.render(batch);
                     btnSonidoF.setAlfa(0.9f);
                 }
             }
+            batch.end();
         }
     }
 
@@ -635,27 +884,24 @@ public class PantallaMGDos implements Screen
         float posX = mario.getX();
         float posY = mario.getY();
         // Si está en la parte 'media'
-        if (posX>=Plataforma.ANCHO_CAMARA/2 && posX<=ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2) {
+        if (posX >= Plataforma.ANCHO_CAMARA / 2 && posX <= ANCHO_MAPA - Plataforma.ANCHO_CAMARA / 2) {
             // El personaje define el centro de la cámara
-            camara.position.set((int)posX, camara.position.y, 0);
-        } else if (posX>ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2) {    // Si está en la última mitad
+            camara.position.set((int) posX, camara.position.y, 0);
+        } else if (posX > ANCHO_MAPA - Plataforma.ANCHO_CAMARA / 2) {    // Si está en la última mitad
             // La cámara se queda a media pantalla antes del fin del mundo  :)
-            camara.position.set(ANCHO_MAPA-Plataforma.ANCHO_CAMARA/2, camara.position.y, 0);
+            camara.position.set(ANCHO_MAPA - Plataforma.ANCHO_CAMARA / 2, camara.position.y, 0);
         }//Si el personaje se coloca en el centro de la camara
 
-        if((posY>=Plataforma.ALTO_CAMARA/2 && posY<=ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {
+        if ((posY >= Plataforma.ALTO_CAMARA / 2 && posY <= ALTO_MAPA - Plataforma.ALTO_CAMARA / 2)) {
             // El personaje define el centro de la cámara
-            camara.position.set(camara.position.x,(int)posY, 0);
-        } else if ((posY>ALTO_MAPA-Plataforma.ALTO_CAMARA/2)) {    // Si está en la última mitad
+            camara.position.set(camara.position.x, (int) posY, 0);
+        } else if ((posY > ALTO_MAPA - Plataforma.ALTO_CAMARA / 2)) {    // Si está en la última mitad
             // La cámara se queda a media pantalla antes del fin del mundo  :)
             camara.position.set(camara.position.x, ALTO_MAPA - Plataforma.ALTO_CAMARA / 2, 0);
         }
         camara.update();
     }
 
-    /*
-    Movimiento del personaje. SIMPLIFICAR LOGICA :(
-     */
     private void moverPersonaje() {
         // Prueba caída libre inicial o movimiento horizontal
         switch (mario.getEstadoMovimiento()) {
@@ -685,15 +931,46 @@ public class PantallaMGDos implements Screen
 
                 break;
             case MOV_DERECHA:       // Se mueve horizontal
-                //mario.getSprite().setX(mario.getSprite().getX() + 4);
-                //break;
             case MOV_IZQUIERDA:
-                //mario.getSprite().setX(mario.getSprite().getX() - 4);
                 probarChoqueParedes();      // Prueba si debe moverse
                 break;
         }
+        // Prueba si debe caer por llegar a un espacio vacío
+        if ( mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO
+                && (mario.getEstadoSalto() != Personaje.EstadoSalto.SUBIENDO) ) {
+            // Calcula la celda donde estaría después de moverlo
+            int celdaX = (int) (mario.getX() / TAM_CELDA);
+            int celdaY = (int) ((mario.getY() + mario.VELOCIDAD_Y) / TAM_CELDA);
+            // Recuperamos la celda en esta posición
+            // La capa 0 es el fondo
+            TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
+            TiledMapTileLayer.Cell celdaAbajo = capa.getCell(celdaX, celdaY);
+            TiledMapTileLayer.Cell celdaDerecha = capa.getCell(celdaX+1, celdaY);
+            // probar si la celda está ocupada
+            if ( (celdaAbajo==null && celdaDerecha==null) || esCoin(celdaAbajo) || esCoin(celdaDerecha) ) {
+                // Celda vacía, entonces el personaje puede avanzar
+                mario.caer();
+                mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
+            }
+            else if( (celdaAbajo==null && celdaDerecha==null) || esVida(celdaAbajo) || esVida(celdaDerecha) ) {
+                // Celda vacía, entonces el personaje puede avanzar
+                mario.caer();
+                mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
+            }
+            else {
+                // Dejarlo sobre la celda que lo detiene
+                mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
+                mario.setEstadoSalto(Personaje.EstadoSalto.EN_PISO);
+            }
+        }
 
-
+        // Saltar
+        switch (mario.getEstadoSalto()) {
+            case SUBIENDO:
+            case BAJANDO:
+                mario.actualizarSalto(mapa);    // Actualizar posición en 'y'
+                break;
+        }
     }
 
     // Prueba si puede moverse a la izquierda o derecha
@@ -718,10 +995,7 @@ public class PantallaMGDos implements Screen
         //******************************
         if ( capaPlataforma.getCell(celdaX,celdaY) != null || capaPlataforma.getCell(celdaX,celdaY+1) != null ) {
             // Colisionará, dejamos de moverlo
-            if(mario.getX()<ANCHO_MAPA && mario.getX()>ANCHO_MAPA-150){//si llega al extremo del mapa
-                mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
-            }else
-            if ( esCoin(capaPlataforma.getCell(celdaX,celdaY)) ) {
+            if ( esCoin(capaPlataforma.getCell(celdaX,celdaY))) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY,null);
                 estrellas++;
@@ -734,7 +1008,7 @@ public class PantallaMGDos implements Screen
             } else if ( esVida(capaPlataforma.getCell(celdaX,celdaY)) ) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY,null);
-                if(vidaf<=4){
+                if(vidaf<=vidafMax){
                     vidaf++;
                 }
                 sonidoVida.play();
@@ -744,28 +1018,7 @@ public class PantallaMGDos implements Screen
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
                 vidaf++;
                 sonidoVida.play();
-            }
-
-            else if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) ) {
-                sonidoPierde.play();
-                estadoJuego = EstadosJuego.PERDIO;
-                estadoJuego = EstadosJuego.PERDIO;
-                /*Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        plataforma.setScreen(new Menu(plataforma));
-                    }
-                }, 3);  // 3 segundos*/
-            } else if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) ) {
-                sonidoPierde.play();
-                estadoJuego = EstadosJuego.PERDIO;
-                /*Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        plataforma.setScreen(new Menu(plataforma));
-                    }
-                }, 3);*/
-            } else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
+            }else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
                 eliminarLlave1();
                 estrellas++;
                 abrirPuerta1();
@@ -783,10 +1036,9 @@ public class PantallaMGDos implements Screen
                 sonidoEstrella.play();
 
             }else if(esPistola(capaPlataforma.getCell(celdaX,celdaY))){
-                capaPlataforma.setCell(celdaX,celdaY+1,null);
-                capaPlataforma.setCell(celdaX,celdaY,null);
-                //banderaArma = true;
-                sonidoVida.play();
+                eliminarPistolita();
+                banderaArma = true;
+                sonidoRetrocarga.play();
             }
             else {
                 mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
@@ -797,29 +1049,68 @@ public class PantallaMGDos implements Screen
             if ( esPuertaA( capaPlataforma1.getCell(celdaX,celdaY) ) && llaveA ) {
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
+                //dispose();
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        plataforma.setScreen(new CargandoMiniGame1(plataforma));
+                        Gdx.input.setInputProcessor(null);
+                        musicFondo.dispose();
+                        AssetManager assetManager = plataforma.getAssetManager();
+                        assetManager.clear();
+                        //Actualizar preferencias
+                        int scoreA = score.getInteger("theBest",0);
+                        if(estrellas>scoreA){
+                            score.clear();
+                            score.putInteger("theBest",estrellas);
+                            score.flush();
+                        }
+                        Gdx.app.log("Ya entre ","al nivel miniGame");
+                        siguienteNivel.clear();
+                        siguienteNivel.putString("Nivel2_A","Entre al nivel 2A");
+                        siguienteNivel.flush();
+                        niveles.clear();
+                        niveles.putString("MiniGame1","Ya pase el nivel 1");
+                        niveles.flush();
+                        pantallaCargando = new PantallaCargando(plataforma);
+                        pantallaCargando.setNivel("MiniGame1");
+                        plataforma.setScreen(pantallaCargando);
                     }
-                }, 3);  // 3 segundos
+                }, 1);  // 3 segundos
             }
         }
         if ( capaPlataforma2.getCell(celdaX,celdaY) != null || capaPlataforma2.getCell(celdaX,celdaY+1) != null ) {
             if ( esPuertaA2( capaPlataforma2.getCell(celdaX,celdaY) ) && llaveB) {
+                Gdx.input.setInputProcessor(null);
                 sonidoPierde.play();
                 estadoJuego = EstadosJuego.PERDIO;
+                //dispose();
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        plataforma.setScreen(new CargandoMiniGame1(plataforma));
+                        musicFondo.dispose();
+                        AssetManager assetManager = plataforma.getAssetManager();
+                        assetManager.clear();
+                        //Actualizar preferencias
+                        int scoreA = score.getInteger("theBest",0);
+                        if(estrellas>scoreA){
+                            score.clear();
+                            score.putInteger("theBest",estrellas);
+                            score.flush();
+                        }
+                        siguienteNivel.clear();
+                        siguienteNivel.putString("Nivel2_B","Entre al nivel 2B");
+                        siguienteNivel.flush();
+                        niveles.clear();
+                        niveles.putString("MiniGame1","Ya pase el nivel 1");
+                        niveles.flush();
+                        pantallaCargando = new PantallaCargando(plataforma);
+                        pantallaCargando.setNivel("MiniGame1");
+                        plataforma.setScreen(pantallaCargando);
                     }
-                }, 3);  // 3 segundos
+                }, 1);  // 3 segundos
             }
         }
-        else {
-            mario.actualizar();
-        }
+        mario.actualizar();
     }
 
     private void abrirPuerta1() {
@@ -875,6 +1166,13 @@ public class PantallaMGDos implements Screen
         capaPlataforma.setCell(40,19,null);
         capaPlataforma.setCell(40,18,null);
         llaveA = true;
+    }
+    private void eliminarPistolita() {
+        TiledMapTileLayer capaPlataforma = (TiledMapTileLayer) mapa.getLayers().get(1);
+        capaPlataforma.setCell(8,12,null);
+        capaPlataforma.setCell(8,11,null);
+        capaPlataforma.setCell(9,12,null);
+        capaPlataforma.setCell(9,11,null);
     }
 
 
@@ -960,7 +1258,7 @@ public class PantallaMGDos implements Screen
 
     @Override
     public void hide() {
-
+        //dispose();
     }
 
     // Libera los assets
@@ -968,27 +1266,60 @@ public class PantallaMGDos implements Screen
     public void dispose() {
         // Los assets se liberan a través del assetManager
         AssetManager assetManager = plataforma.getAssetManager();
+        // Carga los recursos de la siguiente pantalla (PantallaJuego)
+        assetManager.unload("inv.tmx");  // Cargar info del mapa
+        //assetManager.load("Mapa.tmx", TiledMap.class);
         assetManager.unload("nave.png");
+        assetManager.unload("salto.png");
+
+
+        // Cargar imagen
+        // Texturas de los botones
         assetManager.unload("BtmDerecho.png");
         assetManager.unload("BtmIzquierdo.png");
         assetManager.unload("BtmSaltar.png");
-        assetManager.unload("BtmPausa.png");
-        assetManager.unload("ganaste.png");
-        assetManager.unload("inv.tmx");
-        //assetManager.unload("Mapa.tmx");
         assetManager.unload("shoot.png");
-        assetManager.unload("salto.png");
-        assetManager.unload("barra.png");
-        assetManager.unload("pil.png");
         assetManager.unload("bala.png");
-        assetManager.unload("balaEmbudo.png");
-        assetManager.unload("balaPlanta.png");
-        assetManager.unload("Planta.png");
         assetManager.unload("embudo.png");
+        //assetManager.load("alien1.png",Texture.class);
+        assetManager.unload("Planta.png");
+        assetManager.unload("balaPlanta.png");
+        assetManager.unload("balaA.png");
+        assetManager.unload("BtmPausa.png");
+
+        //aliens
         assetManager.unload("alien1.png");
         assetManager.unload("alien2.png");
         assetManager.unload("alien3.png");
+
+        //cargar barra
+        assetManager.unload("barra.png");
+        assetManager.unload("barraF.png");
+
+
+        //Para la pausa
+        assetManager.unload("Pausa.png");
+        assetManager.unload("BtmPlay.png");
+        assetManager.unload("back.png");
+        assetManager.unload("BtmSonido.png");
+        assetManager.unload("BtmMusic.png");
+        assetManager.unload("BtmSonidoF.png");
+        assetManager.unload("BtmMusicF.png");
+
+        //Para cuando pierde
+        assetManager.unload("GameOver.png");
+
+
+        // Fin del juego
+        assetManager.unload("ganaste.png");
+        // Efecto al tomar la moneda
+        assetManager.unload("monedas.mp3");
+        assetManager.unload("llave.mp3");
+        assetManager.unload("opendoor.mp3");
+        assetManager.unload("vidawi.mp3");
+
     }
+
 
     /*
     Clase utilizada para manejar los eventos de touch en la pantalla
@@ -1004,6 +1335,22 @@ public class PantallaMGDos implements Screen
         pointer - es el número de dedo que se pone en la pantalla, el primero es 0
         button - el botón del mouse
          */
+
+        @Override
+        public boolean keyDown(int keycode) {
+            if (keycode== Input.Keys.BACK) {
+                if(!(estadoJuego == EstadosJuego.PAUSADO)) {
+                    estadoJuego = EstadosJuego.PAUSADO;
+                    banderaPausa = true;
+                }
+                else{
+                    estadoJuego = EstadosJuego.JUGANDO;
+                    banderaPausa = false;
+                }
+            }
+            return true; // Para que el sistema operativo no la procese
+        }
+
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
@@ -1012,16 +1359,16 @@ public class PantallaMGDos implements Screen
                 if (btnDerecha.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
                     banderaDireccion = false;
+                    //mario.setBanderaPosicion(banderaDireccion);
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
 
                 } else if (btnIzquierda.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón izquierda, hacer que el personaje se mueva a la izquierda
-                    //banderaDireccion = true;
+                    banderaDireccion = true;
+                    //mario.setBanderaPosicion(banderaDireccion);
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
-                }/* else if (btnSalto.contiene(x, y)) {
-                    // Tocó el botón saltar
-                    mario.saltar();
-                }*/else if (btnDisparo.contiene(x, y)) {
+
+                }else if (btnDisparo.contiene(x, y)) {
                     // Tocó el botón disparar
                     sonidoPistola.play();
                     Bala bala = new Bala(texturaBala);
@@ -1036,18 +1383,78 @@ public class PantallaMGDos implements Screen
                     }
                 }else if(btnPausa.contiene(x,y)){
                     //plataforma.setScreen(new PantallaPausa(plataforma));
-                    estadoJuego = EstadosJuego.PAUSADO;
+                    estadoJuego=EstadosJuego.PAUSADO;
                     banderaPausa = true;
                 }
             } else if (estadoJuego==EstadosJuego.GANO) {
                 if (btnGana.contiene(x,y)) {
-                    //Gdx.app.exit();//Buuu
-                    niveles.clear();
-                    niveles.putString("Nivel3_A","Ya pase el minigame 2");
-                    niveles.flush();
-                    pantallaCargando = new PantallaCargando(plataforma);
-                    pantallaCargando.setNivel("Nivel3_A");
-                    plataforma.setScreen(pantallaCargando);
+                    Gdx.app.exit();//Buuu
+                }
+            } else if (estadoJuego == EstadosJuego.PAUSADO){
+                if (btnPlay.contiene(x, y)) {
+                    // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
+                    banderaPausa = false;
+                    estadoJuego=EstadosJuego.JUGANDO;
+                }else if(btnMenu.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.dispose();
+                    dispose();
+                    plataforma.setScreen(new Menu(plataforma));
+
+                } else if(btnSonidoT.contiene(x,y)){
+                    AssetManager assetManager = plataforma.getAssetManager();
+                    estadoSonidos = false;
+                    sonidos.clear();
+                    sonidos.putBoolean("estadoSonidos",false);
+                    sonidos.flush();
+                    sonidoEstrella = assetManager.get("Mute.mp3");
+                    sonidoRetrocarga = assetManager.get("Mute.mp3");
+                    sonidoLlave = assetManager.get("Mute.mp3");
+                    sonidoPierde = assetManager.get("Mute.mp3");
+                    sonidoPistola = assetManager.get("Mute.mp3");
+                    sonidoVida = assetManager.get("Mute.mp3");
+                }
+                else if(btnSonidoF.contiene(x,y)){
+                    AssetManager assetManager = plataforma.getAssetManager();
+
+                    estadoSonidos = true;
+                    sonidos.clear();
+                    sonidos.putBoolean("estadoSonidos",true);
+                    sonidos.flush();
+                    sonidoEstrella = assetManager.get("monedas.mp3");
+                    sonidoPierde = assetManager.get("opendoor.mp3");
+                    sonidoVida= assetManager.get("vidawi.mp3");
+                    sonidoLlave=assetManager.get("llave.mp3");
+                    sonidoPistola=assetManager.get("pistola.mp3");
+                    sonidoRetrocarga = assetManager.get("retrocarga.wav");
+                }
+
+                if(btnMusicaT.contiene(x,y)){
+                    estadoMusica=false;
+                    musica.clear();
+                    musica.putBoolean("estadoMusica",false);
+                    musica.flush();
+                    musicFondo.pause();
+                }
+                else if(btnMusicaF.contiene(x,y)){
+                    Gdx.app.log("Tocando"," musica apagada");
+                    estadoMusica = true;
+                    musica.clear();
+                    musica.putBoolean("estadoMusica",true);
+                    musica.flush();
+                    musicFondo.play();
+                }
+            }else if(estadoJuego == EstadosJuego.PERDIOI || haPerdio){
+                if(btnMenuP.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.dispose();
+                    dispose();
+                    plataforma.setScreen(new Menu(plataforma));
+                }
+                else if(btnPlayP.contiene(x,y)){
+                    Gdx.input.setInputProcessor(null);
+                    musicFondo.dispose();
+                    plataforma.setScreen(new PantallaJuego(plataforma));
                 }
             }
             return true;    // Indica que ya procesó el evento
@@ -1097,9 +1504,8 @@ public class PantallaMGDos implements Screen
         GANO,
         JUGANDO,
         PAUSADO,
-        PERDIO
+        PERDIO,
+        PERDIOI
     }
 
-    //if (bandera direccion)
-    // a la hora de generar la bala la mandamos con direccion izquierda
 }

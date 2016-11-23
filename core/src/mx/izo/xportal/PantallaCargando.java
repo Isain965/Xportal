@@ -108,6 +108,8 @@ public class PantallaCargando implements Screen {
             assetManager.load("BtmMusic.png", Texture.class);
             assetManager.load("BtmSonidoF.png", Texture.class);
             assetManager.load("BtmMusicF.png", Texture.class);
+            assetManager.load("BtmPlay.png", Texture.class);
+
             // Fin del juego
             assetManager.load("ganaste.png", Texture.class);
             // Efecto al tomar la moneda
@@ -180,7 +182,6 @@ public class PantallaCargando implements Screen {
 
 
         }else if(nivel.equals("MiniGame2")){
-            // Carga los recursos de la siguiente pantalla (PantallaJuego)
             assetManager.load("inv.tmx", TiledMap.class);  // Cargar info del mapa
             //assetManager.load("Mapa.tmx", TiledMap.class);
             assetManager.load("nave.png", Texture.class);
@@ -210,15 +211,6 @@ public class PantallaCargando implements Screen {
             assetManager.load("barra.png",Texture.class);
             assetManager.load("barraF.png",Texture.class);
 
-            // Fin del juego
-            assetManager.load("ganaste.png", Texture.class);
-            // Efecto al tomar la moneda
-            assetManager.load("monedas.mp3", Sound.class);
-            assetManager.load("llave.mp3", Sound.class);
-            assetManager.load("opendoor.mp3", Sound.class);
-            assetManager.load("vidawi.mp3", Sound.class);
-            assetManager.load("shoot.mp3",Sound.class);
-
 
             //Para la pausa
             assetManager.load("Pausa.png", Texture.class);
@@ -228,6 +220,11 @@ public class PantallaCargando implements Screen {
             assetManager.load("BtmMusic.png", Texture.class);
             assetManager.load("BtmSonidoF.png", Texture.class);
             assetManager.load("BtmMusicF.png", Texture.class);
+
+            //Para cuando pierde
+            assetManager.load("GameOver.png",Texture.class);
+
+
             // Fin del juego
             assetManager.load("ganaste.png", Texture.class);
             // Efecto al tomar la moneda
@@ -239,8 +236,6 @@ public class PantallaCargando implements Screen {
             assetManager.load("retrocarga.wav", Sound.class);
             assetManager.load("Mute.mp3", Sound.class);
 
-            //Para cuando pierde
-            assetManager.load("GameOver.png",Texture.class);
 
         }
         else if(nivel.equals("Nivel2_A")){
@@ -429,7 +424,7 @@ public class PantallaCargando implements Screen {
             }else if(nivel.equals("MiniGame1")){
                 plataforma.setScreen(new MiniGame1(plataforma));
             }else if(nivel.equals("MiniGame2")){
-                plataforma.setScreen(new PantallaMGDos(plataforma));
+                plataforma.setScreen(new MiniGame2(plataforma));
             }else if(nivel.equals("Nivel2_A")){
                 plataforma.setScreen(new Nivel2_A(plataforma));
             }
