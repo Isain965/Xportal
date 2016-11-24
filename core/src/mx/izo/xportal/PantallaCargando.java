@@ -261,9 +261,9 @@ public class PantallaCargando implements Screen {
             assetManager.load("shoot.png", Texture.class);
             assetManager.load("bullet.png", Texture.class);
             assetManager.load("embudo.png", Texture.class);
-            assetManager.load("Planta.png", Texture.class);
-            assetManager.load("balaPlanta.png", Texture.class);
-            assetManager.load("balaEmbudo.png", Texture.class);
+            assetManager.load("Regalo.png", Texture.class);
+            assetManager.load("proyectil.png", Texture.class);
+            assetManager.load("proyectilCopo.png", Texture.class);
             assetManager.load("BtmPausa.png", Texture.class);
 
             //Para la pausa

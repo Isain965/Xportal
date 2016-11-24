@@ -37,7 +37,7 @@ public class PantallaJuego implements Screen{
     public Preferences score = Gdx.app.getPreferences("Score");
     public Preferences siguienteNivel = Gdx.app.getPreferences("SiguienteNivel");
 
-    private mx.izo.xportal.PantallaCargando pantallaCargando;
+    private PantallaCargando pantallaCargando;
 
     public static final float ANCHO_MAPA = 4000;   // Ancho del mapa en pixeles
     public static final float ALTO_MAPA = 896;
@@ -62,7 +62,7 @@ public class PantallaJuego implements Screen{
     // Personaje
     private Texture texturaPersonaje;       // Aquí cargamos la imagen marioSprite.png con varios frames
     private Texture texturaPersonaje2;
-    private mx.izo.xportal.Personaje mario;
+    private Personaje mario;
     public static final int TAM_CELDA = 32;
 
     //Musica de fondo
@@ -125,19 +125,19 @@ public class PantallaJuego implements Screen{
     // Estados del juego
     private EstadosJuego estadoJuego;
 
-    ArrayList<mx.izo.xportal.Bala> balas = new ArrayList<mx.izo.xportal.Bala>();
-    ArrayList<mx.izo.xportal.Enemigo> enemigos = new ArrayList<mx.izo.xportal.Enemigo>();
+    ArrayList<Bala> balas = new ArrayList<Bala>();
+    ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
     ArrayList<EnemigoV> enemigosV = new ArrayList<EnemigoV>();
     //Balas enemigos
-    ArrayList<mx.izo.xportal.Bala> balasEnemigos = new ArrayList<mx.izo.xportal.Bala>();
-    ArrayList<mx.izo.xportal.BalaV> balasEnemigosV = new ArrayList<mx.izo.xportal.BalaV>();
+    ArrayList<Bala> balasEnemigos = new ArrayList<Bala>();
+    ArrayList<BalaV> balasEnemigosV = new ArrayList<BalaV>();
 
     private boolean llaveA = false;
     private boolean llaveB = false;
 
     private int rango = 300;
-    private mx.izo.xportal.Bala balaAnterior;
-    private mx.izo.xportal.Bala balaAnteriorV;
+    private Bala balaAnterior;
+    private Bala balaAnteriorV;
 
     private boolean banderaDisparo=true;
 
@@ -235,7 +235,7 @@ public class PantallaJuego implements Screen{
         spriteVidasF = new Sprite(texturaVidasF);
         //spriteVidas.setPosition(100,ALTO_MAPA/2);
         // Crear el personaje
-        mario = new mx.izo.xportal.Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
+        mario = new Personaje(texturaPersonaje,texturaSalto,texturaPersonaje2);
         // Posición inicial del personaje
         mario.setSalto(60);
         mario.setVelocidadX(2.5f);
@@ -283,16 +283,16 @@ public class PantallaJuego implements Screen{
         texturaEnemigo = assetManager.get("Planta.png");
         texturaEnemigo2 = assetManager.get("embudo.png");
 
-        mx.izo.xportal.Enemigo enemigo1 = new mx.izo.xportal.Enemigo(texturaEnemigo);
+        Enemigo enemigo1 = new Enemigo(texturaEnemigo);
         enemigo1.setPosicion(1142,20);
-        mx.izo.xportal.Enemigo enemigo2 = new mx.izo.xportal.Enemigo(texturaEnemigo);
+        Enemigo enemigo2 = new Enemigo(texturaEnemigo);
         enemigo2.setPosicion(2284,20);
-        mx.izo.xportal.Enemigo enemigo3 = new mx.izo.xportal.Enemigo(texturaEnemigo);
+        Enemigo enemigo3 = new Enemigo(texturaEnemigo);
         enemigo3.setPosicion(3426,20);
         enemigos.add(enemigo1);
         enemigos.add(enemigo2);
         enemigos.add(enemigo3);
-        balaAnterior = new mx.izo.xportal.Bala(texturaBalaPlanta);
+        balaAnterior = new Bala(texturaBalaPlanta);
         balaAnterior.setPosicion(enemigo1.getX(),641);
 
 
@@ -305,7 +305,7 @@ public class PantallaJuego implements Screen{
         enemigosV.add(enemigoV1);
         enemigosV.add(enemigoV2);
         enemigosV.add(enemigoV3);
-        balaAnteriorV = new mx.izo.xportal.Bala(texturaBalaEmbudo);
+        balaAnteriorV = new Bala(texturaBalaEmbudo);
         balaAnteriorV.setPosicion(enemigo1.getX(),641);
 
         // Efecto moneda
@@ -479,14 +479,14 @@ public class PantallaJuego implements Screen{
                     enemigoV.render(batch);
 
                     if ((mario.getX() >= enemigoV.getX() - rango) && (mario.getX() <= enemigoV.getX()) && (int) tiempoJuego == (tiempoDisparo/2) && banderaDisparo) {
-                        mx.izo.xportal.BalaV balaEnJuego = new mx.izo.xportal.BalaV(texturaBalaEmbudo);
+                        BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
                         balaEnJuego.setDireccion(-10);
                         balaEnJuego.setPosicion(enemigoV.getX(), enemigoV.getY() + 50);
                         balasEnemigosV.add(balaEnJuego);
                         banderaDisparo = false;
                         tiempoJuego = 0;
                     } else if ((mario.getX() > enemigoV.getX()) && (mario.getX() <= enemigoV.getX() + rango) && (int) tiempoJuego == (tiempoDisparo/2) && banderaDisparo) {
-                        mx.izo.xportal.BalaV balaEnJuego = new mx.izo.xportal.BalaV(texturaBalaEmbudo);
+                        BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
                         balaEnJuego.setDireccion(-10);
                         balaEnJuego.setPosicion(enemigoV.getX() + 41, enemigoV.getY() + 50);
                         balasEnemigosV.add(balaEnJuego);
@@ -494,7 +494,7 @@ public class PantallaJuego implements Screen{
                         tiempoJuego = 0;
                     }
 
-                    for (mx.izo.xportal.BalaV bala : balasEnemigosV) {
+                    for (BalaV bala : balasEnemigosV) {
                         bala.render(batch);
                         banderaDisparo = true;
                         if ((bala.getX() >= mario.getX() && bala.getX() <= (mario.getX() + mario.getSprite().getWidth())) &&
@@ -507,7 +507,7 @@ public class PantallaJuego implements Screen{
                         }
                     }
 
-                    for (mx.izo.xportal.Bala bala : balas) {
+                    for (Bala bala : balas) {
                         bala.render(batch, banderaDireccion);
                         if ((bala.getX() >= enemigoV.getX() && bala.getX() <= (enemigoV.getX() + enemigoV.getSprite().getWidth())) &&
                                 (bala.getY() >= enemigoV.getY() && bala.getY() <= (enemigoV.getY() + enemigoV.getSprite().getHeight()))) {
@@ -527,12 +527,12 @@ public class PantallaJuego implements Screen{
                     enemigoV.setPosicion(0, 2000);
                 }
             }
-            for (mx.izo.xportal.Enemigo enemigo : enemigos) {
+            for (Enemigo enemigo : enemigos) {
                 if (enemigo.getVidas() > 0) {
                     enemigo.render(batch);
 
                     if ((mario.getX() >= enemigo.getX() - rango) && (mario.getX() <= enemigo.getX()) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
-                        mx.izo.xportal.Bala balaEnJuego = new mx.izo.xportal.Bala(texturaBalaPlanta);
+                        Bala balaEnJuego = new Bala(texturaBalaPlanta);
                         balaEnJuego.setDireccion(-10);
                         balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
                         balasEnemigos.add(balaEnJuego);
@@ -541,7 +541,7 @@ public class PantallaJuego implements Screen{
                         //}else if (mario.getX()>=enemigo.getX()+enemigo.getSprite().getWidth()&&mario.getX()<=enemigo.getX()+enemigo.getSprite().getWidth()+rango&&banderaDisparo&&tiempoJuego==tiempoDisparo){
                     } else if ((mario.getX() > enemigo.getX()) && (mario.getX() <= enemigo.getX() + rango) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
                         //Gdx.app.log("Deberia de disparar a la derecha", "");
-                        mx.izo.xportal.Bala balaEnJuego = new mx.izo.xportal.Bala(texturaBalaPlanta);
+                        Bala balaEnJuego = new Bala(texturaBalaPlanta);
                         balaEnJuego.setDireccion(10);
                         balaEnJuego.setPosicion(enemigo.getX() + 120, enemigo.getY() + 50);
                         balasEnemigos.add(balaEnJuego);
@@ -550,7 +550,7 @@ public class PantallaJuego implements Screen{
                     }
 
 
-                    for (mx.izo.xportal.Bala bala : balasEnemigos) {
+                    for (Bala bala : balasEnemigos) {
                         bala.render(batch, banderaDireccion);
                         banderaDisparo = true;
                         if ((bala.getX() >= mario.getX() && bala.getX() <= (mario.getX() + mario.getSprite().getWidth())) &&
@@ -563,7 +563,7 @@ public class PantallaJuego implements Screen{
                         }
                     }
 
-                    for (mx.izo.xportal.Bala bala : balas) {
+                    for (Bala bala : balas) {
                         bala.render(batch, banderaDireccion);
                         if ((bala.getX() >= enemigo.getX() && bala.getX() <= (enemigo.getX() + enemigo.getSprite().getWidth())) &&
                                 (bala.getY() >= enemigo.getY() && bala.getY() <= (enemigo.getY() + enemigo.getSprite().getHeight()))) {
@@ -583,7 +583,7 @@ public class PantallaJuego implements Screen{
                 }
             }
             //Dibuja las balas del personaje
-            for (mx.izo.xportal.Bala bala : balas) {
+            for (Bala bala : balas) {
                 bala.render(batch, banderaDireccion);
             }
 
@@ -597,7 +597,7 @@ public class PantallaJuego implements Screen{
             }
             //Elimina las balas del enemigo
             for (int i = 0; i < balasEnemigosV.size(); i++) {
-                mx.izo.xportal.BalaV balaV = balasEnemigosV.get(i);
+                BalaV balaV = balasEnemigosV.get(i);
                 if (balaV.getX() == 0) {
                     balasEnemigosV.remove(i);
                 }
@@ -605,7 +605,7 @@ public class PantallaJuego implements Screen{
 
             //Elimina las balas del personaje
             for (int i = 0; i < balas.size(); i++) {
-                mx.izo.xportal.Bala bala = balas.get(i);
+                Bala bala = balas.get(i);
                 if (bala.getY() == 1000 || bala.getX() > mario.getX() + rango || mario.getX() - rango > bala.getX()) {
                     balas.remove(i);
                 }
@@ -614,14 +614,14 @@ public class PantallaJuego implements Screen{
 
             //Elimina a enemigos planta
             for (int i = 0; i < enemigos.size(); i++) {
-                mx.izo.xportal.Enemigo enemigo = enemigos.get(i);
+                Enemigo enemigo = enemigos.get(i);
                 if (enemigo.getY() == 2000) {
                     enemigos.remove(i);
                 }
             }
             //Elimina las balas de planta
             for (int i = 0; i < balasEnemigos.size(); i++) {
-                mx.izo.xportal.Bala bala = balasEnemigos.get(i);
+                Bala bala = balasEnemigos.get(i);
                 if (bala.getY() == 1000 || bala.getX() < 0 || bala.getX() > 4000) {
                     balasEnemigos.remove(i);
                 }
@@ -716,14 +716,14 @@ public class PantallaJuego implements Screen{
                     enemigoV.render(batch);
 
                     if ((mario.getX() >= enemigoV.getX() - rango) && (mario.getX() <= enemigoV.getX()) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
-                        mx.izo.xportal.BalaV balaEnJuego = new mx.izo.xportal.BalaV(texturaBalaEmbudo);
+                        BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
                         balaEnJuego.setDireccion(-10);
                         balaEnJuego.setPosicion(enemigoV.getX(), enemigoV.getY() + 50);
                         balasEnemigosV.add(balaEnJuego);
                         banderaDisparo = false;
                         tiempoJuego = 0;
                     } else if ((mario.getX() > enemigoV.getX()) && (mario.getX() <= enemigoV.getX() + rango) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
-                        mx.izo.xportal.BalaV balaEnJuego = new mx.izo.xportal.BalaV(texturaBalaEmbudo);
+                        BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
                         balaEnJuego.setDireccion(-10);
                         balaEnJuego.setPosicion(enemigoV.getX() + 38, enemigoV.getY() + 50);
                         balasEnemigosV.add(balaEnJuego);
@@ -741,12 +741,12 @@ public class PantallaJuego implements Screen{
                     enemigoV.setPosicion(0, 2000);
                 }
             }
-            for (mx.izo.xportal.Enemigo enemigo : enemigos) {
+            for (Enemigo enemigo : enemigos) {
                 if (enemigo.getVidas() > 0) {
                     enemigo.render(batch);
 
                     if ((mario.getX() >= enemigo.getX() - rango) && (mario.getX() <= enemigo.getX()) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
-                        mx.izo.xportal.Bala balaEnJuego = new mx.izo.xportal.Bala(texturaBalaPlanta);
+                        Bala balaEnJuego = new Bala(texturaBalaPlanta);
                         balaEnJuego.setDireccion(-10);
                         balaEnJuego.setPosicion(enemigo.getX(), enemigo.getY() + 50);
                         balasEnemigos.add(balaEnJuego);
@@ -755,7 +755,7 @@ public class PantallaJuego implements Screen{
                         //}else if (mario.getX()>=enemigo.getX()+enemigo.getSprite().getWidth()&&mario.getX()<=enemigo.getX()+enemigo.getSprite().getWidth()+rango&&banderaDisparo&&tiempoJuego==tiempoDisparo){
                     } else if ((mario.getX() > enemigo.getX()) && (mario.getX() <= enemigo.getX() + rango) && (int) tiempoJuego == tiempoDisparo && banderaDisparo) {
                         Gdx.app.log("Deberia de disparar a la derecha", "");
-                        mx.izo.xportal.Bala balaEnJuego = new mx.izo.xportal.Bala(texturaBalaPlanta);
+                        Bala balaEnJuego = new Bala(texturaBalaPlanta);
                         balaEnJuego.setDireccion(10);
                         balaEnJuego.setPosicion(enemigo.getX() + 120, enemigo.getY() + 50);
                         balasEnemigos.add(balaEnJuego);
@@ -878,12 +878,12 @@ public class PantallaJuego implements Screen{
                 }  else if ( !esCoin(celda) ) {  // Las estrellas no lo detienen :)
                     // Dejarlo sobre la celda que lo detiene
                     mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
-                    mario.setEstadoMovimiento(mx.izo.xportal.Personaje.EstadoMovimiento.QUIETO);
+                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
                 else if( !esVida(celda) ) {  // Las estrellas no lo detienen :)
                     // Dejarlo sobre la celda que lo detiene
                     mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
-                    mario.setEstadoMovimiento(mx.izo.xportal.Personaje.EstadoMovimiento.QUIETO);
+                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
 
                 break;
@@ -893,8 +893,8 @@ public class PantallaJuego implements Screen{
                 break;
         }
         // Prueba si debe caer por llegar a un espacio vacío
-        if ( mario.getEstadoMovimiento()!= mx.izo.xportal.Personaje.EstadoMovimiento.INICIANDO
-                && (mario.getEstadoSalto() != mx.izo.xportal.Personaje.EstadoSalto.SUBIENDO) ) {
+        if ( mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO
+                && (mario.getEstadoSalto() != Personaje.EstadoSalto.SUBIENDO) ) {
             // Calcula la celda donde estaría después de moverlo
             int celdaX = (int) (mario.getX() / TAM_CELDA);
             int celdaY = (int) ((mario.getY() + mario.VELOCIDAD_Y) / TAM_CELDA);
@@ -907,17 +907,17 @@ public class PantallaJuego implements Screen{
             if ( (celdaAbajo==null && celdaDerecha==null) || esCoin(celdaAbajo) || esCoin(celdaDerecha) ) {
                 // Celda vacía, entonces el personaje puede avanzar
                 mario.caer();
-                mario.setEstadoSalto(mx.izo.xportal.Personaje.EstadoSalto.CAIDA_LIBRE);
+                mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
             }
             else if( (celdaAbajo==null && celdaDerecha==null) || esVida(celdaAbajo) || esVida(celdaDerecha) ) {
                 // Celda vacía, entonces el personaje puede avanzar
                 mario.caer();
-                mario.setEstadoSalto(mx.izo.xportal.Personaje.EstadoSalto.CAIDA_LIBRE);
+                mario.setEstadoSalto(Personaje.EstadoSalto.CAIDA_LIBRE);
             }
             else {
                 // Dejarlo sobre la celda que lo detiene
                 mario.setPosicion(mario.getX(), (celdaY + 1) * TAM_CELDA);
-                mario.setEstadoSalto(mx.izo.xportal.Personaje.EstadoSalto.EN_PISO);
+                mario.setEstadoSalto(Personaje.EstadoSalto.EN_PISO);
             }
         }
 
@@ -932,17 +932,17 @@ public class PantallaJuego implements Screen{
 
     // Prueba si puede moverse a la izquierda o derecha
     private void probarChoqueParedes() {
-        mx.izo.xportal.Personaje.EstadoMovimiento estado = mario.getEstadoMovimiento();
+        Personaje.EstadoMovimiento estado = mario.getEstadoMovimiento();
         // Quitar porque este método sólo se llama cuando se está moviendo
-        if ( estado!= mx.izo.xportal.Personaje.EstadoMovimiento.MOV_DERECHA && estado!= mx.izo.xportal.Personaje.EstadoMovimiento.MOV_IZQUIERDA){
+        if ( estado!= Personaje.EstadoMovimiento.MOV_DERECHA && estado!= Personaje.EstadoMovimiento.MOV_IZQUIERDA){
             return;
         }
         float px = mario.getX();    // Posición actual
         // Posición después de actualizar
-        px = mario.getEstadoMovimiento()== mx.izo.xportal.Personaje.EstadoMovimiento.MOV_DERECHA? px+mario.getVelocidadPersonaje():
+        px = mario.getEstadoMovimiento()== Personaje.EstadoMovimiento.MOV_DERECHA? px+mario.getVelocidadPersonaje():
                 px-mario.getVelocidadPersonaje();
         int celdaX = (int)(px/TAM_CELDA);   // Casilla del personaje en X
-        if (mario.getEstadoMovimiento()== mx.izo.xportal.Personaje.EstadoMovimiento.MOV_DERECHA) {
+        if (mario.getEstadoMovimiento()== Personaje.EstadoMovimiento.MOV_DERECHA) {
             celdaX++;   // Casilla del lado derecho
         }
         int celdaY = (int)(mario.getY()/TAM_CELDA); // Casilla del personaje en Y
@@ -973,7 +973,9 @@ public class PantallaJuego implements Screen{
             else if (esVida(capaPlataforma.getCell(celdaX,celdaY+1)) ) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
-                vidaf++;
+                if(vidaf<=5){
+                    vidaf++;
+                }
                 sonidoVida.play();
             }else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
                 eliminarLlave1();
@@ -998,7 +1000,7 @@ public class PantallaJuego implements Screen{
                 sonidoRetrocarga.play();
             }
             else {
-                mario.setEstadoMovimiento(mx.izo.xportal.Personaje.EstadoMovimiento.QUIETO);
+                mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
         }
 
@@ -1030,7 +1032,7 @@ public class PantallaJuego implements Screen{
                         niveles.clear();
                         niveles.putString("MiniGame1","Ya pase el nivel 1");
                         niveles.flush();
-                        pantallaCargando = new mx.izo.xportal.PantallaCargando(plataforma);
+                        pantallaCargando = new PantallaCargando(plataforma);
                         pantallaCargando.setNivel("MiniGame1");
                         plataforma.setScreen(pantallaCargando);
                     }
@@ -1064,7 +1066,7 @@ public class PantallaJuego implements Screen{
                         niveles.clear();
                         niveles.putString("MiniGame1","Ya pase el nivel 1");
                         niveles.flush();
-                        pantallaCargando = new mx.izo.xportal.PantallaCargando(plataforma);
+                        pantallaCargando = new PantallaCargando(plataforma);
                         pantallaCargando.setNivel("MiniGame1");
                         plataforma.setScreen(pantallaCargando);
                     }
@@ -1307,24 +1309,24 @@ public class PantallaJuego implements Screen{
             transformarCoordenadas(screenX, screenY);
             if (estadoJuego==EstadosJuego.JUGANDO) {
                 // Preguntar si las coordenadas están sobre el botón derecho
-                if (btnDerecha.contiene(x, y) && mario.getEstadoMovimiento() != mx.izo.xportal.Personaje.EstadoMovimiento.INICIANDO) {
+                if (btnDerecha.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
                     banderaDireccion = false;
                     mario.setBanderaPosicion(banderaDireccion);
-                    mario.setEstadoMovimiento(mx.izo.xportal.Personaje.EstadoMovimiento.MOV_DERECHA);
+                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
 
-                } else if (btnIzquierda.contiene(x, y) && mario.getEstadoMovimiento() != mx.izo.xportal.Personaje.EstadoMovimiento.INICIANDO) {
+                } else if (btnIzquierda.contiene(x, y) && mario.getEstadoMovimiento() != Personaje.EstadoMovimiento.INICIANDO) {
                     // Tocó el botón izquierda, hacer que el personaje se mueva a la izquierda
                     banderaDireccion = true;
                     mario.setBanderaPosicion(banderaDireccion);
-                    mario.setEstadoMovimiento(mx.izo.xportal.Personaje.EstadoMovimiento.MOV_IZQUIERDA);
+                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
                 } else if (btnSalto.contiene(x, y)) {
                     // Tocó el botón saltar
                     mario.saltar();
                 }else if (btnDisparo.contiene(x, y)&&banderaArma) {
                     // Tocó el botón disparar
                     sonidoPistola.play();
-                    mx.izo.xportal.Bala bala = new mx.izo.xportal.Bala(texturaBala);
+                    Bala bala = new Bala(texturaBala);
                     bala.setPosicion(mario.getX()+15,mario.getY()+70);
                     if(banderaDireccion){
                         bala.setDireccion(-10);
@@ -1351,7 +1353,7 @@ public class PantallaJuego implements Screen{
                     Gdx.input.setInputProcessor(null);
                     musicFondo.dispose();
                     dispose();
-                    plataforma.setScreen(new mx.izo.xportal.Menu(plataforma));
+                    plataforma.setScreen(new Menu(plataforma));
 
                 } else if(btnSonidoT.contiene(x,y)){
                     AssetManager assetManager = plataforma.getAssetManager();
@@ -1401,7 +1403,7 @@ public class PantallaJuego implements Screen{
                     Gdx.input.setInputProcessor(null);
                     musicFondo.dispose();
                     dispose();
-                    plataforma.setScreen(new mx.izo.xportal.Menu(plataforma));
+                    plataforma.setScreen(new Menu(plataforma));
                 }
                 else if(btnPlayP.contiene(x,y)){
                     Gdx.input.setInputProcessor(null);
@@ -1419,9 +1421,9 @@ public class PantallaJuego implements Screen{
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
             transformarCoordenadas(screenX, screenY);
             // Preguntar si las coordenadas son de algún botón para DETENER el movimiento
-            if ( mario.getEstadoMovimiento()!= mx.izo.xportal.Personaje.EstadoMovimiento.INICIANDO && (btnDerecha.contiene(x, y) || btnIzquierda.contiene(x,y)) ) {
+            if ( mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.INICIANDO && (btnDerecha.contiene(x, y) || btnIzquierda.contiene(x,y)) ) {
                 // Tocó el botón derecha, hacer que el personaje se mueva a la derecha
-                mario.setEstadoMovimiento(mx.izo.xportal.Personaje.EstadoMovimiento.QUIETO);
+                mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
             return true;    // Indica que ya procesó el evento
         }
@@ -1432,9 +1434,9 @@ public class PantallaJuego implements Screen{
         public boolean touchDragged(int screenX, int screenY, int pointer) {
             transformarCoordenadas(screenX, screenY);
             // Acaba de salir de las fechas (y no es el botón de salto)
-            if (x<Plataforma.ANCHO_CAMARA/2 && mario.getEstadoMovimiento()!= mx.izo.xportal.Personaje.EstadoMovimiento.QUIETO) {
+            if (x<Plataforma.ANCHO_CAMARA/2 && mario.getEstadoMovimiento()!= Personaje.EstadoMovimiento.QUIETO) {
                 if (!btnIzquierda.contiene(x, y) && !btnDerecha.contiene(x, y) ) {
-                    mario.setEstadoMovimiento(mx.izo.xportal.Personaje.EstadoMovimiento.QUIETO);
+                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
             }
             return true;

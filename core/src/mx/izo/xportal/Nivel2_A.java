@@ -130,7 +130,7 @@ public class Nivel2_A implements Screen{
     private EstadosJuego estadoJuego;
 
     ArrayList<Bala> balas = new ArrayList<Bala>();
-    ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
+    ArrayList<EnemigoRegalo> enemigos = new ArrayList<EnemigoRegalo>();
     ArrayList<EnemigoV> enemigosV = new ArrayList<EnemigoV>();
     //Balas enemigos
     ArrayList<Bala> balasEnemigos = new ArrayList<Bala>();
@@ -276,20 +276,20 @@ public class Nivel2_A implements Screen{
 
 
         texturaBala = assetManager.get("bullet.png");
-        texturaBalaEmbudo = assetManager.get("balaEmbudo.png");
-        texturaBalaPlanta = assetManager.get("balaPlanta.png");
+        texturaBalaEmbudo = assetManager.get("proyectilCopo.png");
+        texturaBalaPlanta = assetManager.get("proyectil.png");
 
         //vidas=assetManager.get("pil.png");
         //vidas.draw(plataforma,100,100);
 
-        texturaEnemigo = assetManager.get("Planta.png");
+        texturaEnemigo = assetManager.get("Regalo.png");
         texturaEnemigo2 = assetManager.get("embudo.png");
 
-        Enemigo enemigo1 = new Enemigo(texturaEnemigo);
+        EnemigoRegalo enemigo1 = new EnemigoRegalo(texturaEnemigo);
         enemigo1.setPosicion(1142,20);
-        Enemigo enemigo2 = new Enemigo(texturaEnemigo);
+        EnemigoRegalo enemigo2 = new EnemigoRegalo(texturaEnemigo);
         enemigo2.setPosicion(2284,20);
-        Enemigo enemigo3 = new Enemigo(texturaEnemigo);
+        EnemigoRegalo enemigo3 = new EnemigoRegalo(texturaEnemigo);
         enemigo3.setPosicion(3426,20);
         enemigos.add(enemigo1);
         enemigos.add(enemigo2);
@@ -299,11 +299,11 @@ public class Nivel2_A implements Screen{
 
 
         EnemigoV enemigoV1 = new EnemigoV(texturaEnemigo2);
-        enemigoV1.setPosicion(571,855);
+        enemigoV1.setPosicion(571,990);
         EnemigoV enemigoV2 = new EnemigoV(texturaEnemigo2);
-        enemigoV2.setPosicion(2000,855);
+        enemigoV2.setPosicion(2000,990);
         EnemigoV enemigoV3 = new EnemigoV(texturaEnemigo2);
-        enemigoV3.setPosicion(2855,855);
+        enemigoV3.setPosicion(2855,990);
         enemigosV.add(enemigoV1);
         enemigosV.add(enemigoV2);
         enemigosV.add(enemigoV3);
@@ -533,7 +533,7 @@ public class Nivel2_A implements Screen{
                     enemigoV.setPosicion(0, 2000);
                 }
             }
-            for (Enemigo enemigo : enemigos) {
+            for (EnemigoRegalo enemigo : enemigos) {
                 if (enemigo.getVidas() > 0) {
                     enemigo.render(batch);
 
@@ -620,7 +620,7 @@ public class Nivel2_A implements Screen{
 
             //Elimina a enemigos planta
             for (int i = 0; i < enemigos.size(); i++) {
-                Enemigo enemigo = enemigos.get(i);
+                EnemigoRegalo enemigo = enemigos.get(i);
                 if (enemigo.getY() == 2000) {
                     enemigos.remove(i);
                 }
@@ -747,7 +747,7 @@ public class Nivel2_A implements Screen{
                     enemigoV.setPosicion(0, 2000);
                 }
             }
-            for (Enemigo enemigo : enemigos) {
+            for (EnemigoRegalo enemigo : enemigos) {
                 if (enemigo.getVidas() > 0) {
                     enemigo.render(batch);
 
@@ -979,7 +979,9 @@ public class Nivel2_A implements Screen{
             else if (esVida(capaPlataforma.getCell(celdaX,celdaY+1)) ) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
-                vidaf++;
+                if(vidaf<=vidafMax){
+                    vidaf++;
+                }
                 sonidoVida.play();
             }else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
                 eliminarLlave1();
@@ -995,7 +997,9 @@ public class Nivel2_A implements Screen{
 
             }else if(esVida(capaPlataforma.getCell(celdaX,celdaY))){
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
-                vidaf++;
+                if(vidaf<=vidafMax){
+                    vidaf++;
+                };
                 sonidoEstrella.play();
 
             }else if(esPistola(capaPlataforma.getCell(celdaX,celdaY))){
@@ -1243,9 +1247,9 @@ public class Nivel2_A implements Screen{
         assetManager.unload("shoot.png");
         assetManager.unload("bullet.png");
         assetManager.unload("embudo.png");
-        assetManager.unload("Planta.png");
-        assetManager.unload("balaPlanta.png");
-        assetManager.unload("balaEmbudo.png");
+        assetManager.unload("Regalo.png");
+        assetManager.unload("proyectil.png");
+        assetManager.unload("proyectilCopo.png");
         assetManager.unload("BtmPausa.png");
 
         //Para la pausa

@@ -666,7 +666,7 @@ public class MiniGame2 implements Screen{
             //Elimina las balas del personaje
             for (int i = 0; i < balas.size(); i++) {
                 Bala bala = balas.get(i);
-                if (bala.getY() == 1000 || bala.getX() > mario.getX() + rango || mario.getX() - rango > bala.getX()) {
+                if (bala.getY() == 1000 || bala.getY()>1000 || bala.getX() > mario.getX() + rango || mario.getX() - rango > bala.getX()) {
                     balas.remove(i);
                 }
             }

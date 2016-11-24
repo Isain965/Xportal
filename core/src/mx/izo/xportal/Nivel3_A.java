@@ -995,7 +995,9 @@ public class Nivel3_A implements Screen{
             else if (esVida(capaPlataforma.getCell(celdaX,celdaY+1)) ) {
                 // Borrar esta estrella y contabilizar
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
-                vidaf++;
+                if(vidaf<=5){
+                    vidaf++;
+                }
                 sonidoVida.play();
             }else if (esLlave1(capaPlataforma.getCell(celdaX,celdaY))){
                 eliminarLlave1();
@@ -1011,7 +1013,9 @@ public class Nivel3_A implements Screen{
 
             }else if(esVida(capaPlataforma.getCell(celdaX,celdaY))){
                 capaPlataforma.setCell(celdaX,celdaY+1,null);
-                vidaf++;
+                if(vidaf<=5){
+                    vidaf++;
+                }
                 sonidoEstrella.play();
 
             }else if(esPistola(capaPlataforma.getCell(celdaX,celdaY))){
