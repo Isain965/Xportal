@@ -11,6 +11,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -90,6 +91,10 @@ public class MiniGame1 implements Screen
 
     // Estados del juego
     private EstadosJuego estadoJuego;
+
+    //Para nieve
+    //Sistema de particulas
+    private ParticleEffect particulas;
 
     private Texture texturaManzanas;
     ArrayList<mx.izo.xportal.BalaV> balasL = new ArrayList<mx.izo.xportal.BalaV>();
@@ -284,6 +289,11 @@ public class MiniGame1 implements Screen
         btnMenu.setPosicion(Plataforma.ANCHO_CAMARA/2-250, Plataforma.ALTO_CAMARA/2);
         btnMenu.setAlfa(0.7f);
 
+        particulas = new ParticleEffect();
+        particulas.load(Gdx.files.internal("nieve.p"), Gdx.files.internal(""));
+        particulas.setPosition(Plataforma.ANCHO_CAMARA/2, 900);
+        particulas.reset();
+
         if(estadoMusica) {
             btnMusicaT = new Boton(texturaMusicaT);
             btnMusicaT.setPosicion(Plataforma.ANCHO_CAMARA / 2 + 150, Plataforma.ALTO_CAMARA / 2 - 180);
@@ -361,6 +371,7 @@ public class MiniGame1 implements Screen
 
             // Entre begin-end dibujamos nuestros objetos en pantalla
             batch.begin();
+            particulas.draw(batch,Gdx.graphics.getDeltaTime());
 
 
             H.render(batch);    // Dibuja el personaje

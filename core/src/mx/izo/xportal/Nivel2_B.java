@@ -312,7 +312,7 @@ public class Nivel2_B implements Screen{
 
         particulas = new ParticleEffect();
         particulas.load(Gdx.files.internal("hojas.p"), Gdx.files.internal(""));
-        particulas.setPosition(Gdx.graphics.getWidth()/2, 900);
+        particulas.setPosition(Plataforma.ANCHO_CAMARA/2, 900);
         particulas.reset();
 
         // Efecto moneda
