@@ -291,6 +291,12 @@ public class PantallaCargando implements Screen {
             assetManager.load("GameOver.png",Texture.class);
 
 
+
+            //Assets para el disparo
+            assetManager.load("HeiDisparar.png", Texture.class);
+            assetManager.load("HeiDispararI.png", Texture.class);
+
+
             Gdx.app.log("cargarRecursos", "Terminando...");
         }
         else if(nivel.equals("Nivel2_B")){
@@ -341,6 +347,12 @@ public class PantallaCargando implements Screen {
 
             //Para cuando pierde
             assetManager.load("GameOver.png",Texture.class);
+
+
+
+            //Assets para el disparo
+            assetManager.load("HeiDisparar.png", Texture.class);
+            assetManager.load("HeiDispararI.png", Texture.class);
 
 
             Gdx.app.log("cargarRecursos", "Terminando...");
@@ -398,6 +410,10 @@ public class PantallaCargando implements Screen {
 
             //Para cuando pierde
             assetManager.load("GameOver.png",Texture.class);
+
+            //Assets para el disparo
+            assetManager.load("HeiDisparar.png", Texture.class);
+            assetManager.load("HeiDispararI.png", Texture.class);
 
 
             Gdx.app.log("cargarRecursos", "Terminando...");

@@ -492,7 +492,7 @@ public class MiniGame1 implements Screen
                 btnPausa.render(batch);
                 // Estrellas recolectadas
                 texto.mostrarMensaje(batch, "Score: " + estrellas, Plataforma.ANCHO_CAMARA / 2 - 200, Plataforma.ALTO_CAMARA * 0.95f);
-                texto.mostrarMensaje(batch, "Points: " + vidaf, Plataforma.ANCHO_CAMARA / 2 + 200, Plataforma.ALTO_CAMARA * 0.95f);
+                texto.mostrarMensaje(batch, "Pumpkins: " + vidaf + " /10", Plataforma.ANCHO_CAMARA / 2 + 200, Plataforma.ALTO_CAMARA * 0.95f);
             }
             batch.end();
         }
@@ -587,7 +587,7 @@ public class MiniGame1 implements Screen
                 btnGana.render(batch);
             } else {
                 texto.mostrarMensaje(batch, "Score: " + estrellas, Plataforma.ANCHO_CAMARA / 2 - 200, Plataforma.ALTO_CAMARA * 0.95f);
-                texto.mostrarMensaje(batch, "Points: " + vidaf, Plataforma.ANCHO_CAMARA / 2 + 200, Plataforma.ALTO_CAMARA * 0.95f);
+                texto.mostrarMensaje(batch, "Pumpkins: " + vidaf + " /10", Plataforma.ANCHO_CAMARA / 2 + 200, Plataforma.ALTO_CAMARA * 0.95f);
             }
             batch.end();
 

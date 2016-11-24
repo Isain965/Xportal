@@ -177,6 +177,18 @@ public class Nivel2_B implements Screen{
     private boolean estadoMusica = musica.getBoolean("estadoMusica");
     private boolean estadoSonidos = sonidos.getBoolean("estadoSonidos");
 
+
+    //Animacion Disparo del personaje
+    private Texture personajeDisparo;
+    private Boton btnDisparoP;
+    private Texture personajeDisparoI;
+    private Boton btnDisparoPI;
+
+    private float tiempoDisparoP;
+    private boolean estaDisparando=false;
+
+
+
     public Nivel2_B(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
@@ -411,6 +423,13 @@ public class Nivel2_B implements Screen{
         btnMenuP = new Boton(texturaMenuP);
         btnMenuP.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
 
+
+        //Para la posicion de disparo
+        personajeDisparo = assetManager.get("HeiDisparar.png");
+        btnDisparoP = new Boton (personajeDisparo);
+        personajeDisparoI = assetManager.get("HeiDispararI.png");
+        btnDisparoPI = new Boton (personajeDisparoI);
+
     }
 
     /*
@@ -460,11 +479,28 @@ public class Nivel2_B implements Screen{
 
             // Entre begin-end dibujamos nuestros objetos en pantalla
             batch.begin();
-            mario.render(batch);    // Dibuja el personaje
-            //ahora se dibuja alado de Score
-            //spriteVidas.draw(batch);
+            if(estaDisparando) {
+                tiempoDisparoP+= Gdx.graphics.getDeltaTime();
+                if(banderaDireccion){
+                    btnDisparoPI.render(batch);
+                    btnDisparoPI.setPosicion(mario.getX(),mario.getY());
+                }else{
+                    btnDisparoP.render(batch);
+                    btnDisparoP.setPosicion(mario.getX(),mario.getY());
 
-            //dibuja barra vida
+                }
+
+                if (tiempoDisparoP<0.3) {
+
+                    estaDisparando = true;
+                }
+                else{
+                    estaDisparando = false;
+                    tiempoDisparoP = 0;
+                }
+            }else{
+                mario.render(batch);    // Dibuja el personaje
+            }
 
             tiempoJuego += Gdx.graphics.getDeltaTime();
             //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
@@ -1270,6 +1306,10 @@ public class Nivel2_B implements Screen{
         assetManager.unload("pistola.mp3");
         assetManager.unload("retrocarga.wav");
         assetManager.unload("Mute.mp3");
+
+        //Posiciones de disparo
+        assetManager.unload("HeiDisparar.png");
+        assetManager.unload("HeiDispararI.png");
     }
 
 
@@ -1327,11 +1367,16 @@ public class Nivel2_B implements Screen{
                     sonidoPistola.play();
                     Bala bala = new Bala(texturaBala);
                     bala.setPosicion(mario.getX()+15,mario.getY()+70);
+                    estaDisparando = true;
+                    btnDisparoP.setPosicion(mario.getX(),mario.getY());
+                    btnDisparoPI.setPosicion(mario.getX(),mario.getY());
                     if(banderaDireccion){
                         bala.setDireccion(-10);
+                        bala.setPosicion(mario.getX()+10,mario.getY()+80);
                         balas.add(bala);
                     }else {
                         bala.setDireccion(10);
+                        bala.setPosicion(mario.getX()+105,mario.getY()+75);
                         balas.add(bala);
                     }
                 }else if(btnPausa.contiene(x,y)){
