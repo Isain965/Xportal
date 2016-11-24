@@ -207,8 +207,8 @@ public class PantallaCargando implements Screen {
 
             //aliens
             assetManager.load("alien1.png",Texture.class);
-            assetManager.load("alien2.png",Texture.class);
-            assetManager.load("alien3.png",Texture.class);
+            //assetManager.load("alien2.png",Texture.class);
+            //assetManager.load("alien3.png",Texture.class);
 
             //cargar barra
             assetManager.load("barra.png",Texture.class);

@@ -119,7 +119,7 @@ public class MiniGame2 implements Screen{
 
     private Texture texturaEnemigo;
     private Texture texturaEnemigo2;
-    private Texture alien1, alien2, alien3;
+    private Texture alien1;//, alien2, alien3;
 
     private int tiempoDisparo=2;
 
@@ -288,8 +288,8 @@ public class MiniGame2 implements Screen{
         texturaEnemigo = assetManager.get("Planta.png");
         texturaEnemigo2 = assetManager.get("embudo.png");
         alien1 = assetManager.get("alien1.png");
-        alien2 = assetManager.get("alien2.png");
-        alien3 = assetManager.get("alien3.png");
+        //alien2 = assetManager.get("alien2.png");
+        //alien3 = assetManager.get("alien3.png");
 
         /*Enemigo enemigo1 = new Enemigo(texturaEnemigo);
         enemigo1.setPosicion(1142,20);
@@ -313,21 +313,21 @@ public class MiniGame2 implements Screen{
         EnemigoV enemigoV4 = new EnemigoV(alien1,2);
         //enemigoV4 = new EnemigoV(alien1,2);
         enemigoV4.setPosicion(ANCHO_MAPA/2+(enemigoV4.getSprite().getWidth()*3),ALTO_MAPA/2);
-        EnemigoV enemigoV5 = new EnemigoV(alien2,2);
+        EnemigoV enemigoV5 = new EnemigoV(alien1,2);
         enemigoV5.setPosicion(ANCHO_MAPA/2-enemigoV5.getSprite().getWidth()*2,ALTO_MAPA/3);
-        EnemigoV enemigoV6 = new EnemigoV(alien2,2);
+        EnemigoV enemigoV6 = new EnemigoV(alien1,2);
         enemigoV6.setPosicion(ANCHO_MAPA/2-(enemigoV6.getSprite().getWidth()*4),ALTO_MAPA/3);
-        EnemigoV enemigoV7 = new EnemigoV(alien2,2);
+        EnemigoV enemigoV7 = new EnemigoV(alien1,2);
         enemigoV7.setPosicion(ANCHO_MAPA/2+(enemigoV7.getSprite().getWidth()),ALTO_MAPA/3);
-        EnemigoV enemigoV8 = new EnemigoV(alien2,2);
+        EnemigoV enemigoV8 = new EnemigoV(alien1,2);
         enemigoV8.setPosicion(ANCHO_MAPA/2+(enemigoV8.getSprite().getWidth()*3),ALTO_MAPA/3);
-        EnemigoV enemigoV9 = new EnemigoV(alien3,2);
+        EnemigoV enemigoV9 = new EnemigoV(alien1,2);
         enemigoV9.setPosicion(ANCHO_MAPA/2-enemigoV9.getSprite().getWidth()*2,ALTO_MAPA/3+enemigoV9.getSprite().getHeight()*4);
-        EnemigoV enemigoV10 = new EnemigoV(alien3,2);
+        EnemigoV enemigoV10 = new EnemigoV(alien1,2);
         enemigoV10.setPosicion(ANCHO_MAPA/2-(enemigoV10.getSprite().getWidth()*4),ALTO_MAPA/3+enemigoV10.getSprite().getHeight()*4);
-        EnemigoV enemigoV11 = new EnemigoV(alien3,2);
+        EnemigoV enemigoV11 = new EnemigoV(alien1,2);
         enemigoV11.setPosicion(ANCHO_MAPA/2+(enemigoV11.getSprite().getWidth()),ALTO_MAPA/3+enemigoV11.getSprite().getHeight()*4);
-        EnemigoV enemigoV12 = new EnemigoV(alien3,2);
+        EnemigoV enemigoV12 = new EnemigoV(alien1,2);
         enemigoV12.setPosicion(ANCHO_MAPA/2+(enemigoV12.getSprite().getWidth()*3),ALTO_MAPA/3+enemigoV12.getSprite().getHeight()*4);
 
         enemigosV.add(enemigoV1);
@@ -1306,8 +1306,8 @@ public class MiniGame2 implements Screen{
 
         //aliens
         assetManager.unload("alien1.png");
-        assetManager.unload("alien2.png");
-        assetManager.unload("alien3.png");
+        //assetManager.unload("alien2.png");
+        //assetManager.unload("alien3.png");
 
         //cargar barra
         assetManager.unload("barra.png");
