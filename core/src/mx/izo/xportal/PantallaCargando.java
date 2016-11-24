@@ -122,6 +122,8 @@ public class PantallaCargando implements Screen {
             assetManager.load("retrocarga.wav", Sound.class);
             assetManager.load("Mute.mp3", Sound.class);
 
+            assetManager.load("find.png",Texture.class);
+
             //Para cuando pierde
             assetManager.load("GameOver.png",Texture.class);
 

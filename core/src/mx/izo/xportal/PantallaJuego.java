@@ -188,6 +188,11 @@ public class PantallaJuego implements Screen{
     private float tiempoDisparoP;
     private boolean estaDisparando=false;
 
+    //Letrero inicial
+    private float tiempoLetrero;
+    private Texture letrero;
+    private Boton btnLetrero;
+
     /*
     Se ejecuta al mostrar este Screen como pantalla de la app
      */
@@ -422,6 +427,12 @@ public class PantallaJuego implements Screen{
         personajeDisparoI = assetManager.get("HeiDispararI.png");
         btnDisparoPI = new Boton (personajeDisparoI);
 
+        //Implementando letrero
+        letrero = assetManager.get("find.png");
+        btnLetrero = new Boton(letrero);
+        btnLetrero.setPosicion(50,Plataforma.ALTO_CAMARA/2);
+        btnLetrero.setAlfa(1);
+
     }
 
     /*
@@ -474,7 +485,6 @@ public class PantallaJuego implements Screen{
             //spriteVidas.draw(batch);
 
             //dibuja barra vida
-
 
 
             if(estaDisparando) {
@@ -670,6 +680,15 @@ public class PantallaJuego implements Screen{
             // Dibuja el HUD
             batch.setProjectionMatrix(camaraHUD.combined);
             batch.begin();
+
+            tiempoLetrero += Gdx.graphics.getDeltaTime();
+            if(tiempoLetrero<5){
+                btnLetrero.render(batch);
+            }
+
+            if(tiempoLetrero>60){
+                tiempoLetrero=0;
+            }
 
             // ¿Ya ganó?
             if (estadoJuego == EstadosJuego.GANO) {
@@ -1313,6 +1332,7 @@ public class PantallaJuego implements Screen{
         //Posiciones de disparo
         assetManager.unload("HeiDisparar.png");
         assetManager.unload("HeiDispararI.png");
+        assetManager.unload("find.png");
     }
 
 
