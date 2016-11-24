@@ -321,10 +321,10 @@ public class MiniGame1 implements Screen
             btnSonidoF.setAlfa(0.7f);
         }
         //Implementando la perdida
-        texturaGanaP = assetManager.get("Ganar.PNG");
+        //texturaGanaP = assetManager.get("Ganar.PNG");
         texturaMenuP = assetManager.get("back.png");
 
-        btnGanaP = new Boton(texturaGanaP);
+        //btnGanaP = new Boton(texturaGanaP);
         btnMenuP = new Boton(texturaMenuP);
         btnMenuP.setPosicion(Plataforma.ANCHO_CAMARA-145,10);
 

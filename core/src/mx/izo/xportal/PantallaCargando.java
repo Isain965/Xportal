@@ -174,7 +174,7 @@ public class PantallaCargando implements Screen {
             assetManager.load("BtmMusicF.png",Texture.class);
             assetManager.load("Mute.mp3",Sound.class);
             //Para cuando Gana
-            assetManager.load("Ganar.PNG",Texture.class);
+            //assetManager.load("Ganar.PNG",Texture.class);
 
             assetManager.load("CazaCalabazas.png",Texture.class);
 
@@ -353,7 +353,6 @@ public class PantallaCargando implements Screen {
             assetManager.load("salto.png", Texture.class);
 
             assetManager.load("gana1.jpg", Texture.class);
-            assetManager.load("gana2.jpg", Texture.class);
 
             //cargar barra
             assetManager.load("barra.png", Texture.class);

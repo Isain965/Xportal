@@ -1028,12 +1028,12 @@ public class Nivel2_B implements Screen{
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("Nivel2_B","Estoy en el nivel 2A");
+                        niveles.putString("MiniGame2","Estoy en el nivel 2A");
                         niveles.flush();
-                        pantallaCargando = new mx.izo.xportal.PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("Nivel2_B");
-                        plataforma.setScreen(new mx.izo.xportal.Menu(plataforma));
-                        //plataforma.setScreen(pantallaCargando);
+                        pantallaCargando = new PantallaCargando(plataforma);
+                        pantallaCargando.setNivel("MiniGame2");
+                        //plataforma.setScreen(new Menu(plataforma));
+                        plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }
@@ -1058,12 +1058,12 @@ public class Nivel2_B implements Screen{
                             score.flush();
                         }
                         niveles.clear();
-                        niveles.putString("Nivel2_B","Estoy en el nivel 2 B");
+                        niveles.putString("MiniGame2","Estoy en el nivel 2 A");
                         niveles.flush();
-                        pantallaCargando = new mx.izo.xportal.PantallaCargando(plataforma);
-                        pantallaCargando.setNivel("Nivel2_B");
-                        plataforma.setScreen(new mx.izo.xportal.Menu(plataforma));
-                        //plataforma.setScreen(pantallaCargando);
+                        pantallaCargando = new PantallaCargando(plataforma);
+                        pantallaCargando.setNivel("MiniGame2");
+                        //plataforma.setScreen(new Menu(plataforma));
+                        plataforma.setScreen(pantallaCargando);
                     }
                 }, 1);  // 3 segundos
             }

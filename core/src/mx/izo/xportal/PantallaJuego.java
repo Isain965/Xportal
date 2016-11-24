@@ -1025,7 +1025,7 @@ public class PantallaJuego implements Screen{
                         }
                         Gdx.app.log("Ya entre ","al nivel miniGame");
                         siguienteNivel.clear();
-                        siguienteNivel.putString("Nivel2_A","Entre al nivel 2A");
+                        siguienteNivel.putString("Nivel2_B","Entre al nivel 2A");
                         siguienteNivel.flush();
                         niveles.clear();
                         niveles.putString("MiniGame1","Ya pase el nivel 1");
@@ -1059,7 +1059,7 @@ public class PantallaJuego implements Screen{
                             score.flush();
                         }
                         siguienteNivel.clear();
-                        siguienteNivel.putString("Nivel2_B","Entre al nivel 2B");
+                        siguienteNivel.putString("Nivel2_A","Entre al nivel 2B");
                         siguienteNivel.flush();
                         niveles.clear();
                         niveles.putString("MiniGame1","Ya pase el nivel 1");
