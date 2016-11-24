@@ -278,7 +278,7 @@ public class Menu implements Screen {
     {
         private Vector3 coordenadas = new Vector3();
         private float x, y;     // Las coordenadas en la pantalla
-//subete
+
         /*
         Se ejecuta cuando el usuario PONE un dedo sobre la pantalla, los dos primeros parámetros
         son las coordenadas relativas a la pantalla física (0,0) en la esquina superior izquierda
