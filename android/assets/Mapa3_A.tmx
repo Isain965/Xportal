@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="125" height="31" tilewidth="32" tileheight="32" nextobjectid="1">
  <tileset firstgid="1" name="Fondo" tilewidth="32" tileheight="32" tilecount="3875" columns="125">
-  <image source="FondoFinal.png" trans="ff00ff" width="4000" height="1000"/>
+  <image source="FondoFinal.jpg" trans="ff00ff" width="4000" height="1000"/>
  </tileset>
  <tileset firstgid="3876" name="plataforma" tilewidth="32" tileheight="32" tilecount="54" columns="6">
   <image source="Plataforma00012.png" trans="ff00ff" width="192" height="288"/>
