@@ -486,14 +486,14 @@ public class Nivel2_A implements Screen{
 
                     if ((mario.getX() >= enemigoV.getX() - rango) && (mario.getX() <= enemigoV.getX()) && (int) tiempoJuego == (tiempoDisparo/2) && banderaDisparo) {
                         BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
-                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setDireccion(-5);
                         balaEnJuego.setPosicion(enemigoV.getX()+41, enemigoV.getY() + 50);
                         balasEnemigosV.add(balaEnJuego);
                         banderaDisparo = false;
                         tiempoJuego = 0;
                     } else if ((mario.getX() > enemigoV.getX()) && (mario.getX() <= enemigoV.getX() + rango) && (int) tiempoJuego == (tiempoDisparo/2) && banderaDisparo) {
                         BalaV balaEnJuego = new BalaV(texturaBalaEmbudo);
-                        balaEnJuego.setDireccion(-10);
+                        balaEnJuego.setDireccion(-5);
                         balaEnJuego.setPosicion(enemigoV.getX() + 41, enemigoV.getY() + 50);
                         balasEnemigosV.add(balaEnJuego);
                         banderaDisparo = false;

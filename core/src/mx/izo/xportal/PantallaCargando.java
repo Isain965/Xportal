@@ -392,6 +392,7 @@ public class PantallaCargando implements Screen {
             assetManager.load("Mute.mp3", Sound.class);
 
             assetManager.load("GanarJuego.jpg",Texture.class);
+            assetManager.load("gana1.jpg",Texture.class);
 
             //Para cuando pierde
             assetManager.load("GameOver.png",Texture.class);

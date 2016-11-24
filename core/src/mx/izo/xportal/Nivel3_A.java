@@ -175,8 +175,12 @@ public class Nivel3_A implements Screen{
     //Implementando el ganado
     private Texture pantallaGanado;
     private Boton btnPantallaGanando;
+    private Texture pantallaBrother;
     private Texture btnMenuG;
     private Boton btnMenuGa;
+    private Boton btnBrother;
+
+    private float tiempoFinal;
 
 
     public Nivel3_A(Plataforma plataforma) {
@@ -413,7 +417,10 @@ public class Nivel3_A implements Screen{
         btnPantallaGanando = new Boton(pantallaGanado);
         btnMenuG = assetManager.get("back.png");
         btnMenuGa = new Boton(btnMenuG);
-        btnMenuGa.setPosicion(Plataforma.ANCHO_CAMARA/2,100);
+        btnMenuGa.setPosicion(Plataforma.ANCHO_CAMARA-200,100);
+        pantallaBrother = assetManager.get("gana1.jpg");
+        btnBrother = new Boton(pantallaBrother);
+        btnBrother.setPosicion(0,1);
 
     }
 
@@ -428,16 +435,21 @@ public class Nivel3_A implements Screen{
 
         if(estadoJuego == EstadosJuego.GANOI){
             // Dibujar
+
+
             borrarPantalla();
 
             batch.setProjectionMatrix(camara.combined);
 
             batch.begin();
 
-            btnPantallaGanando.render(batch);
-            btnMenuGa.render(batch);
-
-
+            tiempoFinal += Gdx.graphics.getDeltaTime();
+            if (tiempoFinal<3){
+                btnBrother.render(batch);
+            }else {
+                btnPantallaGanando.render(batch);
+                btnMenuGa.render(batch);
+            }
             batch.end();
 
         }
