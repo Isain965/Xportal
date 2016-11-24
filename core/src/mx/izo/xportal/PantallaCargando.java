@@ -83,6 +83,8 @@ public class PantallaCargando implements Screen {
             assetManager.load("barra.png", Texture.class);
             assetManager.load("barraF.png", Texture.class);
 
+            assetManager.load("HeiDisparar.png", Texture.class);
+            assetManager.load("HeiDispararI.png", Texture.class);
 
             // Cargar imagen
             // Texturas de los botones
