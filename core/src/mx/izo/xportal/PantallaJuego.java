@@ -416,7 +416,7 @@ public class PantallaJuego implements Screen{
         btnPlayP = new Boton(texturaPlayP);
         btnPlayP.setPosicion(10,10);
 
-
+        //Para la posicion de disparo
         personajeDisparo = assetManager.get("HeiDisparar.png");
         btnDisparoP = new Boton (personajeDisparo);
         personajeDisparoI = assetManager.get("HeiDispararI.png");
@@ -1309,7 +1309,10 @@ public class PantallaJuego implements Screen{
         assetManager.unload("pistola.mp3");
         assetManager.unload("retrocarga.wav");
         assetManager.unload("Mute.mp3");
+
+        //Posiciones de disparo
         assetManager.unload("HeiDisparar.png");
+        assetManager.unload("HeiDispararI.png");
     }
 
 
