@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -63,6 +64,8 @@ public class PantallaJuego implements Screen{
     private Texture texturaPersonaje;       // Aquí cargamos la imagen marioSprite.png con varios frames
     private Texture texturaPersonaje2;
     private Personaje mario;
+    private Texture texturaPersonajeCD;
+    private Texture texturaPersonajeCI;
     public static final int TAM_CELDA = 32;
 
     //Musica de fondo
@@ -193,6 +196,13 @@ public class PantallaJuego implements Screen{
     private Texture letrero;
     private Boton btnLetrero;
 
+    //Para el Salto
+    private Texture texturaSaltoDer;
+    private Texture texturaSaltoIzq;
+    private Boton btnSaltoDer;
+    private Boton btnSaltoIzq;
+    private float tiempoSalto;
+
     /*
     Se ejecuta al mostrar este Screen como pantalla de la app
      */
@@ -239,6 +249,8 @@ public class PantallaJuego implements Screen{
         // Cargar frames
         texturaPersonaje = assetManager.get("marioSprite.png");
         texturaPersonaje2 = assetManager.get("marioSpriteIzq.png");
+        texturaPersonajeCD = assetManager.get("caminandoPistola.png");
+        texturaPersonajeCI = assetManager.get("caminandoPistolaI.png");
 
         texturaSalto = assetManager.get("salto.png");
         //textura barra de vidas
@@ -433,6 +445,13 @@ public class PantallaJuego implements Screen{
         btnLetrero.setPosicion(50,Plataforma.ALTO_CAMARA/2);
         btnLetrero.setAlfa(1);
 
+
+        //Implementando salto
+        texturaSaltoDer = assetManager.get("SaltoDer.png");
+        texturaSaltoIzq = assetManager.get("SaltoIzq.png");
+
+        btnSaltoDer = new Boton (texturaSaltoDer);
+        btnSaltoIzq = new Boton(texturaSaltoIzq);
     }
 
     /*
@@ -505,6 +524,24 @@ public class PantallaJuego implements Screen{
                 else{
                     estaDisparando = false;
                     tiempoDisparoP = 0;
+                }
+            }else if(Personaje.EstadoSalto.SUBIENDO == mario.getEstadoSalto()){
+                tiempoSalto += Gdx.graphics.getRawDeltaTime();
+                if (tiempoSalto<0.3) {
+                    if(banderaDireccion){
+                        btnSaltoIzq.setPosicion(mario.getX(),mario.getY());
+                        btnSaltoIzq.render(batch);
+                        btnSaltoIzq.setPosicion(mario.getX(),mario.getY());
+                        btnSaltoIzq.render(batch);
+                    }else{
+                        btnSaltoDer.setPosicion(mario.getX(),mario.getY());
+                        btnSaltoDer.render(batch);
+                        btnSaltoDer.setPosicion(mario.getX(),mario.getY());
+                        btnSaltoDer.render(batch);
+                    }
+                }
+                else{
+                    tiempoSalto = 0;
                 }
             }else{
                 mario.render(batch);    // Dibuja el personaje
@@ -1193,6 +1230,15 @@ public class PantallaJuego implements Screen{
         capaPlataforma.setCell(8,11,null);
         capaPlataforma.setCell(9,12,null);
         capaPlataforma.setCell(9,11,null);
+        float tempX = mario.getX();
+        float tempY = mario.getY();
+        mario = new Personaje(texturaPersonajeCD,texturaSalto,texturaPersonajeCI);
+        Personaje.EstadoMovimiento tempEstado = mario.getEstadoMovimiento();
+        //mario.setDerecha(texturaPersonajeCD);
+        //mario.setPIzquierda(texturaPersonajeCI);
+        mario.setPosicion((int)tempX,(int)tempY);
+        mario.setEstadoMovimiento(tempEstado);
+        mario.actualizar();
     }
 
 
@@ -1333,6 +1379,11 @@ public class PantallaJuego implements Screen{
         assetManager.unload("HeiDisparar.png");
         assetManager.unload("HeiDispararI.png");
         assetManager.unload("find.png");
+        assetManager.unload("caminandoPistola.png");
+
+        //Del salto
+        assetManager.unload("SaltoDer.png");
+        assetManager.unload("SaltoIzq.png");
     }
 
 
@@ -1384,6 +1435,8 @@ public class PantallaJuego implements Screen{
                     mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
                 } else if (btnSalto.contiene(x, y)) {
                     // Tocó el botón saltar
+                    btnSaltoDer.setPosicion(mario.getX(),mario.getY());
+                    btnSaltoIzq.setPosicion(mario.getX(),mario.getY());
                     mario.saltar();
                 }else if (btnDisparo.contiene(x, y)&&banderaArma) {
                     // Tocó el botón disparar

@@ -151,6 +151,14 @@ public class MiniGame1 implements Screen
 
     private float tiempoLetrero;
 
+
+    //Para el Salto
+    private Texture texturaSaltoDer;
+    private Texture texturaSaltoIzq;
+    private Boton btnSaltoDer;
+    private Boton btnSaltoIzq;
+    private float tiempoSalto;
+
     public MiniGame1(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
@@ -343,6 +351,12 @@ public class MiniGame1 implements Screen
         btnCalabazas.setPosicion(170,Plataforma.ALTO_CAMARA/2);
 
 
+        //Implementando salto
+        texturaSaltoDer = assetManager.get("SaltoDer.png");
+        texturaSaltoIzq = assetManager.get("SaltoIzq.png");
+
+        btnSaltoDer = new Boton (texturaSaltoDer);
+        btnSaltoIzq = new Boton(texturaSaltoIzq);
     }
 
     /*
@@ -373,8 +387,27 @@ public class MiniGame1 implements Screen
             batch.begin();
             particulas.draw(batch,Gdx.graphics.getDeltaTime());
 
-
-            H.render(batch);    // Dibuja el personaje
+            if(Personaje.EstadoSalto.SUBIENDO == H.getEstadoSalto()){
+                tiempoSalto += Gdx.graphics.getRawDeltaTime();
+                if (tiempoSalto<0.3) {
+                    if(banderaDireccion){
+                        btnSaltoIzq.setPosicion(H.getX(),H.getY());
+                        btnSaltoIzq.render(batch);
+                        btnSaltoIzq.setPosicion(H.getX(),H.getY());
+                        btnSaltoIzq.render(batch);
+                    }else{
+                        btnSaltoDer.setPosicion(H.getX(),H.getY());
+                        btnSaltoDer.render(batch);
+                        btnSaltoDer.setPosicion(H.getX(),H.getY());
+                        btnSaltoDer.render(batch);
+                    }
+                }
+                else{
+                    tiempoSalto = 0;
+                }
+            }else{
+                H.render(batch);    // Dibuja el personaje
+            }
             tiempoLetrero +=Gdx.graphics.getDeltaTime();
             tiempoJuego += Gdx.graphics.getDeltaTime();
             //Gdx.app.log("Tiempo juego", Float.toString(tiempoJuego));
@@ -980,6 +1013,10 @@ public class MiniGame1 implements Screen
         assetManager.unload("BtmMusic.png");
         assetManager.unload("BtmSonidoF.png");
         assetManager.unload("BtmMusicF.png");
+
+        //Del salto
+        assetManager.unload("SaltoDer.png");
+        assetManager.unload("SaltoIzq.png");
 
     }
 

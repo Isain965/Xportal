@@ -187,6 +187,16 @@ public class Nivel2_B implements Screen{
     private float tiempoDisparoP;
     private boolean estaDisparando=false;
 
+    private Texture texturaPersonajeCD;
+    private Texture texturaPersonajeCI;
+
+    //Para el Salto
+    private Texture texturaSaltoDer;
+    private Texture texturaSaltoIzq;
+    private Boton btnSaltoDer;
+    private Boton btnSaltoIzq;
+    private float tiempoSalto;
+
 
 
     public Nivel2_B(Plataforma plataforma) {
@@ -239,6 +249,8 @@ public class Nivel2_B implements Screen{
         // Cargar frames
         texturaPersonaje = assetManager.get("marioSprite.png");
         texturaPersonaje2 = assetManager.get("marioSpriteIzq.png");
+        texturaPersonajeCD = assetManager.get("caminandoPistola.png");
+        texturaPersonajeCI = assetManager.get("caminandoPistolaI.png");
 
         texturaSalto = assetManager.get("salto.png");
         //textura barra de vidas
@@ -430,6 +442,14 @@ public class Nivel2_B implements Screen{
         personajeDisparoI = assetManager.get("HeiDispararI.png");
         btnDisparoPI = new Boton (personajeDisparoI);
 
+
+        //Implementando salto
+        texturaSaltoDer = assetManager.get("SaltoDer.png");
+        texturaSaltoIzq = assetManager.get("SaltoIzq.png");
+
+        btnSaltoDer = new Boton (texturaSaltoDer);
+        btnSaltoIzq = new Boton(texturaSaltoIzq);
+
     }
 
     /*
@@ -497,6 +517,24 @@ public class Nivel2_B implements Screen{
                 else{
                     estaDisparando = false;
                     tiempoDisparoP = 0;
+                }
+            }else if(Personaje.EstadoSalto.SUBIENDO == mario.getEstadoSalto()){
+                tiempoSalto += Gdx.graphics.getRawDeltaTime();
+                if (tiempoSalto<0.3) {
+                    if(banderaDireccion){
+                        btnSaltoIzq.setPosicion(mario.getX(),mario.getY());
+                        btnSaltoIzq.render(batch);
+                        btnSaltoIzq.setPosicion(mario.getX(),mario.getY());
+                        btnSaltoIzq.render(batch);
+                    }else{
+                        btnSaltoDer.setPosicion(mario.getX(),mario.getY());
+                        btnSaltoDer.render(batch);
+                        btnSaltoDer.setPosicion(mario.getX(),mario.getY());
+                        btnSaltoDer.render(batch);
+                    }
+                }
+                else{
+                    tiempoSalto = 0;
                 }
             }else{
                 mario.render(batch);    // Dibuja el personaje
@@ -1171,6 +1209,10 @@ public class Nivel2_B implements Screen{
         capaPlataforma.setCell(11,8,null);
         capaPlataforma.setCell(12,7,null);
         capaPlataforma.setCell(12,8,null);
+        float tempX = mario.getX();
+        float tempY = mario.getY();
+        mario = new Personaje(texturaPersonajeCD,texturaSalto,texturaPersonajeCI);
+        mario.setPosicion((int)tempX,(int)tempY);
     }
 
 
@@ -1310,6 +1352,10 @@ public class Nivel2_B implements Screen{
         //Posiciones de disparo
         assetManager.unload("HeiDisparar.png");
         assetManager.unload("HeiDispararI.png");
+
+        //Del salto
+        assetManager.unload("SaltoDer.png");
+        assetManager.unload("SaltoIzq.png");
     }
 
 

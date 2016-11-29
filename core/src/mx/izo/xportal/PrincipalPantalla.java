@@ -277,7 +277,7 @@ public class PrincipalPantalla implements Screen {
                     estadoPantalla = EstadosPantalla.HISTORIA4;
                 }
                 else if(estadoPantalla == EstadosPantalla.HISTORIA6) {
-                    estadoPantalla = EstadosPantalla.HISTORIA6;
+                    estadoPantalla = EstadosPantalla.HISTORIA5;
                 }
                 else if(estadoPantalla == EstadosPantalla.HISTORIA7) {
                     estadoPantalla = EstadosPantalla.HISTORIA6;

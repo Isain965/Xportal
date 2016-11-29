@@ -127,6 +127,14 @@ public class PantallaCargando implements Screen {
             //Para cuando pierde
             assetManager.load("GameOver.png",Texture.class);
 
+            //Caminando con pistola
+            assetManager.load("caminandoPistola.png",Texture.class);
+            assetManager.load("caminandoPistolaI.png",Texture.class);
+
+            //Aseets para cuando salta
+            assetManager.load("SaltoDer.png",Texture.class);
+            assetManager.load("SaltoIzq.png",Texture.class);
+
 
             Gdx.app.log("cargarRecursos", "Terminando...");
 
@@ -181,6 +189,10 @@ public class PantallaCargando implements Screen {
             //assetManager.load("Ganar.PNG",Texture.class);
 
             assetManager.load("CazaCalabazas.png",Texture.class);
+
+            //Aseets para cuando salta
+            assetManager.load("SaltoDer.png",Texture.class);
+            assetManager.load("SaltoIzq.png",Texture.class);
 
 
             Gdx.app.log("cargarRecursos", "Terminando...");
@@ -298,6 +310,14 @@ public class PantallaCargando implements Screen {
             assetManager.load("HeiDisparar.png", Texture.class);
             assetManager.load("HeiDispararI.png", Texture.class);
 
+            //Caminando con pistola
+            assetManager.load("caminandoPistola.png",Texture.class);
+            assetManager.load("caminandoPistolaI.png",Texture.class);
+
+            //Aseets para cuando salta
+            assetManager.load("SaltoDer.png",Texture.class);
+            assetManager.load("SaltoIzq.png",Texture.class);
+
 
             Gdx.app.log("cargarRecursos", "Terminando...");
         }
@@ -355,6 +375,14 @@ public class PantallaCargando implements Screen {
             //Assets para el disparo
             assetManager.load("HeiDisparar.png", Texture.class);
             assetManager.load("HeiDispararI.png", Texture.class);
+
+            //Caminando con pistola
+            assetManager.load("caminandoPistola.png",Texture.class);
+            assetManager.load("caminandoPistolaI.png",Texture.class);
+
+            //Aseets para cuando salta
+            assetManager.load("SaltoDer.png",Texture.class);
+            assetManager.load("SaltoIzq.png",Texture.class);
 
 
             Gdx.app.log("cargarRecursos", "Terminando...");
@@ -416,6 +444,15 @@ public class PantallaCargando implements Screen {
             //Assets para el disparo
             assetManager.load("HeiDisparar.png", Texture.class);
             assetManager.load("HeiDispararI.png", Texture.class);
+
+            //Caminando con pistola
+            assetManager.load("caminandoPistola.png",Texture.class);
+            assetManager.load("caminandoPistolaI.png",Texture.class);
+
+
+            //Aseets para cuando salta
+            assetManager.load("SaltoDer.png",Texture.class);
+            assetManager.load("SaltoIzq.png",Texture.class);
 
 
             Gdx.app.log("cargarRecursos", "Terminando...");

@@ -40,6 +40,9 @@ public class Personaje {
     private TextureRegion pers;
     float x;
 
+    private Texture derecha;
+    private Texture izquierda;
+
 
     private boolean normal = true;
 
@@ -88,8 +91,10 @@ public class Personaje {
 
     public Personaje(Texture textura, Texture texturaSaltos, Texture texturaI) {
         // Lee la textura como región
-        TextureRegion texturaCompleta = new TextureRegion(textura);
-        TextureRegion texturaIzq = new TextureRegion(texturaI);
+        this.derecha = textura;
+        this.izquierda = texturaI;
+        TextureRegion texturaCompleta = new TextureRegion(derecha);
+        TextureRegion texturaIzq = new TextureRegion(izquierda);
         TextureRegion texturaSalto = new TextureRegion(texturaSaltos);
         // La divide en frames de 16x32 (ver marioSprite.png)
         //TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
@@ -191,6 +196,7 @@ public class Personaje {
                 }
                 break;
         }
+
     }
 
     public void verificarCaida(TiledMap mapa) {
@@ -319,6 +325,13 @@ public class Personaje {
 
     public float getVelocidadPersonaje(){
         return VELOCIDAD_X;
+    }
+
+    public void setDerecha (Texture derecha){
+        this.derecha = derecha;
+    }
+    public void setPIzquierda (Texture izquierda){
+        this.izquierda = izquierda;
     }
 
     public enum EstadoMovimiento {
