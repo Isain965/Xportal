@@ -1044,7 +1044,7 @@ public class PantallaJuego implements Screen{
         TiledMapTileLayer capaPlataforma1 = (TiledMapTileLayer) mapa.getLayers().get(4);
         TiledMapTileLayer capaPlataforma2 = (TiledMapTileLayer) mapa.getLayers().get(6);
         //******************************
-        if ( capaPlataforma.getCell(celdaX,celdaY) != null || capaPlataforma.getCell(celdaX,celdaY+1) != null ) {
+        if ( (capaPlataforma.getCell(celdaX,celdaY) != null || capaPlataforma.getCell(celdaX,celdaY+1) != null)&&!(Personaje.EstadoSalto.SUBIENDO == mario.getEstadoSalto())){
             // Colisionará, dejamos de moverlo
             if ( esCoin(capaPlataforma.getCell(celdaX,celdaY))) {
                 // Borrar esta estrella y contabilizar

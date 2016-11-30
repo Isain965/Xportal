@@ -327,13 +327,6 @@ public class Personaje {
         return VELOCIDAD_X;
     }
 
-    public void setDerecha (Texture derecha){
-        this.derecha = derecha;
-    }
-    public void setPIzquierda (Texture izquierda){
-        this.izquierda = izquierda;
-    }
-
     public enum EstadoMovimiento {
         INICIANDO,
         QUIETO,
